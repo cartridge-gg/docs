@@ -1,9 +1,8 @@
 import { defineConfig } from "vocs";
 import svgr from "vite-plugin-svgr";
 
-import packageJson from "./package.json";
-
 export default defineConfig({
+  rootDir: "src",
   title: "Cartridge Documentation",
   description:
     "High Performance Infrastructure for Provable Games and Applications",
@@ -26,25 +25,10 @@ export default defineConfig({
   font: {
     google: "Open Sans",
   },
-  topNav: [
-    {
-      text: packageJson.version,
-      items: [
-        {
-          text: "Releases",
-          link: "https://github.com/cartridge-gg/controller/releases",
-        },
-        {
-          text: "Changelog",
-          link: "https://github.com/cartridge-gg/controller/releases",
-        },
-      ],
-    },
-  ],
   socials: [
     {
       icon: "github",
-      link: "https://github.com/cartridge-gg/controller",
+      link: "https://github.com/cartridge-gg/docs",
     },
     {
       icon: "x",
@@ -52,8 +36,7 @@ export default defineConfig({
     },
   ],
   editLink: {
-    pattern:
-      "https://github.com/cartridge-gg/controller/blob/main/docs/pages/:path",
+    pattern: "https://github.com/cartridge-gg/docs/blob/main/src/pages/:path",
     text: "Edit on GitHub",
   },
 
