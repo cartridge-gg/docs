@@ -4,19 +4,19 @@
 
 :::code-group
 
-```bash [npm]
+```bash \[npm]
 npm install @cartridge/controller starknet
 ```
 
-```bash [pnpm]
+```bash \[pnpm]
 pnpm install @cartridge/controller starknet
 ```
 
-```bash [yarn]
+```bash \[yarn]
 yarn add @cartridge/controller starknet
 ```
 
-```bash [bun]
+```bash \[bun]
 bun add @cartridge/controller starknet
 ```
 
@@ -47,7 +47,7 @@ let controller = new Controller({
         },
         // ... other policies
     ],
-    // rpc: "https://api.cartridge.gg/x/starknet/mainnet" // sepolia, mainnet, or slot. (default sepolia)
+    rpc: "https://api.cartridge.gg/x/starknet/mainnet" // sepolia, mainnet, or slot
 });
 ```
 
