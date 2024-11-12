@@ -17,176 +17,196 @@ The `useAccount` hook provides an easy way to integrate the controller into your
 ### 1. Define the `useAccount` hook:
 
 ```typescript
+export const RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet";
+export const KEYCHAIN_URL = "https://x.cartridge.gg";
+export const POLICIES = [
+  {
+    target: "0x70fc96f845e393c732a468b6b6b54d876bd1a29e41a026e8b13579bf98eec8f",
+    method: "attack",
+    description: "Attack the beast",
+  },
+  {
+    target: "0x70fc96f845e393c732a468b6b6b54d876bd1a29e41a026e8b13579bf98eec8f",
+    method: "claim",
+    description: "Claim your tokens",
+  },
+];
+export const REDIRECT_URI = "https://t.me/hitthingbot/hitthing";
+```
+
+### 2. Use the hook in your component:
+
+```typescript
 import React, {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    useMemo,
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
 } from "react";
 import {
-    useCloudStorage,
-    useLaunchParams,
-    useMiniApp,
-    useUtils,
+  useLaunchParams,
+  cloudStorage,
+  miniApp,
+  openLink,
 } from "@telegram-apps/sdk-react";
-import * as Dojo from "@dojoengine/torii-wasm";
+import * as Dojo from "@dojoengine/torii-client";
 import encodeUrl from "encodeurl";
-import { CartridgeSessionAccount } from "@/lib/account-wasm";
-
-const RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet";
-const KEYCHAIN_URL = "https://x.cartridge.gg";
-const POLICIES = [
-    {
-        target: "0x70fc96f845e393c732a468b6b6b54d876bd1a29e41a026e8b13579bf98eec8f",
-        method: "attack",
-        description: "Attack the beast",
-    },
-    {
-        target: "0x70fc96f845e393c732a468b6b6b54d876bd1a29e41a026e8b13579bf98eec8f",
-        method: "claim",
-        description: "Claim your tokens",
-    },
-];
-const REDIRECT_URI = "https://t.me/hitthingbot/hitthing";
+import { CartridgeSessionAccount } from "@cartridge/account-wasm/session";
 
 interface AccountStorage {
-    username: string;
-    address: string;
-    ownerGuid: string;
-    transactionHash?: string;
-    expiresAt: string;
+  username: string;
+  address: string;
+  ownerGuid: string;
+  transactionHash?: string;
+  expiresAt: string;
 }
 
 interface SessionSigner {
-    privateKey: string;
-    publicKey: string;
+  privateKey: string;
+  publicKey: string;
 }
 
 interface AccountContextType {
-    accountStorage: AccountStorage | undefined;
-    sessionSigner: SessionSigner | undefined;
-    account: CartridgeSessionAccount | undefined;
-    openConnectionPage: () => void;
-    clearSession: () => void;
-    address: string | undefined;
-    username: string | undefined;
+  accountStorage?: AccountStorage;
+  sessionSigner?: SessionSigner;
+  account?: CartridgeSessionAccount;
+  openConnectionPage: () => void;
+  clearSession: () => void;
+  address?: string;
+  username?: string;
+  keychainUrl?: string;
+  redirectUri?: string;
+  policies?: { target: string; method: string; description: string }[];
+  rpcUrl?: string;
+  network?: string;
 }
+
+interface AccountProviderProps {
+  children: React.ReactNode;
+  keychainUrl: string;
+  policies: { target: string; method: string; description: string }[];
+  redirectUri: string;
+  rpcUrl: string;
+  network?: string;
+}
+
 const AccountContext = createContext<AccountContextType | undefined>(undefined);
 
-// AccountProvider component that manages account state and session handling
-export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({
-    children,
+export const AccountProvider: React.FC<AccountProviderProps> = ({
+  children,
+  keychainUrl,
+  policies,
+  redirectUri,
+  rpcUrl,
+  network,
 }) => {
-    // Get Telegram Mini App launch parameters and utilities
-    const { initData } = useLaunchParams();
-    const storage = useCloudStorage();
-    const utils = useUtils();
-    const miniApp = useMiniApp();
+  const { initData } = useLaunchParams();
+  const [accountStorage, setAccountStorage] = useState<AccountStorage>();
+  const [sessionSigner, setSessionSigner] = useState<SessionSigner>();
 
-    // State for storing account and session information
-    const [accountStorage, setAccountStorage] = useState<AccountStorage>();
-    const [sessionSigner, setSessionSigner] = useState<SessionSigner>();
+  useEffect(() => {
+    const initializeSession = async () => {
+      const keys = await cloudStorage.getKeys();
 
-    // Effect to initialize session signer and load stored account data
-    useEffect(() => {
-        // Try to load existing session signer from storage
-        storage.get("sessionSigner").then((signer) => {
-            if (signer) {
-                return setSessionSigner(JSON.parse(signer) as SessionSigner);
-            }
+      if (keys.includes("sessionSigner")) {
+        const signer = await cloudStorage.getItem("sessionSigner");
+        setSessionSigner(JSON.parse(signer) as SessionSigner);
+        return;
+      }
 
-            // If no signer exists, create new key pair
-            const privateKey = Dojo.signingKeyNew();
-            const publicKey = Dojo.verifyingKeyNew(privateKey);
+      const privateKey = Dojo.signingKeyNew();
+      const publicKey = Dojo.verifyingKeyNew(privateKey);
+      const newSigner = { privateKey, publicKey };
 
-            const newSigner = { privateKey, publicKey };
-            storage.set("sessionSigner", JSON.stringify(newSigner));
-            setSessionSigner(newSigner);
-        });
-
-        // Load stored account data if it exists
-        storage.get("account").then((account) => {
-            if (account) {
-                const parsedAccount = JSON.parse(account) as AccountStorage;
-                // Validate required account fields
-                if (
-                    !parsedAccount.address ||
-                    !parsedAccount.ownerGuid ||
-                    !parsedAccount.expiresAt
-                ) {
-                    return storage.delete("account");
-                }
-                setAccountStorage(parsedAccount);
-            }
-        });
-    }, [storage]);
-
-    // Effect to handle account data from Mini App launch parameters
-    useEffect(() => {
-        if (!initData?.startParam) return;
-
-        // Parse and store account data from launch parameters
-        const cartridgeAccount = JSON.parse(
-            atob(initData.startParam)
-        ) as AccountStorage;
-        storage.set("account", JSON.stringify(cartridgeAccount));
-        setAccountStorage(cartridgeAccount);
-    }, [initData, storage]);
-
-    // Create CartridgeSessionAccount instance when account and signer are available
-    const account = useMemo(() => {
-        if (!accountStorage || !sessionSigner) return;
-
-        return CartridgeSessionAccount.new_as_registered(
-            RPC_URL,
-            sessionSigner.privateKey,
-            accountStorage.address,
-            accountStorage.ownerGuid,
-            Dojo.cairoShortStringToFelt("SN_MAINNET"),
-            {
-                expiresAt: Number(accountStorage.expiresAt),
-                policies: POLICIES,
-            }
-        );
-    }, [accountStorage, sessionSigner]);
-
-    // Function to open connection page for account setup
-    const openConnectionPage = () => {
-        // Create new signer if none exists
-        if (!sessionSigner) {
-            const privateKey = Dojo.signingKeyNew();
-            const publicKey = Dojo.verifyingKeyNew(privateKey);
-
-            const newSigner = { privateKey, publicKey };
-            storage.set("sessionSigner", JSON.stringify(newSigner));
-            setSessionSigner(newSigner);
-            return;
-        }
-
-        // Open keychain URL with session parameters
-        utils.openLink(
-            encodeUrl(
-                `${KEYCHAIN_URL}/session?public_key=${
-                    sessionSigner.publicKey
-                }&redirect_uri=${REDIRECT_URI}&redirect_query_name=startapp&policies=${JSON.stringify(
-                    POLICIES
-                )}&rpc_url=${RPC_URL}`
-            )
-        );
-        miniApp.close();
+      await cloudStorage.setItem("sessionSigner", JSON.stringify(newSigner));
+      setSessionSigner(newSigner);
     };
 
-    // Function to clear current session data
-    const clearSession = () => {
-        storage.delete("sessionSigner");
-        storage.delete("account");
-        setSessionSigner(undefined);
-        setAccountStorage(undefined);
+    const loadStoredAccount = async () => {
+      const account = await cloudStorage.getItem("account");
+      if (!account) return;
+
+      const parsedAccount = JSON.parse(account) as AccountStorage;
+      if (
+        !parsedAccount.address ||
+        !parsedAccount.ownerGuid ||
+        !parsedAccount.expiresAt
+      ) {
+        await cloudStorage.deleteItem("account");
+        return;
+      }
+
+      setAccountStorage(parsedAccount);
     };
 
-    // Context value containing account state and functions
-    const value = {
+    initializeSession();
+    loadStoredAccount();
+  }, []);
+
+  useEffect(() => {
+    if (!initData?.startParam) return;
+
+    const cartridgeAccount = JSON.parse(
+      atob(initData.startParam)
+    ) as AccountStorage;
+    cloudStorage.setItem("account", JSON.stringify(cartridgeAccount));
+    setAccountStorage(cartridgeAccount);
+  }, [initData]);
+
+  const account = useMemo(() => {
+    if (!accountStorage || !sessionSigner) return;
+
+    return CartridgeSessionAccount.new_as_registered(
+      rpcUrl,
+      sessionSigner.privateKey,
+      accountStorage.address,
+      accountStorage.ownerGuid,
+      network
+        ? Dojo.cairoShortStringToFelt(network)
+        : Dojo.cairoShortStringToFelt("SN_MAINNET"),
+      {
+        expiresAt: Number(accountStorage.expiresAt),
+        policies,
+      }
+    );
+  }, [accountStorage, sessionSigner]);
+
+  const openConnectionPage = async () => {
+    if (!sessionSigner) {
+      const privateKey = Dojo.signingKeyNew();
+      const publicKey = Dojo.verifyingKeyNew(privateKey);
+      const newSigner = { privateKey, publicKey };
+
+      await cloudStorage.setItem("sessionSigner", JSON.stringify(newSigner));
+      setSessionSigner(newSigner);
+      return;
+    }
+
+    const url = encodeUrl(
+      `${keychainUrl}/session?public_key=${sessionSigner.publicKey}` +
+        `&redirect_uri=${redirectUri}&redirect_query_name=startapp` +
+        `&policies=${JSON.stringify(policies)}&rpc_url=${rpcUrl}`
+    );
+
+    openLink(url, {
+      tryInstantView: false,
+    });
+    miniApp.close();
+  };
+
+  const clearSession = async () => {
+    await Promise.all([
+      cloudStorage.deleteItem("sessionSigner"),
+      cloudStorage.deleteItem("account"),
+    ]);
+    setSessionSigner(undefined);
+    setAccountStorage(undefined);
+  };
+
+  return (
+    <AccountContext.Provider
+      value={{
         accountStorage,
         sessionSigner,
         account,
@@ -194,51 +214,57 @@ export const AccountProvider: React.FC<{ children: React.ReactNode }> = ({
         clearSession,
         address: accountStorage?.address,
         username: accountStorage?.username,
-    };
-
-    return (
-        <AccountContext.Provider value={value}>
-            {children}
-        </AccountContext.Provider>
-    );
+        keychainUrl,
+        redirectUri,
+        policies,
+        rpcUrl,
+      }}
+    >
+      {children}
+    </AccountContext.Provider>
+  );
 };
 
 export const useAccount = () => {
-    const context = useContext(AccountContext);
-    if (context === undefined) {
-        throw new Error("useAccount must be used within an AccountProvider");
-    }
-    return context;
+  const context = useContext(AccountContext);
+  if (!context) {
+    throw new Error("useAccount must be used within an AccountProvider");
+  }
+  return context;
 };
 ```
 
-### 2. Use the hook in your component:
+### 3. Use the hook in your component:
 
 ```javascript
 function MyComponent() {
-    const {
-        accountStorage,
-        sessionSigner,
-        account,
-        openConnectionPage,
-        clearSession,
-        address,
-        username,
-    } = useAccount();
+  const {
+    accountStorage,
+    sessionSigner,
+    account,
+    openConnectionPage,
+    clearSession,
+    address,
+    username,
+  } = useAccount();
 
-    // Use the account information and functions as needed
+  // Use the account information and functions as needed
 }
 ```
 
 ### 3. Available properties and functions:
 
--   `accountStorage`: Contains user account information (username, address, ownerGuid)
--   `sessionSigner`: Contains the session's private and public keys
--   `account`: The CartridgeSessionAccount instance
--   `openConnectionPage()`: Function to open the connection page for account setup
--   `clearSession()`: Function to clear the current session
--   `address`: The user's account address
--   `username`: The user's username
+- `accountStorage`: Contains user account information (username, address, ownerGuid)
+- `sessionSigner`: Contains the session's private and public keys
+- `account`: The CartridgeSessionAccount instance
+- `openConnectionPage()`: Function to open the connection page for account setup
+- `clearSession()`: Function to clear the current session
+- `address`: The user's account address
+- `username`: The user's username
+- `keychainUrl`: The URL of the keychain
+- `redirectUri`: The URI to redirect to after account setup
+- `policies`: The policies to use for the session
+- `rpcUrl`: The RPC URL to use for the session
 
 ### 4. Ensure your app is wrapped with the AccountProvider:
 
@@ -246,7 +272,7 @@ function MyComponent() {
 import { AccountProvider } from "./path/to/AccountProvider";
 
 function App() {
-    return <AccountProvider>{/* Your app components */}</AccountProvider>;
+  return <AccountProvider>{/* Your app components */}</AccountProvider>;
 }
 ```
 
