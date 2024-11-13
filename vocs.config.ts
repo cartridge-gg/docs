@@ -77,6 +77,32 @@ export default defineConfig({
           link: "/controller/theming",
         },
         {
+          text: "Achievements",
+          link: "/controller/achievements",
+          items: [
+            {
+              text: "Setup",
+              link: "/controller/achievements/setup",
+            },
+            {
+              text: "Creation",
+              link: "/controller/achievements/creation",
+            },
+            {
+              text: "Progression",
+              link: "/controller/achievements/progression",
+            },
+            {
+              text: "Integration",
+              link: "/controller/achievements/integration",
+            },
+            {
+              text: "Testing",
+              link: "/controller/achievements/testing",
+            },
+          ],
+        },
+        {
           text: "Controller Examples",
           items: [
             {
