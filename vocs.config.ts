@@ -77,6 +77,32 @@ export default defineConfig({
           link: "/controller/theming",
         },
         {
+          text: "Achievements",
+          link: "/controller/achievements",
+          items: [
+            {
+              text: "Setup",
+              link: "/controller/achievements/setup",
+            },
+            {
+              text: "Creation",
+              link: "/controller/achievements/creation",
+            },
+            {
+              text: "Progression",
+              link: "/controller/achievements/progression",
+            },
+            {
+              text: "Integration",
+              link: "/controller/achievements/integration",
+            },
+            {
+              text: "Testing",
+              link: "/controller/achievements/testing",
+            },
+          ],
+        },
+        {
           text: "Controller Examples",
           items: [
             {
@@ -114,44 +140,6 @@ export default defineConfig({
         {
           text: "Overview",
           link: "/vrf/overview",
-        },
-      ],
-    },
-    {
-      text: "Arcade",
-      items: [
-        {
-          text: "Overview",
-          link: "/arcade/overview",
-        },
-        {
-          text: "Achievements",
-          items: [
-            {
-              text: "Overview",
-              link: "/arcade/achievements/overview",
-            },
-            {
-              text: "Setup",
-              link: "/arcade/achievements/setup",
-            },
-            {
-              text: "Creation",
-              link: "/arcade/achievements/creation",
-            },
-            {
-              text: "Progression",
-              link: "/arcade/achievements/progression",
-            },
-            {
-              text: "Integration",
-              link: "/arcade/achievements/integration",
-            },
-            {
-              text: "Testing",
-              link: "/arcade/achievements/testing",
-            },
-          ],
         },
       ],
     },

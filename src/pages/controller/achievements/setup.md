@@ -29,8 +29,6 @@ Do not forget to add the corresponding writes while deploying your contract if n
 
 :::
 
-## See also
-
-Examples:
+## Gallery
 
 - [DopeWars](https://github.com/cartridge-gg/dopewars/blob/mainnet/Scarb.toml)

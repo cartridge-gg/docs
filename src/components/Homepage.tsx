@@ -20,13 +20,13 @@ const cardContent = [
     description:
       "Horizontally scalable execution sharding for ephemeral and persistent rollups. Providing low latency execution contexts with fixed costs.",
   },
-  {
-    title: "Flex with",
-    icon: <Controller alt="Achievements" height={34} />,
-    link: "/arcade/overview",
-    description:
-      "Providing a system for games to reward players for completing achievements.",
-  },
+  // {
+  //   title: "Flex with",
+  //   icon: <Arcade alt="Achievements" height={34} />,
+  //   link: "/arcade/overview",
+  //   description:
+  //     "Providing a system for games to reward players for completing achievements.",
+  // },
 ];
 
 export function HomePage() {
