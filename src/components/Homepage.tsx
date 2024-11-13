@@ -1,4 +1,4 @@
-import Arcade from "../public/arcade.svg?react";
+// import Arcade from "../public/arcade.svg?react";
 import Controller from "../public/controller.svg?react";
 import Slot from "../public/slot.svg?react";
 import Sensei from "../public/sensei.png";
@@ -22,7 +22,7 @@ const cardContent = [
   },
   {
     title: "Flex with",
-    icon: <Arcade alt="Achievements" height={34} />,
+    icon: <Controller alt="Achievements" height={34} />,
     link: "/arcade/overview",
     description:
       "Providing a system for games to reward players for completing achievements.",
