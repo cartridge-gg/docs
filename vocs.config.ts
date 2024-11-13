@@ -117,6 +117,44 @@ export default defineConfig({
         },
       ],
     },
+    {
+      text: "Arcade",
+      items: [
+        {
+          text: "Overview",
+          link: "/arcade/overview",
+        },
+        {
+          text: "Achievements",
+          items: [
+            {
+              text: "Overview",
+              link: "/arcade/achievements/overview",
+            },
+            {
+              text: "Setup",
+              link: "/arcade/achievements/setup",
+            },
+            {
+              text: "Creation",
+              link: "/arcade/achievements/creation",
+            },
+            {
+              text: "Progression",
+              link: "/arcade/achievements/progression",
+            },
+            {
+              text: "Integration",
+              link: "/arcade/achievements/integration",
+            },
+            {
+              text: "Testing",
+              link: "/arcade/achievements/testing",
+            },
+          ],
+        },
+      ],
+    },
   ],
 
   // Vite configuration

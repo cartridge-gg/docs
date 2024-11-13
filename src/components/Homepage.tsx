@@ -1,3 +1,4 @@
+import Arcade from "../public/arcade.svg?react";
 import Controller from "../public/controller.svg?react";
 import Slot from "../public/slot.svg?react";
 import Sensei from "../public/sensei.png";
@@ -18,6 +19,13 @@ const cardContent = [
     link: "/slot/getting-started",
     description:
       "Horizontally scalable execution sharding for ephemeral and persistent rollups. Providing low latency execution contexts with fixed costs.",
+  },
+  {
+    title: "Flex with",
+    icon: <Arcade alt="Achievements" height={34} />,
+    link: "/arcade/overview",
+    description:
+      "Providing a system for games to reward players for completing achievements.",
   },
 ];
 
