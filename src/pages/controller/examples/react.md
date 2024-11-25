@@ -7,22 +7,22 @@ This guide demonstrates how to integrate the Cartridge Controller with a React a
 :::code-group
 
 ```bash [npm]
-npm install @cartridge/connector@0.5.0 @cartridge/controller@0.5.0 @cartridge/ui-next@0.5.0 @starknet-react/core @starknet-react/chains starknet
+npm install @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
 npm install -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [pnpm]
-pnpm add @cartridge/connector@0.5.0 @cartridge/controller@0.5.0 @cartridge/ui-next@0.5.0 @starknet-react/core @starknet-react/chains starknet
+pnpm add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
 pnpm add -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [yarn]
-yarn add @cartridge/connector@0.5.0 @cartridge/controller@0.5.0 @cartridge/ui-next@0.5.0 @starknet-react/core @starknet-react/chains starknet
+yarn add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
 yarn add -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [bun]
-bun add @cartridge/connector@0.5.0 @cartridge/controller@0.5.0 @cartridge/ui-next@0.5.0 @starknet-react/core @starknet-react/chains starknet
+bun add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
 bun add -D tailwindcss vite-plugin-mkcert
 ```
 
@@ -41,7 +41,7 @@ more.
 
 > ⚠️ **Important**: The `ControllerConnector` instance must be created outside of any React components. Creating it inside a component will cause the connector to be recreated on every render, which can lead to connection issues.
 
-``` typescript twoslash
+```typescript twoslash
 // typescript:src/context/StarknetProvider.tsx
 import { sepolia, mainnet, Chain } from '@starknet-react/chains'
 import { StarknetConfig, voyager, Connector } from '@starknet-react/core'
@@ -54,6 +54,7 @@ const ETH_TOKEN_ADDRESS =
 
 // Initialize the connector with policies
 const connector = new ControllerConnector({
+  rpc: 'https://api.cartridge.gg/x/starknet/sepolia',
   policies: [
     {
       target: ETH_TOKEN_ADDRESS,
@@ -65,7 +66,6 @@ const connector = new ControllerConnector({
       method: 'transfer',
     },
   ],
-  rpc: 'https://api.cartridge.gg/x/starknet/sepolia',
 })
 
 // Configure RPC provider
@@ -102,7 +102,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 Use the `useConnect`, `useDisconnect`, and `useAccount` hooks to manage wallet
 connections:
 
-``` typescript twoslash
+```typescript twoslash
 // typescript:src/components/ConnectWallet.tsx
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
@@ -145,7 +145,7 @@ export function ConnectWallet() {
 
 Execute transactions using the `account` object from `useAccount` hook:
 
-``` typescript twoslash
+```typescript twoslash
 // typescript:src/components/TransferEth.tsx
 import { useAccount, useExplorer } from '@starknet-react/core'
 import { useCallback, useState } from 'react'
@@ -214,7 +214,7 @@ export const TransferEth = () => {
 
 ### 4. Add Components to Your App
 
-``` typescript twoslash
+```typescript twoslash
 // typescript:src/App.tsx
 import { StarknetProvider } from './context/StarknetProvider'
 import { ConnectWallet } from './components/ConnectWallet'
@@ -235,7 +235,7 @@ export default App
 
 Make sure to use HTTPS in development by configuring Vite:
 
-``` typescript twoslash
+```typescript twoslash
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import mkcert from 'vite-plugin-mkcert'
