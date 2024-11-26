@@ -103,6 +103,10 @@ export default defineConfig({
           ],
         },
         {
+          text: "Inventory",
+          link: "/controller/inventory",
+        },
+        {
           text: "Controller Examples",
           items: [
             {
