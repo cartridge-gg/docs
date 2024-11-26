@@ -11,9 +11,10 @@ By default, commonly used tokens are indexed and automatically shown. Full list 
 ```toml
 # torii-config.toml
 
+[indexing]
 contracts = [
-  { type = "ERC20", address = "<contract-address>" },
-  { type = "ERC721", address = "<contract-address>" }
+  "erc20:<contract-address>",
+  "erc721:<contract-address>"
 ]
 ```
 
