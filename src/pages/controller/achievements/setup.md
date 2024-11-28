@@ -29,6 +29,33 @@ Do not forget to add the corresponding writes while deploying your contract if n
 
 :::
 
+## Torii configuration
+
+The progression events require to be managed as historical events by Torii.
+
+It means that every single events will remain available in the torii database and accessible in the `event_messages_historical` table.
+
+```toml
+rpc = <YOUR-RPC-URL>
+world_address = <YOUR-WORLD-ADDRESS>
+
+[indexing]
+...
+
+[events] // [!code focus]
+raw = true // [!code focus]
+historical = ["<YOUR-NAMESPACE>-TrophyProgression"] // [!code focus]
+```
+
+:::info
+The `TrophyCreation` event is not required to be an historical event since it should only be emitted once at the creation of the trophy.
+
+If a new `TrophyCreation` event is emitted with the same keys that an existing one, it will replace the existing one.
+
+This behavior can be useful if you want to change the metadata of a trophy.
+
+:::
+
 ## Gallery
 
 - [DopeWars](https://github.com/cartridge-gg/dopewars/blob/mainnet/Scarb.toml)
