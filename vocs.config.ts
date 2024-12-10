@@ -61,6 +61,10 @@ export default defineConfig({
           link: "/controller/getting-started",
         },
         {
+          text: "Passkey Support",
+          link: "/controller/passkey-support",
+        },
+        {
           text: "Sessions",
           link: "/controller/sessions",
         },
