@@ -16,7 +16,7 @@ Passkeys are [generally well supported](https://www.passkeys.io/compatible-devic
 
 If you device does not natively support them, there are several password managers that support Passkey creation and management:
 
--   [Bitwarden (free)](https://bitwarden.com/download/)
+-   [Bitwarden (free)](https://bitwarden.com/help/storing-passkeys/)
 -   [1Password](https://1password.com/)
 -   [Dashlane](https://www.dashlane.com/)
 
