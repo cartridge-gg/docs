@@ -1,6 +1,6 @@
 ---
 description: Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and best practices.
-title: Controller Usernames and Address Lookup
+title: Username Lookup
 ---
 
 # Looking up Usernames / Addresses

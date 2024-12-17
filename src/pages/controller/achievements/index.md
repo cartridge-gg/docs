@@ -1,5 +1,5 @@
 ---
-title: Controller Achievements Overview
+title: Achievements
 description: Learn about Cartridge's Achievement system that allows games to reward players for completing in-game objectives and track their progress.
 ---
 
