@@ -1,3 +1,8 @@
+---
+title: Controller Achievements Progression
+description: Learn how to implement achievement progression tracking in your game using Cartridge's event-based system and API.
+---
+
 # Progression
 
 ## Getting Started

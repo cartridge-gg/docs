@@ -1,5 +1,6 @@
 ---
 description: Learn how to create and apply custom themes to customize the appearance of your Cartridge Controller.
+title: Controller Theming
 ---
 
 # Theming

@@ -9,7 +9,7 @@ export default defineConfig({
   iconUrl: "/icon.svg",
   logoUrl: "/cartridge.svg",
   ogImageUrl:
-    "https://og-image.preview.cartridge.gg/api/cartridge?logo=%https://www.dojoengine.org/dojo-icon.svg&title=%title&description=%description",
+    "https://og.cartridge.gg/api/cartridge?title=%title&description=%description",
 
   theme: {
     colorScheme: "dark",

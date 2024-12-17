@@ -1,4 +1,9 @@
-# Creation
+---
+title: Controller Achievements Creation
+description: Learn how to create and define achievements in your game using Cartridge's achievement system, including task definitions and metadata configuration.
+---
+
+# Achievements Creation
 
 ## Getting Started
 

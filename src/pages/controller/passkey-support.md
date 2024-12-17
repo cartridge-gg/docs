@@ -1,5 +1,6 @@
 ---
 description: Understand how Cartridge Controller uses Passkeys for secure credential management, including platform support and backup solutions.
+title: Controller Passkey Support
 ---
 
 # Passkey Setup & Support

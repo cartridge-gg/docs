@@ -1,3 +1,8 @@
+---
+title: Controller Achievements Integration
+description: Learn how to integrate Cartridge's Achievement system into your game client, including controller configuration and UI components.
+---
+
 # Integration
 
 ## Configure the controller

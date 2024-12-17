@@ -1,5 +1,6 @@
 ---
 description: Explore Cartridge's Verifiable Random Function (VRF), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
+title: VRF Overview
 ---
 
 # Overview

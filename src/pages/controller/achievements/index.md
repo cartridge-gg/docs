@@ -1,3 +1,8 @@
+---
+title: Controller Achievements Overview
+description: Learn about Cartridge's Achievement system that allows games to reward players for completing in-game objectives and track their progress.
+---
+
 # Achievements
 
 The Cartridge Achievements is a system for games to reward players for completing achievements.

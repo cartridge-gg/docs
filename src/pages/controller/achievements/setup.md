@@ -1,3 +1,8 @@
+---
+title: Controller Achievements Setup
+description: Learn how to set up and configure the Cartridge Achievement system in your game, including dependency management and Torii configuration.
+---
+
 # Setup
 
 ## Getting Started

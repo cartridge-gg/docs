@@ -1,3 +1,8 @@
+---
+title: Controller React Integration
+description: Learn how to integrate the Cartridge Controller into your React application, including setup, configuration, and usage examples.
+---
+
 # Cartridge Controller React Integration
 
 This guide demonstrates how to integrate the Cartridge Controller with a React application.

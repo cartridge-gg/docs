@@ -1,4 +1,9 @@
-# Testing
+---
+title: Controller Achievements Testing
+description: Learn how to properly test achievement functionality in your game by setting up the required event definitions and test environment.
+---
+
+# Achievements Testing
 
 Do not forget to add the corresponding events to your namespace definition while you setup your tests.
 
