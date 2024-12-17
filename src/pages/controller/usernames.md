@@ -1,3 +1,7 @@
+---
+description: Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and best practices.
+---
+
 # Looking up Usernames / Addresses
 
 A service for looking up usernames and addresses in the Cartridge ecosystem. You can use either the helper methods from the SDK or query the endpoint directly.

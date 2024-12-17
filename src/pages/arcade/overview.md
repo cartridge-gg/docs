@@ -1,3 +1,7 @@
+---
+description: Learn about Cartridge Arcade, a platform for building and distributing games on Starknet with features like achievements and player profiles.
+---
+
 # Overview
 
 The Cartridge Arcade is a plateform for building and distributing games on Starknet.

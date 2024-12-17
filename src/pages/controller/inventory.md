@@ -1,3 +1,7 @@
+---
+description: Learn how to use and configure the Cartridge Controller's Inventory modal for managing ERC-20 and ERC-721 assets.
+---
+
 # Inventory 
 
 Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`).

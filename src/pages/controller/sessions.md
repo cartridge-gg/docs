@@ -1,6 +1,10 @@
+---
+description: Learn about Cartridge Controller's session-based authorization and policy-based transaction approvals system.
+---
+
 # Sessions and Policies
 
-Cartridge Controller supports session-based authentication and policy-based transaction approvals. When a policy is preapproved, games can perform interactions seamlessly without requesting approval from the player each time.
+Cartridge Controller supports session-based authorization and policy-based transaction approvals. When a policy is preapproved, games can perform interactions seamlessly without requesting approval from the player each time.
 
 ## Session Options
 

@@ -1,3 +1,7 @@
+---
+description: Get started with Slot, the execution layer of Dojo that provides low latency, dedicated, provable execution contexts for blockchain applications.
+---
+
 # Getting Started
 
 Slot is the execution layer of Dojo, supporting rapid provisioning of low latency, dedicated, provable execution contexts, bringing horizontal scalability to the blockchain. It manages the sequencing, proving, and efficient settlement of its execution.
