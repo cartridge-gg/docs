@@ -144,7 +144,7 @@ const policies: SessionPolicies = {
 
 ### Verified Sessions
 
-![Verified Session](/verified-session.png)
+![Verified Session](/verified-session.png){style="max-height: 600px"}
 
 Verified session policies provide a better user experience by attesting to the validity of a games session policy configuration, providing confidence to it's players.
 
