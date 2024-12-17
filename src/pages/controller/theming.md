@@ -4,19 +4,20 @@ This guide provides a comprehensive overview of how to create and apply custom t
 
 ## Creating a Theme
 
-To create a theme, teams should commit the theme to [`packages/keychain/public/whitelabel`](https://github.com/cartridge-gg/controller/tree/main/packages/keychain/public/whitelabel) with the icon and banner included. The theme should conform to the `ControllerTheme` type:
+To create a theme, teams should commit their theme config to the `configs` folder in [`@cartirdge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs) with the icon and banner included.
 
-```ts
-type ControllerTheme = {
-    id: string;
-    name: string;
-    icon: string;
-    cover: string;
-    colors: {
-        primary?: string;
-        primaryForeground?: string;
-    };
-};
+```json
+{
+  "origin": "https://flippyflop.gg",
+  "theme": {
+    "colors": {
+      "primary": "#F38332"
+    },
+    "cover": "cover.png",
+    "icon": "icon.png",
+    "name": "FlippyFlop"
+  }
+}
 ```
 
-See an example [`here`](https://github.com/cartridge-gg/controller/pull/421/files)
+See an example pull request [`here`](https://github.com/cartridge-gg/presets/pull/8/files)

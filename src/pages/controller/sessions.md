@@ -1,6 +1,3 @@
-"""src/pages/controller/sessions.md
-// Start of Selection
-
 # Sessions and Policies
 
 Cartridge Controller supports session-based authentication and policy-based transaction approvals. When a policy is preapproved, games can perform interactions seamlessly without requesting approval from the player each time.
@@ -110,6 +107,8 @@ const connector = new CartridgeConnector({
 
 ### Signed Message Policy Example
 
+Signed Message policies allow the application to sign a typed message without manual approval from the user.
+
 ```typescript
 const policies: SessionPolicies = {
   messages: [
@@ -141,16 +140,14 @@ const policies: SessionPolicies = {
     }
   ]
 };
-
-// Using the controller directly
-const controller = new Controller({
-  policies,
-  // other options
-});
-
-// Using starknet-react connector
-const connector = new CartridgeConnector({
-  policies,
-  // other options
-});
 ```
+
+### Verified Sessions
+
+![Verified Session](/verified-session.png)
+
+Verified session policies provide a better user experience by attesting to the validity of a games session policy configuration, providing confidence to it's players.
+
+Verified configs can be committed to the `configs` folder in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
+
+Before they are merged, the team will need to collaborate with Cartridge to verify the policies.
