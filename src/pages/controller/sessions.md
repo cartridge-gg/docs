@@ -1,3 +1,6 @@
+"""src/pages/controller/sessions.md
+// Start of Selection
+
 # Sessions and Policies
 
 Cartridge Controller supports session-based authentication and policy-based transaction approvals. When a policy is preapproved, games can perform interactions seamlessly without requesting approval from the player each time.
@@ -6,10 +9,10 @@ Cartridge Controller supports session-based authentication and policy-based tran
 
 ```typescript
 export type SessionOptions = {
-  rpc: string;  // RPC endpoint URL
-  chainId: string;  // Chain ID for the session
-  policies: Policy[];  // Approved transaction policies
-  redirectUrl: string;  // URL to redirect after registration
+  rpc: string;                // RPC endpoint URL
+  chainId: string;            // Chain ID for the session
+  policies: SessionPolicies;  // Approved transaction policies
+  redirectUrl: string;        // URL to redirect after registration
 };
 ```
 
@@ -18,12 +21,28 @@ export type SessionOptions = {
 Policies allow your application to define permissions that can be pre-approved by the user:
 
 ```typescript
-type Policy = CallPolicy | TypedDataPolicy;
+type SessionPolicies = {
+  contracts?: ContractPolicies;         // Contract interaction policies
+  messages?: SignMessagePolicy[];       // Signed message policies
+};
 
-type CallPolicy = {
-  target: string;  // Contract address
-  method: string;  // Contract method
-  description?: string;  // Human readable description
+type ContractPolicies = Record<string, ContractPolicy>;
+
+type ContractPolicy = {
+  name?: string;                        // Human-readable name of the contract
+  description?: string;                 // Description of the contract
+  methods: Method[];                    // Allowed contract methods
+};
+
+type Method = {
+  name?: string;                        // Human-readable name of the method
+  description?: string;                 // Description of the method
+  entrypoint: string;                   // Contract method entrypoint
+};
+
+type SignMessagePolicy = TypedDataPolicy & {
+  name?: string;                        // Human-readable name of the policy
+  description?: string;                 // Description of the policy
 };
 
 type TypedDataPolicy = {
@@ -33,22 +52,105 @@ type TypedDataPolicy = {
 };
 ```
 
-## Usage Example
+## Usage Examples
+
+### Contract Interaction Policies Example
 
 ```typescript
+const policies: SessionPolicies = {
+  contracts: {
+    "0x4ed3a7c5f53c6e96186eaf1b670bd2e2a3699c08e070aedf4e5fc6ac246ddc1": {
+      name: "Pillage",
+      description: "Allows you to raid a structure and pillage resources",
+      methods: [
+        {
+          name: "Battle Pillage",
+          description: "Pillage a structure",
+          entrypoint: "battle_pillage"
+        }
+      ]
+    },
+    "0x2620f65aa2fd72d705306ada1ee7410023a3df03da9291f1ccb744fabfebc0": {
+      name: "Battle contract",
+      description: "Required to engage in battles",
+      methods: [
+        {
+          name: "Battle Start",
+          description: "Start a battle",
+          entrypoint: "battle_start"
+        },
+        {
+          name: "Battle Join",
+          description: "Join a battle",
+          entrypoint: "battle_join"
+        },
+        {
+          name: "Battle Leave",
+          description: "Leave a battle",
+          entrypoint: "battle_leave"
+        },
+      ]
+    },
+    // Include other contracts as needed
+  }
+};
+
 // Using the controller directly
 const controller = new Controller({
-  policies: [
-    {
-      target: "0xContractAddress",
-      method: "increment",
-      description: "Allows incrementing the counter"
-    }
-  ]
+  policies,
+  // other options
 });
 
 // Using starknet-react connector
 const connector = new CartridgeConnector({
-  policies: [...] 
-})
+  policies,
+  // other options
+});
+```
+
+### Signed Message Policy Example
+
+```typescript
+const policies: SessionPolicies = {
+  messages: [
+    {
+      name: "Eternum Message Signing",
+      description: "Allows signing messages for Eternum",
+      types: {
+        StarknetDomain: [
+          { name: "name", type: "shortstring" },
+          { name: "version", type: "shortstring" },
+          { name: "chainId", type: "shortstring" },
+          { name: "revision", type: "shortstring" }
+        ],
+        "s0_eternum-Message": [
+          { name: "identity", type: "ContractAddress" },
+          { name: "channel", type: "shortstring" },
+          { name: "content", type: "string" },
+          { name: "timestamp", type: "felt" },
+          { name: "salt", type: "felt" }
+        ]
+      },
+      primaryType: "s0_eternum-Message",
+      domain: {
+        name: "Eternum",
+        version: "1",
+        chainId: "SN_MAIN",
+        revision: "1"
+      }
+    }
+  ]
+};
+
+// Using the controller directly
+const controller = new Controller({
+  policies,
+  // other options
+});
+
+// Using starknet-react connector
+const connector = new CartridgeConnector({
+  policies,
+  // other options
+});
 ```
