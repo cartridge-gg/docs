@@ -65,20 +65,20 @@ export default defineConfig({
           link: "/controller/passkey-support",
         },
         {
-          text: "Sessions",
-          link: "/controller/sessions",
-        },
-        {
           text: "Configuration",
           link: "/controller/configuration",
         },
         {
-          text: "Usernames",
-          link: "/controller/usernames",
+          text: "Sessions",
+          link: "/controller/sessions",
         },
         {
           text: "Theming",
           link: "/controller/theming",
+        },
+        {
+          text: "Usernames",
+          link: "/controller/usernames",
         },
         {
           text: "Achievements",
