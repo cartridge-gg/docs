@@ -27,5 +27,5 @@ export type ControllerOptions = {
 The configuration options are organized into several categories:
 
 -   **Provider Options**: Core RPC configuration
--   [**Session Options**](./sessions.md): Session and transaction related settings
--   [**Theme Options**](./theming.md): Visual customization settings
+-   [**Session Options**](./controller/sessions#session-options): Session and transaction related settings
+-   [**Theme Options**](./controller/theming): Visual customization settings

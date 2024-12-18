@@ -9,7 +9,7 @@ Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`
 
 ## Configure tokens
 
-By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.tom`](https://github.com/cartridge-gg/controller/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
+By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.tom`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
 
 ### Configure additional token to index
 

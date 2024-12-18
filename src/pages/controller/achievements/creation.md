@@ -89,7 +89,7 @@ AchievableComponent.create(
 )
 ```
 
-See also [AchievableComponent](https://github.com/cartridge-gg/arcade/blob/main/packages/trophy/src/components/achievable.cairo)
+See also [AchievableComponent](https://github.com/cartridge-gg/arcade/blob/main/packages/achievement/src/components/achievable.cairo)
 
 #### Parameters
 
