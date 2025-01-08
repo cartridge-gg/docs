@@ -24,11 +24,11 @@ Policies allow your application to define permissions that can be pre-approved b
 
 ```typescript
 type SessionPolicies = {
-  contracts?: ContractPolicies;         // Contract interaction policies
-  messages?: SignMessagePolicy[];       // Signed message policies
+  contracts: {
+    [address: string]: ContractPolicy;  // Contract interaction policies
+  };
+  messages?: TypedDataMessage[];        // Optional signed message policies
 };
-
-type ContractPolicies = Record<string, ContractPolicy>;
 
 type ContractPolicy = {
   name?: string;                        // Human-readable name of the contract
@@ -36,10 +36,10 @@ type ContractPolicy = {
   methods: Method[];                    // Allowed contract methods
 };
 
-type Method = {
-  name?: string;                        // Human-readable name of the method
-  description?: string;                 // Description of the method
+type ContractMethod = {
+  name: string;                         // Method name
   entrypoint: string;                   // Contract method entrypoint
+  description?: string;                 // Optional method description
 };
 
 type SignMessagePolicy = TypedDataPolicy & {

@@ -47,53 +47,62 @@ more.
 > ⚠️ **Important**: The `ControllerConnector` instance must be created outside of any React components. Creating it inside a component will cause the connector to be recreated on every render, which can lead to connection issues.
 
 ```typescript
-import { sepolia, mainnet, Chain } from '@starknet-react/chains'
-import { StarknetConfig, voyager, Connector } from '@starknet-react/core'
-import { RpcProvider } from 'starknet'
-import ControllerConnector from '@cartridge/connector/controller'
+import { sepolia, mainnet } from "@starknet-react/chains";
+import {
+  StarknetConfig,
+  jsonRpcProvider,
+  starkscan,
+} from "@starknet-react/core";
+import ControllerConnector from "@cartridge/connector/controller";
+import { SessionPolicies } from "@cartridge/controller";
 
 // Define your contract addresses
 const ETH_TOKEN_ADDRESS =
   '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7'
 
-// Initialize the connector with policies
+// Define session policies
+const policies: SessionPolicies = {
+  contracts: {
+    [ETH_TOKEN_ADDRESS]: {
+      methods: [
+        {
+          name: "approve",
+          entrypoint: "approve",
+          description: "Approve spending of tokens",
+        },
+        { name: "transfer", entrypoint: "transfer" },
+      ],
+    },
+  },
+}
+
+// Initialize the connector
 const connector = new ControllerConnector({
+  policies,
   rpc: 'https://api.cartridge.gg/x/starknet/sepolia',
-  policies: [
-    {
-      target: ETH_TOKEN_ADDRESS,
-      method: 'approve',
-      description: 'Approval description here',
-    },
-    {
-      target: ETH_TOKEN_ADDRESS,
-      method: 'transfer',
-    },
-  ],
 })
 
 // Configure RPC provider
-function provider(chain: Chain) {
-  switch (chain) {
-    case mainnet:
-      return new RpcProvider({
-        nodeUrl: 'https://api.cartridge.gg/x/starknet/mainnet',
-      })
-    case sepolia:
-    default:
-      return new RpcProvider({
-        nodeUrl: 'https://api.cartridge.gg/x/starknet/sepolia',
-      })
-  }
-}
+const provider = jsonRpcProvider({
+  rpc: (chain: Chain) => {
+    switch (chain) {
+      case mainnet:
+        return { nodeUrl: 'https://api.cartridge.gg/x/starknet/mainnet' }
+      case sepolia:
+      default:
+        return { nodeUrl: 'https://api.cartridge.gg/x/starknet/sepolia' }
+    }
+  },
+})
 
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
+      autoConnect
       chains={[mainnet, sepolia]}
       provider={provider}
-      connectors={[connector as never as Connector]}
-      explorer={voyager}
+      connectors={[connector]}
+      explorer={starkscan}
     >
       {children}
     </StarknetConfig>
