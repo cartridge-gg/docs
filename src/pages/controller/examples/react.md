@@ -46,8 +46,7 @@ more.
 
 > ⚠️ **Important**: The `ControllerConnector` instance must be created outside of any React components. Creating it inside a component will cause the connector to be recreated on every render, which can lead to connection issues.
 
-```typescript twoslash
-// typescript:src/context/StarknetProvider.tsx
+```typescript
 import { sepolia, mainnet, Chain } from '@starknet-react/chains'
 import { StarknetConfig, voyager, Connector } from '@starknet-react/core'
 import { RpcProvider } from 'starknet'
@@ -107,8 +106,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 Use the `useConnect`, `useDisconnect`, and `useAccount` hooks to manage wallet
 connections:
 
-```typescript twoslash
-// typescript:src/components/ConnectWallet.tsx
+```typescript
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
 import ControllerConnector from '@cartridge/connector/controller'
@@ -150,8 +148,7 @@ export function ConnectWallet() {
 
 Execute transactions using the `account` object from `useAccount` hook:
 
-```typescript twoslash
-// typescript:src/components/TransferEth.tsx
+```typescript
 import { useAccount, useExplorer } from '@starknet-react/core'
 import { useCallback, useState } from 'react'
 
@@ -219,8 +216,7 @@ export const TransferEth = () => {
 
 ### 4. Add Components to Your App
 
-```typescript twoslash
-// typescript:src/App.tsx
+```typescript
 import { StarknetProvider } from './context/StarknetProvider'
 import { ConnectWallet } from './components/ConnectWallet'
 import { TransferEth } from './components/TransferEth'
@@ -240,7 +236,7 @@ export default App
 
 Make sure to use HTTPS in development by configuring Vite:
 
-```typescript twoslash
+```typescript
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import mkcert from 'vite-plugin-mkcert'
