@@ -73,6 +73,10 @@ export default defineConfig({
           link: "/controller/sessions",
         },
         {
+          text: "Paymaster",
+          link: "/controller/paymaster",
+        },
+        {
           text: "Theming",
           link: "/controller/theming",
         },
