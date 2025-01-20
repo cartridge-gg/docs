@@ -10,19 +10,19 @@ importers:
     dependencies:
       '@cartridge/connector':
         specifier: ^0.3.46
-        version: 0.3.46(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)
+        version: 0.3.46(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)
       '@starknet-react/chains':
         specifier: ^0.1.3
         version: 0.1.7
       '@starknet-react/core':
         specifier: ^3.0.2
-        version: 3.5.0(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)(starknet@6.11.0)(typescript@5.6.3)
+        version: 3.5.0(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)(starknet@6.21.0)(typescript@5.6.3)
       '@types/react':
         specifier: ^18.2.21
         version: 18.3.12
       get-starknet-core:
         specifier: ^3.3.4
-        version: 3.3.4(starknet@6.11.0)
+        version: 3.3.4(starknet@6.21.0)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -33,8 +33,8 @@ importers:
         specifier: ^6.27.0
         version: 6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       starknet:
-        specifier: ^6.11.0
-        version: 6.11.0
+        specifier: ^6.21.0
+        version: 6.21.0
       vocs:
         specifier: 1.0.0-alpha.55
         version: 1.0.0-alpha.55(@types/node@22.9.0)(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.24.4)(typescript@5.6.3)
@@ -546,26 +546,20 @@ packages:
   '@module-federation/sdk@0.1.21':
     resolution: {integrity: sha512-r7xPiAm+O4e+8Zvw+8b4ToeD0D0VJD004nHmt+Y8r/l98J2eA6di72Vn1FeyjtQbCrFtiMw3ts/dlqtcmIBipw==}
 
-  '@noble/curves@1.3.0':
-    resolution: {integrity: sha512-t01iSXPuN+Eqzb4eBX0S5oubSqXbK/xXa1Ne18Hj8f9pStxztHCE2gfboSp/dZRLSqfuLpRK2nDXDK+W9puocA==}
-
-  '@noble/curves@1.4.2':
-    resolution: {integrity: sha512-TavHr8qycMChk8UwMld0ZDRvatedkzWfH8IiaeGCfymOP5i0hSCozz9vHOL0nkwk7HRMlFnAiKpS2jrUmSybcw==}
-
   '@noble/curves@1.6.0':
     resolution: {integrity: sha512-TlaHRXDehJuRNR9TfZDNQ45mMEd5dwUwmicsafcIX4SsNiqnCHKjE/1alYPd/lDRVhxdhUAlv8uEhMCI5zjIJQ==}
     engines: {node: ^14.21.3 || >=16}
 
-  '@noble/hashes@1.3.3':
-    resolution: {integrity: sha512-V7/fPHgl+jsVPXqqeOzT8egNj2iBIVt+ECeMMG8TdcnTikP3oaBtUVqpT/gYCR68aEBJSF+XbYUxStjbFMqIIA==}
-    engines: {node: '>= 16'}
-
-  '@noble/hashes@1.4.0':
-    resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
-    engines: {node: '>= 16'}
+  '@noble/curves@1.7.0':
+    resolution: {integrity: sha512-UTMhXK9SeDhFJVrHeUJ5uZlI6ajXg10O6Ddocf9S6GjbSBVZsJo88HzKwXznNfGpMTRDyJkqMjNDPYgf0qFWnw==}
+    engines: {node: ^14.21.3 || >=16}
 
   '@noble/hashes@1.5.0':
     resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
+    engines: {node: ^14.21.3 || >=16}
+
+  '@noble/hashes@1.6.0':
+    resolution: {integrity: sha512-YUULf0Uk4/mAA89w+k3+yUYh6NrEvxZa5T6SY3wlMvE2chHkxFUUIDI8/XW1QSC357iA5pSnqt7XEhvFOqmDyQ==}
     engines: {node: ^14.21.3 || >=16}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -1051,14 +1045,17 @@ packages:
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
 
+  '@scure/base@1.2.1':
+    resolution: {integrity: sha512-DGmGtC8Tt63J5GfHgfl5CuAXh96VF/LD8K9Hr/Gv0J2lAoRGlPOMpqMpMbCTOoOJMZCk2Xt+DskdDyn6dEFdzQ==}
+
   '@scure/bip32@1.5.0':
     resolution: {integrity: sha512-8EnFYkqEQdnkuGBVpCzKxyIwDCBLDVj3oiX0EKUFre/tOjL/Hqba1D6n/8RcmaQy4f95qQFrO2A8Sr6ybh4NRw==}
 
   '@scure/bip39@1.4.0':
     resolution: {integrity: sha512-BEEm6p8IueV/ZTfQLp/0vhw4NPnT9oWf5+28nvmeUICjP99f4vr2d+qc7AVGDDtwRep6ifR43Yed9ERVmiITzw==}
 
-  '@scure/starknet@1.0.0':
-    resolution: {integrity: sha512-o5J57zY0f+2IL/mq8+AYJJ4Xpc1fOtDhr+mFQKbHnYFmm3WQrC+8zj2HEgxak1a+x86mhmBC1Kq305KUpVf0wg==}
+  '@scure/starknet@1.1.0':
+    resolution: {integrity: sha512-83g3M6Ix2qRsPN4wqLDqiRZ2GBNbjVWfboJE/9UjfG+MHr6oDSu/CWgy8hsBSJejr09DkkL+l0Ze4KVrlCIdtQ==}
 
   '@shikijs/core@1.22.2':
     resolution: {integrity: sha512-bvIQcd8BEeR1yFvOYv6HDiyta2FFVePbzeowf5pPS1avczrPK+cjmaxxh0nx5QzbON7+Sv0sQfQVciO7bN72sg==}
@@ -1083,6 +1080,9 @@ packages:
 
   '@shikijs/vscode-textmate@9.3.0':
     resolution: {integrity: sha512-jn7/7ky30idSkd/O5yDBfAnVt+JJpepofP/POZ1iMOxK59cOfqIgg/Dj0eFsjOTMw+4ycJN0uhZH/Eb0bs/EUA==}
+
+  '@starknet-io/types-js@0.7.10':
+    resolution: {integrity: sha512-1VtCqX4AHWJlRRSYGSn+4X1mqolI1Tdq62IwzoU2vUuEE72S1OlEeGhpvd6XsdqXcfHmVzYfj8k1XtKBQqwo9w==}
 
   '@starknet-io/types-js@0.7.7':
     resolution: {integrity: sha512-WLrpK7LIaIb8Ymxu6KF/6JkGW1sso988DweWu7p5QY/3y7waBIiPvzh27D9bX5KIJNRDyOoOVoHVEKYUYWZ/RQ==}
@@ -1787,9 +1787,6 @@ packages:
     resolution: {integrity: sha512-KEnzAMr4f7z7dMh4g5lWDZ+eXtOEl++VPN5Flmmj8HiPmRrPOINEIwwNL/dN+Ey1kBxQOtOMQwCxJ9qlkRIgFw==}
     peerDependencies:
       starknet: ^5.18.0
-
-  get-starknet-core@4.0.0:
-    resolution: {integrity: sha512-6pLmidQZkC3wZsrHY99grQHoGpuuXqkbSP65F8ov1/JsEI8DDLkhsAuLCKFzNOK56cJp+f1bWWfTJ57e9r5eqQ==}
 
   get-stream@6.0.1:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
@@ -2750,8 +2747,8 @@ packages:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
     engines: {node: '>=6'}
 
-  starknet@6.11.0:
-    resolution: {integrity: sha512-u50KrGDi9fbu1Ogu7ynwF/tSeFlp3mzOg1/Y5x50tYFICImo3OfY4lOz9OtYDk404HK4eUujKkhov9tG7GAKlg==}
+  starknet@6.21.0:
+    resolution: {integrity: sha512-xUSlqyE+J/S5un3TyQY0Kehilh1u7ewPaut87eOxTDS1r90SU0QvQ3JEECp5LbW/sqsaMhfb+tGTBGrKzXg7bg==}
 
   statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
@@ -2924,9 +2921,6 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
-
-  url-join@4.0.1:
-    resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
 
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
@@ -3229,11 +3223,11 @@ snapshots:
 
   '@cartridge/account-wasm@0.3.46': {}
 
-  '@cartridge/connector@0.3.46(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)':
+  '@cartridge/connector@0.3.46(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)':
     dependencies:
       '@cartridge/controller': 0.3.46
-      '@starknet-react/core': 2.9.0(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)(starknet@6.11.0)
-      starknet: 6.11.0
+      '@starknet-react/core': 2.9.0(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)(starknet@6.21.0)
+      starknet: 6.21.0
     transitivePeerDependencies:
       - encoding
       - get-starknet-core
@@ -3247,7 +3241,7 @@ snapshots:
       cbor-x: 1.6.0
       fast-deep-equal: 3.1.3
       query-string: 7.1.3
-      starknet: 6.11.0
+      starknet: 6.21.0
     transitivePeerDependencies:
       - encoding
 
@@ -3530,23 +3524,17 @@ snapshots:
 
   '@module-federation/sdk@0.1.21': {}
 
-  '@noble/curves@1.3.0':
-    dependencies:
-      '@noble/hashes': 1.3.3
-
-  '@noble/curves@1.4.2':
-    dependencies:
-      '@noble/hashes': 1.4.0
-
   '@noble/curves@1.6.0':
     dependencies:
       '@noble/hashes': 1.5.0
 
-  '@noble/hashes@1.3.3': {}
-
-  '@noble/hashes@1.4.0': {}
+  '@noble/curves@1.7.0':
+    dependencies:
+      '@noble/hashes': 1.6.0
 
   '@noble/hashes@1.5.0': {}
+
+  '@noble/hashes@1.6.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -3955,6 +3943,8 @@ snapshots:
 
   '@scure/base@1.1.9': {}
 
+  '@scure/base@1.2.1': {}
+
   '@scure/bip32@1.5.0':
     dependencies:
       '@noble/curves': 1.6.0
@@ -3966,10 +3956,10 @@ snapshots:
       '@noble/hashes': 1.5.0
       '@scure/base': 1.1.9
 
-  '@scure/starknet@1.0.0':
+  '@scure/starknet@1.1.0':
     dependencies:
-      '@noble/curves': 1.3.0
-      '@noble/hashes': 1.3.3
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.0
 
   '@shikijs/core@1.22.2':
     dependencies:
@@ -4020,32 +4010,34 @@ snapshots:
 
   '@shikijs/vscode-textmate@9.3.0': {}
 
+  '@starknet-io/types-js@0.7.10': {}
+
   '@starknet-io/types-js@0.7.7': {}
 
   '@starknet-react/chains@0.1.7': {}
 
   '@starknet-react/chains@3.1.0': {}
 
-  '@starknet-react/core@2.9.0(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)(starknet@6.11.0)':
+  '@starknet-react/core@2.9.0(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)(starknet@6.21.0)':
     dependencies:
       '@starknet-react/chains': 0.1.7
       '@tanstack/react-query': 5.59.20(react@18.3.1)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.4(starknet@6.11.0)
+      get-starknet-core: 3.3.4(starknet@6.21.0)
       immutable: 4.3.7
       react: 18.3.1
-      starknet: 6.11.0
+      starknet: 6.21.0
       zod: 3.23.8
 
-  '@starknet-react/core@3.5.0(get-starknet-core@3.3.4(starknet@6.11.0))(react@18.3.1)(starknet@6.11.0)(typescript@5.6.3)':
+  '@starknet-react/core@3.5.0(get-starknet-core@3.3.4(starknet@6.21.0))(react@18.3.1)(starknet@6.21.0)(typescript@5.6.3)':
     dependencies:
       '@starknet-io/types-js': 0.7.7
       '@starknet-react/chains': 3.1.0
       '@tanstack/react-query': 5.59.20(react@18.3.1)
       eventemitter3: 5.0.1
-      get-starknet-core: 3.3.4(starknet@6.11.0)
+      get-starknet-core: 3.3.4(starknet@6.21.0)
       react: 18.3.1
-      starknet: 6.11.0
+      starknet: 6.21.0
       viem: 2.21.43(typescript@5.6.3)(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
@@ -4801,14 +4793,10 @@ snapshots:
 
   get-nonce@1.0.1: {}
 
-  get-starknet-core@3.3.4(starknet@6.11.0):
+  get-starknet-core@3.3.4(starknet@6.21.0):
     dependencies:
       '@module-federation/runtime': 0.1.21
-      starknet: 6.11.0
-
-  get-starknet-core@4.0.0:
-    dependencies:
-      '@starknet-io/types-js': 0.7.7
+      starknet: 6.21.0
 
   get-stream@6.0.1: {}
 
@@ -6194,21 +6182,19 @@ snapshots:
 
   split-on-first@1.1.0: {}
 
-  starknet@6.11.0:
+  starknet@6.21.0:
     dependencies:
-      '@noble/curves': 1.4.2
-      '@noble/hashes': 1.5.0
-      '@scure/base': 1.1.9
-      '@scure/starknet': 1.0.0
+      '@noble/curves': 1.7.0
+      '@noble/hashes': 1.6.0
+      '@scure/base': 1.2.1
+      '@scure/starknet': 1.1.0
       abi-wan-kanabi: 2.2.3
       fetch-cookie: 3.0.1
-      get-starknet-core: 4.0.0
       isomorphic-fetch: 3.0.0
       lossless-json: 4.0.2
       pako: 2.1.0
-      starknet-types-07: '@starknet-io/types-js@0.7.7'
+      starknet-types-07: '@starknet-io/types-js@0.7.10'
       ts-mixer: 6.0.4
-      url-join: 4.0.1
     transitivePeerDependencies:
       - encoding
 
@@ -6421,8 +6407,6 @@ snapshots:
       browserslist: 4.24.2
       escalade: 3.2.0
       picocolors: 1.1.1
-
-  url-join@4.0.1: {}
 
   url-parse@1.5.10:
     dependencies:
