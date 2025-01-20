@@ -9,8 +9,9 @@ This guide demonstrates how to integrate the Cartridge Controller with a React a
 
 ## Creating a New Project
 
-To start, create a new Next.js application. Choose one of the following commands based on your package manager:
+To start, create a new Next.js or Vite application. Choose one of the following commands based on your package manager:
 
+### Next.js
 :::code-group
 
 ```bash [pnpm]
@@ -27,6 +28,28 @@ yarn create next-app my-project
 
 ```bash [bun]
 bun create next my-project
+```
+
+:::
+
+### Vite
+
+:::code-group
+
+```bash [pnpm]
+pnpm create vite
+```
+
+```bash [npm]
+npm create vite@latest
+```
+
+```bash [yarn]
+yarn create vite
+```
+
+```bash [bun]
+bun create vite
 ```
 
 :::
@@ -153,7 +176,6 @@ Use the `useConnect`, `useDisconnect`, and `useAccount` hooks from `@starknet-re
 import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
 import { useEffect, useState } from "react";
 import ControllerConnector from "@cartridge/connector/controller";
-import { Button } from "@chakra-ui/react";
 
 export function ConnectWallet() {
     const { connect, connectors } = useConnect();
@@ -176,11 +198,11 @@ export function ConnectWallet() {
                 </>
             )}
             {address ? (
-                <Button onClick={() => disconnect()}>Disconnect</Button>
+                <button onClick={() => disconnect()}>Disconnect</button>
             ) : (
-                <Button onClick={() => connect({ connector: controller })}>
+                <button onClick={() => connect({ connector: controller })}>
                     Connect
-                </Button>
+                </button>
             )}
         </div>
     );
@@ -194,7 +216,6 @@ Execute transactions using the `account` object from the `useAccount` hook. Belo
 ```typescript
 import { useAccount, useExplorer } from "@starknet-react/core";
 import { useCallback, useState } from "react";
-import { Button } from "@chakra-ui/react";
 
 const ETH_CONTRACT =
     "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
@@ -238,12 +259,12 @@ export const TransferEth = () => {
     return (
         <div>
             <h2>Transfer ETH</h2>
-            <Button
+            <button
                 onClick={() => execute("0x1C6BF52634000")}
                 disabled={submitted}
             >
                 Transfer 0.005 ETH
-            </Button>
+            </button>
             {txnHash && (
                 <p>
                     Transaction hash:{" "}
@@ -284,7 +305,7 @@ export default App;
 ```
 
 ## Important Notes
-
+### Next.js HTTPS Setup
 To enable HTTPS in development, you need to modify your `package.json` file and add the following `dev` script:
 
 ```json
@@ -307,4 +328,18 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+```
+
+### Vite HTTPS Setup
+
+To enable HTTPS in development with Vite, modify your `vite.config.ts` file:
+
+```typescript 
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import mkcert from 'vite-plugin-mkcert'
+ 
+export default defineConfig({
+  plugins: [react(), mkcert()],
+})
 ```

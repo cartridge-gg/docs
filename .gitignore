@@ -187,3 +187,6 @@ lcov.info
 
 account.json
 keystore.json
+
+.cursorignore
+.cursorrules
