@@ -46,12 +46,20 @@ For detailed implementation and usage, refer to the [GitHub repository](https://
 
 To integrate the Verifiable Random Function (VRF) into your Starknet contract, follow these steps:
 
-1.  Import the VRF Provider interface:
+1.  Define the VRF Provider interface:
 
 ```rust
-use cartridge_vrf::IVrfProviderDispatcher;
-use cartridge_vrf::IVrfProviderDispatcherTrait;
-use cartridge_vrf::Source;
+#[starknet::interface]
+trait IVrfProvider<TContractState> {
+    fn request_random(self: @TContractState, caller: ContractAddress, source: Source);
+    fn consume_random(ref self: TContractState, source: Source) -> felt252;
+}
+
+#[derive(Drop, Copy, Clone, Serde)]
+pub enum Source {
+    Nonce: ContractAddress,
+    Salt: felt252,
+}
 ```
 
 2.  Define the VRF Provider address in your contract:
