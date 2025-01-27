@@ -12,15 +12,18 @@ Controller provides several configuration options related to chains, sessions, a
 ```typescript
 export type ControllerOptions = {
     // Provider options
-    rpc: string;  // The URL of the RPC
-    
+    chains: [
+        { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
+        { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
+    ],
+    defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
+
     // Session options 
     policies?: SessionPolicies;  // Session policies
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
-    
-    // Theme options
-    theme?: string;  // The theme name
-    colorMode?: "light" | "dark";  // The color mode
+
+    // Preset options
+    preset?: string;  // The preset name
 };
 ```
 
@@ -28,4 +31,4 @@ The configuration options are organized into several categories:
 
 -   **Provider Options**: Core RPC configuration
 -   [**Session Options**](/controller/sessions.md): Session and transaction related settings
--   [**Theme Options**](/controller/theming.md): Visual customization settings
+-   [**Preset Options**](/controller/presets.md): Configure a custom theme and verified session policies using Presets
