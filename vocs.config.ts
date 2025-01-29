@@ -77,8 +77,8 @@ export default defineConfig({
           link: "/controller/paymaster",
         },
         {
-          text: "Theming",
-          link: "/controller/theming",
+          text: "Presets",
+          link: "/controller/presets",
         },
         {
           text: "Usernames",
