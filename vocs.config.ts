@@ -126,6 +126,10 @@ export default defineConfig({
               link: "/controller/examples/svelte",
             },
             {
+              text: "Node",
+              link: "/controller/examples/node",
+            },
+            {
               text: "Rust",
               link: "/controller/examples/rust",
             },
