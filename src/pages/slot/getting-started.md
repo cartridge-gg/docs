@@ -49,7 +49,7 @@ slot deployments delete <Project Name> torii
 ### Read service logs
 
 ```sh
-slot deployments logs <Project Name> <katana | torii | saya>
+slot deployments logs <Project Name> <katana | torii>
 ```
 
 ### List all deployments
@@ -61,7 +61,7 @@ slot deployments list
 ### View deployments configuration
 
 ```sh
-slot deployments describe <Project Name> <katana | torii | saya>
+slot deployments describe <Project Name> <katana | torii>
 ```
 
 ### View predeployed accounts
