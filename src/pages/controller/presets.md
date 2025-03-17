@@ -9,7 +9,7 @@ This guide provides a comprehensive overview of how to create and apply custom t
 
 ## Creating a Theme
 
-To create a theme, teams should commit their theme config to the `configs` folder in [`@cartirdge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs) with the icon and banner included.
+To create a theme, teams should commit their theme config to the `configs` folder in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs) with the icon and banner included.
 
 ```json
 {
@@ -29,7 +29,7 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 
 ## Verified Sessions
 
-Session Policies can be provided in the preset configuration, providing a smoother experience for your users. In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartirdge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
+Session Policies can be provided in the preset configuration, providing a smoother experience for your users. In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
 For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/aa3a218de1c83f36bf9eb73d7ab4e099898ce1f2/configs/dope-wars/config.json#L3):
 
