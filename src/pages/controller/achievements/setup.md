@@ -47,8 +47,7 @@ world_address = <YOUR-WORLD-ADDRESS>
 [indexing]
 ...
 
-[events] // [!code focus]
-raw = true // [!code focus]
+[sql] // [!code focus]
 historical = ["<YOUR-NAMESPACE>-TrophyProgression"] // [!code focus]
 ```
 
