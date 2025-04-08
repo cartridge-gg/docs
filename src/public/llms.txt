@@ -1,0 +1,43 @@
+
+llms.txt
+# docs.cartridge.gg
+
+> Welcome to Cartridge - High Performance Infrastructure for Provable Games and Applications.
+
+## Index
+
+- [Overview](https://docs.cartridge.gg/vrf/overview): Explore Cartridge's Verifiable Random Function (VRF), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
+
+## /controller
+
+- [Overview](https://docs.cartridge.gg/controller/overview): Explore Cartridge Controller, a gaming-focused smart contract wallet that makes Web3 gaming accessible and fun with features like session keys, identity management, and customization options.
+- [Getting Started](https://docs.cartridge.gg/controller/getting-started): Get started with Cartridge Controller by learning how to install, initialize, and integrate it into your application with various frameworks.
+- [Passkey Setup & Support](https://docs.cartridge.gg/controller/passkey-support): Understand how Cartridge Controller uses Passkeys for secure credential management, including platform support and backup solutions.
+- [Configuration](https://docs.cartridge.gg/controller/configuration): Explore the configuration options available for Cartridge Controller, including chain settings, session management, and theme customization.
+- [Sessions and Policies](https://docs.cartridge.gg/controller/sessions): Learn about Cartridge Controller's session-based authentication and policy-based transaction approvals system.
+- [Paymaster](https://docs.cartridge.gg/controller/paymaster): Learn how to use the Cartridge Paymaster to provide seamless and fee-less user experiences.
+- [Presets](https://docs.cartridge.gg/controller/presets): Learn how to customize your Cartridge Controller.
+- [Looking up Usernames / Addresses](https://docs.cartridge.gg/controller/usernames): Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and best practices.
+- [Achievements](https://docs.cartridge.gg/controller/achievements): Learn about Cartridge's Achievement system that allows games to reward players for completing in-game objectives and track their progress.
+- [Inventory](https://docs.cartridge.gg/controller/inventory): Learn how to use and configure the Cartridge Controller's Inventory modal for managing ERC-20 and ERC-721 assets.
+
+## Achievements
+
+- [Setup](https://docs.cartridge.gg/controller/achievements/setup): Learn how to set up and configure the Cartridge Achievement system in your game, including dependency management and Torii configuration.
+- [Achievement Creation](https://docs.cartridge.gg/controller/achievements/creation): Learn how to create and define achievements in your game using Cartridge's achievement system, including task definitions and metadata configuration.
+- [Achievement Progression](https://docs.cartridge.gg/controller/achievements/progression): Learn how to implement achievement progression tracking in your game using Cartridge's event-based system and API.
+- [Integration](https://docs.cartridge.gg/controller/achievements/integration): Learn how to integrate Cartridge's Achievement system into your game client, including controller configuration and UI components.
+- [Achievement Testing](https://docs.cartridge.gg/controller/achievements/testing): Learn how to properly test achievement functionality in your game by setting up the required event definitions and test environment.
+
+## /controller/examples
+
+- [Cartridge Controller React Integration](https://docs.cartridge.gg/controller/examples/react): Learn how to integrate the Cartridge Controller into your React application, including setup, configuration, and usage examples.
+- [Svelte](https://docs.cartridge.gg/controller/examples/svelte): Learn how to integrate the Cartridge Controller into your Svelte application, including setup, configuration, and usage examples.
+- [Rust](https://docs.cartridge.gg/controller/examples/rust): Learn how to integrate the Cartridge Controller into your Rust application, including setup, configuration, and usage examples.
+- [Cartridge Controller Node.js Integration](https://docs.cartridge.gg/controller/examples/node): Learn how to integrate the Cartridge Controller into your Node.js application, including setup, configuration, and usage examples.
+- [Telegram](https://docs.cartridge.gg/controller/examples/telegram): Learn how to integrate the Cartridge Controller into your Telegram Mini App, including setup, configuration, and usage examples.
+
+## /slot
+
+- [Getting Started](https://docs.cartridge.gg/slot/getting-started): Get started with Slot, the execution layer of Dojo that provides low latency, dedicated, provable execution contexts for blockchain applications.
+- [Scale your deployments](https://docs.cartridge.gg/slot/scale): Scale your slot deployments by upgrading to paid instances.
