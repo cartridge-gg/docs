@@ -27,9 +27,10 @@ To set up slot billing, you need to buy credits and transfer them to a slot team
 If you have existing deployments, a team of the same name as your account will be created for you, and you can transfer credits to it.
 
 ```shell
-slot team my-team create # if you want to create a new team
-slot auth fund # buy credits to your account
-slot auth transfer my-team 100 # transfer $100 to my-team
+slot team my-team create --email my-email@example.com # if you want to create a new team, email is optional for email alerts
+slot team my-team update --email my-email@example.com # if you want to update an existing team's email
+slot auth fund # buy credits for your account, this opens the browser
+slot auth transfer my-team 100 # transfer $100 from your controller to my-team
 ```
 
 Once you create paid slot instances, funds are deducted on a daily basic with a minimum charge of one day. For example, if you create a deployment and delete it after one hour, you will be charged 1/30th of the monthly cost.
