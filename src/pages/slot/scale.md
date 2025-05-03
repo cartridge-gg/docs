@@ -27,8 +27,8 @@ To set up slot billing, you need to buy credits and transfer them to a slot team
 If you have existing deployments, a team of the same name as your account will be created for you, and you can transfer credits to it.
 
 ```shell
-slot team my-team create --email my-email@example.com # if you want to create a new team, email is optional for email alerts
-slot team my-team update --email my-email@example.com # if you want to update an existing team's email
+slot teams my-team create --email my-email@example.com # if you want to create a new team, email is optional for email alerts
+slot teams my-team update --email my-email@example.com # if you want to update an existing team's email
 
 slot auth fund # buy credits for your account, this opens the browser
 
