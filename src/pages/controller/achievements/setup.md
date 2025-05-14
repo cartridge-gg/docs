@@ -7,19 +7,19 @@ description: Learn how to set up and configure the Cartridge Achievement system 
 
 ## Getting Started
 
-Add the Cartridge achievements package `arcade_trophy` as a dependency in your Scarb.toml
+Add the Cartridge package `achievement` as a dependency in your Scarb.toml
 
 ```rust
 [dependencies]
 starknet = "2.8.4"
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.0.0" }
-arcade_trophy = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.0.0" } // [!code focus]
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.5.1" }
+achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.5.1" } // [!code focus]
 
 [[target.starknet-contract]]
 build-external-contracts = [
     "dojo::world::world_contract::world",
-    "arcade_trophy::events::index::e_TrophyCreation", // [!code focus]
-    "arcade_trophy::events::index::e_TrophyProgression", // [!code focus]
+    "achievement::events::index::e_TrophyCreation", // [!code focus]
+    "achievement::events::index::e_TrophyProgression", // [!code focus]
 ]
 ```
 

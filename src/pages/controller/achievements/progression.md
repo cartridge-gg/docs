@@ -14,7 +14,7 @@ The package provides also a way to be used as a cairo package.
 ```rust
 #[dojo::contract]
 pub mod Actions {
-    use arcade_trophy::store::{Store, StoreTrait};
+    use achievement::store::{Store, StoreTrait};
     // ...
     #[abi(embed_v0)]
     impl ActionsImpl of IActions<ContractState> {

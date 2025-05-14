@@ -14,8 +14,8 @@ The package provides a way to define achievements leveraging Starknet components
 ```rust
 #[dojo::contract]
 pub mod Actions {
-    use arcade_trophy::components::achievable::AchievableComponent; // [!code focus]
-    use arcade_trophy::types::task::{Task, TaskTrait}; // [!code focus]
+    use achievement::components::achievable::AchievableComponent; // [!code focus]
+    use achievement::types::task::{Task, TaskTrait}; // [!code focus]
     component!(path: AchievableComponent, storage: achievable, event: AchievableEvent); // [!code focus]
     impl AchievableInternalImpl = AchievableComponent::InternalImpl<ContractState>; // [!code focus]
 
