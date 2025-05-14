@@ -142,6 +142,19 @@ export default defineConfig({
       ],
     },
     {
+      text: "Arcade",
+      items: [
+        {
+          text: "Overview",
+          link: "/arcade/overview",
+        },
+        {
+          text: "Setup",
+          link: "/arcade/setup",
+        },
+      ],
+    },
+    {
       text: "Slot",
       items: [
         {

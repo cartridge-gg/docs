@@ -1,7 +1,8 @@
 // import Arcade from "../public/arcade.svg?react";
+import Arcade from "../public/controller.svg?react";
 import Controller from "../public/controller.svg?react";
-import Slot from "../public/slot.svg?react";
 import Sensei from "../public/sensei.png";
+import Slot from "../public/slot.svg?react";
 
 import { Link } from "react-router-dom";
 
@@ -20,13 +21,13 @@ const cardContent = [
     description:
       "Horizontally scalable execution sharding for ephemeral and persistent rollups. Providing low latency execution contexts with fixed costs.",
   },
-  // {
-  //   title: "Flex with",
-  //   icon: <Arcade alt="Achievements" height={34} />,
-  //   link: "/arcade/overview",
-  //   description:
-  //     "Providing a system for games to reward players for completing achievements.",
-  // },
+  {
+    title: "Flex with",
+    icon: <Arcade alt="Arcade" height={34} />,
+    link: "/arcade/overview",
+    description:
+      "Bring all your favorite onchain games together in one central hub where players and developers connect.",
+  },
 ];
 
 export function HomePage() {
