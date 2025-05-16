@@ -1,5 +1,4 @@
-// import Arcade from "../public/arcade.svg?react";
-import Arcade from "../public/controller.svg?react";
+import Arcade from "../public/arcade.svg?react";
 import Controller from "../public/controller.svg?react";
 import Sensei from "../public/sensei.png";
 import Slot from "../public/slot.svg?react";
