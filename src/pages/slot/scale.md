@@ -10,7 +10,7 @@ development purposes and comes with limited CPU & memory. 3 deployments of the b
 
 To prepare your deployments for production, you can set up billing and upgrade to a paid instance tier.
 
-## Paid Instances
+## Instances
 
 | Tier      | Description                                     | Storage | Monthly Cost |
 |-----------|-------------------------------------------------|---------|--------------|
@@ -19,6 +19,10 @@ To prepare your deployments for production, you can set up billing and upgrade t
 | Epic      | Playtesting: Elevated CPU & Memory              | 15GB    | $15/month    |
 | Legendary | Production: Heavy CPU & memory                  | 15GB    | $35/month    |
 | Insane    | Production: Highest CPU & memory                | 20GB    | $50/month    |
+
+Note: basic & common instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL and it'll be revived on the spot. If unused without any activity for more then 30 days, it will get deleted.
+
+Epic and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
 
 ## Set up billing
 
