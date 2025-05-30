@@ -29,7 +29,7 @@ Epic and higher tiers are never scaled down or deleted as long as there are enou
 For torii, with premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
 
 ```shell
-slot d create --tier epic my-project --replicas 3 torii
+slot d create --tier epic my-project torii --replicas 3
 ```
 
 Replicas are billed as how many replicas you have. For example, if you have 3 replicas, you will be billed 3 times the monthly cost of the tier you are using.
