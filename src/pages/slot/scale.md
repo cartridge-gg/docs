@@ -24,6 +24,22 @@ Note: basic & common instances are scaled down automatically after a few hours o
 
 Epic and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
 
+## Regions
+
+With premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances in multiple regions.
+
+| Region            |
+|-------------------|
+| `us-east`         |
+| `europe-west`     |
+| `asia-southeast`  |
+
+To deploy a slot service in multiple regions, you can use the `--regions` flag.
+
+```shell
+slot d create --tier insane --regions us-east,asia-southeast,europe-west my-project torii
+```
+
 ## Set up billing
 
 To set up slot billing, you need to buy credits and transfer them to a slot team.
