@@ -24,9 +24,19 @@ Note: basic & common instances are scaled down automatically after a few hours o
 
 Epic and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
 
+## Replicas
+
+For torii, with premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
+
+```shell
+slot d create --tier epic my-project --replicas 3 torii
+```
+
+Replicas are billed as how many replicas you have. For example, if you have 3 replicas, you will be billed 3 times the monthly cost of the tier you are using.
+
 ## Regions
 
-With premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances in multiple regions.
+For torii, with premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances in multiple regions.
 
 | Region            |
 |-------------------|
@@ -36,11 +46,13 @@ With premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy yo
 
 To deploy a slot service in multiple regions, you can use the `--regions` flag.
 
+Katana is only supported in `us-east` at this time.
+
 ```shell
 slot d create --tier insane --regions us-east,asia-southeast,europe-west my-project torii
 ```
 
-The pricing will be calculated based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions.
+Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
 
 ## Set up billing
 
@@ -49,7 +61,7 @@ To set up slot billing, you need to buy credits and transfer them to a slot team
 If you have existing deployments, a team of the same name as your account will be created for you, and you can transfer credits to it.
 
 ```shell
-slot teams my-team create --email my-email@example.com # if you want to create a new team, email is optional for email alerts
+slot teams my-team create --email my-email@example.com # email is required for billing alerts
 slot teams my-team update --email my-email@example.com # if you want to update an existing team's email
 
 slot auth fund # buy credits for your account, this opens the browser
