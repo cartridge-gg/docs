@@ -3,9 +3,7 @@ description: Learn how to customize your Cartridge Controller.
 title: Controller Presets
 ---
 
-# Presets
-
-This guide provides a comprehensive overview of how to create and apply custom themes and provide verified session policies to the controller.
+This guide provides a comprehensive overview of how to create and apply custom themes, provide verified session policies, and configure Apple App Site Association for iOS integration with the Cartridge Controller.
 
 ## Creating a Theme
 
@@ -50,5 +48,27 @@ For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/aa3
         ]
       },
   ...
+}
+```
+
+## Apple App Site Association
+
+The [Apple App Site Association (AASA)](https://developer.apple.com/documentation/xcode/supporting-associated-domains) configuration enables iOS app integration with Cartridge Controller, allowing for usage of Web Credentials (Passkeys) in native applications.
+
+### Configuration
+
+To add your iOS app to the AASA file, include the `apple-app-site-association` section in your game's `config.json`:
+
+#### JSON Configuration
+
+```json
+{
+  ...,
+  "apple-app-site-association": {
+    "webcredentials": {
+      "apps": ["ABCDE12345.com.example.yourgame"]
+    }
+  },
+  ...,
 }
 ```
