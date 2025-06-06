@@ -165,6 +165,10 @@ export default defineConfig({
           text: "Scale",
           link: "/slot/scale",
         },
+        {
+          text: "Paymaster",
+          link: "/slot/paymaster",
+        }
       ],
     },
     {
