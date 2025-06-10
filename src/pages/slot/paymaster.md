@@ -220,6 +220,47 @@ slot paymaster <paymaster-name> info
   • Count: 3
 ```
 
+
+## Updating Paymaster Configuration
+
+Update your paymaster's basic configuration settings:
+
+```sh
+slot paymaster <current-name> update [OPTIONS]
+```
+
+### Update Paymaster Name
+
+```sh
+slot paymaster my-game-pm update --name new-game-pm
+```
+
+### Change Team Association
+
+Transfer the paymaster to a different team:
+
+```sh
+slot paymaster my-game-pm update --team new-team
+```
+
+### Enable/Disable Paymaster
+
+Toggle the active state of your paymaster:
+
+```sh
+# Disable paymaster (stops sponsoring transactions)
+slot paymaster my-game-pm update --active false
+
+# Re-enable paymaster
+slot paymaster my-game-pm update --active true
+```
+
+:::warning
+- Changing the team association will transfer the paymaster and its budget to the new team
+- Disabling a paymaster will immediately stop it from sponsoring new transactions
+- At least one update parameter (--name, --team, or --active) must be provided
+:::
+
 ## Statistics and Monitoring
 
 View usage statistics for your paymaster:
@@ -258,9 +299,95 @@ slot paymaster my-game-pm stats --last 24hr
   • Unique Users: 89
 ```
 
+## Transaction History
+
+View detailed transaction history for your paymaster with filtering and sorting options:
+
+```sh
+slot paymaster <paymaster-name> transactions [OPTIONS]
+```
+
+### Basic Usage
+
+View recent transactions:
+
+```sh
+slot paymaster my-game-pm transactions
+```
+
+**Output:**
+```
+📊 Paymaster Transactions for 'my-game-pm' (Last 24hr)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Transaction Hash                                                   Executed     Status       USD Fee     
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x50c2dd556593564fe2b814d61b3b1592682de83702552a993d24f9e897710e7  11s ago      SUCCESS      $0.0026     
+0x41b0f547741bd1fdc29dd4c82a80da2a452314e710ae7cbe0e05cb4cb1e6c0e  22s ago      SUCCESS      $0.0025      
+0x4b74ee2ab7764cb3d11f3319b64c2698b868727fdf99728bdf74aa023b5e77d  32s ago      REVERTED     $0.0028       
+0x2af69b9798355e91119c6a9adb1363b2f533f0557601e4687dcfe9725e8feaa  42s ago      SUCCESS      $0.0025     
+0x25dfc115dabda89a2027366790ee5cfcfefb861fe1b584c6fb15dc1588e0816  47s ago      REVERTED     $0.0032
+```
+
+### Filtering Options
+
+**Filter by Status:**
+```sh
+# Show only successful transactions
+slot paymaster my-game-pm transactions --filter SUCCESS
+
+# Show only reverted transactions  
+slot paymaster my-game-pm transactions --filter REVERTED
+
+# Show all transactions (default)
+slot paymaster my-game-pm transactions --filter ALL
+```
+
+**Time Period:**
+```sh
+# Last hour
+slot paymaster my-game-pm transactions --last 1hr
+```
+
+**Sorting:**
+```sh
+# Sort by fees (ascending)
+slot paymaster my-game-pm transactions --order-by FEES_ASC
+
+# Sort by fees (descending)
+slot paymaster my-game-pm transactions --order-by FEES_DESC
+
+# Sort by execution time (most recent first - default)
+slot paymaster my-game-pm transactions --order-by EXECUTED_AT_DESC
+
+# Sort by execution time (oldest first)
+slot paymaster my-game-pm transactions --order-by EXECUTED_AT_ASC
+```
+
+**Limit Results:**
+```sh
+# Show up to 50 transactions (max 1000)
+slot paymaster my-game-pm transactions --limit 50
+```
+
+
+### Quick Debugging Use Cases
+
+The transaction history is useful for identifying issues:
+
+**View expensive transactions that might indicate inefficient contract calls:**
+```sh
+slot paymaster my-game-pm transactions --order-by FEES_DESC --limit 10
+```
+
+**Investigate failed transactions to debug contract issues:**
+```sh
+slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
+```
+
 ## Best Practices
 
 ### Budget Management
+- Start with a conservative budget and increase as needed
 - Monitor spending through the stats command
 - Keep sufficient team balance for paymaster operations
 
