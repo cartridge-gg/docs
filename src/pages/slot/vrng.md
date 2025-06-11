@@ -1,29 +1,29 @@
 ---
-description: Explore Cartridge's Verifiable Random Function (VRF), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
-title: VRF Overview
+description: Explore Cartridge's Verifiable Random Number Generator (vRNG), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
+title: vRNG Overview
 ---
 
-# Overview
+# vRNG Overview
 
-This Cartridge Verfiable Random Function (VRF) is designed to provide cheap, atomic verfiable randomness for fully onchain games.
+This Cartridge Verfiable Random Number Generator (vRNG) is designed to provide cheap, atomic verfiable randomness for fully onchain games.
 
 ## Key Features
 
-1.  **Atomic Execution**: The VRF request and response are processed within the same transaction, ensuring synchronous and immediate randomness for games.
+1.  **Atomic Execution**: The vRNG request and response are processed within the same transaction, ensuring synchronous and immediate randomness for games.
 
 2.  **Efficient Onchain Verification**: Utilizes the Stark curve and Poseidon hash for optimized verification on Starknet.
 
-3.  **Fully Onchain**: The entire VRF process occurs onchain, maintaining transparency and verifiability.
+3.  **Fully Onchain**: The entire vRNG process occurs onchain, maintaining transparency and verifiability.
 
-4.  **Improved Player Experience**: The synchronous nature of the VRF allows for instant resolution of random events in games, enhancing gameplay fluidity.
+4.  **Improved Player Experience**: The synchronous nature of the vRNG allows for instant resolution of random events in games, enhancing gameplay fluidity.
 
 ## How It Works
 
 1.  A game calls `request_random(caller, source)` as the first call in their multicall.
-2.  A game contract calls `consume_random(source)` on the VRF contract.
-3.  The VRF server generates a random value using the VRF algorithm for the provided entropy source.
+2.  A game contract calls `consume_random(source)` on the vRNG contract.
+3.  The vRNG server generates a random value using the vRNG algorithm for the provided entropy source.
 4.  The Cartridge Paymaster wraps the players multicall with a `submit_random` and `assert_consumed` call.
-5.  The `submit_random` call submit a VRF Proof for the request, the VRF Proof is verified onchain, ensuring the integrity of the random value which is immediately available and must be used within the same transaction.
+5.  The `submit_random` call submit a vRNG Proof for the request, the vRNG Proof is verified onchain, ensuring the integrity of the random value which is immediately available and must be used within the same transaction.
 6.  The `assert_consumed` call ensures that `consume_random(source)` has been called, it also reset the storage used to store the random value during the transaction to 0.
 
 ## Benefits for Game Developers
@@ -42,11 +42,11 @@ This Cartridge Verfiable Random Function (VRF) is designed to provide cheap, ato
 
 For detailed implementation and usage, refer to the [GitHub repository](https://github.com/cartridge-gg/vrf).
 
-## Using the VRF Provider
+## Using the vRNG Provider
 
-To integrate the Verifiable Random Function (VRF) into your Starknet contract, follow these steps:
+To integrate the Verifiable Random Function (vRNG) into your Starknet contract, follow these steps:
 
-1.  Define the VRF Provider interface:
+1.  Define the vRNG Provider interface:
 
 ```rust
 #[starknet::interface]
@@ -62,13 +62,13 @@ pub enum Source {
 }
 ```
 
-2.  Define the VRF Provider address in your contract:
+2.  Define the vRNG Provider address in your contract:
 
 ```rust
 const VRF_PROVIDER_ADDRESS: starknet::ContractAddress = starknet::contract_address_const::<0x123>();
 ```
 
-3.  Create a dispatcher for the VRF Provider:
+3.  Create a dispatcher for the vRNG Provider:
 
 ```rust
 let vrf_provider = IVrfProviderDispatcher { contract_address: VRF_PROVIDER_ADDRESS };
@@ -125,9 +125,9 @@ const call = await account.execute([
 
 **Ensure that you call `consume_random` with the same `Source` as used in `request_random`.**
 
-### Important: Adding VRF to Policies
+### Important: Adding vRNG to Policies
 
-When using the Cartridge Controller with VRF, make sure to add the VRF contract address and the `request_random` method to your policies. This allows the controller to pre-approve VRF-related transactions, ensuring a seamless experience for your users.
+When using the Cartridge Controller with vRNG, make sure to add the vRNG contract address and the `request_random` method to your policies. This allows the controller to pre-approve vRNG-related transactions, ensuring a seamless experience for your users.
 
 Add the following policy to your existing policies:
 
@@ -142,9 +142,9 @@ const policies: Policy[] = [
 ];
 ```
 
-This ensures that VRF-related transactions can be executed without requiring additional user approval each time.
+This ensures that vRNG-related transactions can be executed without requiring additional user approval each time.
 
-By following these steps, you can integrate the VRF Provider into your Starknet contract and generate verifiable random 
+By following these steps, you can integrate the vRNG Provider into your Starknet contract and generate verifiable random 
 numbers for your onchain game or application.
 
 ## Security Assumptions
