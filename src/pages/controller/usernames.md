@@ -15,7 +15,7 @@ The lookup endpoint can be accessed directly via HTTP POST:
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"usernames": ["shinobi","sensei"]}' \
-  https://api.cartridge.gg/lookup
+  https://api.cartridge.gg/accounts/lookup
 ```
 
 Request Format
