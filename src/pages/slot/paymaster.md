@@ -207,14 +207,14 @@ slot paymaster <paymaster-name> info
 ```
 🔍 Paymaster Info for 'my-game-pm'
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 🏢 Details:
   • Team: my-team
   • Active: ✅ Yes
 
 💰 Budget:
-  • Amount: 1300 CREDIT ($13.00 USD)
-  • Total Spent: 45.25 CREDIT
+  • Total: 9000 CREDIT ($90.00 USD)
+  • Spent: 1759.56 CREDIT ($17.60 USD)
+  • Usage: [█████░░░░░░░░░░░░░░░░░░░░░░░░░] 19.7%
 
 📋 Policies:
   • Count: 3
