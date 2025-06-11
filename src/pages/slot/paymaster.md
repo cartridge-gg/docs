@@ -1,5 +1,5 @@
 ---
-description: Manage Slot paymasters to sponsor transaction fees for your applications using Credits.
+description: Manage Slot paymasters to sponsor transaction fees for your applications.
 title: Paymaster Management
 ---
 
