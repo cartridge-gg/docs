@@ -21,7 +21,7 @@ const cardContent = [
       "Horizontally scalable execution sharding for ephemeral and persistent rollups. Providing low latency execution contexts with fixed costs.",
   },
   {
-    title: "Flex with",
+    title: "Discover with",
     icon: <Arcade alt="Arcade" height={34} />,
     link: "/arcade/overview",
     description:

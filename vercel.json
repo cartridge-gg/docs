@@ -6,6 +6,11 @@
             "permanent": true
         },
         {
+            "source": "/vrf/overview",
+            "destination": "/slot/vRNG",
+            "permanent": true
+        },
+        {
             "source": "/controller",
             "destination": "/controller/overview",
             "permanent": false

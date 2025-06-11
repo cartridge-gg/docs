@@ -48,139 +48,147 @@ export default defineConfig({
     height: "35px",
     textColor: "rgb(26, 28, 27)",
   },
-  sidebar: [
-    {
-      text: "Controller",
-      items: [
-        {
-          text: "Overview",
-          link: "/controller/overview",
-        },
-        {
-          text: "Getting Started",
-          link: "/controller/getting-started",
-        },
-        {
-          text: "Passkey Support",
-          link: "/controller/passkey-support",
-        },
-        {
-          text: "Configuration",
-          link: "/controller/configuration",
-        },
-        {
-          text: "Sessions",
-          link: "/controller/sessions",
-        },
-        {
-          text: "Paymaster",
-          link: "/controller/paymaster",
-        },
-        {
-          text: "Presets",
-          link: "/controller/presets",
-        },
-        {
-          text: "Usernames",
-          link: "/controller/usernames",
-        },
-        {
-          text: "Achievements",
-          link: "/controller/achievements",
-          items: [
-            {
-              text: "Setup",
-              link: "/controller/achievements/setup",
-            },
-            {
-              text: "Creation",
-              link: "/controller/achievements/creation",
-            },
-            {
-              text: "Progression",
-              link: "/controller/achievements/progression",
-            },
-            {
-              text: "Integration",
-              link: "/controller/achievements/integration",
-            },
-            {
-              text: "Testing",
-              link: "/controller/achievements/testing",
-            },
-          ],
-        },
-        {
-          text: "Inventory",
-          link: "/controller/inventory",
-        },
-        {
-          text: "Controller Examples",
-          items: [
-            {
-              text: "React",
-              link: "/controller/examples/react",
-            },
-            {
-              text: "Svelte",
-              link: "/controller/examples/svelte",
-            },
-            {
-              text: "Node",
-              link: "/controller/examples/node",
-            },
-            {
-              text: "Rust",
-              link: "/controller/examples/rust",
-            },
-            {
-              text: "Telegram",
-              link: "/controller/examples/telegram",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      text: "Arcade",
-      items: [
-        {
-          text: "Overview",
-          link: "/arcade/overview",
-        },
-        {
-          text: "Setup",
-          link: "/arcade/setup",
-        },
-      ],
-    },
-    {
-      text: "Slot",
-      items: [
-        {
-          text: "Getting Started",
-          link: "/slot/getting-started",
-        },
-        {
-          text: "Scale",
-          link: "/slot/scale",
-        },
-        {
-          text: "Paymaster",
-          link: "/slot/paymaster",
-        }
-      ],
-    },
-    {
-      text: "VRF",
-      items: [
-        {
-          text: "Overview",
-          link: "/vrf/overview",
-        },
-      ],
-    },
-  ],
+
+  // Separate sidebars for different sections
+  sidebar: {
+    // Controller sidebar
+    "/controller": [
+      {
+        text: "Controller",
+        items: [
+          {
+            text: "Overview",
+            link: "/controller/overview",
+          },
+          {
+            text: "Getting Started",
+            link: "/controller/getting-started",
+          },
+          {
+            text: "Passkey Support",
+            link: "/controller/passkey-support",
+          },
+          {
+            text: "Configuration",
+            link: "/controller/configuration",
+          },
+          {
+            text: "Sessions",
+            link: "/controller/sessions",
+          },
+          {
+            text: "Paymaster",
+            link: "/controller/paymaster",
+          },
+          {
+            text: "Presets",
+            link: "/controller/presets",
+          },
+          {
+            text: "Usernames",
+            link: "/controller/usernames",
+          },
+          {
+            text: "Achievements",
+            link: "/controller/achievements",
+            items: [
+              {
+                text: "Setup",
+                link: "/controller/achievements/setup",
+              },
+              {
+                text: "Creation",
+                link: "/controller/achievements/creation",
+              },
+              {
+                text: "Progression",
+                link: "/controller/achievements/progression",
+              },
+              {
+                text: "Integration",
+                link: "/controller/achievements/integration",
+              },
+              {
+                text: "Testing",
+                link: "/controller/achievements/testing",
+              },
+            ],
+          },
+          {
+            text: "Inventory",
+            link: "/controller/inventory",
+          },
+          {
+            text: "Controller Examples",
+            items: [
+              {
+                text: "React",
+                link: "/controller/examples/react",
+              },
+              {
+                text: "Svelte",
+                link: "/controller/examples/svelte",
+              },
+              {
+                text: "Node",
+                link: "/controller/examples/node",
+              },
+              {
+                text: "Rust",
+                link: "/controller/examples/rust",
+              },
+              {
+                text: "Telegram",
+                link: "/controller/examples/telegram",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+
+    // Arcade sidebar
+    "/arcade": [
+      {
+        text: "Arcade",
+        items: [
+          {
+            text: "Overview",
+            link: "/arcade/overview",
+          },
+          {
+            text: "Setup",
+            link: "/arcade/setup",
+          },
+        ],
+      },
+    ],
+
+    // Slot sidebar (now includes VRF)
+    "/slot": [
+      {
+        text: "Slot",
+        items: [
+          {
+            text: "Getting Started",
+            link: "/slot/getting-started",
+          },
+          {
+            text: "Scale",
+            link: "/slot/scale",
+          },
+          {
+            text: "Paymaster",
+            link: "/slot/paymaster",
+          },
+          {
+            text: "vRNG",
+            link: "/slot/vRNG",
+          },
+        ],
+      },
+    ],
+  },
 
   // Vite configuration
   vite: {
