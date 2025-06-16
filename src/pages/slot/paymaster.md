@@ -369,6 +369,73 @@ slot paymaster my-game-pm transactions --order-by EXECUTED_AT_ASC
 slot paymaster my-game-pm transactions --limit 50
 ```
 
+## Dune Analytics Queries
+
+Generate Dune Analytics queries to analyze your paymaster's transaction data:
+
+```sh
+slot paymaster <paymaster-name> dune [OPTIONS]
+```
+
+### Example Dashboard
+See a live example of paymaster analytics at [Blob Arena Stats](https://dune.com/broody/blobert-arena-stats) on Dune Analytics.
+
+
+### Query Types
+
+**Fast Query (Default)**
+```sh
+slot paymaster my-game-pm dune
+```
+- Quick execution suitable for long time periods
+- Matches direct execute_from_outside_v3 calls and simple VRF patterns
+- Does not catch complex nested VRF calls
+- Best for initial analysis and long-term trends
+
+**Exact Query**
+```sh
+slot paymaster my-game-pm dune --exact
+```
+- Exhaustive search of all transaction patterns
+- Uses execute_from_outside_v3 selector as anchor
+- Catches all patterns including nested VRF calls
+- May timeout on long time periods
+- Best for exact metrics
+
+### Time Period Options
+
+By default, queries use the paymaster's creation time. You can specify a custom time period:
+
+```sh
+# Last 24 hours
+slot paymaster my-game-pm dune --last 24hr
+
+# Last week
+slot paymaster my-game-pm dune --last 1week
+
+# Combine with exact query
+slot paymaster my-game-pm dune --exact --last 24hr
+```
+
+**Time Period Options:**
+- `1hr`, `2hr`, `24hr`
+- `1day`, `2day`, `7day`
+- `1week`
+
+### Query Output
+
+The command generates a SQL query that you can copy and run in Dune Analytics. The query includes:
+- Daily transaction counts
+- Unique user counts
+- Fee amounts in USD
+- Overall totals
+
+:::tip
+For best results:
+- Use fast query for long-term analysis
+- Use exact query for detailed analysis of recent transactions
+- Consider time period length when choosing query type
+::: 
 
 ### Quick Debugging Use Cases
 
