@@ -51,9 +51,7 @@ Here's a simple example of how to initialize and use the controller:
 import Controller from "@cartridge/controller";
 
 // Initialize the controller with basic configuration
-const controller = new Controller({
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia", // or mainnet
-});
+const controller = new Controller();
 
 // Connect to get an account instance
 const account = await controller.connect();
@@ -96,7 +94,6 @@ const controller = new Controller({
       },
     },
   },
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
 });
 ```
 
@@ -113,9 +110,7 @@ import {
 import ControllerConnector from "@cartridge/connector/controller";
 
 // Create the connector outside the component to avoid recreation on renders
-const connector = new ControllerConnector({
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
-});
+const connector = new ControllerConnector();
 
 // Configure the JSON RPC provider
 const provider = jsonRpcProvider({

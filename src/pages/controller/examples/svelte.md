@@ -57,7 +57,6 @@ let controller = new Controller({
             },
         },
     },
-    rpc: "https://api.cartridge.gg/x/starknet/sepolia" // sepolia or mainnet
 });
 ```
 
