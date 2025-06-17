@@ -11,7 +11,7 @@ Add the `account_sdk` crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-account_sdk = { git = "https://github.com/cartridge-gg/controller", package = "account_sdk" }
+account_sdk = { git = "https://github.com/cartridge-gg/controller-rs.git", package = "account_sdk" }
 starknet = "0.10" # Make sure to use a compatible version
 ```
 
