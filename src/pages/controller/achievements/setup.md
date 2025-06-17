@@ -13,7 +13,7 @@ Add the Cartridge package `achievement` as a dependency in your Scarb.toml
 [dependencies]
 starknet = "2.8.4"
 dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.5.1" }
-achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.5.1" } // [!code focus]
+achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.0.12" } // [!code focus]
 
 [[target.starknet-contract]]
 build-external-contracts = [
