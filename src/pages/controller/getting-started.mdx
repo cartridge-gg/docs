@@ -8,6 +8,19 @@ title: Controller Getting Started
 Controller implements a standard StarkNet account interface and can be
 seamlessly integrated into your application like any other wallet.
 
+## Quick Start
+
+The fastest way to get started is to install the controller package and connect to Cartridge:
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller();
+const account = await controller.connect();
+
+// You're ready to execute transactions!
+```
+
 ## Installation
 
 :::code-group
@@ -37,51 +50,93 @@ Here's a simple example of how to initialize and use the controller:
 ```ts
 import Controller from "@cartridge/controller";
 
-// Initialize the controller
-const controller = new Controller();
+// Initialize the controller with basic configuration
+const controller = new Controller({
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia", // or mainnet
+});
 
 // Connect to get an account instance
 const account = await controller.connect();
 
 // Execute transactions
-const tx = await account.execute({
-  contractAddress: "0x...",
-  entrypoint: "my_function",
-  calldata: ["0x1", "0x2"],
+const tx = await account.execute([
+  {
+    contractAddress: "0x...",
+    entrypoint: "my_function",
+    calldata: ["0x1", "0x2"],
+  }
+]);
+```
+
+## Configuration with Session Policies
+
+For games that need gasless transactions and session management:
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({
+  policies: {
+    contracts: {
+      // Your game contract
+      "0x1234...": {
+        name: "My Game Contract",
+        methods: [
+          {
+            name: "move_player",
+            entrypoint: "move_player",
+            description: "Move player character",
+          },
+          {
+            name: "attack",
+            entrypoint: "attack", 
+            description: "Attack enemy",
+          },
+        ],
+      },
+    },
+  },
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
 });
 ```
 
 ## Usage with Starknet React
 
 ```tsx
-import React, { useCallback } from "react";
-
+import React from "react";
 import { sepolia, mainnet } from "@starknet-react/chains";
 import {
   StarknetConfig,
-  publicProvider,
-  argent,
-  braavos,
-  useInjectedConnectors,
-  voyager,
-  Connector,
   jsonRpcProvider,
-  cartridgeProvider,
+  starkscan,
 } from "@starknet-react/core";
+import ControllerConnector from "@cartridge/connector/controller";
 
-import { ControllerConnector } from "@cartridge/connector";
+// Create the connector outside the component to avoid recreation on renders
+const connector = new ControllerConnector({
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+});
 
-const cartridgeConnector = new ControllerConnector({
-  rpc: cartridgeProvider().nodeUrl,
+// Configure the JSON RPC provider
+const provider = jsonRpcProvider({
+  rpc: (chain) => {
+    switch (chain) {
+      case mainnet:
+        return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
+      case sepolia:
+      default:
+        return { nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia" };
+    }
+  },
 });
 
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
       chains={[mainnet, sepolia]}
-      provider={cartridgeProvider()}
-      connectors={[cartridgeConnector as never as Connector]}
-      explorer={voyager}
+      provider={provider}
+      connectors={[connector]}
+      explorer={starkscan}
     >
       {children}
     </StarknetConfig>

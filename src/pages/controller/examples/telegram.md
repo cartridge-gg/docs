@@ -27,6 +27,8 @@ export const RPC_URL = "https://api.cartridge.gg/x/starknet/mainnet";
 export const SESSION_POLICIES = {
   contracts: {
     "0x70fc96f845e393c732a468b6b6b54d876bd1a29e41a026e8b13579bf98eec8f": {
+      name: "Beast Game Contract",
+      description: "Contract for beast game interactions",
       methods: [
         {
           name: "attack",
