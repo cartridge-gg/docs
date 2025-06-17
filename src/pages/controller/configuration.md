@@ -10,25 +10,27 @@ Controller provides several configuration options related to chains, sessions, a
 ## ControllerOptions
 
 ```typescript
+export type Chain = {
+  rpcUrl: string;
+};
+
 export type ControllerOptions = {
-    // Provider options
-    chains: [
-        { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
-        { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
-    ],
-    defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
-
+    // Chain configuration
+    chains?: Chain[];  // Custom RPC endpoints for slot katana instances
+    chainId?: string;  // hex encoded
+    
     // Session options 
-    policies?: SessionPolicies;  // Session policies
+    policies?: SessionPolicies;  // Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
-
-    // Preset options
-    preset?: string;  // The preset name
+    
+    // Customization options
+    preset?: string;  // Preset name for custom themes and verified policies
+    slot?: string;  // Slot project name for custom indexing
 };
 ```
 
 The configuration options are organized into several categories:
 
--   **Provider Options**: Core RPC configuration
--   [**Session Options**](/controller/sessions.md): Session and transaction related settings
--   [**Preset Options**](/controller/presets.md): Configure a custom theme and verified session policies using Presets
+-   **Chain Options**: Core network configuration and chain settings
+-   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
+-   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing

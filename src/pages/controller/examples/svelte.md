@@ -39,20 +39,24 @@ import { account, username } from "../stores/account";
 import { ETH_CONTRACT } from "../constants";
 
 let controller = new Controller({
-    policies: [
-        {
-            target: ETH_CONTRACT,
-            method: "approve",
-            description:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    policies: {
+        contracts: {
+            [ETH_CONTRACT]: {
+                methods: [
+                    {
+                        name: "approve",
+                        entrypoint: "approve",
+                        description: "Approve spending of tokens",
+                    },
+                    {
+                        name: "transfer", 
+                        entrypoint: "transfer",
+                        description: "Transfer tokens",
+                    },
+                ],
+            },
         },
-        {
-            target: ETH_CONTRACT,
-            method: "transfer",
-        },
-        // ... other policies
-    ],
-    rpc: "https://api.cartridge.gg/x/starknet/mainnet" // sepolia, mainnet, or slot
+    },
 });
 ```
 

@@ -7,11 +7,11 @@ title: Controller Overview
 
 ### TL;DR: Cartridge Controller is:
 
--   A gaming-focused smart contract wallet
--   Makes Web3 gaming accessible and fun via Session Keys
--   Handles player onboarding and transaction management
--   Provides identity and customization features for games
--   Compatible with other wallets that implement the plugin account architecture
+-   A gaming-focused smart contract wallet for Starknet
+-   Makes Web3 gaming accessible and fun via Session Keys and gasless transactions
+-   Handles seamless player onboarding with Passkey authentication
+-   Provides identity, achievements, and customization features for games  
+-   Compatible with popular frameworks like Starknet React and can be integrated across platforms
 
 ![Cartridge Controller Overview](/controller.png)
 
