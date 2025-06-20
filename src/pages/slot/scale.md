@@ -32,7 +32,7 @@ Storage is billed at $0.20/GB/month.
 
 ## Replicas
 
-For torii, with premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
+For torii, with premium tiers, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
 
 ```shell
 slot d create --tier epic my-project torii --replicas 3
@@ -42,7 +42,7 @@ Replicas are billed as how many replicas you have. For example, if you have 3 re
 
 ## Regions
 
-For torii, with premium tiers `Epic`, `Legendary` and `Insane`, you can choose to deploy your instances in multiple regions.
+For torii, with premium tiers, you can choose to deploy your instances in multiple regions.
 
 | Region            |
 |-------------------|
@@ -55,7 +55,7 @@ To deploy a slot service in multiple regions, you can use the `--regions` flag.
 Katana is only supported in `us-east` at this time.
 
 ```shell
-slot d create --tier insane my-project torii --regions us-east,asia-southeast,europe-west
+slot d create --tier pro my-project torii --regions us-east,asia-southeast,europe-west
 ```
 
 Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
