@@ -12,17 +12,18 @@ To prepare your deployments for production, you can set up billing and upgrade t
 
 ## Instances
 
-| Tier      | Description                                     | Storage | Monthly Cost |
-|-----------|-------------------------------------------------|---------|--------------|
-| Basic     | First 3 are free. Only for development purposes | 1GB     | $3/month     |
-| Common    | Upgraded Storage. Only for development purposes | 10GB    | $5/month     |
-| Epic      | Playtesting: Elevated CPU & Memory              | 15GB    | $15/month    |
-| Legendary | Production: Heavy CPU & memory                  | 15GB    | $35/month    |
-| Insane    | Production: Highest CPU & memory                | 20GB    | $50/month    |
+| Tier      | Description                       | Storage | Old cost  | Cost from July 1st |
+|-----------|-----------------------------------|---------|-----------|--------------------|
+| Basic     | First 3 are free. for dev & tests | 1GB     | $3/month  | $10/month          |
+| Common    | (removed)                         | auto    | $15/month | –                  |
+| Pro       | 2 vCPU and 4GB RAM                | auto    | -         | $50/month          |
+| Epic      | 4 vCPU and 8GB RAM                | auto    | $15/month | $100/month         |
+| Legendary | (removed)                         | auto    | $35/month | –                  |
+| Insane    | 8 vCPU and 20GB RAM               | auto    | $50/month | $250/month         |
 
-Note: basic & common instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL and it'll be revived on the spot. If unused without any activity for more then 30 days, it will get deleted.
+Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
 
-Epic and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
+Pro and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
 
 ## Replicas
 
