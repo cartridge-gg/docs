@@ -23,7 +23,12 @@ To prepare your deployments for production, you can set up billing and upgrade t
 
 Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
 
+### Premium tiers
+
 Pro and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
+They also come with auto storage scaling, which means your deployment can never run out of disk space.
+
+Storage is billed at $0.20/GB/month.
 
 ## Replicas
 
