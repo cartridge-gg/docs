@@ -18,8 +18,8 @@ To prepare your deployments for production, you can set up billing and upgrade t
 | Common    | (removed)                         | auto    | $15/month | –                  |
 | Pro       | 2 vCPU and 4GB RAM                | auto    | -         | $50/month          |
 | Epic      | 4 vCPU and 8GB RAM                | auto    | $15/month | $100/month         |
-| Legendary | (removed)                         | auto    | $35/month | –                  |
-| Insane    | 8 vCPU and 20GB RAM               | auto    | $50/month | $250/month         |
+| Legendary | 8 vCPU and 20GB RAM               | auto    | $35/month | $250/month         |
+| Insane    | (removed)                         | auto    | $50/month | -                  |
 
 Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
 
