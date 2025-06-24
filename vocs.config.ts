@@ -183,7 +183,7 @@ export default defineConfig({
           },
           {
             text: "vRNG",
-            link: "/slot/vRNG",
+            link: "/slot/vrng",
           },
         ],
       },
