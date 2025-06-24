@@ -190,6 +190,9 @@ export default defineConfig({
     ],
   },
 
+  // Twoslash configuration
+  twoslash: {},
+
   // Vite configuration
   vite: {
     plugins: [svgr()],

@@ -47,4 +47,15 @@ The documentation covers three main products:
 - Key dependencies: React 18, Starknet libraries, Cartridge connector
 - Vocs alpha version (1.0.0-alpha.55)
 
+### TypeScript Twoslash Integration
+The documentation site supports TypeScript Twoslash for enhanced code blocks that provide:
+- Type information on hover
+- IntelliSense-like features
+- Compile-time error checking in documentation
+
+To use Twoslash in code blocks, add `twoslash` to the language identifier:
+```typescript twoslash
+// Your TypeScript code here with full type checking
+```
+
 When editing content, maintain the existing markdown structure and follow the established sidebar navigation patterns in `vocs.config.ts`.

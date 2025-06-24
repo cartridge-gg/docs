@@ -12,10 +12,10 @@ seamlessly integrated into your application like any other wallet.
 
 The fastest way to get started is to install the controller package and connect to Cartridge:
 
-```ts
+```ts twoslash
 import Controller from "@cartridge/controller";
 
-const controller = new Controller();
+const controller = new Controller({});
 const account = await controller.connect();
 
 // You're ready to execute transactions!
