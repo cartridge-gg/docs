@@ -119,6 +119,10 @@ export default defineConfig({
             link: "/controller/inventory",
           },
           {
+            text: "Marketplace",
+            link: "/controller/marketplace",
+          },
+          {
             text: "Controller Examples",
             items: [
               {
