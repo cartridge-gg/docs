@@ -49,3 +49,35 @@ const connector = new CartridgeConnector({
 ```typescript
 controller.openProfile("inventory");
 ```
+
+## Cross-Profile Features
+
+The Controller supports viewing and interacting with other users' profiles and inventories, enabling features like purchasing assets from other players.
+
+### View Other Profiles
+
+You can navigate to another user's profile by using URL parameters:
+
+```
+https://your-app.com/account/username?address=0x1234567890abcdef...
+```
+
+The `address` parameter allows you to override the current profile view to display another user's inventory and assets.
+
+### Cross-Profile Purchases
+
+When viewing another user's profile, you can purchase their listed marketplace assets directly. The purchase flow includes:
+
+1. **Browse Assets**: View assets listed for sale in another user's inventory
+2. **Purchase Flow**: Execute purchase transactions for listed items
+3. **Automatic Updates**: The UI automatically refreshes after successful purchases to reflect changes
+
+This functionality enables peer-to-peer trading and marketplace interactions between players in games using the Controller.
+
+### Profile Navigation
+
+The profile system supports flexible navigation patterns:
+
+- **Direct Profile Access**: Navigate to specific profiles using account addresses
+- **Marketplace Integration**: Purchase assets across different user profiles
+- **Seamless UX**: Profile switching maintains session state and preferences
