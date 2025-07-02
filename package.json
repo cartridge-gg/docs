@@ -11,6 +11,7 @@
   "dependencies": {
     "@cartridge/controller": "^0.8.0",
     "@cartridge/connector": "^0.8.0",
+    "@starknet-io/types-js": "^0.8.4",
     "@starknet-react/chains": "^0.1.7",
     "@starknet-react/core": "^3.5.0",
     "@types/react": "^18.3.12",
@@ -18,7 +19,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
-    "starknet": "^6.21.0",
+    "starknet": "^7.6.2",
     "vocs": "1.0.0-alpha.55",
     "yaml": "^2.6.0"
   },

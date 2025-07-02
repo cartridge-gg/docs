@@ -12,26 +12,28 @@ This guide demonstrates how to integrate the Cartridge Controller with a React a
 :::code-group
 
 ```bash [npm]
-npm install @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
+npm install @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 npm install -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [pnpm]
-pnpm add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
+pnpm add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 pnpm add -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [yarn]
-yarn add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
+yarn add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 yarn add -D tailwindcss vite-plugin-mkcert
 ```
 
 ```bash [bun]
-bun add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet
+bun add @cartridge/connector @cartridge/controller @starknet-react/core @starknet-react/chains starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 bun add -D tailwindcss vite-plugin-mkcert
 ```
 
 :::
+
+> **Note**: This example requires StarkNet.js v7.6.2 or later. If you're upgrading from v6.x, see our [Migration Guide](/controller/migration-guide.md).
 
 ## Basic Setup
 

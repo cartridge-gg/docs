@@ -10,22 +10,24 @@ description: Learn how to integrate the Cartridge Controller into your Svelte ap
 :::code-group
 
 ```bash \[npm]
-npm install @cartridge/controller starknet
+npm install @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash \[pnpm]
-pnpm install @cartridge/controller starknet
+pnpm install @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash \[yarn]
-yarn add @cartridge/controller starknet
+yarn add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash \[bun]
-bun add @cartridge/controller starknet
+bun add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 :::
+
+> **Note**: This example requires StarkNet.js v7.6.2 or later. If you're upgrading from v6.x, see our [Migration Guide](/controller/migration-guide.md).
 
 ## Setting Up the Controller
 
