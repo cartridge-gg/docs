@@ -41,4 +41,10 @@ Passkeys are backed up with your Google account. [Learn more](https://support.go
 
 #### Windows Devices
 
-Passkeys can be created and managed as part of your Windows account. [Learn more](https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys) 
+Passkeys can be created and managed as part of your Windows account. [Learn more](https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys)
+
+## Multi-Signer Support
+
+Passkeys can be used as part of Controller's multi-signer functionality, allowing you to add multiple authentication methods to your account. This provides backup access and additional security options.
+
+Learn more about adding and managing multiple signers in the [Signer Management](/controller/signer-management.md) guide. 
