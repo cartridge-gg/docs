@@ -25,9 +25,9 @@ llms.txt
 - [Integration](https://docs.cartridge.gg/controller/achievements/integration): Learn how to integrate Cartridge's Achievement system into your game client, including controller configuration and UI components.
 - [Achievement Testing](https://docs.cartridge.gg/controller/achievements/testing): Learn how to properly test achievement functionality in your game by setting up the required event definitions and test environment.
 
-## /VRF
+## /vRNG
 
-- [Overview](https://docs.cartridge.gg/vrf/overview): Explore Cartridge's Verifiable Random Function (VRF), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
+- [Overview](https://docs.cartridge.gg/vrf/overview): Explore Cartridge's Verifiable Random Number Generator (vRNG), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
 
 
 ## /controller/examples
