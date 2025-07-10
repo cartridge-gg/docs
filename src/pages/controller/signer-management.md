@@ -42,40 +42,48 @@ Controller supports three types of signers:
 
 ### Accessing Signer Management
 
+> **Important**: The "Add Signer" functionality is currently disabled while under development. This feature will be re-enabled in a future update.
+
 1. Connect to your Controller account using any existing authentication method
 2. Open the **Settings** panel within the Controller interface
 3. Navigate to the **Signer(s)** section
-4. Click **Add Signer** to begin adding a new authentication method
+4. ~~Click **Add Signer** to begin adding a new authentication method~~ (Currently disabled)
 
-> **Note**: Signer management is currently available on **Mainnet only**. The "Add Signer" button will be disabled on testnet environments.
+> **Note**: When re-enabled, signer management will be available on **Mainnet only**. The "Add Signer" button will be disabled on testnet environments.
 
 ### Adding a Passkey
 
-1. In the Add Signer interface, select **Passkey**
-2. Your browser will prompt you to create a new Passkey using:
-   - Device biometrics (Face ID, Touch ID, Windows Hello)
-   - Hardware security key (USB, NFC, or Bluetooth)
-   - Password manager (if configured for Passkey storage)
-3. Follow your device's authentication flow
-4. Once created, the Passkey will be added to your account
+> **Currently Disabled**: This functionality is temporarily unavailable while under development.
+
+~~1. In the Add Signer interface, select **Passkey**~~
+~~2. Your browser will prompt you to create a new Passkey using:~~
+   ~~- Device biometrics (Face ID, Touch ID, Windows Hello)~~
+   ~~- Hardware security key (USB, NFC, or Bluetooth)~~
+   ~~- Password manager (if configured for Passkey storage)~~
+~~3. Follow your device's authentication flow~~
+~~4. Once created, the Passkey will be added to your account~~
 
 ### Adding Discord Login
 
-1. Select **Discord** from the signer options
-2. You'll be redirected to Discord's OAuth authorization page
-3. Sign in to your Discord account if not already logged in
-4. Authorize Cartridge Controller to access your Discord identity
-5. The Discord login will be linked to your Controller account
+> **Currently Disabled**: This functionality is temporarily unavailable while under development.
+
+~~1. Select **Discord** from the signer options~~
+~~2. You'll be redirected to Discord's OAuth authorization page~~
+~~3. Sign in to your Discord account if not already logged in~~
+~~4. Authorize Cartridge Controller to access your Discord identity~~
+~~5. The Discord login will be linked to your Controller account~~
 
 ### Adding External Wallets
 
-1. Select **Wallet** to see external wallet options
-2. Choose from the supported wallet types:
-   - **MetaMask**: Ensure MetaMask extension is installed and unlocked
-   - **Rabby**: Ensure Rabby extension is installed and unlocked  
-   - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets
-3. Follow the wallet-specific connection flow
-4. Sign the verification message to link the wallet to your account
+> **Currently Disabled**: This functionality is temporarily unavailable while under development.
+
+~~1. Select **Wallet** to see external wallet options~~
+~~2. Choose from the supported wallet types:~~
+   ~~- **MetaMask**: Ensure MetaMask extension is installed and unlocked~~
+   ~~- **Rabby**: Ensure Rabby extension is installed and unlocked~~  
+   ~~- **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets~~
+~~3. Follow the wallet-specific connection flow~~
+~~4. Sign the verification message to link the wallet to your account~~
 
 ## Managing Existing Signers
 
