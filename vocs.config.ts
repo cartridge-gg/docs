@@ -164,7 +164,7 @@ export default defineConfig({
       },
     ],
 
-    // Slot sidebar (now includes VRF)
+    // Slot sidebar
     "/slot": [
       {
         text: "Slot",

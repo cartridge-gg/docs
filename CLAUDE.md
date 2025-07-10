@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Start development server
 pnpm dev
 
-# Build for production  
+# Build for production
 pnpm build
 
 # Preview built site
@@ -28,7 +28,7 @@ This is a Vocs-based documentation site for Cartridge - a high-performance infra
 The documentation covers three main products:
 
 1. **Controller** (`/controller/*`): Gaming-focused smart contract wallet with session keys, passkey support, paymaster functionality, achievements system, and inventory management
-2. **Slot** (`/slot/*`): Horizontally scalable execution sharding platform with VRF (Verifiable Random Function) support  
+2. **Slot** (`/slot/*`): Horizontally scalable execution sharding platform with vRNG (Verifiable Random Number Generator) support
 3. **Arcade** (`/arcade/*`): Central hub connecting players and onchain games
 
 ### Key Configuration
