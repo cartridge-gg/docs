@@ -37,6 +37,16 @@ slot auth fund
 slot auth transfer <team-name> --credits <amount>
 ```
 
+### Alternative: Fund Teams via Web Interface
+
+You can also fund your teams directly through the web interface:
+
+1. Navigate to the team funding page: `https://x.cartridge.gg/slot/fund`
+2. Select the team you want to fund from the list
+3. Choose your payment method (credit card or crypto)
+4. Complete the purchase
+
+This web interface provides the same functionality as the CLI commands but with a user-friendly interface for those who prefer graphical interactions.
 
 ## Creating a Paymaster
 
