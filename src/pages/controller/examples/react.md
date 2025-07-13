@@ -33,8 +33,6 @@ bun add -D tailwindcss vite-plugin-mkcert
 
 :::
 
-> **Note**: This example requires StarkNet.js v7.6.2 or later.
-
 ## Basic Setup
 
 ### 1. Configure the Starknet Provider
