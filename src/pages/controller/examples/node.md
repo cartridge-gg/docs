@@ -29,7 +29,7 @@ bun add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 
 :::
 
-> **Note**: This example requires StarkNet.js v7.6.2 or later. If you're upgrading from v6.x, see our [Migration Guide](/controller/migration-guide.md).
+> **Note**: This example requires StarkNet.js v7.6.2 or later.
 
 ## Basic Setup
 

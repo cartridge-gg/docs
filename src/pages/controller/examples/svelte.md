@@ -9,7 +9,7 @@ description: Learn how to integrate the Cartridge Controller into your Svelte ap
 
 :::code-group
 
-```bash \[npm]
+```bash [npm]
 npm install @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
@@ -27,7 +27,7 @@ bun add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 
 :::
 
-> **Note**: This example requires StarkNet.js v7.6.2 or later. If you're upgrading from v6.x, see our [Migration Guide](/controller/migration-guide.md).
+> **Note**: This example requires StarkNet.js v7.6.2 or later.
 
 ## Setting Up the Controller
 
@@ -187,9 +187,11 @@ Here's how your main `+page.svelte` might look:
     import { ETH_CONTRACT } from '../constants';
 
     let controller = new Controller({
-        policies: [
-            // ... your policies here
-        ]
+        policies: {
+            contracts: {
+                // ... your policies here
+            }
+        }
     });
 
     let loading: boolean = true;

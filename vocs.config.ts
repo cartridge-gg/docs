@@ -65,10 +65,6 @@ export default defineConfig({
             link: "/controller/getting-started",
           },
           {
-            text: "Migration Guide",
-            link: "/controller/migration-guide",
-          },
-          {
             text: "Passkey Support",
             link: "/controller/passkey-support",
           },
