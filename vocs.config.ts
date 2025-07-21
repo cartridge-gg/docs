@@ -77,10 +77,6 @@ export default defineConfig({
             link: "/controller/sessions",
           },
           {
-            text: "Paymaster",
-            link: "/controller/paymaster",
-          },
-          {
             text: "Presets",
             link: "/controller/presets",
           },

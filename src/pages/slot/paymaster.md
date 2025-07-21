@@ -5,7 +5,23 @@ title: Paymaster Management
 
 # Paymaster Management
 
-Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. You can manage budgets, policies, and monitor usage through the Slot CLI.
+Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold ETH / STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
+
+## Availability
+
+The paymaster service is available across all networks with different activation requirements:
+
+- **Testnet Networks**
+  - Automatically enabled, no additional setup required
+
+- **Mainnet**
+  - Available and fully self-served
+  - Manage everything through the Slot CLI
+  - Define your own usage scopes and spending limits
+
+## Integration
+
+One of the key benefits of the Cartridge Paymaster is that it requires zero additional integration work. When the paymaster is enabled for your application, it will automatically activate for all eligible transactions. No code changes or configuration are needed.
 
 ## Prerequisites
 
