@@ -15,6 +15,40 @@ Cartridge Controller supports session-based authorization and policy-based trans
 4. **Gasless Execution**: Games can execute approved transactions without user prompts
 5. **Paymaster Integration**: Transactions can be sponsored through Cartridge Paymaster
 
+## Transactions Without Policies
+
+Cartridge Controller can execute transactions **without** defining policies. When no policies are provided:
+
+- Each transaction requires manual user approval via the Cartridge interface
+- Users will see a confirmation screen for every transaction
+- No gasless transactions or paymaster integration
+- Suitable for simple applications that don't need session-based authorization
+
+```typescript
+// Controller without policies - requires manual approval for each transaction
+const controller = new Controller();
+const account = await controller.connect();
+
+// This will prompt the user for approval
+const tx = await account.execute([
+  {
+    contractAddress: "0x123...",
+    entrypoint: "transfer",
+    calldata: ["0x456...", "100"],
+  }
+]);
+```
+
+## Sessions vs. Manual Approval
+
+| Feature | With Policies (Sessions) | Without Policies (Manual) |
+|---------|--------------------------|---------------------------|
+| Transaction Approval | Pre-approved via policies | Manual approval each time |
+| User Experience | Seamless gameplay | Confirmation prompts |
+| Gasless Transactions | Yes (via Paymaster) | No |
+| Setup Complexity | Higher (policy definition) | Lower (basic setup) |
+| Best For | Games, frequent transactions | Simple apps, occasional transactions |
+
 ## Session Options
 
 ```typescript
