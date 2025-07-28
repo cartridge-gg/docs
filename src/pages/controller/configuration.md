@@ -17,7 +17,7 @@ export type Chain = {
 export type ControllerOptions = {
     // Chain configuration
     chains?: Chain[];  // Custom RPC endpoints for slot katana instances
-    chainId?: string;  // hex encoded
+    defaultChainId?: string;  // Default chain to use (hex encoded). If using Starknet React, this gets overridden by the same param in StarknetConfig
     
     // Session options 
     policies?: SessionPolicies;  // Session policies for pre-approved transactions
