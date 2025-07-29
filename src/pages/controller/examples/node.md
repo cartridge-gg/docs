@@ -12,19 +12,19 @@ This guide demonstrates how to integrate the Cartridge Controller with a Node.js
 :::code-group
 
 ```bash [npm]
-npm install @cartridge/controller starknet
+npm install @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash [pnpm]
-pnpm add @cartridge/controller starknet
+pnpm add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash [yarn]
-yarn add @cartridge/controller starknet
+yarn add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 ```bash [bun]
-bun add @cartridge/controller starknet
+bun add @cartridge/controller starknet@^7.6.2 @starknet-io/types-js@^0.8.4
 ```
 
 :::
