@@ -23,6 +23,17 @@ Authenticate with Cartridge
 slot auth login
 ```
 
+## Programmatic usage
+
+First, authenticate as mentioned above. Then, run:
+
+```sh
+slot auth token
+```
+
+Follow instructions and save the output to set the SLOT_AUTH env var.
+You can set this environment variable in CI, scripts, or deployment platforms to run slot without having to login.
+
 ### Create service deployments
 
 ```sh
