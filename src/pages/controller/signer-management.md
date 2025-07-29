@@ -1,5 +1,5 @@
 ---
-description: Learn how to add and manage multiple authentication methods (signers) for your Cartridge Controller account, including Passkeys, Discord login, and external wallets.
+description: Learn how to add and manage multiple authentication methods (signers) for your Cartridge Controller account, including Passkeys, social login (Google, Discord), and external wallets.
 title: Signer Management
 ---
 
@@ -26,7 +26,15 @@ Controller supports three types of signers:
 - **Cross-platform** compatibility with password managers like Bitwarden, 1Password
 - See [Passkey Support](/controller/passkey-support.md) for detailed setup information
 
-### 2. Discord Login
+### 2. Social Login
+
+#### Google Login
+- **Social authentication** using your Google account
+- **Familiar experience** for users with existing Google accounts
+- **Secure integration** via Turnkey wallet infrastructure
+- Requires existing Google account
+
+#### Discord Login
 - **Social authentication** using your Discord account
 - **Streamlined onboarding** for users already active in gaming communities
 - **Secure integration** via Turnkey wallet infrastructure
@@ -63,7 +71,17 @@ Controller supports three types of signers:
 ~~3. Follow your device's authentication flow~~
 ~~4. Once created, the Passkey will be added to your account~~
 
-### Adding Discord Login
+### Adding Social Login
+
+#### Adding Google Login
+
+1. Select **Google** from the signer options
+2. You'll be redirected to Google's OAuth authorization page
+3. Sign in to your Google account if not already logged in
+4. Authorize Cartridge Controller to access your Google identity
+5. The Google login will be linked to your Controller account
+
+#### Adding Discord Login
 
 > **Currently Disabled**: This functionality is temporarily unavailable while under development.
 
@@ -98,7 +116,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Discord, MetaMask, Rabby, or WalletConnect
+- **Type**: Passkey, Google, Discord, MetaMask, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -148,6 +166,11 @@ If you lose access to your primary authentication method:
 - Verify the wallet extension is installed and unlocked
 - Ensure you're on a supported network
 - Check that the wallet isn't connected to another dApp
+
+**Google login issues**
+- Verify you're logged into Google in the same browser
+- Check that third-party cookies are enabled
+- Try clearing browser cache and cookies
 
 **Discord login issues**
 - Verify you're logged into Discord in the same browser
