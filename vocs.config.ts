@@ -77,10 +77,6 @@ export default defineConfig({
             link: "/controller/sessions",
           },
           {
-            text: "Paymaster",
-            link: "/controller/paymaster",
-          },
-          {
             text: "Presets",
             link: "/controller/presets",
           },
@@ -164,7 +160,7 @@ export default defineConfig({
       },
     ],
 
-    // Slot sidebar (now includes VRF)
+    // Slot sidebar
     "/slot": [
       {
         text: "Slot",
@@ -183,12 +179,15 @@ export default defineConfig({
           },
           {
             text: "vRNG",
-            link: "/slot/vRNG",
+            link: "/slot/vrng",
           },
         ],
       },
     ],
   },
+
+  // Twoslash configuration
+  twoslash: {},
 
   // Vite configuration
   vite: {

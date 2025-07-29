@@ -12,10 +12,10 @@ seamlessly integrated into your application like any other wallet.
 
 The fastest way to get started is to install the controller package and connect to Cartridge:
 
-```ts
+```ts twoslash
 import Controller from "@cartridge/controller";
 
-const controller = new Controller();
+const controller = new Controller({});
 const account = await controller.connect();
 
 // You're ready to execute transactions!
@@ -50,13 +50,14 @@ Here's a simple example of how to initialize and use the controller:
 ```ts
 import Controller from "@cartridge/controller";
 
-// Initialize the controller with basic configuration
+// Initialize the controller without policies
+// This requires manual approval for each transaction
 const controller = new Controller();
 
 // Connect to get an account instance
 const account = await controller.connect();
 
-// Execute transactions
+// Execute transactions - user will see approval dialog
 const tx = await account.execute([
   {
     contractAddress: "0x...",
@@ -65,6 +66,8 @@ const tx = await account.execute([
   }
 ]);
 ```
+
+> **Note:** When no policies are provided, each transaction requires manual user approval through the Cartridge interface. This is suitable for simple applications or testing, but games typically benefit from using [session policies](#configuration-with-session-policies) for a smoother experience.
 
 ## Configuration with Session Policies
 
@@ -128,6 +131,7 @@ const provider = jsonRpcProvider({
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
+      defaultChainId={sepolia.id}
       chains={[mainnet, sepolia]}
       provider={provider}
       connectors={[connector]}
@@ -167,6 +171,7 @@ Cartridge Controller in your preferred environment.
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md)
+- Set up [Multiple Signers](/controller/signer-management.md) for backup authentication
 - Customize your [Controller](/controller/presets.md)
 - Set up [Usernames](/controller/usernames.md)
 - Configure [Paymaster](/controller/configuration.md)

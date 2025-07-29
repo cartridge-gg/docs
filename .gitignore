@@ -145,6 +145,7 @@ node_modules/
 .turbo
 
 **/.pnpm-debug.log*
+.pnpm-store/
 
 **/storybook-static/
 

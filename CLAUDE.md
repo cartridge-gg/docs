@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Start development server
 pnpm dev
 
-# Build for production  
+# Build for production
 pnpm build
 
 # Preview built site
@@ -28,7 +28,7 @@ This is a Vocs-based documentation site for Cartridge - a high-performance infra
 The documentation covers three main products:
 
 1. **Controller** (`/controller/*`): Gaming-focused smart contract wallet with session keys, passkey support, paymaster functionality, achievements system, and inventory management
-2. **Slot** (`/slot/*`): Horizontally scalable execution sharding platform with VRF (Verifiable Random Function) support  
+2. **Slot** (`/slot/*`): Horizontally scalable execution sharding platform with vRNG (Verifiable Random Number Generator) support
 3. **Arcade** (`/arcade/*`): Central hub connecting players and onchain games
 
 ### Key Configuration
@@ -46,5 +46,16 @@ The documentation covers three main products:
 - Uses pnpm as package manager
 - Key dependencies: React 18, Starknet libraries, Cartridge connector
 - Vocs alpha version (1.0.0-alpha.55)
+
+### TypeScript Twoslash Integration
+The documentation site supports TypeScript Twoslash for enhanced code blocks that provide:
+- Type information on hover
+- IntelliSense-like features
+- Compile-time error checking in documentation
+
+To use Twoslash in code blocks, add `twoslash` to the language identifier:
+```typescript twoslash
+// Your TypeScript code here with full type checking
+```
 
 When editing content, maintain the existing markdown structure and follow the established sidebar navigation patterns in `vocs.config.ts`.

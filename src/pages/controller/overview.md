@@ -20,6 +20,7 @@ title: Controller Overview
 ### Simple & Secure
 
 -   Passwordless authentication using Passkeys for one-click onboarding
+-   Multi-signer support with Passkeys, social login (Google, Discord), and external wallets (MetaMask, Rabby, WalletConnect)
 -   Self-custodial embedded wallets that put players in control
 -   Built-in security features to protect player assets
 

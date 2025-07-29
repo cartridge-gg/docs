@@ -5,7 +5,23 @@ title: Paymaster Management
 
 # Paymaster Management
 
-Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. You can manage budgets, policies, and monitor usage through the Slot CLI.
+Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold ETH / STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
+
+## Availability
+
+The paymaster service is available across all networks with different activation requirements:
+
+- **Testnet Networks**
+  - Automatically enabled, no additional setup required
+
+- **Mainnet**
+  - Available and fully self-served
+  - Manage everything through the Slot CLI
+  - Define your own usage scopes and spending limits
+
+## Integration
+
+One of the key benefits of the Cartridge Paymaster is that it requires zero additional integration work. When the paymaster is enabled for your application, it will automatically activate for all eligible transactions. No code changes or configuration are needed.
 
 ## Prerequisites
 
@@ -32,11 +48,11 @@ Paymasters automatically deduct from your team's account balance when created. I
 ```sh
 # Buy credits for your account (opens browser)
 slot auth fund
-
-# Transfer credits to your team 
-slot auth transfer <team-name> --credits <amount>
 ```
 
+1. Select the team you want to fund from the list
+2. Choose your payment method (credit card or crypto)
+3. Complete the purchase
 
 ## Creating a Paymaster
 
@@ -319,12 +335,12 @@ slot paymaster my-game-pm transactions
 ```
 📊 Paymaster Transactions for 'my-game-pm' (Last 24hr)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Transaction Hash                                                   Executed     Status       USD Fee     
+Transaction Hash                                                   Executed     Status       USD Fee
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-0x50c2dd556593564fe2b814d61b3b1592682de83702552a993d24f9e897710e7  11s ago      SUCCESS      $0.0026     
-0x41b0f547741bd1fdc29dd4c82a80da2a452314e710ae7cbe0e05cb4cb1e6c0e  22s ago      SUCCESS      $0.0025      
-0x4b74ee2ab7764cb3d11f3319b64c2698b868727fdf99728bdf74aa023b5e77d  32s ago      REVERTED     $0.0028       
-0x2af69b9798355e91119c6a9adb1363b2f533f0557601e4687dcfe9725e8feaa  42s ago      SUCCESS      $0.0025     
+0x50c2dd556593564fe2b814d61b3b1592682de83702552a993d24f9e897710e7  11s ago      SUCCESS      $0.0026
+0x41b0f547741bd1fdc29dd4c82a80da2a452314e710ae7cbe0e05cb4cb1e6c0e  22s ago      SUCCESS      $0.0025
+0x4b74ee2ab7764cb3d11f3319b64c2698b868727fdf99728bdf74aa023b5e77d  32s ago      REVERTED     $0.0028
+0x2af69b9798355e91119c6a9adb1363b2f533f0557601e4687dcfe9725e8feaa  42s ago      SUCCESS      $0.0025
 0x25dfc115dabda89a2027366790ee5cfcfefb861fe1b584c6fb15dc1588e0816  47s ago      REVERTED     $0.0032
 ```
 
@@ -335,7 +351,7 @@ Transaction Hash                                                   Executed     
 # Show only successful transactions
 slot paymaster my-game-pm transactions --filter SUCCESS
 
-# Show only reverted transactions  
+# Show only reverted transactions
 slot paymaster my-game-pm transactions --filter REVERTED
 
 # Show all transactions (default)
@@ -388,8 +404,8 @@ See a live example of paymaster analytics at [Blob Arena Stats](https://dune.com
 slot paymaster my-game-pm dune
 ```
 - Quick execution suitable for long time periods
-- Matches direct execute_from_outside_v3 calls and simple VRF patterns
-- Does not catch complex nested VRF calls
+- Matches direct execute_from_outside_v3 calls and simple vRNG patterns
+- Does not catch complex nested vRNG calls
 - Best for initial analysis and long-term trends
 
 **Exact Query**
@@ -398,7 +414,7 @@ slot paymaster my-game-pm dune --exact
 ```
 - Exhaustive search of all transaction patterns
 - Uses execute_from_outside_v3 selector as anchor
-- Catches all patterns including nested VRF calls
+- Catches all patterns including nested vRNG calls
 - May timeout on long time periods
 - Best for exact metrics
 
@@ -435,7 +451,7 @@ For best results:
 - Use fast query for long-term analysis
 - Use exact query for detailed analysis of recent transactions
 - Consider time period length when choosing query type
-::: 
+:::
 
 ### Quick Debugging Use Cases
 
@@ -519,4 +535,4 @@ slot auth transfer my-team --credit 50
 
 # Retry your paymaster operation
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
-``` 
+```

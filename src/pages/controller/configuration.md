@@ -17,10 +17,10 @@ export type Chain = {
 export type ControllerOptions = {
     // Chain configuration
     chains?: Chain[];  // Custom RPC endpoints (takes precedence over default chains)
-    chainId?: string;  // hex encoded
+    defaultChainId?: string;  // Default chain to use (hex encoded). If using Starknet React, this gets overridden by the same param in StarknetConfig
     
     // Session options 
-    policies?: SessionPolicies;  // Session policies for pre-approved transactions
+    policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
     
     // Customization options
@@ -58,3 +58,31 @@ The configuration options are organized into several categories:
 -   **Chain Options**: Core network configuration and chain settings
 -   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
+
+## When to Use Policies
+
+**Policies are optional** in Cartridge Controller. Choose based on your application's needs:
+
+### Use Policies When:
+- Building games that need frequent, seamless transactions
+- You want gasless transactions via Cartridge Paymaster
+- Users should not be interrupted with approval prompts during gameplay
+- You need session-based authorization for better UX
+
+### Skip Policies When:
+- Building simple applications with occasional transactions
+- Manual approval for each transaction is acceptable
+- You don't need gasless transaction capabilities
+- You want minimal setup complexity
+
+```typescript
+// Without policies - simple setup, manual approvals
+const simpleController = new Controller();
+
+// With policies - session-based, gasless transactions
+const sessionController = new Controller({
+  policies: {
+    // ... policy definitions
+  }
+});
+```
