@@ -137,6 +137,26 @@ slot paymaster <paymaster-name> budget decrease --amount <amount> --unit CREDIT
 
 Policies define which contracts and entry points your paymaster will sponsor.
 
+### Understanding Paymaster Predicates
+
+Paymaster policies now support **predicates** - conditional logic that determines whether a transaction should be sponsored. This enables sophisticated sponsorship rules based on game state, user eligibility, or other custom conditions.
+
+**How Predicates Work:**
+1. When a transaction is submitted to a paymaster with a predicate-enabled policy
+2. The paymaster first calls the predicate contract function
+3. If the predicate returns `true`, the transaction is sponsored
+4. If the predicate returns `false` or reverts, the transaction is not sponsored
+
+**Use Cases:**
+- Sponsor moves only for players with sufficient in-game energy
+- Sponsor attacks only during specific game phases
+- Sponsor crafting only for players with required materials
+- Rate-limit sponsorship per user or per game session
+
+:::tip
+Predicates are optional. Policies without predicates will always sponsor matching transactions, while policies with predicates add conditional logic.
+:::
+
 ### Add Policies from Preset (Recommended)
 
 The preferred way to add policies is using verified contract presets for your games:
@@ -179,10 +199,18 @@ slot paymaster <paymaster-name> policy add-from-json --file <path-to-json>
   },
   {
     "contractAddress": "0x5678...efgh",
-    "entryPoint": "attack"
+    "entryPoint": "attack",
+    "predicate": {
+      "address": "0x9abc...1234",
+      "entrypoint": "check_attack_eligibility" 
+    }
   }
 ]
 ```
+
+:::info
+**Predicate Support**: You can include optional `predicate` objects in your policy JSON to add conditional logic for transaction sponsorship. The predicate must contain an `address` (contract address) and `entrypoint` (function name) that will be called to evaluate whether the transaction should be sponsored.
+:::
 
 ### Remove a Policy
 
