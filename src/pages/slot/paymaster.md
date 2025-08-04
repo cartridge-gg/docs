@@ -195,14 +195,14 @@ slot paymaster <paymaster-name> policy add-from-json --file <path-to-json>
 [
   {
     "contractAddress": "0x1234...abcd",
-    "entryPoint": "move_player"
+    "entrypoint": "move_player"
   },
   {
     "contractAddress": "0x5678...efgh",
-    "entryPoint": "attack",
+    "entrypoint": "attack",
     "predicate": {
       "address": "0x9abc...1234",
-      "entrypoint": "check_attack_eligibility" 
+      "entrypoint": "check_attack_eligibility"
     }
   }
 ]
