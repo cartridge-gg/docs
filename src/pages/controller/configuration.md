@@ -86,3 +86,30 @@ const sessionController = new Controller({
   }
 });
 ```
+
+## Purchase Methods
+
+Controller includes built-in methods for opening purchase interfaces:
+
+### openPurchaseCredits()
+
+Opens the credit purchase flow, allowing users to buy credits for gasless transactions and platform services.
+
+```typescript
+controller.openPurchaseCredits();
+```
+
+### openStarterPack(starterpackId: string)
+
+Opens the starterpack purchase interface for a specific bundle.
+
+```typescript
+controller.openStarterPack("starterpack-id-123");
+```
+
+Both methods support:
+- Credit card payments via Stripe
+- Cryptocurrency payments across multiple networks (Starknet, Base, Solana)
+- Integration with popular wallets (Argent, MetaMask, Rabby, Phantom)
+
+For detailed integration guidance, see the [Purchase Integration](/controller/purchasing.md) guide.

@@ -43,3 +43,11 @@ title: Controller Overview
 -   Built-in achievement system for tracking player accomplishments
 -   Reputation system that grows as players engage with games
 -   Social features to connect players and build communities
+
+### Monetization and Payments
+
+-   Built-in purchase system for seamless game monetization
+-   Starterpack bundles combining credits and game assets
+-   Multi-chain cryptocurrency payment support (Starknet, Base, Solana)
+-   Traditional payment methods via secure credit card processing
+-   Popular wallet integrations (Argent, MetaMask, Rabby, Phantom)

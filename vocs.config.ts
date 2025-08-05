@@ -69,8 +69,16 @@ export default defineConfig({
             link: "/controller/passkey-support",
           },
           {
+            text: "Signer Management",
+            link: "/controller/signer-management",
+          },
+          {
             text: "Configuration",
             link: "/controller/configuration",
+          },
+          {
+            text: "Purchase Integration",
+            link: "/controller/purchasing",
           },
           {
             text: "Sessions",
