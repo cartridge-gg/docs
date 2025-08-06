@@ -12,14 +12,12 @@ To prepare your deployments for production, you can set up billing and upgrade t
 
 ## Instances
 
-| Tier      | Description                       | Storage | Old cost  | Cost from July 1st |
-|-----------|-----------------------------------|---------|-----------|--------------------|
-| Basic     | First 3 are free. for dev & tests | 1GB     | $3/month  | $10/month          |
-| Common    | (removed)                         | auto    | $15/month | –                  |
-| Pro       | 2 vCPU and 4GB RAM                | auto    | -         | $50/month          |
-| Epic      | 4 vCPU and 8GB RAM                | auto    | $15/month | $100/month         |
-| Legendary | 8 vCPU and 16GB RAM               | auto    | $35/month | $200/month         |
-| Insane    | (removed)                         | auto    | $50/month | -                  |
+| Tier      | Description                       | Storage | Cost       |
+|-----------|-----------------------------------|---------|------------|
+| Basic     | First 3 are free. for dev & tests | 1GB     | $10/month  |
+| Pro       | 2 vCPU and 4GB RAM                | auto    | $50/month  |
+| Epic      | 4 vCPU and 8GB RAM                | auto    | $100/month |
+| Legendary | 8 vCPU and 16GB RAM               | auto    | $200/month |
 
 Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
 
