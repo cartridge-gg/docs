@@ -126,7 +126,7 @@ const controller = new Controller({
           },
           {
             name: "attack",
-            entrypoint: "attack", 
+            entrypoint: "attack",
             description: "Attack enemy",
           },
         ],
@@ -237,7 +237,7 @@ const sessionConnector = new SessionConnector({
   policies,
   rpc: "https://api.cartridge.gg/x/starknet/sepolia",
   chainId: constants.StarknetChainId.SN_SEPOLIA,
-  redirectUrl: window.location.origin,
+  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
   // Optional: specify keychain URL for custom deployments
   keychainUrl: "https://x.cartridge.gg",
 });
