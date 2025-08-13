@@ -173,11 +173,21 @@ if (success) {
 If you lose access to your primary authentication method:
 1. Use any other registered signer to access your account
 2. Consider adding additional backup authentication methods
-3. Remove compromised signers if necessary (feature coming soon)
+3. Remove compromised signers using the remove signer functionality
+
+### Removing Signers
+
+You can now remove signers from your account for security or convenience:
+
+1. Navigate to the **Signer(s)** section in Controller Settings
+2. Find the signer you want to remove
+3. Click the **Remove** option for that signer
+4. Confirm the removal when prompted
+
+> **Important**: Ensure you have at least one other working authentication method before removing a signer to avoid losing access to your account.
 
 ### Current Limitations
 
-- **Deletion**: Signer removal functionality is planned but not yet available
 - **Mainnet Only**: Signer management is currently restricted to Mainnet
 - **No Hierarchy**: All signers have equal access; there's no primary/secondary distinction
 

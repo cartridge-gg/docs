@@ -46,8 +46,9 @@ title: Controller Overview
 
 ### Monetization and Payments
 
--   Built-in purchase system for seamless game monetization
--   Starterpack bundles combining credits and game assets
--   Multi-chain cryptocurrency payment support (Starknet, Base, Solana)
+-   Built-in purchase system for seamless game monetization with enhanced multichain flows
+-   Starterpack bundles combining credits and game assets with cross-chain purchasing
+-   Multi-chain cryptocurrency payment support (Starknet, Base, Solana) with chain switching
 -   Traditional payment methods via secure credit card processing
 -   Popular wallet integrations (Argent, MetaMask, Rabby, Phantom)
+-   ERC1155 NFT marketplace support for listing and purchasing digital assets

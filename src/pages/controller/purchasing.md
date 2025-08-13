@@ -11,11 +11,12 @@ Cartridge Controller provides built-in purchase functionality that enables seaml
 
 The purchase system includes:
 
-- **Starterpack Purchases**: Pre-configured bundles of game assets and credits
-- **Credit Purchases**: Direct credit top-ups for gasless transactions
-- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana
-- **Multiple Wallet Integration**: Support for popular wallets across different ecosystems
+- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with enhanced multichain purchasing flow
+- **Credit Purchases**: Direct credit top-ups for gasless transactions  
+- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with seamless cross-chain wallet and network selection
+- **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
 - **Dual Payment Methods**: Both fiat (credit card) and crypto payment options
+- **NFT Marketplace Support**: ERC1155 listing and purchase capabilities for enhanced marketplace functionality
 
 ## Quick Start
 
@@ -112,9 +113,9 @@ The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
 2. **Payment Method**: Choose between credit card or cryptocurrency
-3. **Wallet Connection**: For crypto payments, connect external wallet
-4. **Network Selection**: Choose blockchain network for crypto payments
-5. **Transaction Processing**: Complete payment through selected method
+3. **Wallet Connection**: For crypto payments, connect external wallet with automatic chain switching support
+4. **Network Selection**: Choose blockchain network for crypto payments with enhanced cross-chain selection
+5. **Transaction Processing**: Complete payment through selected method with multichain support
 6. **Confirmation**: Receive purchase confirmation and assets
 
 ## Integration Examples
