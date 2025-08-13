@@ -24,6 +24,11 @@
             "source": "/arcade",
             "destination": "/arcade/overview",
             "permanent": false
+        },
+        {
+            "source": "/controller/paymaster",
+            "destination": "/slot/paymaster",
+            "permanent": true
         }
     ]
 }

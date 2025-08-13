@@ -23,6 +23,17 @@ Authenticate with Cartridge
 slot auth login
 ```
 
+## Programmatic usage
+
+First, authenticate as mentioned above. Then, run:
+
+```sh
+slot auth token
+```
+
+Follow instructions and save the output to set the SLOT_AUTH env var.
+You can set this environment variable in CI, scripts, or deployment platforms to run slot without having to login.
+
 ### Create service deployments
 
 ```sh
@@ -83,3 +94,16 @@ slot teams <Team Name> remove <Account Name>
 :::info
 The account name can also be called controller username. The one used to login on controller.
 :::
+
+### Fund teams
+
+Teams need credits to run services and paymasters. You can fund teams using CLI commands or the web interface:
+
+**CLI:**
+```sh
+slot auth fund
+slot auth transfer <Team Name> --credits <amount>
+```
+
+**Web Interface:**
+Navigate to `https://x.cartridge.gg/slot/fund` to fund teams through a user-friendly interface with credit card or crypto payments.

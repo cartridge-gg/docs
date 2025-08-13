@@ -5,7 +5,11 @@ title: vRNG Overview
 
 # vRNG Overview
 
-This Cartridge Verfiable Random Number Generator (vRNG) is designed to provide cheap, atomic verfiable randomness for fully onchain games.
+This Cartridge Verifiable Random Number Generator (vRNG) is designed to provide cheap, atomic verifiable randomness for fully onchain games.
+
+:::info
+The vRNG was previously referred to as the VRF (Verifiable Random Function), and most code implementations use this terminology.
+:::
 
 ## Key Features
 
@@ -93,11 +97,11 @@ fn roll_dice(ref self: ContractState) {
 
     -   `Source::Nonce(ContractAddress)`: Uses the provided contract address internal nonce for randomness. \
     Each request will generate a different seed ensuring unique random values.
-   
+
     -   `Source::Salt(felt252)`: Uses a provided salt value for randomness. \
     Two requests with same salts will result in same random value.
 
-## Executing VRF transactions
+## Executing vRNG transactions
 
 In order to execute a transaction that includes a `consume_random` call, you need to include a `request_random` transaction as the first transaction in the multicall. The `request_random` call allows our server to efficiently parse transactions that include a `consume_random` call internally.
 
@@ -144,7 +148,7 @@ const policies: Policy[] = [
 
 This ensures that vRNG-related transactions can be executed without requiring additional user approval each time.
 
-By following these steps, you can integrate the vRNG Provider into your Starknet contract and generate verifiable random 
+By following these steps, you can integrate the vRNG Provider into your Starknet contract and generate verifiable random
 numbers for your onchain game or application.
 
 ## Security Assumptions

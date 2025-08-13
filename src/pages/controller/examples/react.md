@@ -79,7 +79,11 @@ const policies: SessionPolicies = {
 // Initialize the connector
 const connector = new ControllerConnector({
   policies,
-  rpc: 'https://api.cartridge.gg/x/starknet/sepolia',
+  // With the defaults, you can omit chains if you want to use:
+  // - chains: [
+  //     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
+  //     { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
+  //   ]
 })
 
 // Configure RPC provider
@@ -99,6 +103,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
       autoConnect
+      defaultChainId={mainnet.id}
       chains={[mainnet, sepolia]}
       provider={provider}
       connectors={[connector]}
@@ -119,7 +124,7 @@ connections:
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
 import ControllerConnector from '@cartridge/connector/controller'
-import { Button } from '@cartridge/ui-next'
+import { Button } from '@cartridge/ui'
 
 export function ConnectWallet() {
   const { connect, connectors } = useConnect()

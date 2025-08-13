@@ -12,14 +12,12 @@ To prepare your deployments for production, you can set up billing and upgrade t
 
 ## Instances
 
-| Tier      | Description                       | Storage | Old cost  | Cost from July 1st |
-|-----------|-----------------------------------|---------|-----------|--------------------|
-| Basic     | First 3 are free. for dev & tests | 1GB     | $3/month  | $10/month          |
-| Common    | (removed)                         | auto    | $15/month | –                  |
-| Pro       | 2 vCPU and 4GB RAM                | auto    | -         | $50/month          |
-| Epic      | 4 vCPU and 8GB RAM                | auto    | $15/month | $100/month         |
-| Legendary | 8 vCPU and 16GB RAM               | auto    | $35/month | $200/month         |
-| Insane    | (removed)                         | auto    | $50/month | -                  |
+| Tier      | Description                       | Storage | Cost       |
+|-----------|-----------------------------------|---------|------------|
+| Basic     | First 3 are free. for dev & tests | 1GB     | $10/month  |
+| Pro       | 2 vCPU and 4GB RAM                | auto    | $50/month  |
+| Epic      | 4 vCPU and 8GB RAM                | auto    | $100/month |
+| Legendary | 8 vCPU and 16GB RAM               | auto    | $200/month |
 
 Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
 
@@ -42,21 +40,23 @@ Replicas are billed as how many replicas you have. For example, if you have 3 re
 
 ## Regions
 
-For torii, with premium tiers, you can choose to deploy your instances in multiple regions.
+The default for all regions is us-east, but you can choose to deploy your instances in a different or even multiple regions.
 
 | Region            |
 |-------------------|
 | `us-east`         |
 | `europe-west`     |
-| `asia-southeast`  |
 
 To deploy a slot service in multiple regions, you can use the `--regions` flag.
 
-Katana is only supported in `us-east` at this time.
-
 ```shell
-slot d create --tier pro my-project torii --regions us-east,asia-southeast,europe-west
+# torii supports multiple versions - billed per replica per region
+slot d create --tier pro my-project torii --regions us-east,europe-west
+# or
+slot d create --tier pro my-project katana --regions europe-west
 ```
+
+Katana can be only launched in a single region, while torii uses replicas and routes global users to the nearest one.
 
 Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
 
