@@ -49,7 +49,7 @@ let controller = new Controller({
                         description: "Approve spending of tokens",
                     },
                     {
-                        name: "transfer", 
+                        name: "transfer",
                         entrypoint: "transfer",
                         description: "Transfer tokens",
                     },
@@ -185,9 +185,11 @@ Here's how your main `+page.svelte` might look:
     import { ETH_CONTRACT } from '../constants';
 
     let controller = new Controller({
-        policies: [
-            // ... your policies here
-        ]
+         policies: {
+            contracts: {
+                // ... your policies here
+            }
+        }
     });
 
     let loading: boolean = true;
