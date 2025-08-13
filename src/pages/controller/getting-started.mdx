@@ -49,8 +49,30 @@ Here's a simple example of how to initialize and use the controller:
 
 ```ts
 import Controller from "@cartridge/controller";
+import { SessionPolicies } from "@cartridge/controller";
+import { constants } from "starknet";
 
-// Initialize the controller without policies
+// Define your game's session policies
+const policies: SessionPolicies = {
+  contracts: {
+    "0x1234...": {
+      name: "My Game Contract",
+      methods: [
+        { name: "move_player", entrypoint: "move_player" },
+        { name: "attack", entrypoint: "attack" },
+      ],
+    },
+  },
+};
+
+// Initialize the controller _with_ session policies
+const controller = new Controller({
+  policies,
+  // Optional: specify the default chain
+  defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
+});
+
+// Initialize the controller _without_ policies
 // This requires manual approval for each transaction
 const controller = new Controller();
 
@@ -60,11 +82,25 @@ const account = await controller.connect();
 // Execute transactions - user will see approval dialog
 const tx = await account.execute([
   {
-    contractAddress: "0x...",
-    entrypoint: "my_function",
+    contractAddress: "0x1234...",
+    entrypoint: "move_player",
     calldata: ["0x1", "0x2"],
   }
 ]);
+```
+
+### Simple Controller (No Sessions)
+
+For basic usage without session management:
+
+```ts
+import Controller from "@cartridge/controller";
+
+// Initialize with minimal configuration
+const controller = new Controller();
+
+// Connect and use
+const account = await controller.connect();
 ```
 
 > **Note:** When no policies are provided, each transaction requires manual user approval through the Cartridge interface. This is suitable for simple applications or testing, but games typically benefit from using [session policies](#configuration-with-session-policies) for a smoother experience.
@@ -90,7 +126,7 @@ const controller = new Controller({
           },
           {
             name: "attack",
-            entrypoint: "attack", 
+            entrypoint: "attack",
             description: "Attack enemy",
           },
         ],
@@ -102,18 +138,51 @@ const controller = new Controller({
 
 ## Usage with Starknet React
 
+### Controller Connector
+
 ```tsx
 import React from "react";
 import { sepolia, mainnet } from "@starknet-react/chains";
 import {
   StarknetConfig,
   jsonRpcProvider,
-  starkscan,
+  cartridge,
 } from "@starknet-react/core";
 import ControllerConnector from "@cartridge/connector/controller";
+import SessionConnector from "@cartridge/connector/session";
+import { SessionPolicies } from "@cartridge/controller";
+import { constants } from "starknet";
 
-// Create the connector outside the component to avoid recreation on renders
-const connector = new ControllerConnector();
+// Define session policies for your game
+const policies: SessionPolicies = {
+  contracts: {
+    "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+      methods: [
+        { name: "transfer", entrypoint: "transfer" },
+        { name: "approve", entrypoint: "approve" },
+      ],
+    },
+  },
+};
+
+// Create the controller connector
+const controller = new ControllerConnector({
+  policies,
+  // Optional: customize chains and default chain
+  chains: [
+    { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
+    { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
+  ],
+  defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
+});
+
+// Create the session connector for direct session management
+const session = new SessionConnector({
+  policies,
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
+});
 
 // Configure the JSON RPC provider
 const provider = jsonRpcProvider({
@@ -134,14 +203,50 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
       defaultChainId={sepolia.id}
       chains={[mainnet, sepolia]}
       provider={provider}
-      connectors={[connector]}
-      explorer={starkscan}
+      connectors={[controller, session]}
+      explorer={cartridge}
     >
       {children}
     </StarknetConfig>
   );
 }
 ```
+
+### Session Connector
+
+The `SessionConnector` provides direct session management capabilities, allowing for more granular control over session handling:
+
+```tsx
+import SessionConnector from "@cartridge/connector/session";
+import { SessionPolicies } from "@cartridge/controller";
+import { constants } from "starknet";
+
+const policies: SessionPolicies = {
+  contracts: {
+    "0x1234...": {
+      name: "My Game Contract",
+      methods: [
+        { name: "move_player", entrypoint: "move_player" },
+        { name: "attack", entrypoint: "attack" },
+      ],
+    },
+  },
+};
+
+const sessionConnector = new SessionConnector({
+  policies,
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
+  // Optional: specify keychain URL for custom deployments
+  keychainUrl: "https://x.cartridge.gg",
+});
+```
+
+The SessionConnector is ideal for applications that need:
+- Direct control over session lifecycle
+- Custom session management flows
+- Integration with existing authentication systems
 
 ## Examples
 
