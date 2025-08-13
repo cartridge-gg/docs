@@ -20,6 +20,7 @@ title: Controller Overview
 ### Simple & Secure
 
 -   Passwordless authentication using Passkeys for one-click onboarding
+-   Multi-signer support with Passkeys, social login (Google, Discord), and external wallets (MetaMask, Rabby, WalletConnect)
 -   Self-custodial embedded wallets that put players in control
 -   Built-in security features to protect player assets
 
@@ -42,3 +43,12 @@ title: Controller Overview
 -   Built-in achievement system for tracking player accomplishments
 -   Reputation system that grows as players engage with games
 -   Social features to connect players and build communities
+
+### Monetization and Payments
+
+-   Built-in purchase system for seamless game monetization with enhanced multichain flows
+-   Starterpack bundles combining credits and game assets with cross-chain purchasing
+-   Multi-chain cryptocurrency payment support (Starknet, Base, Solana) with chain switching
+-   Traditional payment methods via secure credit card processing
+-   Popular wallet integrations (Argent, MetaMask, Rabby, Phantom)
+-   ERC1155 NFT marketplace support for listing and purchasing digital assets

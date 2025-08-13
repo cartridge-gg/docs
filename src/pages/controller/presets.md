@@ -29,27 +29,90 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 
 Session Policies can be provided in the preset configuration, providing a smoother experience for your users. In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
-For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/aa3a218de1c83f36bf9eb73d7ab4e099898ce1f2/configs/dope-wars/config.json#L3):
+For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/main/configs/dope-wars/config.json):
 
 ```json
 {
   "origin": "dopewars.game",
-  "policies": {
-    "contracts": {
-      "0x051Fea4450Da9D6aeE758BDEbA88B2f665bCbf549D2C61421AA724E9AC0Ced8F": {
-        "name": "VRF Provider",
-        "description": "Provides verifiable random functions",
-        "methods": [
-          {
-            "name": "Request Random",
-            "description": "Request a random number",
-            "entrypoint": "request_random"
+  "chains": {
+    "SN_MAIN": {
+      "policies": {
+        "contracts": {
+          "0x051Fea4450Da9D6aeE758BDEbA88B2f665bCbf549D2C61421AA724E9AC0Ced8F": {
+            "name": "VRF Provider",
+            "description": "Provides verifiable random functions",
+            "methods": [
+              {
+                "name": "Request Random",
+                "description": "Request a random number",
+                "entrypoint": "request_random"
+              }
+            ]
           }
-        ]
-      },
+        }
+      }
+    }
+  },
   ...
 }
 ```
+
+## Paymaster Predicate Support
+
+Session policies can now include paymaster predicates, which provide additional conditional logic for transaction sponsorship. This is particularly useful for games that need to sponsor transactions based on specific conditions or game state.
+
+### Using Predicates in Presets
+
+To add paymaster predicate support to your preset configuration, include a `predicate` field in your method definition:
+
+```json
+{
+  "origin": "mygame.example.com",
+  "chains": {
+    "SN_MAIN": {
+      "policies": {
+        "contracts": {
+          "0x123...abc": {
+            "name": "Game Contract",
+            "description": "Main game contract with paymaster support",
+            "methods": [
+              {
+                "name": "Move Player",
+                "description": "Move player with conditional sponsorship",
+                "entrypoint": "move_player",
+                "is_paymastered": true,
+                "predicate": {
+                  "address": "0x456...def",
+                  "entrypoint": "check_move_eligibility"
+                }
+              },
+              {
+                "name": "Attack Enemy",
+                "description": "Attack with unconditional sponsorship",
+                "entrypoint": "attack_enemy",
+                "is_paymastered": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Predicate Structure
+
+The `predicate` field contains:
+- `address`: The contract address that contains the predicate logic
+- `entrypoint`: The function name that will be called to evaluate the condition
+
+When a transaction is submitted:
+1. If a method has `is_paymastered: true` without a predicate, it will always be sponsored
+2. If a method has both `is_paymastered: true` and a predicate, the predicate function will be called first
+3. The transaction will only be sponsored if the predicate function returns a truthy value
+
+This allows for sophisticated gas sponsorship policies based on game state, user eligibility, or other conditional logic.
 
 ## Apple App Site Association
 

@@ -12,10 +12,10 @@ seamlessly integrated into your application like any other wallet.
 
 The fastest way to get started is to install the controller package and connect to Cartridge:
 
-```ts
+```ts twoslash
 import Controller from "@cartridge/controller";
 
-const controller = new Controller();
+const controller = new Controller({});
 const account = await controller.connect();
 
 // You're ready to execute transactions!
@@ -65,17 +65,21 @@ const policies: SessionPolicies = {
   },
 };
 
-// Initialize the controller with session policies
+// Initialize the controller _with_ session policies
 const controller = new Controller({
   policies,
-  // Optional: specify chains and default chain
+  // Optional: specify the default chain
   defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
 });
+
+// Initialize the controller _without_ policies
+// This requires manual approval for each transaction
+const controller = new Controller();
 
 // Connect to get an account instance
 const account = await controller.connect();
 
-// Execute transactions
+// Execute transactions - user will see approval dialog
 const tx = await account.execute([
   {
     contractAddress: "0x1234...",
@@ -98,6 +102,8 @@ const controller = new Controller();
 // Connect and use
 const account = await controller.connect();
 ```
+
+> **Note:** When no policies are provided, each transaction requires manual user approval through the Cartridge interface. This is suitable for simple applications or testing, but games typically benefit from using [session policies](#configuration-with-session-policies) for a smoother experience.
 
 ## Configuration with Session Policies
 
@@ -194,6 +200,7 @@ const provider = jsonRpcProvider({
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
+      defaultChainId={sepolia.id}
       chains={[mainnet, sepolia]}
       provider={provider}
       connectors={[controller, session]}
@@ -269,6 +276,8 @@ Cartridge Controller in your preferred environment.
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md)
+- Set up [Multiple Signers](/controller/signer-management.md) for backup authentication
+- Integrate [Purchase Functionality](/controller/purchasing.md) for game monetization
 - Customize your [Controller](/controller/presets.md)
 - Set up [Usernames](/controller/usernames.md)
 - Configure [Paymaster](/controller/configuration.md)

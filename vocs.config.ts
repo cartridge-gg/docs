@@ -69,16 +69,20 @@ export default defineConfig({
             link: "/controller/passkey-support",
           },
           {
+            text: "Signer Management",
+            link: "/controller/signer-management",
+          },
+          {
             text: "Configuration",
             link: "/controller/configuration",
           },
           {
-            text: "Sessions",
-            link: "/controller/sessions",
+            text: "Purchase Integration",
+            link: "/controller/purchasing",
           },
           {
-            text: "Paymaster",
-            link: "/controller/paymaster",
+            text: "Sessions",
+            link: "/controller/sessions",
           },
           {
             text: "Presets",
@@ -164,7 +168,7 @@ export default defineConfig({
       },
     ],
 
-    // Slot sidebar (now includes VRF)
+    // Slot sidebar
     "/slot": [
       {
         text: "Slot",
@@ -183,12 +187,15 @@ export default defineConfig({
           },
           {
             text: "vRNG",
-            link: "/slot/vRNG",
+            link: "/slot/vrng",
           },
         ],
       },
     ],
   },
+
+  // Twoslash configuration
+  twoslash: {},
 
   // Vite configuration
   vite: {
