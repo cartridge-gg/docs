@@ -127,6 +127,38 @@ When connecting to your Controller:
 - Select any of your registered signers to authenticate
 - Your account and assets remain the same regardless of which signer you use
 
+### Chain Switching for External Wallets
+
+External wallets (MetaMask, Rabby, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+
+**Supported Functionality:**
+- **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
+- **Cross-Chain Compatibility**: Works with Ethereum, Starknet, and other supported networks
+- **Seamless Integration**: No additional user interaction required beyond the wallet's own confirmation
+
+**How It Works:**
+1. Your application calls the chain switch method through the Controller
+2. The request is forwarded to the connected external wallet
+3. The wallet handles the chain switching process (may show user confirmation)
+4. The application receives confirmation of the successful chain switch
+
+**Example Usage:**
+```typescript
+// Switch connected external wallet to a different chain
+const success = await controller.externalSwitchChain(
+  walletType, // e.g., "metamask", "rabby"
+  chainId     // Target chain identifier
+);
+
+if (success) {
+  console.log("Chain switched successfully");
+} else {
+  console.log("Chain switch failed or was cancelled");
+}
+```
+
+**Note:** Chain switching availability depends on the specific external wallet's capabilities and the target chain support.
+
 ## Security Considerations
 
 ### Best Practices
