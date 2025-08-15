@@ -159,6 +159,63 @@ if (success) {
 
 **Note:** Chain switching availability depends on the specific external wallet's capabilities and the target chain support.
 
+### Transaction Confirmation for External Wallets
+
+External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
+
+**Supported Functionality:**
+- **Transaction Monitoring**: Wait for transaction confirmations with configurable timeouts
+- **Multi-Wallet Support**: Works with all supported external wallet types
+- **Timeout Control**: Custom timeout settings (default: 60 seconds)
+- **Receipt Retrieval**: Returns transaction receipt upon successful confirmation
+
+**How It Works:**
+1. Your application calls the wait method through the Controller after sending a transaction
+2. The request is forwarded to the connected external wallet
+3. The wallet polls the blockchain for transaction confirmation
+4. The application receives the transaction receipt or timeout error
+
+**Example Usage:**
+```typescript
+// Wait for transaction confirmation with default timeout (60s)
+const response = await controller.externalWaitForTransaction(
+  walletType, // e.g., "metamask", "rabby"
+  txHash      // Transaction hash from sendTransaction
+);
+
+if (response.success) {
+  console.log("Transaction confirmed:", response.result);
+} else {
+  console.log("Transaction failed or timed out:", response.error);
+}
+
+// Wait with custom timeout (30 seconds)
+const responseWithTimeout = await controller.externalWaitForTransaction(
+  walletType,
+  txHash,
+  30000 // 30 seconds in milliseconds
+);
+```
+
+**Return Format:**
+```typescript
+interface ExternalWalletResponse {
+  success: boolean;
+  wallet: string;
+  result?: any;        // Transaction receipt when successful
+  error?: string;      // Error message when failed
+  account?: string;    // Connected account address
+}
+```
+
+**Error Handling:**
+- **Connection Errors**: Wallet not available or not connected
+- **Timeout Errors**: Transaction not confirmed within the specified time
+- **Network Errors**: RPC or blockchain connectivity issues
+- **Transaction Failures**: Transaction reverted or failed on-chain
+
+**Note:** Transaction confirmation times vary by network conditions and the specific blockchain. Ethereum transactions typically confirm faster than other networks during low congestion periods.
+
 ## Security Considerations
 
 ### Best Practices
