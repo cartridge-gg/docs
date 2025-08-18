@@ -90,22 +90,37 @@ const handleBuyStarterpack = () => {
 
 ### Cryptocurrency Payments
 
-The system supports crypto payments across multiple networks:
+The system supports crypto payments across multiple networks with cross-chain bridging powered by Layerswap:
 
-#### Starknet
-- **Supported Wallets**: Argent
-- **Network**: Starknet mainnet and testnets
-- **Assets**: ETH, STRK, and other Starknet tokens
+#### Ethereum
+- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
+- **Network**: Ethereum mainnet and Sepolia testnet
+- **Assets**: ETH, USDC, and other ERC-20 tokens
 
-#### Ethereum (Base Network)
-- **Supported Wallets**: MetaMask, Rabby
-- **Network**: Base (Ethereum L2)
+#### Base L2
+- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
+- **Network**: Base mainnet and testnet
 - **Assets**: ETH, USDC, and other Base-compatible tokens
+
+#### Arbitrum
+- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
+- **Network**: Arbitrum One mainnet and Sepolia testnet
+- **Assets**: ETH, USDC, and other Arbitrum-compatible tokens
+
+#### Optimism
+- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
+- **Network**: Optimism mainnet and Sepolia testnet
+- **Assets**: ETH, USDC, and other Optimism-compatible tokens
 
 #### Solana
 - **Supported Wallets**: Phantom
-- **Network**: Solana mainnet
-- **Assets**: SOL, USDC, and other Solana tokens
+- **Network**: Solana mainnet and devnet
+- **Assets**: SOL, USDC, and other SPL tokens
+
+#### Starknet
+- **Supported Wallets**: Argent (native integration)
+- **Network**: Starknet mainnet and testnets
+- **Assets**: ETH, STRK, and other Starknet tokens
 
 ## Purchase Flow
 
@@ -113,10 +128,26 @@ The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
 2. **Payment Method**: Choose between credit card or cryptocurrency
-3. **Wallet Connection**: For crypto payments, connect external wallet with automatic chain switching support
-4. **Network Selection**: Choose blockchain network for crypto payments with enhanced cross-chain selection
-5. **Transaction Processing**: Complete payment through selected method with multichain support
-6. **Confirmation**: Receive purchase confirmation and assets
+3. **Network Selection**: For crypto payments, choose preferred blockchain network (Ethereum, Base, Arbitrum, Optimism, or Solana)
+4. **Wallet Connection**: Connect external wallet with automatic chain switching support
+5. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+6. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+7. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+
+## Cross-Chain Bridging with Layerswap
+
+Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, Optimism, or Solana), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+
+### Fee Structure
+
+Cryptocurrency payments include several fee components:
+
+- **Base Cost**: The actual purchase amount (starterpack or credit value)
+- **Cartridge Processing Fee**: 2.5% service fee
+- **Layerswap Bridging Fee**: Variable fee based on source network and token (typically 0.1-0.5%)
+- **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
+
+The total cost including all fees is displayed upfront before payment confirmation.
 
 ## Integration Examples
 
@@ -223,13 +254,21 @@ function PurchaseIntegration({ playerLevel, credits }: { playerLevel: number, cr
 
 **Wallet connection fails during crypto payment**
 - Ensure the wallet extension is installed and unlocked
-- Verify the wallet supports the selected network
-- Check that the user has sufficient balance for the transaction
+- Verify the wallet supports the selected network (MetaMask, Rabby, and Coinbase Wallet for EVM chains; Phantom for Solana)
+- Check that the wallet is connected to the correct network (mainnet vs testnet)
+- Try refreshing the page and reconnecting the wallet
+
+**Cross-chain bridging issues**
+- Ensure sufficient token balance on the source network for both the purchase amount and bridging fees
+- Verify the selected token is supported on the source network (ETH, USDC commonly supported)
+- Check that Layerswap bridging is available for the selected network pair
+- Allow additional time for cross-chain transactions to complete (typically 5-15 minutes)
 
 **Payment processing errors**
 - For credit card issues, users should check their card details and limits
-- For crypto payments, verify network connectivity and gas/fee availability
+- For crypto payments, verify network connectivity and sufficient balance for gas fees plus purchase amount
 - Ensure the user completes the full payment flow without closing the interface
+- If bridging fails, the transaction may need to be retried or completed on a different network
 
 ### Getting Help
 
