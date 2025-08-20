@@ -41,6 +41,7 @@ Controller supports three types of signers:
 - Requires existing Discord account
 
 ### 3. External Wallets
+- **Braavos**: StarkNet-native wallet with built-in security features
 - **MetaMask**: Popular browser extension wallet
 - **Rabby**: Security-focused multi-chain wallet
 - **WalletConnect**: Protocol supporting 100+ wallets via QR code or deep linking
@@ -97,6 +98,7 @@ Controller supports three types of signers:
 
 ~~1. Select **Wallet** to see external wallet options~~
 ~~2. Choose from the supported wallet types:~~
+   ~~- **Braavos**: Ensure Braavos extension is installed and unlocked~~
    ~~- **MetaMask**: Ensure MetaMask extension is installed and unlocked~~
    ~~- **Rabby**: Ensure Rabby extension is installed and unlocked~~  
    ~~- **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets~~
@@ -116,7 +118,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Google, Discord, MetaMask, Rabby, or WalletConnect
+- **Type**: Passkey, Google, Discord, Braavos, MetaMask, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -129,7 +131,7 @@ When connecting to your Controller:
 
 ### Chain Switching for External Wallets
 
-External wallets (MetaMask, Rabby, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (Braavos, MetaMask, Rabby, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -146,7 +148,7 @@ External wallets (MetaMask, Rabby, WalletConnect) support programmatic chain swi
 ```typescript
 // Switch connected external wallet to a different chain
 const success = await controller.externalSwitchChain(
-  walletType, // e.g., "metamask", "rabby"
+  walletType, // e.g., "braavos", "metamask", "rabby"
   chainId     // Target chain identifier
 );
 

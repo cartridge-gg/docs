@@ -93,7 +93,7 @@ const handleBuyStarterpack = () => {
 The system supports crypto payments across multiple networks:
 
 #### Starknet
-- **Supported Wallets**: Argent
+- **Supported Wallets**: Argent, Braavos
 - **Network**: Starknet mainnet and testnets
 - **Assets**: ETH, STRK, and other Starknet tokens
 
