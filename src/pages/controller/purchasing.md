@@ -11,11 +11,11 @@ Cartridge Controller provides built-in purchase functionality that enables seaml
 
 The purchase system includes:
 
-- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with enhanced multichain purchasing flow
+- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with streamlined purchasing flow
 - **Credit Purchases**: Direct credit top-ups for gasless transactions  
-- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with seamless cross-chain wallet and network selection
+- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
-- **Dual Payment Methods**: Both fiat (credit card) and crypto payment options
+- **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
 - **NFT Marketplace Support**: ERC1155 listing and purchase capabilities for enhanced marketplace functionality
 
 ## Quick Start
@@ -102,6 +102,16 @@ The system supports crypto payments across multiple networks:
 - **Network**: Base (Ethereum L2)
 - **Assets**: ETH, USDC, and other Base-compatible tokens
 
+#### Arbitrum
+- **Supported Wallets**: MetaMask, Rabby
+- **Network**: Arbitrum One
+- **Assets**: ETH, USDC, and other Arbitrum tokens
+
+#### Optimism
+- **Supported Wallets**: MetaMask, Rabby
+- **Network**: Optimism
+- **Assets**: ETH, USDC, and other Optimism tokens
+
 #### Solana
 - **Supported Wallets**: Phantom
 - **Network**: Solana mainnet
@@ -112,11 +122,12 @@ The system supports crypto payments across multiple networks:
 The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
-2. **Payment Method**: Choose between credit card or cryptocurrency
+2. **Payment Method Selection**: Choose from all available options on a unified screen:
+   - **Credit Card**: Direct fiat payment via Stripe
+   - **Cryptocurrency Networks**: Ethereum, Solana, Base, Arbitrum, and Optimism
 3. **Wallet Connection**: For crypto payments, connect external wallet with automatic chain switching support
-4. **Network Selection**: Choose blockchain network for crypto payments with enhanced cross-chain selection
-5. **Transaction Processing**: Complete payment through selected method with multichain support
-6. **Confirmation**: Receive purchase confirmation and assets
+4. **Transaction Processing**: Complete payment through selected method with multichain support
+5. **Confirmation**: Receive purchase confirmation and assets
 
 ## Integration Examples
 
