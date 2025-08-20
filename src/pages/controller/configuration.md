@@ -39,7 +39,7 @@ When you provide custom chains via the `chains` option, they take precedence ove
 - Use custom RPC endpoints for mainnet or sepolia
 - Add support for additional networks (like Slot katana instances)
 - Override default chain configurations
-- Programmatically switch chains for connected external wallets (MetaMask, Rabby, WalletConnect)
+- Programmatically switch chains for connected external wallets (Braavos, MetaMask, Rabby, WalletConnect)
 
 ### External Wallet Chain Switching
 
@@ -115,6 +115,6 @@ controller.openStarterPack("starterpack-id-123");
 Both methods support:
 - Credit card payments via Stripe
 - Cryptocurrency payments across multiple networks (Starknet, Base, Solana)
-- Integration with popular wallets (Argent, MetaMask, Rabby, Phantom)
+- Integration with popular wallets (Argent, Braavos, MetaMask, Rabby, Phantom)
 
 For detailed integration guidance, see the [Purchase Integration](/controller/purchasing.md) guide.
