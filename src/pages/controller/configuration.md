@@ -23,6 +23,19 @@ export type ControllerOptions = {
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
     
+    // Performance options
+    lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
+    
+    // Keychain options
+    url?: string;  // The URL of keychain
+    origin?: string;  // The origin of keychain
+    starterPackId?: string;  // The ID of the starter pack to use
+    feeSource?: FeeSource;  // The fee source to use for execute from outside
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together)
+    shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
+    namespace?: string;  // The namespace to use to fetch trophies data from indexer
+    tokens?: Tokens;  // The tokens to be listed on Inventory modal
+    
     // Customization options
     preset?: string;  // Preset name for custom themes and verified policies
     slot?: string;  // Slot project name for custom indexing
@@ -56,12 +69,40 @@ const controller = new Controller({
 });
 ```
 
+## Performance Optimization
+
+### Lazy Loading
+
+The `lazyload` option allows you to defer iframe mounting until `connect()` is called. This can significantly reduce initial load time and prevent unnecessary resource fetching when the controller is instantiated but not immediately used.
+
+**Example:**
+```typescript
+const controller = new Controller({
+  lazyload: true, // Iframe is created only when connect() is called
+  // ... other options
+});
+
+// No iframe is created yet - faster initial load
+await controller.connect(); // Iframe is created and mounted now
+```
+
+**When to use lazy loading:**
+- Applications where the controller might not be used immediately
+- Performance-critical scenarios where reducing initial bundle execution time matters
+- Mobile applications where resource conservation is important
+
+**When not to use lazy loading:**
+- Applications that need immediate controller availability
+- When the slight delay during first connect() is unacceptable
+
 ## Configuration Categories
 
 The configuration options are organized into several categories:
 
 -   **Chain Options**: Core network configuration and chain settings
 -   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
+-   **Performance Options**: Lazy loading and other performance optimizations
+-   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
 
 ## When to Use Policies
