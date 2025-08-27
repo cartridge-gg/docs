@@ -18,7 +18,7 @@ Multi-signer support provides several benefits:
 
 ## Supported Signer Types
 
-Controller supports three types of signers:
+Controller supports four types of signers:
 
 ### 1. Passkey (WebAuthn)
 - **Biometric authentication** using Face ID, Touch ID, or hardware security keys
@@ -26,7 +26,16 @@ Controller supports three types of signers:
 - **Cross-platform** compatibility with password managers like Bitwarden, 1Password
 - See [Passkey Support](/controller/passkey-support.md) for detailed setup information
 
-### 2. Social Login
+### 2. Password Authentication
+- **Password-based authentication** with encrypted private key storage
+- **AES-GCM encryption** with PBKDF2 key derivation (100,000 iterations)
+- **Testing only**: Marked for development and testing purposes only
+- **Non-recoverable**: Password loss means permanent account loss
+- **Minimum requirements**: 8-character minimum password length
+
+> **⚠️ Important**: Password authentication is currently marked as "Testing Only" and should not be used for production applications. Password loss results in permanent account access loss as there are no recovery mechanisms.
+
+### 3. Social Login
 
 #### Google Login
 - **Social authentication** using your Google account
@@ -40,7 +49,7 @@ Controller supports three types of signers:
 - **Secure integration** via Turnkey wallet infrastructure
 - Requires existing Discord account
 
-### 3. External Wallets
+### 4. External Wallets
 - **MetaMask**: Popular browser extension wallet
 - **Rabby**: Security-focused multi-chain wallet
 - **Base**: Coinbase's official wallet with multi-chain support
@@ -71,6 +80,22 @@ Controller supports three types of signers:
    ~~- Password manager (if configured for Passkey storage)~~
 ~~3. Follow your device's authentication flow~~
 ~~4. Once created, the Passkey will be added to your account~~
+
+### Adding Password Authentication
+
+> **⚠️ Testing Only**: Password authentication is available but marked for testing purposes only.
+
+1. In the signup or login interface, select **Password** from the authentication options
+2. For new accounts:
+   - Enter a password (minimum 8 characters)
+   - Confirm your password by entering it again
+   - Review the security warning about password recovery
+   - Complete the account creation process
+3. For existing password accounts:
+   - Simply enter your password to login
+   - Password must match exactly (case-sensitive)
+
+> **Security Warning**: Password accounts cannot be recovered if you lose your password. This authentication method does not provide any recovery mechanisms, making it unsuitable for production use.
 
 ### Adding Social Login
 
@@ -118,7 +143,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Google, Discord, MetaMask, Rabby, Base, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, MetaMask, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -262,6 +287,12 @@ You can now remove signers from your account for security or convenience:
 - Ensure your device supports WebAuthn/FIDO2
 - Try using a password manager with Passkey support
 - Check that your browser is up to date
+
+**Password authentication issues**
+- Verify password meets minimum 8-character requirement
+- Passwords are case-sensitive - ensure correct capitalization
+- Clear browser cache if experiencing persistent login issues
+- Remember: Password recovery is not available - lost passwords mean permanent account loss
 
 **External wallet connection fails**
 - Verify the wallet extension is installed and unlocked
