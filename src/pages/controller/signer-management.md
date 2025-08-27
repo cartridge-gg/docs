@@ -41,13 +41,23 @@ Controller supports four types of signers:
 - **Social authentication** using your Google account
 - **Familiar experience** for users with existing Google accounts
 - **Secure integration** via Turnkey wallet infrastructure
+- **Automatic fallback** from popup to redirect mode for maximum browser compatibility
 - Requires existing Google account
 
 #### Discord Login
 - **Social authentication** using your Discord account
 - **Streamlined onboarding** for users already active in gaming communities
 - **Secure integration** via Turnkey wallet infrastructure
+- **Automatic fallback** from popup to redirect mode for maximum browser compatibility
 - Requires existing Discord account
+
+#### Authentication Reliability
+Both Google and Discord login use an intelligent authentication flow that adapts to browser restrictions:
+
+1. **Primary Method**: Attempts to open OAuth in a popup window for a seamless experience
+2. **Fallback Method**: Automatically redirects to the OAuth provider if popups are blocked
+3. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
+4. **Cross-Browser Support**: Works across all modern browsers regardless of security settings
 
 ### 4. External Wallets
 
@@ -104,20 +114,28 @@ Controller supports four types of signers:
 #### Adding Google Login
 
 1. Select **Google** from the signer options
-2. You'll be redirected to Google's OAuth authorization page
+2. The system will attempt to open Google's OAuth authorization in a popup window
+   - If the popup opens successfully, complete the authorization in the popup
+   - If popups are blocked, you'll be automatically redirected to Google's OAuth page
 3. Sign in to your Google account if not already logged in
 4. Authorize Cartridge Controller to access your Google identity
 5. The Google login will be linked to your Controller account
+
+> **Note**: The authentication system automatically handles browser restrictions by falling back from popup to redirect mode when necessary. This ensures compatibility across different browsers and security settings.
 
 #### Adding Discord Login
 
 > **Currently Disabled**: This functionality is temporarily unavailable while under development.
 
 ~~1. Select **Discord** from the signer options~~
-~~2. You'll be redirected to Discord's OAuth authorization page~~
+~~2. The system will attempt to open Discord's OAuth authorization in a popup window~~
+   ~~- If the popup opens successfully, complete the authorization in the popup~~
+   ~~- If popups are blocked, you'll be automatically redirected to Discord's OAuth page~~
 ~~3. Sign in to your Discord account if not already logged in~~
 ~~4. Authorize Cartridge Controller to access your Discord identity~~
 ~~5. The Discord login will be linked to your Controller account~~
+
+> **Note**: When re-enabled, Discord authentication will use the same popup/redirect fallback system as Google login for maximum browser compatibility.
 
 ### Adding External Wallets
 
@@ -306,11 +324,15 @@ You can now remove signers from your account for security or convenience:
 - Verify you're logged into Google in the same browser
 - Check that third-party cookies are enabled
 - Try clearing browser cache and cookies
+- **Popup blocked**: If popups are blocked by your browser, the system will automatically redirect to Google's login page instead
+- **Iframe restrictions**: If your browser blocks iframes due to Content Security Policy (CSP), the authentication will fall back to a popup window
 
 **Discord login issues**
 - Verify you're logged into Discord in the same browser
 - Check that third-party cookies are enabled
 - Try clearing browser cache and cookies
+- **Popup blocked**: If popups are blocked by your browser, the system will automatically redirect to Discord's login page instead
+- **Iframe restrictions**: If your browser blocks iframes due to Content Security Policy (CSP), the authentication will fall back to a popup window
 
 ### Getting Help
 
