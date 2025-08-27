@@ -138,7 +138,7 @@ The system supports crypto payments across multiple networks with cross-chain br
 - **Assets**: SOL, USDC, and other SPL tokens
 
 #### Starknet
-- **Supported Wallets**: Argent (native integration)
+- **Supported Wallets**: Argent (native integration), Braavos
 - **Network**: Starknet mainnet and testnets
 - **Assets**: ETH, STRK, and other Starknet tokens
 
