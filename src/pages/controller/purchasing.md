@@ -11,12 +11,12 @@ Cartridge Controller provides built-in purchase functionality that enables seaml
 
 The purchase system includes:
 
-- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with enhanced multichain purchasing flow
+- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with streamlined purchasing flow
 - **Starterpack Claims**: Free starterpack bundles that users can claim based on eligibility, featuring collection support display
 - **Credit Purchases**: Direct credit top-ups for gasless transactions  
-- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with seamless cross-chain wallet and network selection
+- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
-- **Dual Payment Methods**: Both fiat (credit card) and crypto payment options
+- **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
 - **NFT Marketplace Support**: ERC1155 listing and purchase capabilities for enhanced marketplace functionality
 
 ## Quick Start
@@ -149,12 +149,13 @@ The system supports crypto payments across multiple networks with cross-chain br
 The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
-2. **Payment Method**: Choose between credit card or cryptocurrency
-3. **Network Selection**: For crypto payments, choose preferred blockchain network (Ethereum, Base, Arbitrum, Optimism, or Solana)
-4. **Wallet Connection**: Connect external wallet with automatic chain switching support
-5. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-6. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-7. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
+   - **Credit Card**: Direct fiat payment via Stripe
+   - **Cryptocurrency**: Pay with Crypto from Ethereum, Solana, Base, Arbitrum, or Optimism
+3. **Wallet Connection**: Connect external wallet with automatic chain switching support
+4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 
