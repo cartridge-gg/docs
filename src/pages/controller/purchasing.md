@@ -98,7 +98,7 @@ The system supports crypto payments across multiple networks:
 - **Assets**: ETH, STRK, and other Starknet tokens
 
 #### Ethereum (Base Network)
-- **Supported Wallets**: MetaMask, Rabby
+- **Supported Wallets**: MetaMask, Rabby, Base
 - **Network**: Base (Ethereum L2)
 - **Assets**: ETH, USDC, and other Base-compatible tokens
 

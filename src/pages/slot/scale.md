@@ -70,11 +70,7 @@ If you have existing deployments, a team of the same name as your account will b
 slot teams my-team create --email my-email@example.com # email is required for billing alerts
 slot teams my-team update --email my-email@example.com # if you want to update an existing team's email
 
-slot auth fund # buy credits for your account, this opens the browser
-
-slot auth transfer my-team --usd 10 # transfer $10 from your controller to my-team
-# or
-slot auth transfer my-team --credits 1000 # transfer 1000 credits ($10) from your controller to my-team
+slot auth fund # buy credits for a team, this opens the browser
 ```
 
 Once you create paid slot instances, funds are deducted on a daily basic with a minimum charge of one day. For example, if you create a deployment and delete it after one hour, you will be charged 1/30th of the monthly cost.
