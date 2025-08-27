@@ -520,9 +520,8 @@ slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 # Create team if it doesn't exist
 slot teams my-team create --email developer@mygame.com
 
-# Fund your account and transfer to team
+# Fund a team
 slot auth fund
-slot auth transfer my-team --credit 100
 
 # Create paymaster
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
@@ -555,11 +554,8 @@ If you encounter insufficient credits when creating or funding a paymaster:
 # Check team balance first
 slot teams my-team info
 
-# Fund your account if needed
+# Fund a team
 slot auth fund
-
-# Transfer more credits to team
-slot auth transfer my-team --credit 50
 
 # Retry your paymaster operation
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT

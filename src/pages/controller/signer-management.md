@@ -18,7 +18,7 @@ Multi-signer support provides several benefits:
 
 ## Supported Signer Types
 
-Controller supports three types of signers:
+Controller supports four types of signers:
 
 ### 1. Passkey (WebAuthn)
 - **Biometric authentication** using Face ID, Touch ID, or hardware security keys
@@ -26,7 +26,16 @@ Controller supports three types of signers:
 - **Cross-platform** compatibility with password managers like Bitwarden, 1Password
 - See [Passkey Support](/controller/passkey-support.md) for detailed setup information
 
-### 2. Social Login
+### 2. Password Authentication
+- **Password-based authentication** with encrypted private key storage
+- **AES-GCM encryption** with PBKDF2 key derivation (100,000 iterations)
+- **Testing only**: Marked for development and testing purposes only
+- **Non-recoverable**: Password loss means permanent account loss
+- **Minimum requirements**: 8-character minimum password length
+
+> **⚠️ Important**: Password authentication is currently marked as "Testing Only" and should not be used for production applications. Password loss results in permanent account access loss as there are no recovery mechanisms.
+
+### 3. Social Login
 
 #### Google Login
 - **Social authentication** using your Google account
@@ -40,9 +49,10 @@ Controller supports three types of signers:
 - **Secure integration** via Turnkey wallet infrastructure
 - Requires existing Discord account
 
-### 3. External Wallets
+### 4. External Wallets
 - **MetaMask**: Popular browser extension wallet
 - **Rabby**: Security-focused multi-chain wallet
+- **Base**: Coinbase's official wallet with multi-chain support
 - **WalletConnect**: Protocol supporting 100+ wallets via QR code or deep linking
 - Leverages existing wallet setup and seed phrases
 
@@ -71,6 +81,22 @@ Controller supports three types of signers:
 ~~3. Follow your device's authentication flow~~
 ~~4. Once created, the Passkey will be added to your account~~
 
+### Adding Password Authentication
+
+> **⚠️ Testing Only**: Password authentication is available but marked for testing purposes only.
+
+1. In the signup or login interface, select **Password** from the authentication options
+2. For new accounts:
+   - Enter a password (minimum 8 characters)
+   - Confirm your password by entering it again
+   - Review the security warning about password recovery
+   - Complete the account creation process
+3. For existing password accounts:
+   - Simply enter your password to login
+   - Password must match exactly (case-sensitive)
+
+> **Security Warning**: Password accounts cannot be recovered if you lose your password. This authentication method does not provide any recovery mechanisms, making it unsuitable for production use.
+
 ### Adding Social Login
 
 #### Adding Google Login
@@ -98,7 +124,8 @@ Controller supports three types of signers:
 ~~1. Select **Wallet** to see external wallet options~~
 ~~2. Choose from the supported wallet types:~~
    ~~- **MetaMask**: Ensure MetaMask extension is installed and unlocked~~
-   ~~- **Rabby**: Ensure Rabby extension is installed and unlocked~~  
+   ~~- **Rabby**: Ensure Rabby extension is installed and unlocked~~
+   ~~- **Base**: Ensure Coinbase Base wallet is installed and unlocked~~
    ~~- **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets~~
 ~~3. Follow the wallet-specific connection flow~~
 ~~4. Sign the verification message to link the wallet to your account~~
@@ -116,7 +143,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Google, Discord, MetaMask, Rabby, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, MetaMask, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -129,7 +156,7 @@ When connecting to your Controller:
 
 ### Chain Switching for External Wallets
 
-External wallets (MetaMask, Rabby, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -146,7 +173,7 @@ External wallets (MetaMask, Rabby, WalletConnect) support programmatic chain swi
 ```typescript
 // Switch connected external wallet to a different chain
 const success = await controller.externalSwitchChain(
-  walletType, // e.g., "metamask", "rabby"
+  walletType, // e.g., "metamask", "rabby", "base"
   chainId     // Target chain identifier
 );
 
@@ -158,6 +185,63 @@ if (success) {
 ```
 
 **Note:** Chain switching availability depends on the specific external wallet's capabilities and the target chain support.
+
+### Transaction Confirmation for External Wallets
+
+External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
+
+**Supported Functionality:**
+- **Transaction Monitoring**: Wait for transaction confirmations with configurable timeouts
+- **Multi-Wallet Support**: Works with all supported external wallet types
+- **Timeout Control**: Custom timeout settings (default: 60 seconds)
+- **Receipt Retrieval**: Returns transaction receipt upon successful confirmation
+
+**How It Works:**
+1. Your application calls the wait method through the Controller after sending a transaction
+2. The request is forwarded to the connected external wallet
+3. The wallet polls the blockchain for transaction confirmation
+4. The application receives the transaction receipt or timeout error
+
+**Example Usage:**
+```typescript
+// Wait for transaction confirmation with default timeout (60s)
+const response = await controller.externalWaitForTransaction(
+  walletType, // e.g., "metamask", "rabby"
+  txHash      // Transaction hash from sendTransaction
+);
+
+if (response.success) {
+  console.log("Transaction confirmed:", response.result);
+} else {
+  console.log("Transaction failed or timed out:", response.error);
+}
+
+// Wait with custom timeout (30 seconds)
+const responseWithTimeout = await controller.externalWaitForTransaction(
+  walletType,
+  txHash,
+  30000 // 30 seconds in milliseconds
+);
+```
+
+**Return Format:**
+```typescript
+interface ExternalWalletResponse {
+  success: boolean;
+  wallet: string;
+  result?: any;        // Transaction receipt when successful
+  error?: string;      // Error message when failed
+  account?: string;    // Connected account address
+}
+```
+
+**Error Handling:**
+- **Connection Errors**: Wallet not available or not connected
+- **Timeout Errors**: Transaction not confirmed within the specified time
+- **Network Errors**: RPC or blockchain connectivity issues
+- **Transaction Failures**: Transaction reverted or failed on-chain
+
+**Note:** Transaction confirmation times vary by network conditions and the specific blockchain. Ethereum transactions typically confirm faster than other networks during low congestion periods.
 
 ## Security Considerations
 
@@ -203,6 +287,12 @@ You can now remove signers from your account for security or convenience:
 - Ensure your device supports WebAuthn/FIDO2
 - Try using a password manager with Passkey support
 - Check that your browser is up to date
+
+**Password authentication issues**
+- Verify password meets minimum 8-character requirement
+- Passwords are case-sensitive - ensure correct capitalization
+- Clear browser cache if experiencing persistent login issues
+- Remember: Password recovery is not available - lost passwords mean permanent account loss
 
 **External wallet connection fails**
 - Verify the wallet extension is installed and unlocked
