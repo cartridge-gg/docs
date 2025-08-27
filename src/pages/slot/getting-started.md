@@ -102,7 +102,6 @@ Teams need credits to run services and paymasters. You can fund teams using CLI 
 **CLI:**
 ```sh
 slot auth fund
-slot auth transfer <Team Name> --credits <amount>
 ```
 
 **Web Interface:**

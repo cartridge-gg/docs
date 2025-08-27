@@ -259,3 +259,83 @@ export default defineConfig({
   plugins: [react(), mkcert()],
 })
 ```
+
+## External Wallet Integration
+
+If you're using external wallets (MetaMask, Rabby, etc.) with Cartridge Controller, you can wait for transaction confirmations using the `externalWaitForTransaction` method:
+
+```typescript
+import { useState, useCallback } from 'react'
+import ControllerConnector from '@cartridge/connector/controller'
+import { useConnect } from '@starknet-react/core'
+
+export const ExternalWalletTransaction = () => {
+  const { connectors } = useConnect()
+  const controller = connectors[0] as ControllerConnector
+  const [txHash, setTxHash] = useState<string>()
+  const [isWaiting, setIsWaiting] = useState<boolean>(false)
+  const [receipt, setReceipt] = useState<any>()
+
+  const waitForTransaction = useCallback(async () => {
+    if (!txHash || !controller) return
+    
+    setIsWaiting(true)
+    try {
+      // Wait for transaction confirmation with 30-second timeout
+      const response = await controller.externalWaitForTransaction(
+        'metamask', // or 'rabby', 'phantom', etc.
+        txHash,
+        30000 // 30 seconds
+      )
+      
+      if (response.success) {
+        setReceipt(response.result)
+        console.log('Transaction confirmed:', response.result)
+      } else {
+        console.error('Transaction failed:', response.error)
+      }
+    } catch (error) {
+      console.error('Error waiting for transaction:', error)
+    } finally {
+      setIsWaiting(false)
+    }
+  }, [txHash, controller])
+
+  return (
+    <div>
+      <h2>External Wallet Transaction Monitor</h2>
+      
+      <input
+        type="text"
+        placeholder="Enter transaction hash"
+        value={txHash || ''}
+        onChange={(e) => setTxHash(e.target.value)}
+      />
+      
+      <button 
+        onClick={waitForTransaction} 
+        disabled={!txHash || isWaiting}
+      >
+        {isWaiting ? 'Waiting for confirmation...' : 'Wait for Transaction'}
+      </button>
+      
+      {receipt && (
+        <div>
+          <h3>Transaction Receipt:</h3>
+          <pre>{JSON.stringify(receipt, null, 2)}</pre>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### External Wallet Methods
+
+The Controller provides several methods for interacting with external wallets:
+
+- `externalSwitchChain(walletType, chainId)` - Switch the connected wallet to a different chain
+- `externalWaitForTransaction(walletType, txHash, timeoutMs?)` - Wait for transaction confirmation
+- `externalSendTransaction(walletType, transaction)` - Send a transaction through the external wallet
+
+These methods work with all supported external wallet types: `metamask`, `rabby`, `phantom`, `argent`, and `walletconnect`.
