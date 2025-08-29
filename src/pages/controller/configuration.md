@@ -155,7 +155,7 @@ controller.openStarterPack("starterpack-id-123");
 
 Both methods support:
 - Credit card payments via Stripe
-- Cryptocurrency payments across multiple networks (Starknet, Base, Solana)
-- Integration with popular wallets (Argent, Braavos, MetaMask, Rabby, Phantom)
+- Cryptocurrency payments across multiple networks (Starknet, Base, Arbitrum, Optimism)
+- Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
 For detailed integration guidance, see the [Purchase Integration](/controller/purchasing.md) guide.

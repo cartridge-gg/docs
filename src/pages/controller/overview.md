@@ -48,7 +48,7 @@ title: Controller Overview
 
 -   Built-in purchase system for seamless game monetization with enhanced multichain flows
 -   Starterpack bundles combining credits and game assets with cross-chain purchasing
--   Multi-chain cryptocurrency payment support (Starknet, Base, Solana) with chain switching
+-   Multi-chain cryptocurrency payment support (Starknet, Base, Arbitrum, Optimism) with chain switching
 -   Traditional payment methods via secure credit card processing
--   Popular wallet integrations (Argent, Braavos, MetaMask, Rabby, Phantom)
+-   Popular wallet integrations (Argent, Braavos, MetaMask, Rabby)
 -   ERC1155 NFT marketplace support for listing and purchasing digital assets
