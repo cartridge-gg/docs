@@ -209,7 +209,7 @@ if (success) {
 
 ### Transaction Confirmation for External Wallets
 
-External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
+External wallets (MetaMask, Rabby, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
 
 **Supported Functionality:**
 - **Transaction Monitoring**: Wait for transaction confirmations with configurable timeouts

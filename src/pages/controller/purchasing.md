@@ -14,7 +14,7 @@ The purchase system includes:
 - **Starterpack Purchases**: Pre-configured bundles of game assets and credits with streamlined purchasing flow
 - **Starterpack Claims**: Free starterpack bundles that users can claim based on eligibility, featuring collection support display
 - **Credit Purchases**: Direct credit top-ups for gasless transactions  
-- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), and Solana with unified payment method selection
+- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
 - **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
 - **NFT Marketplace Support**: ERC1155 listing and purchase capabilities for enhanced marketplace functionality
@@ -133,9 +133,7 @@ The system supports crypto payments across multiple networks with cross-chain br
 - **Assets**: ETH, USDC, and other Optimism-compatible tokens
 
 #### Solana
-- **Supported Wallets**: Phantom
-- **Network**: Solana mainnet and devnet
-- **Assets**: SOL, USDC, and other SPL tokens
+> **⚠️ Temporarily Disabled**: Solana payment functionality is currently disabled and will be re-enabled in a future update.
 
 #### Starknet
 - **Supported Wallets**: Argent (native integration), Braavos
@@ -151,7 +149,7 @@ The purchase process follows these steps:
 1. **Item Selection**: User selects starterpack or credit amount
 2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
-   - **Cryptocurrency**: Pay with Crypto from Ethereum, Solana, Base, Arbitrum, or Optimism
+   - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
 3. **Wallet Connection**: Connect external wallet with automatic chain switching support
 4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
 5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
@@ -159,7 +157,7 @@ The purchase process follows these steps:
 
 ## Cross-Chain Bridging with Layerswap
 
-Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, Optimism, or Solana), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
 
 ### Fee Structure
 
@@ -326,7 +324,7 @@ function PurchaseIntegration({
 
 **Wallet connection fails during crypto payment**
 - Ensure the wallet extension is installed and unlocked
-- Verify the wallet supports the selected network (MetaMask, Rabby, and Coinbase Wallet for EVM chains; Phantom for Solana)
+- Verify the wallet supports the selected network (MetaMask, Rabby, and Coinbase Wallet for EVM chains)
 - Check that the wallet is connected to the correct network (mainnet vs testnet)
 - Try refreshing the page and reconnecting the wallet
 
