@@ -5,7 +5,7 @@ This is the official documentation site for Cartridge - High Performance Infrast
 Built with [Vocs](https://vocs.dev), this documentation covers:
 
 - **Controller**: Gaming-focused smart contract wallet with session keys, passkey support, and paymaster functionality
-- **Slot**: Horizontally scalable execution sharding for ephemeral and persistent rollups  
+- **Slot**: Horizontally scalable execution sharding for ephemeral and persistent rollups
 - **Arcade**: Central hub connecting players and onchain games
 
 ## Development
@@ -23,6 +23,11 @@ pnpm build
 # Preview built site
 pnpm preview
 ```
+
+### Requirements
+
+- Node.js 22.x
+- pnpm (see `packageManager` in `package.json`)
 
 ## Contributing
 
