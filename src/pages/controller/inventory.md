@@ -5,7 +5,7 @@ title: Controller Inventory Management
 
 # Inventory 
 
-Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`).
+Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
 
 ## Configure tokens
 
@@ -49,3 +49,28 @@ const connector = new CartridgeConnector({
 ```typescript
 controller.openProfile("inventory");
 ```
+
+## Marketplace Integration
+
+The inventory system includes built-in marketplace functionality for ERC721 and ERC1155 assets:
+
+### Features
+
+- **Asset Purchasing**: Buy digital assets from marketplace listings with transparent fee structure
+- **Collection Browsing**: Browse and purchase items from specific collections
+- **Fee Management**: Automatic calculation and display of:
+  - Marketplace fees
+  - Creator royalties (when applicable)
+  - Client processing fees
+- **Multi-token Support**: Purchase with various supported tokens
+- **Transaction Safety**: All marketplace transactions include proper fee disclosure and confirmation flows
+
+### Marketplace Fees
+
+When purchasing assets through the marketplace:
+
+- **Client Fees**: Automatically calculated and applied to each transaction
+- **Creator Royalties**: Honor creator royalty settings for supported collections
+- **Marketplace Fees**: Platform fees as configured by the marketplace
+
+All fees are clearly displayed before transaction confirmation, including both absolute amounts and percentage breakdowns.
