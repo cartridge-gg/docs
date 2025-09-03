@@ -96,8 +96,27 @@ Free starterpacks that users can claim based on eligibility criteria. These star
 - **Eligibility checking**: System verifies if user meets claim requirements
 - **Collection showcase**: Display supported game collections with platform indicators
 - **Mint limits**: May have limited quantities or per-user claiming restrictions
+- **Cross-chain Claims**: Claims can originate from multiple blockchain networks and be delivered to Starknet
 
 The claiming flow automatically determines eligibility and guides users through the appropriate network selection for receiving their assets.
+
+#### Merkle Drop Claims
+
+Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks. This system allows users to claim assets that were originally distributed on other networks (Ethereum, Base, Arbitrum, Optimism) and receive them in their Cartridge account on Starknet.
+
+**How Merkle Drop Claims Work:**
+
+1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starterpack
+2. **Cryptographic Proof**: Claims are validated using merkle proofs that mathematically prove eligibility without revealing the entire distribution list
+3. **Cross-chain Signature**: For EVM-based claims (Ethereum, Base, Arbitrum, Optimism), users must sign a message with their external wallet to prove ownership
+4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
+
+**Supported Networks for Claims:**
+- **Ethereum Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
+- **Base Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification  
+- **Arbitrum One/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
+- **Optimism Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
+- **Starknet**: Native claims without additional signature requirements
 
 ## Supported Payment Methods
 
@@ -179,9 +198,11 @@ The claiming process follows these steps:
 1. **Starterpack Selection**: User opens a claimable starterpack
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
-4. **Network Selection**: Choose blockchain network for receiving claimed assets
-5. **Claim Processing**: Complete the free claim transaction
-6. **Confirmation**: Receive claim confirmation and assets
+4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
+5. **Signature Verification**: For EVM-based claims, sign a verification message with your external wallet to prove ownership
+6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
+7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
+8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
 
 ## Integration Examples
 
@@ -323,6 +344,8 @@ function PurchaseIntegration({
 - Verify the user meets all claim requirements for the starterpack
 - Check if the user has already claimed their maximum allowed starterpacks
 - Ensure the starterpack has remaining supply if there are mint limits
+- Confirm the external wallet address is included in the merkle tree for the specific claim
+- Verify the user is connecting the wallet from the correct network (Ethereum, Base, Arbitrum, etc.)
 
 **Wallet connection fails during crypto payment**
 - Ensure the wallet extension is installed and unlocked
@@ -341,6 +364,13 @@ function PurchaseIntegration({
 - For crypto payments, verify network connectivity and sufficient balance for gas fees plus purchase amount
 - Ensure the user completes the full payment flow without closing the interface
 - If bridging fails, the transaction may need to be retried or completed on a different network
+
+**Merkle drop claim issues**
+- Ensure you're connecting the wallet that contains the claimable address (check the specific wallet address used for the distribution)
+- For EVM claims, verify the wallet signature process completes successfully - some wallets may require approval for message signing
+- Check that the merkle proof validation passes (this typically indicates eligibility or contract issues)
+- If claims fail, verify the forwarder contract is accessible and the claim hasn't already been processed
+- Confirm you're claiming during the valid claim period (some merkle drops have time limits)
 
 ### Getting Help
 
