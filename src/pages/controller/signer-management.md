@@ -5,7 +5,7 @@ title: Signer Management
 
 # Signer Management
 
-Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature enables you to sign in using different methods while maintaining access to the same Controller account and assets.
+Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature is now generally available and enables you to sign in using different methods while maintaining access to the same Controller account and assets.
 
 ## Overview
 
