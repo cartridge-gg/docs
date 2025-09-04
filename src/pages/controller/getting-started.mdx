@@ -255,12 +255,12 @@ The SessionConnector is ideal for applications that need:
 
 ## Compatibility Guide
 
-The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.0-alpha.1):
+The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.0):
 
 ```ts
   "@cartridge/arcade": "0.0.2"
-  "@cartridge/connector": "0.10.0-alpha.1"
-  "@cartridge/controller": "0.10.0-alpha.1"
+  "@cartridge/connector": "0.10.0"
+  "@cartridge/controller": "0.10.0"
   "@cartridge/presets": "0.5.4"
   "@dojoengine/core": "1.7.0-preview.2"
   "@dojoengine/predeployed-connector": "1.7.0-preview.2"
@@ -291,6 +291,36 @@ The following common dependencies are compatible with the latest version of Cart
   "vite-plugin-wasm": "^3.4.1"
   "zustand": "^5.0.3"
 ```
+
+### Migration Notes for v0.10.0
+
+#### StarkNet v8 Breaking Changes
+
+If you're using `WalletAccount` directly in your application, you'll need to update the constructor call:
+
+```ts
+// Before (v0.9.x)
+const account = new WalletAccount(provider, address, signer);
+
+// After (v0.10.0)
+const account = new WalletAccount({
+  nodeUrl: provider,
+  address: address,
+  signer: signer
+});
+```
+
+#### Ethereum Wallet Integration Changes
+
+The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your application relied on MetaMask SDK-specific features:
+
+- Wallet detection now uses EIP-6963 standard wallet detection
+- All Ethereum wallets are now handled through a shared base class
+- This change improves bundle size and wallet compatibility
+
+#### Lodash Removal
+
+The lodash dependency has been completely removed. If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
 
 ## Examples
 
