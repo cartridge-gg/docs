@@ -164,6 +164,10 @@ export default defineConfig({
             text: "Setup",
             link: "/arcade/setup",
           },
+          {
+            text: "Marketplace",
+            link: "/arcade/marketplace",
+          },
         ],
       },
     ],
