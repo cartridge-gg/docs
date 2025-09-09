@@ -253,6 +253,75 @@ The SessionConnector is ideal for applications that need:
 - Custom session management flows
 - Integration with existing authentication systems
 
+## Compatibility Guide
+
+The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.0):
+
+```ts
+  "@cartridge/arcade": "0.0.2"
+  "@cartridge/connector": "0.10.0"
+  "@cartridge/controller": "0.10.0"
+  "@cartridge/presets": "0.5.4"
+  "@dojoengine/core": "1.7.0-preview.3"
+  "@dojoengine/predeployed-connector": "1.7.0-preview.3"
+  "@dojoengine/sdk": "1.7.0-preview.3"
+  "@dojoengine/torii-client": "1.7.0-preview.3"
+  "@dojoengine/torii-wasm": "1.7.0-preview.3"
+  "@dojoengine/utils": "1.7.0-preview.3"
+  "@starknet-io/types-js": "^0.8.4"
+  "@starknet-react/chains": "^5.0.1"
+  "@starknet-react/core": "^5.0.1"
+  "@tailwindcss/vite": "^4.1.4"
+  "@types/node": "^22.13.1"
+  "@types/react": "^19.1.0"
+  "@types/react-dom": "^19.1.0"
+  "bignumber.js": "^9.3.0"
+  "lucide-react": "^0.523.0"
+  "prettier": "^3.6.1"
+  "prettier-plugin-tailwindcss": "^0.6.13"
+  "react": "^19.1.0"
+  "react-dom": "^19.1.0"
+  "recharts": "^3.1.0"
+  "sonner": "^2.0.5"
+  "starknet": "^8.1.2"
+  "starknetkit": "^v2.12.1"
+  "tailwindcss": "^4.1.4"
+  "typescript": "^5.8.3"
+  "vite": "^6.3.3"
+  "vite-plugin-wasm": "^3.4.1"
+  "zustand": "^5.0.3"
+```
+
+### Migration Notes for v0.10.0
+
+#### StarkNet v8 Breaking Changes
+
+If you're using `WalletAccount` directly in your application, you'll need to update the constructor call:
+
+```ts
+// Before (v0.9.x)
+const account = new WalletAccount(provider, address, signer);
+
+// After (v0.10.0)
+const account = new WalletAccount({
+  nodeUrl: provider,
+  address: address,
+  signer: signer
+});
+```
+
+#### Ethereum Wallet Integration Changes
+
+The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your application relied on MetaMask SDK-specific features:
+
+- Wallet detection now uses EIP-6963 standard wallet detection
+- All Ethereum wallets are now handled through a shared base class
+- This change improves bundle size and wallet compatibility
+
+#### Lodash Removal
+
+The lodash dependency has been completely removed. If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
+
 ## Examples
 
 For more detailed examples of how to use Cartridge Controller in different

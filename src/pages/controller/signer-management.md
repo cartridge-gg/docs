@@ -5,7 +5,7 @@ title: Signer Management
 
 # Signer Management
 
-Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature enables you to sign in using different methods while maintaining access to the same Controller account and assets.
+Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature is now generally available and enables you to sign in using different methods while maintaining access to the same Controller account and assets.
 
 ## Overview
 
@@ -72,26 +72,22 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 ### Accessing Signer Management
 
-> **Important**: The "Add Signer" functionality is currently disabled while under development. This feature will be re-enabled in a future update.
-
 1. Connect to your Controller account using any existing authentication method
 2. Open the **Settings** panel within the Controller interface
 3. Navigate to the **Signer(s)** section
-4. ~~Click **Add Signer** to begin adding a new authentication method~~ (Currently disabled)
+4. Click **Add Signer** to begin adding a new authentication method
 
-> **Note**: When re-enabled, signer management will be available on **Mainnet only**. The "Add Signer" button will be disabled on testnet environments.
+> **Note**: Signer management is available on **Mainnet only**. The "Add Signer" button will be disabled on testnet environments.
 
 ### Adding a Passkey
 
-> **Currently Disabled**: This functionality is temporarily unavailable while under development.
-
-~~1. In the Add Signer interface, select **Passkey**~~
-~~2. Your browser will prompt you to create a new Passkey using:~~
-   ~~- Device biometrics (Face ID, Touch ID, Windows Hello)~~
-   ~~- Hardware security key (USB, NFC, or Bluetooth)~~
-   ~~- Password manager (if configured for Passkey storage)~~
-~~3. Follow your device's authentication flow~~
-~~4. Once created, the Passkey will be added to your account~~
+1. In the Add Signer interface, select **Passkey**
+2. Your browser will prompt you to create a new Passkey using:
+   - Device biometrics (Face ID, Touch ID, Windows Hello)
+   - Hardware security key (USB, NFC, or Bluetooth)
+   - Password manager (if configured for Passkey storage)
+3. Follow your device's authentication flow
+4. Once created, the Passkey will be added to your account
 
 ### Adding Password Authentication
 
@@ -125,31 +121,27 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 #### Adding Discord Login
 
-> **Currently Disabled**: This functionality is temporarily unavailable while under development.
+1. Select **Discord** from the signer options
+2. The system will attempt to open Discord's OAuth authorization in a popup window
+   - If the popup opens successfully, complete the authorization in the popup
+   - If popups are blocked, you'll be automatically redirected to Discord's OAuth page
+3. Sign in to your Discord account if not already logged in
+4. Authorize Cartridge Controller to access your Discord identity
+5. The Discord login will be linked to your Controller account
 
-~~1. Select **Discord** from the signer options~~
-~~2. The system will attempt to open Discord's OAuth authorization in a popup window~~
-   ~~- If the popup opens successfully, complete the authorization in the popup~~
-   ~~- If popups are blocked, you'll be automatically redirected to Discord's OAuth page~~
-~~3. Sign in to your Discord account if not already logged in~~
-~~4. Authorize Cartridge Controller to access your Discord identity~~
-~~5. The Discord login will be linked to your Controller account~~
-
-> **Note**: When re-enabled, Discord authentication will use the same popup/redirect fallback system as Google login for maximum browser compatibility.
+> **Note**: Discord authentication uses the same popup/redirect fallback system as Google login for maximum browser compatibility.
 
 ### Adding External Wallets
 
-> **Currently Disabled**: This functionality is temporarily unavailable while under development.
-
-~~1. Select **Wallet** to see external wallet options~~
-~~2. Choose from the supported wallet types:~~
-   ~~- **Braavos**: Ensure Braavos extension is installed and unlocked~~
-   ~~- **MetaMask**: Ensure MetaMask extension is installed and unlocked~~
-   ~~- **Rabby**: Ensure Rabby extension is installed and unlocked~~
-   ~~- **Base**: Ensure Coinbase Base wallet is installed and unlocked~~
-   ~~- **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets~~
-~~3. Follow the wallet-specific connection flow~~
-~~4. Sign the verification message to link the wallet to your account~~
+1. Select **Wallet** to see external wallet options
+2. Choose from the supported wallet types:
+   - **Braavos**: Ensure Braavos extension is installed and unlocked
+   - **MetaMask**: Ensure MetaMask extension is installed and unlocked
+   - **Rabby**: Ensure Rabby extension is installed and unlocked
+   - **Base**: Ensure Coinbase Base wallet is installed and unlocked
+   - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets
+3. Follow the wallet-specific connection flow
+4. Sign the verification message to link the wallet to your account
 
 ## Managing Existing Signers
 
@@ -209,7 +201,7 @@ if (success) {
 
 ### Transaction Confirmation for External Wallets
 
-External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
+External wallets (MetaMask, Rabby, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface. This allows applications to monitor transaction status and receive confirmation when transactions are mined.
 
 **Supported Functionality:**
 - **Transaction Monitoring**: Wait for transaction confirmations with configurable timeouts
