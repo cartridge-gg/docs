@@ -142,7 +142,7 @@ const customPack: StarterPack = {
 
 const handleCustomStarterpack = () => {
   controller.openStarterPack(customPack);
-  // Total price: $50.10 (50 + 1000×0.01), all calls executed after payment
+  // Total price: $60.00 (50 + 1000×0.01), all calls executed after payment
 };
 ```
 
