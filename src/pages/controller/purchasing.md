@@ -26,7 +26,7 @@ The purchase system includes:
 Controller provides simple methods to open purchase interfaces:
 
 ```typescript
-import Controller from "@cartridge/controller";
+import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
 
 const controller = new Controller();
 
@@ -35,6 +35,23 @@ controller.openPurchaseCredits();
 
 // Open starterpack purchase/claim flow (works for both paid and free starterpacks)
 controller.openStarterPack("starterpack-id-123");
+
+// Open custom starterpack with configuration object
+const customPack: StarterPack = {
+  name: "Beginner Pack",
+  description: "Essential items for new players",
+  items: [
+    {
+      type: StarterPackItemType.FUNGIBLE,
+      name: "Gold Coins", 
+      description: "In-game currency",
+      amount: 100,
+      price: 5000000n, // $5.00 in USDC micro-units
+      call: [{ contractAddress: "0x123...", entrypoint: "mint", calldata: ["user", "100", "0"] }]
+    }
+  ]
+};
+controller.openStarterPack(customPack);
 ```
 
 ## API Reference
@@ -59,22 +76,23 @@ const handleBuyCredits = () => {
 };
 ```
 
-### openStarterPack(starterpackId: string)
+### openStarterPack(options: string | StarterPack)
 
-Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
+Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
 
 ```typescript
-controller.openStarterPack(starterpackId: string);
+controller.openStarterPack(options: string | StarterPack);
 ```
 
 **Parameters:**
-- `starterpackId` (string): The unique identifier for the starterpack to purchase or claim
+- `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
 
 **Returns:** `void`
 
 **Usage Examples:**
+
 ```typescript
-// Offer paid starterpack to new players
+// Backward compatible - existing usage with string ID
 const handleBuyStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
@@ -83,7 +101,126 @@ const handleBuyStarterpack = () => {
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024");
 };
+
+// New - custom starter pack with outside execution
+const customPack: StarterPack = {
+  name: "Warrior Starter Pack",
+  description: "Everything you need to start your adventure",
+  iconURL: "https://example.com/warrior-pack.png",
+  items: [
+    {
+      type: StarterPackItemType.NONFUNGIBLE,
+      name: "Legendary Sword",
+      description: "A powerful starting weapon",
+      iconURL: "https://example.com/sword.png", 
+      amount: 1,
+      price: 50000000n, // 50 USDC in micro-units (6 decimals)
+      call: [
+        {
+          contractAddress: "0x123...",
+          entrypoint: "mint",
+          calldata: [userAddress, "1", "0"]
+        }
+      ]
+    },
+    {
+      type: StarterPackItemType.FUNGIBLE,
+      name: "Gold Coins",
+      description: "In-game currency",
+      amount: 1000,
+      price: 10000n, // 0.01 USDC in micro-units
+      call: [
+        {
+          contractAddress: "0x456...",
+          entrypoint: "transfer", 
+          calldata: [userAddress, "1000", "0"]
+        }
+      ]
+    }
+  ]
+};
+
+const handleCustomStarterpack = () => {
+  controller.openStarterPack(customPack);
+  // Total price: $60.00 (50 + 1000×0.01), all calls executed after payment
+};
 ```
+
+## StarterPack Configuration
+
+The `StarterPack` interface enables you to create custom starter pack bundles with associated contract calls that are executed automatically after successful payment. This provides complete control over the purchase experience and allows for complex multi-item bundles.
+
+### StarterPack Interface
+
+```typescript
+interface StarterPack {
+  name: string;
+  description: string;
+  iconURL?: string;
+  items: StarterPackItem[];
+}
+```
+
+**Properties:**
+- `name` (string): Display name for the starter pack
+- `description` (string): Description shown to users
+- `iconURL` (string, optional): URL for the pack icon/image
+- `items` (StarterPackItem[]): Array of items included in the pack
+
+### StarterPackItem Interface
+
+```typescript
+interface StarterPackItem {
+  type: StarterPackItemType;
+  name: string;
+  description: string;
+  iconURL?: string;
+  amount?: number;
+  price?: bigint;
+  call?: Call[];
+}
+```
+
+**Properties:**
+- `type` (StarterPackItemType): Type of item (NONFUNGIBLE or FUNGIBLE)
+- `name` (string): Display name for the item
+- `description` (string): Item description
+- `iconURL` (string, optional): URL for item icon/image
+- `amount` (number, optional): Quantity of the item
+- `price` (bigint, optional): Price in USDC micro-units (6 decimals, e.g., 1000000n = $1.00)
+- `call` (Call[], optional): Contract calls to execute for this item after payment
+
+### StarterPackItemType Enum
+
+```typescript
+enum StarterPackItemType {
+  NONFUNGIBLE = "NONFUNGIBLE",  // Unique items like NFTs, weapons, characters
+  FUNGIBLE = "FUNGIBLE"         // Quantity-based items like coins, potions, resources
+}
+```
+
+### Key Features
+
+- **Outside Execution**: Contract calls are automatically aggregated into a multicall and executed after successful payment
+- **Dynamic Pricing**: Total pack price is calculated from `sum(item.price × item.amount)` 
+- **Flexible Calls**: Any contract calls can be included - minting, transfers, game state updates, etc.
+- **UI Generation**: Purchase interface renders directly from the provided data structure
+- **Self-Contained**: No backend integration required - everything is defined in the configuration
+
+### Important Notes
+
+**Pricing Format:**
+- All prices must be specified in USDC micro-units (6 decimal places)
+- Example: `1000000n` = $1.00, `500000n` = $0.50, `10000n` = $0.01
+
+**Contract Calls:**
+- Use the standard Starknet `Call` format with `contractAddress`, `entrypoint`, and `calldata`
+- Calls are executed in the order they appear in the `call` array for each item
+- All calls across all items are combined into a single multicall transaction
+
+**Error Handling:**
+- If any contract call fails, the entire transaction is reverted
+- Users are only charged if all contract calls execute successfully
 
 ## Starterpack Types
 
@@ -207,7 +344,7 @@ The claiming process follows these steps:
 ### Basic Starterpack Integration
 
 ```typescript
-import Controller from "@cartridge/controller";
+import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
 
 const controller = new Controller();
 
@@ -215,7 +352,7 @@ const controller = new Controller();
 function StarterpackOffers() {
   return (
     <div className="starterpack-offers">
-      {/* Paid starterpack */}
+      {/* Paid starterpack (existing ID) */}
       <div className="starterpack-offer">
         <h3>Premium Welcome Pack</h3>
         <p>Get started with 1000 credits and exclusive items!</p>
@@ -227,7 +364,7 @@ function StarterpackOffers() {
         </button>
       </div>
 
-      {/* Claimable starterpack */}
+      {/* Claimable starterpack (existing ID) */}
       <div className="starterpack-offer">
         <h3>Free Starter Pack</h3>
         <p>Claim your free starter bundle with game assets!</p>
@@ -238,6 +375,128 @@ function StarterpackOffers() {
           Claim Free Pack
         </button>
       </div>
+    </div>
+  );
+}
+```
+
+### Custom Starterpack Integration
+
+```typescript
+import { StarterPack, StarterPackItemType } from "@cartridge/controller";
+
+// Define a custom starter pack with contract calls
+const customStarterPack: StarterPack = {
+  name: "Warrior Starter Pack",
+  description: "Everything you need to start your adventure as a warrior",
+  iconURL: "https://yourgame.com/images/warrior-pack.png",
+  items: [
+    {
+      type: StarterPackItemType.NONFUNGIBLE,
+      name: "Legendary Sword",
+      description: "A powerful starting weapon with +50 attack power",
+      iconURL: "https://yourgame.com/images/sword.png",
+      amount: 1,
+      price: 50000000n, // $50.00 in USDC micro-units
+      call: [
+        {
+          contractAddress: "0x1234...abcd", // Your game's weapon contract
+          entrypoint: "mint_weapon",
+          calldata: [
+            userAddress,        // recipient
+            "1",               // weapon_type (sword)
+            "50",              // attack_power
+            "0"                // padding
+          ]
+        }
+      ]
+    },
+    {
+      type: StarterPackItemType.FUNGIBLE,
+      name: "Gold Coins",
+      description: "In-game currency for purchasing items and upgrades",
+      iconURL: "https://yourgame.com/images/gold.png",
+      amount: 1000,
+      price: 10000n, // $0.01 per coin, so $10.00 total for 1000 coins
+      call: [
+        {
+          contractAddress: "0x5678...efgh", // Your game's currency contract
+          entrypoint: "mint",
+          calldata: [
+            userAddress,    // recipient  
+            "1000",        // amount
+            "0"            // padding
+          ]
+        }
+      ]
+    },
+    {
+      type: StarterPackItemType.FUNGIBLE,
+      name: "Health Potions",
+      description: "Restore health during combat",
+      iconURL: "https://yourgame.com/images/potion.png",
+      amount: 5,
+      price: 2000000n, // $2.00 per potion, so $10.00 total for 5 potions
+      call: [
+        {
+          contractAddress: "0x9abc...def0", // Your game's items contract
+          entrypoint: "mint_consumable",
+          calldata: [
+            userAddress,    // recipient
+            "1",           // item_type (health potion)
+            "5",           // quantity
+            "0"            // padding
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+function CustomStarterpackOffer({ userAddress }: { userAddress: string }) {
+  const handlePurchase = () => {
+    // Replace userAddress placeholders in calldata
+    const packWithUserAddress = {
+      ...customStarterPack,
+      items: customStarterPack.items.map(item => ({
+        ...item,
+        call: item.call?.map(call => ({
+          ...call,
+          calldata: call.calldata.map(data => 
+            data === userAddress ? userAddress : data
+          )
+        }))
+      }))
+    };
+    
+    controller.openStarterPack(packWithUserAddress);
+  };
+
+  // Calculate total price
+  const totalPrice = customStarterPack.items.reduce((sum, item) => {
+    if (item.price && item.amount) {
+      return sum + (item.price * BigInt(item.amount));
+    }
+    return sum + (item.price || 0n);
+  }, 0n);
+  
+  const totalUSD = Number(totalPrice) / 1000000; // Convert from micro-units to dollars
+
+  return (
+    <div className="custom-starterpack-offer">
+      <h3>{customStarterPack.name}</h3>
+      <p>{customStarterPack.description}</p>
+      <div className="items-preview">
+        {customStarterPack.items.map((item, index) => (
+          <div key={index} className="item">
+            <img src={item.iconURL} alt={item.name} />
+            <span>{item.amount}x {item.name}</span>
+          </div>
+        ))}
+      </div>
+      <button onClick={handlePurchase} className="buy-button">
+        Buy Warrior Pack - ${totalUSD.toFixed(2)}
+      </button>
     </div>
   );
 }
@@ -313,12 +572,18 @@ function PurchaseIntegration({
 - **Free First**: Prioritize showing claimable starterpacks to new users before paid options
 - **Eligibility Clarity**: Make it clear when starterpacks are free vs. paid
 - **Collection Context**: Highlight which game collections/platforms are supported for claimed assets
+- **Custom Pack Transparency**: When using custom starterpacks, clearly show all items and their individual values
+- **Price Calculation**: Display total pricing upfront so users understand the value proposition
 
 ### Integration Guidelines
 - **Non-intrusive**: Don't block gameplay with purchase prompts
 - **Contextual**: Show relevant purchase options based on user needs
 - **Progressive**: Start with smaller purchases and gradually introduce larger bundles
 - **Accessible**: Ensure purchase buttons are easily discoverable but not overwhelming
+- **Custom Pack Design**: Design custom starterpacks that provide genuine value compared to individual purchases
+- **Contract Call Safety**: Test all contract calls thoroughly in development before using in production starterpacks
+- **Price Consistency**: Use consistent pricing units (USDC micro-units) across all custom starterpack items
+- **User Address Handling**: Always replace placeholder addresses with actual user addresses before calling openStarterPack()
 
 ### Security Considerations
 - **Client-side Only**: Purchase methods only open interfaces; no sensitive operations in frontend code
@@ -337,6 +602,13 @@ function PurchaseIntegration({
 **Starterpack not found**
 - Verify the starterpack ID exists and is active
 - Check that the starterpack is available in the current environment (mainnet/testnet)
+
+**Custom starterpack issues**
+- Verify all required fields are present in the StarterPack configuration object
+- Check that all item prices are specified as bigint values in USDC micro-units
+- Ensure contract addresses in call arrays are valid and deployed on the current network
+- Verify that calldata arrays have the correct format and parameter count for the target contract methods
+- Test contract calls individually before including them in starterpack configurations
 
 **Claim eligibility issues**
 - Verify the user meets all claim requirements for the starterpack
