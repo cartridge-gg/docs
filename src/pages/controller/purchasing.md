@@ -17,7 +17,7 @@ The purchase system includes:
 - **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
 - **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
-- **NFT Marketplace Support**: ERC1155 listing and purchase capabilities for enhanced marketplace functionality
+- **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure for enhanced marketplace functionality
 
 ## Quick Start
 
@@ -325,6 +325,16 @@ Cryptocurrency payments include several fee components:
 - **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
 
 The total cost including all fees is displayed upfront before payment confirmation.
+
+#### NFT Marketplace Fees
+
+For ERC721 and ERC1155 marketplace transactions, additional fees apply:
+
+- **Marketplace Fee**: Variable fee set by the marketplace platform
+- **Creator Royalties**: Fees paid to the original creator of the NFT (if applicable)
+- **Client Fee**: Processing fee calculated using configurable numerator/denominator ratios, automatically applied to marketplace transactions
+
+These fees are transparently displayed in the purchase interface before transaction confirmation, including percentage breakdowns and total amounts.
 
 ### Claim Flow (Free Starterpacks)
 
