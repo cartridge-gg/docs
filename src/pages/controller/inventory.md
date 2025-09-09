@@ -62,7 +62,7 @@ The inventory system includes built-in marketplace functionality for ERC721 and 
   - Marketplace fees
   - Creator royalties (when applicable)
   - Client processing fees
-- **Multi-token Support**: Purchase with various supported tokens
+- **Multi-token Support**: Purchase with supported tokens (ETH, STRK, USDC, LORDS)
 - **Transaction Safety**: All marketplace transactions include proper fee disclosure and confirmation flows
 
 ### Marketplace Fees
@@ -74,3 +74,14 @@ When purchasing assets through the marketplace:
 - **Marketplace Fees**: Platform fees as configured by the marketplace
 
 All fees are clearly displayed before transaction confirmation, including both absolute amounts and percentage breakdowns.
+
+## Supported Tokens for Marketplace Listings
+
+When listing NFTs on the marketplace, only specific tokens are supported as payment options:
+
+- **ETH** - Ethereum token
+- **STRK** - StarkNet token  
+- **USDC** - USD Coin
+- **LORDS** - Lords token
+
+These are the only tokens available when setting prices for NFT listings in the marketplace interface. All other tokens in your inventory remain accessible for other operations but cannot be used as payment currencies for marketplace transactions.
