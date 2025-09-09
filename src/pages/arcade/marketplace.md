@@ -55,8 +55,4 @@ See the [Slot docs](/slot/getting-started) for more information about creating T
 Controller instances can only be configured with a single Torii instance, so ensure that all your Marketplace assets are indexed by the same Torii.
 :::
 
-#### Upload Asset Metadata
-
-The final step is to upload your asset's metadata to the Controller.
-
 ::::
