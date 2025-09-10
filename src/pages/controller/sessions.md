@@ -17,7 +17,8 @@ Cartridge Controller supports session-based authorization and policy-based trans
 
 ## Transactions Without Policies
 
-Cartridge Controller can execute transactions **without** defining policies. When no policies are provided:
+Cartridge Controller can execute transactions **without** defining policies.
+When no policies are provided:
 
 - Each transaction requires manual user approval via the Cartridge interface
 - Users will see a confirmation screen for every transaction

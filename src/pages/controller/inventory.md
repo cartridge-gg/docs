@@ -3,13 +3,13 @@ description: Learn how to use and configure the Cartridge Controller's Inventory
 title: Controller Inventory Management
 ---
 
-# Inventory 
+# Inventory
 
 Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
 
 ## Configure tokens
 
-By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.tom`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
+By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.toml`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
 
 ### Configure additional token to index
 
@@ -35,12 +35,12 @@ Provide Slot project name to `ControllerOptions`.
 
 ```typescript
 const controller = new Controller({
-  slot: "<project>" 
+  slot: "<torii-url>"
 });
 
 // or via connector
 const connector = new CartridgeConnector({
-  slot: "<project>" 
+  slot: "<torii-url>"
 })
 ```
 
@@ -58,12 +58,7 @@ The inventory system includes built-in marketplace functionality for ERC721 and 
 
 - **Asset Purchasing**: Buy digital assets from marketplace listings with transparent fee structure
 - **Collection Browsing**: Browse and purchase items from specific collections
-- **Fee Management**: Automatic calculation and display of:
-  - Marketplace fees
-  - Creator royalties (when applicable)
-  - Client processing fees
 - **Multi-token Support**: Purchase with various supported tokens
-- **Transaction Safety**: All marketplace transactions include proper fee disclosure and confirmation flows
 
 ### Marketplace Fees
 
