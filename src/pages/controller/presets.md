@@ -1,9 +1,9 @@
 ---
-description: Learn how to customize your Cartridge Controller.
 title: Controller Presets
+description: Learn how to customize your Cartridge Controller.
 ---
 
-This guide provides a comprehensive overview of how to create and apply custom themes, provide verified session policies, and configure Apple App Site Association for iOS integration with the Cartridge Controller.
+This guide provides a comprehensive overview of how to create and apply custom themes, provide verified session policies, and configure Apple App Site Association (AASA) for iOS integration with the Cartridge Controller.
 
 ## Creating a Theme
 
@@ -27,7 +27,8 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 
 ## Verified Sessions
 
-Session Policies can be provided in the preset configuration, providing a smoother experience for your users. In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
+Session Policies can be provided in the preset configuration, providing a smoother experience for your users.
+In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
 For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/main/configs/dope-wars/config.json):
 
@@ -38,7 +39,7 @@ For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/mai
     "SN_MAIN": {
       "policies": {
         "contracts": {
-          "0x051Fea4450Da9D6aeE758BDEbA88B2f665bCbf549D2C61421AA724E9AC0Ced8F": {
+          "0x051Fea...": {
             "name": "VRF Provider",
             "description": "Provides verifiable random functions",
             "methods": [
@@ -59,7 +60,8 @@ For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/mai
 
 ## Paymaster Predicate Support
 
-Session policies can now include paymaster predicates, which provide additional conditional logic for transaction sponsorship. This is particularly useful for games that need to sponsor transactions based on specific conditions or game state.
+Session policies now support **paymaster predicates**, which provide additional conditional logic for transaction sponsorship.
+This is particularly useful for games that need to sponsor transactions based on specific conditions or game state.
 
 ### Using Predicates in Presets
 
