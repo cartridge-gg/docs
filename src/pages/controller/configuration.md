@@ -52,11 +52,14 @@ When you provide custom chains via the `chains` option, they take precedence ove
 - Use custom RPC endpoints for mainnet or sepolia
 - Add support for additional networks (like Slot katana instances)
 - Override default chain configurations
-- Programmatically switch chains for connected external wallets (Braavos, MetaMask, Rabby, WalletConnect)
+- Programmatically switch chains for connected external wallets (MetaMask, Rabby, WalletConnect)
 
 ### External Wallet Chain Switching
 
-Controller supports programmatic chain switching for external wallets through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
+Controller supports programmatic chain switching for compatible external wallets through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
+
+**Supported Wallets**: MetaMask, Rabby, Base, WalletConnect
+**Not Supported**: Braavos (does not support the `wallet_switchStarknetChain` API)
 
 **Example:**
 ```typescript
