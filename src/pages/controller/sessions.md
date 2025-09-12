@@ -192,10 +192,22 @@ const policies: SessionPolicies = {
 
 ### Verified Sessions
 
-
 Verified session policies provide a better user experience by attesting to the validity of a games session policy configuration, providing confidence to it's players.
 
 ![Verified Session](/verified-session.svg)
+
+**Automatic Session Creation**
+
+When using verified session policies, the user experience is significantly improved:
+
+- **No Approval Screen**: Verified sessions automatically bypass the user approval screen
+- **Instant Connection**: Sessions are created automatically with a default 24-hour duration  
+- **Seamless UX**: Users can start playing immediately without manual session approval
+- **Graceful Fallback**: If automatic session creation fails, the system falls back to showing the standard approval UI
+
+This automatic behavior only applies to verified policies. Unverified policies will continue to show the approval screen as before, maintaining security for untrusted applications.
+
+**Getting Verified**
 
 Verified configs can be committed to the `configs` folder in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
