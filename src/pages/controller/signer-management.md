@@ -35,15 +35,18 @@ Controller supports four types of signers:
 
 ### 3. Social Login
 
-Controller offers social login options through Google and Discord:
+Controller offers native social login options through Google and Discord:
 
-- **Streamlined onboarding** for users with existing social accounts
-- **Secure integration** via Turnkey wallet infrastructure
+- **Streamlined onboarding** for users with existing social accounts  
+- **Secure integration** via Turnkey wallet infrastructure with Auth0
+- **Native implementation** using OAuth2 flows for improved security and UX
 
 Both Google and Discord login use an intelligent authentication flow that adapts to browser restrictions:
 
-1. **Primary Method**: Attempts to open OAuth in a popup window for a seamless experience
-2. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
+1. **Primary Method**: Attempts to open OAuth in a popup window for seamless experience
+2. **Fallback Method**: Automatically redirects to OAuth provider when popups are blocked
+3. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
+4. **Nonce Security**: Implements proper OIDC token validation with nonce verification
 
 ### 4. External Wallets
 
@@ -90,26 +93,32 @@ Controller offers integration with popular external web3 wallets, including Braa
 #### Adding Google Login
 
 1. Select **Google** from the signer options
-2. The system will attempt to open Google's OAuth authorization in a popup window
-   - If the popup opens successfully, complete the authorization in the popup
-   - If popups are blocked, you'll be automatically redirected to Google's OAuth page
-3. Sign in to your Google account if not already logged in
-4. Authorize Cartridge Controller to access your Google identity
-5. The Google login will be linked to your Controller account
+2. The system uses an intelligent OAuth flow:
+   - **In iframe environments**: Opens Google OAuth in a popup window for seamless UX
+   - **Standard environments**: Uses redirect flow for better compatibility 
+   - **Fallback handling**: Automatically switches to redirect if popup is blocked
+3. Complete the Google OAuth authorization:
+   - Sign in to your Google account if not already logged in
+   - Authorize Cartridge Controller to access your Google identity
+4. The system creates a secure Turnkey wallet linked to your Google account
+5. Your Google login is now available as a Controller authentication method
 
-> **Note**: The authentication system automatically handles browser restrictions by falling back from popup to redirect mode when necessary. This ensures compatibility across different browsers and security settings.
+> **Technical Details**: The implementation uses Auth0 for OAuth management with Turnkey for secure wallet creation. OIDC tokens are validated with proper nonce verification to prevent replay attacks.
 
 #### Adding Discord Login
 
 1. Select **Discord** from the signer options
-2. The system will attempt to open Discord's OAuth authorization in a popup window
-   - If the popup opens successfully, complete the authorization in the popup
-   - If popups are blocked, you'll be automatically redirected to Discord's OAuth page
-3. Sign in to your Discord account if not already logged in
-4. Authorize Cartridge Controller to access your Discord identity
-5. The Discord login will be linked to your Controller account
+2. The system uses the same intelligent OAuth flow as Google:
+   - **Popup-first approach**: Attempts popup for seamless authentication
+   - **Redirect fallback**: Automatically falls back to full redirect when necessary
+   - **Browser compatibility**: Handles CSP restrictions and iframe limitations
+3. Complete the Discord OAuth authorization:
+   - Sign in to your Discord account if not already logged in
+   - Authorize Cartridge Controller to access your Discord identity
+4. The system creates a secure Turnkey wallet linked to your Discord account
+5. Your Discord login is now available as a Controller authentication method
 
-> **Note**: Discord authentication uses the same popup/redirect fallback system as Google login for maximum browser compatibility.
+> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across both social providers.
 
 ### Adding External Wallets
 
@@ -259,6 +268,49 @@ If you encounter issues with signer management:
 - Check the [Passkey Support](/controller/passkey-support.md) guide for WebAuthn-specific help
 - Verify your wallet setup in the respective wallet's documentation
 - Ensure you're using a supported browser and have the latest wallet extensions installed
+
+## Developer Integration
+
+### Social Login Technical Implementation
+
+For developers integrating Controller's social login, the implementation includes:
+
+**Authentication Flow:**
+```typescript
+// Controller automatically handles social login based on environment
+const controller = new Controller({
+  // Supports both "google" and "discord" AuthOptions
+  signupOptions: ["webauthn", "google", "discord", "password"]
+});
+
+// Social providers are automatically available in connection flow
+await controller.connect();
+```
+
+**OAuth Environment Detection:**
+- **Iframe Detection**: Automatically switches between popup and redirect flows
+- **CSP Handling**: Gracefully handles Content Security Policy restrictions
+- **Mobile Compatibility**: Works across mobile and desktop browsers
+
+**Security Features:**
+- **OIDC Token Validation**: Proper nonce verification prevents replay attacks
+- **Turnkey Integration**: Secure wallet creation with hardware security modules
+- **Auth0 Management**: Enterprise-grade OAuth2 provider for scalability
+
+**Error Handling:**
+The social login flow includes comprehensive error handling for:
+- Popup blockers and browser restrictions
+- Network connectivity issues  
+- OAuth provider errors
+- Account mismatch scenarios
+
+### Browser Compatibility
+
+Social login is supported across:
+- **Desktop**: Chrome, Firefox, Safari, Edge
+- **Mobile**: iOS Safari, Chrome Mobile, Firefox Mobile
+- **WebView**: React Native, Ionic, Cordova
+- **Extension**: Browser extension environments
 
 ## Next Steps
 
