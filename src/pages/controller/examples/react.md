@@ -51,7 +51,7 @@ import { sepolia, mainnet } from "@starknet-react/chains";
 import {
   StarknetConfig,
   jsonRpcProvider,
-  starkscan,
+  cartridge,
 } from "@starknet-react/core";
 import ControllerConnector from "@cartridge/connector/controller";
 import { SessionPolicies } from "@cartridge/controller";
@@ -107,7 +107,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
       chains={[mainnet, sepolia]}
       provider={provider}
       connectors={[connector]}
-      explorer={starkscan}
+      explorer={cartridge}
     >
       {children}
     </StarknetConfig>
