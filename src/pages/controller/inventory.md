@@ -58,14 +58,6 @@ The inventory system includes built-in marketplace functionality for ERC721 and 
 
 - **Asset Purchasing**: Buy digital assets from marketplace listings with transparent fee structure
 - **Collection Browsing**: Browse and purchase items from specific collections
-- **Multi-token Support**: Purchase with various supported tokens
-
-### Marketplace Fees
-
-When purchasing assets through the marketplace:
-
-- **Client Fees**: Automatically calculated and applied to each transaction
-- **Creator Royalties**: Honor creator royalty settings for supported collections
-- **Marketplace Fees**: Platform fees as configured by the marketplace
-
-All fees are clearly displayed before transaction confirmation, including both absolute amounts and percentage breakdowns.
+- **Fee Management**: Automatic calculation and display of marketplace fees, creator royalties, and client fees
+- **Multi-token Support**: Purchase with supported tokens (ETH, STRK, USDC, LORDS)
+- **Transaction Safety**: All marketplace transactions include proper fee disclosure and confirmation flows
