@@ -10,7 +10,7 @@ title: Controller Overview
 -   A gaming-focused smart contract wallet for Starknet
 -   Makes Web3 gaming accessible and fun via Session Keys and gasless transactions
 -   Handles seamless player onboarding with Passkey authentication
--   Provides identity, achievements, and customization features for games  
+-   Provides identity, achievements, and customization features for games
 -   Compatible with popular frameworks like Starknet React and can be integrated across platforms
 
 ![Cartridge Controller Overview](/controller.png)
@@ -20,9 +20,8 @@ title: Controller Overview
 ### Simple & Secure
 
 -   Passwordless authentication using Passkeys for one-click onboarding
--   Multi-signer support with Passkeys, password authentication (testing only), social login (Google, Discord), and external wallets (Argent, Braavos, MetaMask, Rabby, WalletConnect)
+-   Multi-signer support with Passkeys, password auth, social login, and external wallets
 -   Self-custodial embedded wallets that put players in control
--   Built-in security features to protect player assets
 
 ### Designed for Fun
 
@@ -32,7 +31,6 @@ title: Controller Overview
 
 ### Customizable
 
--   Flexible architecture adapts to your game's specific requirements
 -   Full theme customization to match your game's branding
 -   Dynamic UI components for displaying game assets, quests and achievements
 -   Extensible plugin system for adding custom functionality
@@ -41,14 +39,10 @@ title: Controller Overview
 
 -   Universal player identity that works across all Cartridge-enabled games
 -   Built-in achievement system for tracking player accomplishments
--   Reputation system that grows as players engage with games
 -   Social features to connect players and build communities
 
 ### Monetization and Payments
 
--   Built-in purchase system for seamless game monetization with enhanced multichain flows
--   Starterpack bundles combining credits and game assets with cross-chain purchasing
--   Multi-chain cryptocurrency payment support (Starknet, Base, Arbitrum, Optimism) with chain switching
--   Traditional payment methods via secure credit card processing
--   Popular wallet integrations (Argent, Braavos, MetaMask, Rabby)
--   ERC721 and ERC1155 NFT marketplace support for listing and purchasing digital assets with integrated fee management
+-   Multi-chain cryptocurrency and fiat support
+-   Starterpack bundles combining credits and game assets
+-   ERC721 and ERC1155 NFT marketplace support with automated fee management
