@@ -3,13 +3,13 @@ description: Learn how to use and configure the Cartridge Controller's Inventory
 title: Controller Inventory Management
 ---
 
-# Inventory 
+# Inventory
 
 Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
 
 ## Configure tokens
 
-By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.tom`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
+By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.toml`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
 
 ### Configure additional token to index
 
@@ -35,12 +35,12 @@ Provide Slot project name to `ControllerOptions`.
 
 ```typescript
 const controller = new Controller({
-  slot: "<project>" 
+  slot: "<torii-url>"
 });
 
 // or via connector
 const connector = new CartridgeConnector({
-  slot: "<project>" 
+  slot: "<torii-url>"
 })
 ```
 
@@ -74,14 +74,3 @@ When purchasing assets through the marketplace:
 - **Marketplace Fees**: Platform fees as configured by the marketplace
 
 All fees are clearly displayed before transaction confirmation, including both absolute amounts and percentage breakdowns.
-
-## Supported Tokens for Marketplace Listings
-
-When listing NFTs on the marketplace, only specific tokens are supported as payment options:
-
-- **ETH** - Ethereum token
-- **STRK** - StarkNet token  
-- **USDC** - USD Coin
-- **LORDS** - Lords token
-
-These are the only tokens available when setting prices for NFT listings in the marketplace interface. All other tokens in your inventory remain accessible for other operations but cannot be used as payment currencies for marketplace transactions.

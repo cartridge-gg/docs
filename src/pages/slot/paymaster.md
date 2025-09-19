@@ -264,7 +264,6 @@ slot paymaster <paymaster-name> info
   • Count: 3
 ```
 
-
 ## Updating Paymaster Configuration
 
 Update your paymaster's basic configuration settings:

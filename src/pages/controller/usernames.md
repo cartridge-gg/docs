@@ -5,13 +5,14 @@ title: Username Lookup
 
 # Looking up Usernames / Addresses
 
-A service for looking up usernames and addresses in the Cartridge ecosystem. You can use either the helper methods from the SDK or query the endpoint directly.
+A service for looking up usernames and addresses in the Cartridge ecosystem.
+You can use either the helper methods from the SDK or query the endpoint directly.
 
 ## Direct API Access
 
 The lookup endpoint can be accessed directly via HTTP POST:
 
-```
+```bash
 curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"usernames": ["shinobi","sensei"]}' \
@@ -88,7 +89,7 @@ When using the lookup methods or directly via the API, be aware of the following
 
 2. **Rate Limiting**: The API is rate-limited to 10 requests per second to prevent overloading the server.
 
-3. **Address Format Requirements**: 
+3. **Address Format Requirements**:
    - Addresses must be lowercase non-zero-padded hex
    - The helper methods handle address formatting automatically
 
@@ -109,6 +110,6 @@ To optimize performance when fetching usernames:
 
 1. Batch your requests: Instead of making multiple calls for individual addresses, group them into a single call (up to 1000 addresses).
 2. Utilize the built-in caching of the helper methods: Previously fetched usernames are cached, so subsequent requests for the same addresses will be faster.
-3. Be mindful of the rate limit: If you need to fetch usernames for more than 1000 addresses, implement your own throttling mechanism to avoid hitting the rate limit.
+3. Be mindful of the rate limit: If you need to fetch usernames for more than 1000 addresses, implement your own throttling mechanism.
 
 By following these guidelines, you can efficiently fetch and display usernames for controller addresses in your Cartridge-powered application.
