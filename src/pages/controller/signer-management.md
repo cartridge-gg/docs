@@ -287,31 +287,6 @@ const controller = new Controller({
 await controller.connect();
 ```
 
-**OAuth Environment Detection:**
-- **Iframe Detection**: Automatically switches between popup and redirect flows
-- **CSP Handling**: Gracefully handles Content Security Policy restrictions
-- **Mobile Compatibility**: Works across mobile and desktop browsers
-
-**Security Features:**
-- **OIDC Token Validation**: Proper nonce verification prevents replay attacks
-- **Turnkey Integration**: Secure wallet creation with hardware security modules
-- **Auth0 Management**: Enterprise-grade OAuth2 provider for scalability
-
-**Error Handling:**
-The social login flow includes comprehensive error handling for:
-- Popup blockers and browser restrictions
-- Network connectivity issues  
-- OAuth provider errors
-- Account mismatch scenarios
-
-### Browser Compatibility
-
-Social login is supported across:
-- **Desktop**: Chrome, Firefox, Safari, Edge
-- **Mobile**: iOS Safari, Chrome Mobile, Firefox Mobile
-- **WebView**: React Native, Ionic, Cordova
-- **Extension**: Browser extension environments
-
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md) for gasless gaming transactions
