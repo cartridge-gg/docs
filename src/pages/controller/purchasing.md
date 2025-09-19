@@ -16,7 +16,7 @@ The purchase system includes:
 - **Starterpack Claims**: Free starterpack bundles that users can claim based on eligibility, featuring collection support display
 - **Credit Purchases**: Direct credit top-ups for gasless transactions
 - **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
-- **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
+- **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with automatic chain switching for compatible wallets
 - **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
 - **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure
 
@@ -274,7 +274,7 @@ The purchase process follows these steps:
 2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-3. **Wallet Connection**: Connect external wallet with automatic chain switching support
+3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
 5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
 6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
@@ -282,6 +282,15 @@ The purchase process follows these steps:
 ## Cross-Chain Bridging with Layerswap
 
 Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+
+### Wallet Chain Switching Behavior
+
+During the payment process, Controller attempts to automatically switch connected wallets to the optimal chain for the transaction:
+
+- **MetaMask, Rabby, Base, WalletConnect**: Support automatic chain switching via the `wallet_switchStarknetChain` API
+- **Braavos**: Does not support automatic chain switching and will remain on the currently connected chain
+
+If a wallet doesn't support chain switching, users can manually switch chains within their wallet before completing the transaction.
 
 ### Fee Structure
 
