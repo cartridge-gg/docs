@@ -15,6 +15,8 @@ pnpm build
 pnpm preview
 ```
 
+Note: This documentation repository is separate from the main controller repository. For controller development commands including `pnpm dev:live` (production API testing mode), refer to the main controller repository's CLAUDE.md file.
+
 ## Project Architecture
 
 This is a Vocs-based documentation site for Cartridge - a high-performance infrastructure platform for provable games and applications. The project structure is:

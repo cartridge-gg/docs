@@ -246,6 +246,20 @@ function App() {
 export default App
 ```
 
+## Development and Testing
+
+If you're working with the Cartridge Controller repository examples, you can use two development modes:
+
+```bash
+# Local development with local APIs
+pnpm dev
+
+# Testing with production APIs (hybrid mode)
+pnpm dev:live
+```
+
+The `dev:live` mode is useful when you need to test your React application against production data while keeping your local development environment.
+
 ## Important Notes
 
 Make sure to use HTTPS in development by configuring Vite:

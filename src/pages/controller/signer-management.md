@@ -35,15 +35,18 @@ Controller supports four types of signers:
 
 ### 3. Social Login
 
-Controller offers social login options through Google and Discord:
+Controller offers native social login options through Google and Discord:
 
-- **Streamlined onboarding** for users with existing social accounts
-- **Secure integration** via Turnkey wallet infrastructure
+- **Streamlined onboarding** for users with existing social accounts  
+- **Secure integration** via Turnkey wallet infrastructure with Auth0
+- **Native implementation** using OAuth2 flows for improved security and UX
 
 Both Google and Discord login use an intelligent authentication flow that adapts to browser restrictions:
 
-1. **Primary Method**: Attempts to open OAuth in a popup window for a seamless experience
-2. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
+1. **Primary Method**: Attempts to open OAuth in a popup window for seamless experience
+2. **Fallback Method**: Automatically redirects to OAuth provider when popups are blocked
+3. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
+4. **Nonce Security**: Implements proper OIDC token validation with nonce verification
 
 ### 4. External Wallets
 
@@ -90,35 +93,42 @@ Controller offers integration with popular external web3 wallets, including Braa
 #### Adding Google Login
 
 1. Select **Google** from the signer options
-2. The system will attempt to open Google's OAuth authorization in a popup window
-   - If the popup opens successfully, complete the authorization in the popup
-   - If popups are blocked, you'll be automatically redirected to Google's OAuth page
-3. Sign in to your Google account if not already logged in
-4. Authorize Cartridge Controller to access your Google identity
-5. The Google login will be linked to your Controller account
+2. The system uses an intelligent OAuth flow:
+   - **In iframe environments**: Opens Google OAuth in a popup window for seamless UX
+   - **Standard environments**: Uses redirect flow for better compatibility 
+   - **Fallback handling**: Automatically switches to redirect if popup is blocked
+3. Complete the Google OAuth authorization:
+   - Sign in to your Google account if not already logged in
+   - Authorize Cartridge Controller to access your Google identity
+4. The system creates a secure Turnkey wallet linked to your Google account
+5. Your Google login is now available as a Controller authentication method
 
-> **Note**: The authentication system automatically handles browser restrictions by falling back from popup to redirect mode when necessary. This ensures compatibility across different browsers and security settings.
+> **Technical Details**: The implementation uses Auth0 for OAuth management with Turnkey for secure wallet creation. OIDC tokens are validated with proper nonce verification to prevent replay attacks.
 
 #### Adding Discord Login
 
 1. Select **Discord** from the signer options
-2. The system will attempt to open Discord's OAuth authorization in a popup window
-   - If the popup opens successfully, complete the authorization in the popup
-   - If popups are blocked, you'll be automatically redirected to Discord's OAuth page
-3. Sign in to your Discord account if not already logged in
-4. Authorize Cartridge Controller to access your Discord identity
-5. The Discord login will be linked to your Controller account
+2. The system uses the same intelligent OAuth flow as Google:
+   - **Popup-first approach**: Attempts popup for seamless authentication
+   - **Redirect fallback**: Automatically falls back to full redirect when necessary
+   - **Browser compatibility**: Handles CSP restrictions and iframe limitations
+3. Complete the Discord OAuth authorization:
+   - Sign in to your Discord account if not already logged in
+   - Authorize Cartridge Controller to access your Discord identity
+4. The system creates a secure Turnkey wallet linked to your Discord account
+5. Your Discord login is now available as a Controller authentication method
 
-> **Note**: Discord authentication uses the same popup/redirect fallback system as Google login for maximum browser compatibility.
+> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across both social providers.
 
 ### Adding External Wallets
 
 1. Select **Wallet** to see external wallet options
 2. Choose from the supported wallet types:
-   - **Braavos**: Ensure Braavos extension is installed and unlocked
-   - **MetaMask**: Ensure MetaMask extension is installed and unlocked
-   - **Rabby**: Ensure Rabby extension is installed and unlocked
-   - **Base**: Ensure Coinbase Base wallet is installed and unlocked
+   - **Argent**: StarkNet-native wallet with advanced security features and account management
+   - **Braavos**: StarkNet-native wallet with built-in security features
+   - **MetaMask**: Popular browser extension wallet
+   - **Rabby**: Security-focused multi-chain wallet
+   - **Base**: Coinbase's official wallet with multi-chain support
    - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
@@ -136,7 +146,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Braavos, MetaMask, Rabby, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -147,9 +157,28 @@ When connecting to your Controller:
 - Select any of your registered signers to authenticate
 - Your account and assets remain the same regardless of which signer you use
 
+### Account Synchronization for StarkNet Wallets
+
+Cartridge Controller automatically stays synchronized with account changes in connected StarkNet wallets (Argent and Braavos). This ensures that when users switch accounts within their external wallet, the Controller is immediately updated to reflect the new active account.
+
+**Automatic Synchronization Features:**
+- **Real-time Updates**: Controller automatically detects when users switch accounts in Argent or Braavos wallets
+- **Seamless Experience**: No manual reconnection required when switching accounts
+- **Memory Management**: Proper cleanup of event listeners to prevent memory leaks
+- **Connection Reliability**: Automatic listener re-establishment on reconnection
+
+**How It Works:**
+1. When connecting an Argent or Braavos wallet, Controller registers an account change listener
+2. The listener monitors the wallet's `accountsChanged` events
+3. When an account switch is detected, Controller updates its internal state
+4. Connected accounts list and active account are automatically synchronized
+5. On disconnect, listeners are properly cleaned up to prevent memory issues
+
+> **Note**: Account synchronization is currently available for StarkNet wallets (Argent and Braavos). Other external wallets maintain their existing connection behavior.
+
 ### Chain Switching for External Wallets
 
-External wallets (Braavos, MetaMask, Rabby, Base, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -165,12 +194,14 @@ External wallets (Braavos, MetaMask, Rabby, Base, WalletConnect) support program
 ```typescript
 // Switch connected external wallet to a different chain
 const success = await controller.externalSwitchChain(
-  walletType, // e.g., "braavos", "metamask", "rabby", "base"
+  walletType, // e.g., "metamask", "rabby", "base"
   chainId     // Target chain identifier
 );
 ```
 
-**Note:** Chain switching availability depends on the specific external wallet's capabilities and the target chain support.
+**Wallet-Specific Limitations:**
+- **Braavos**: Does not support the `wallet_switchStarknetChain` API. Chain switching requests are ignored, and the wallet remains on its current chain.
+- **Other Wallets**: Chain switching availability depends on the specific external wallet's capabilities and the target chain support.
 
 ### Transaction Confirmation for External Wallets
 
@@ -259,6 +290,24 @@ If you encounter issues with signer management:
 - Check the [Passkey Support](/controller/passkey-support.md) guide for WebAuthn-specific help
 - Verify your wallet setup in the respective wallet's documentation
 - Ensure you're using a supported browser and have the latest wallet extensions installed
+
+## Developer Integration
+
+### Social Login Technical Implementation
+
+For developers integrating Controller's social login, the implementation includes:
+
+**Authentication Flow:**
+```typescript
+// Controller automatically handles social login based on environment
+const controller = new Controller({
+  // Supports both "google" and "discord" AuthOptions
+  signupOptions: ["webauthn", "google", "discord", "password"]
+});
+
+// Social providers are automatically available in connection flow
+await controller.connect();
+```
 
 ## Next Steps
 
