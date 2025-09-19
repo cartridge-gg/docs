@@ -5,7 +5,8 @@ title: Purchase Integration
 
 # Purchase Integration
 
-Cartridge Controller provides built-in purchase functionality that enables seamless monetization for games and applications. The purchase system supports both traditional payment methods (credit cards) and cryptocurrency transactions across multiple blockchain networks.
+Cartridge Controller provides built-in purchase functionality that enables seamless monetization for games and applications.
+The purchase system supports both traditional payment methods (credit cards) and cryptocurrency transactions across multiple blockchain networks.
 
 ## Overview
 
@@ -13,11 +14,11 @@ The purchase system includes:
 
 - **Starterpack Purchases**: Pre-configured bundles of game assets and credits with streamlined purchasing flow
 - **Starterpack Claims**: Free starterpack bundles that users can claim based on eligibility, featuring collection support display
-- **Credit Purchases**: Direct credit top-ups for gasless transactions  
+- **Credit Purchases**: Direct credit top-ups for gasless transactions
 - **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with chain switching capabilities
 - **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
-- **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure for enhanced marketplace functionality
+- **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure
 
 ## Quick Start
 
@@ -43,7 +44,7 @@ const customPack: StarterPack = {
   items: [
     {
       type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins", 
+      name: "Gold Coins",
       description: "In-game currency",
       amount: 100,
       price: 5000000n, // $5.00 in USDC micro-units
@@ -112,7 +113,7 @@ const customPack: StarterPack = {
       type: StarterPackItemType.NONFUNGIBLE,
       name: "Legendary Sword",
       description: "A powerful starting weapon",
-      iconURL: "https://example.com/sword.png", 
+      iconURL: "https://example.com/sword.png",
       amount: 1,
       price: 50000000n, // 50 USDC in micro-units (6 decimals)
       call: [
@@ -132,7 +133,7 @@ const customPack: StarterPack = {
       call: [
         {
           contractAddress: "0x456...",
-          entrypoint: "transfer", 
+          entrypoint: "transfer",
           calldata: [userAddress, "1000", "0"]
         }
       ]
@@ -202,7 +203,7 @@ enum StarterPackItemType {
 ### Key Features
 
 - **Outside Execution**: Contract calls are automatically aggregated into a multicall and executed after successful payment
-- **Dynamic Pricing**: Total pack price is calculated from `sum(item.price × item.amount)` 
+- **Dynamic Pricing**: Total pack price is calculated from `sum(item.price × item.amount)`
 - **Flexible Calls**: Any contract calls can be included - minting, transfers, game state updates, etc.
 - **UI Generation**: Purchase interface renders directly from the provided data structure
 - **Self-Contained**: No backend integration required - everything is defined in the configuration
@@ -225,7 +226,9 @@ enum StarterPackItemType {
 ## Starterpack Types
 
 ### Paid Starterpacks
-Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency). These typically include premium game assets, larger credit bundles, and exclusive items.
+Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency).
+These typically include premium game assets, larger credit bundles, and exclusive items.
+Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
 
 ### Claimable Starterpacks
 Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
@@ -239,62 +242,27 @@ The claiming flow automatically determines eligibility and guides users through 
 
 #### Merkle Drop Claims
 
-Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks. This system allows users to claim assets that were originally distributed on other networks (Ethereum, Base, Arbitrum, Optimism) and receive them in their Cartridge account on Starknet.
+Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
+This system allows users to claim assets that were originally distributed on other networks and receive them in their Cartridge account on Starknet.
 
 **How Merkle Drop Claims Work:**
 
 1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starterpack
 2. **Cryptographic Proof**: Claims are validated using merkle proofs that mathematically prove eligibility without revealing the entire distribution list
-3. **Cross-chain Signature**: For EVM-based claims (Ethereum, Base, Arbitrum, Optimism), users must sign a message with their external wallet to prove ownership
+3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership
 4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
 
 **Supported Networks for Claims:**
-- **Ethereum Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
-- **Base Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification  
-- **Arbitrum One/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
-- **Optimism Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet required for signature verification
+
 - **Starknet**: Native claims without additional signature requirements
+- **Ethereum Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet supported
+- **Base Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet supported
+- **Arbitrum One/Testnet**: MetaMask, Rabby, Coinbase Wallet supported
+- **Optimism Mainnet/Testnet**: MetaMask, Rabby, Coinbase Wallet supported
 
-## Supported Payment Methods
-
-### Credit Card Payments
-
-- Powered by Stripe for secure processing
-- Supports major credit and debit cards
-- Automatic currency conversion
-- PCI-compliant payment handling
-
-### Cryptocurrency Payments
-
-The system supports crypto payments across multiple networks with cross-chain bridging powered by Layerswap:
-
-#### Ethereum
-- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
-- **Network**: Ethereum mainnet and Sepolia testnet
-- **Assets**: ETH, USDC, and other ERC-20 tokens
-
-#### Base L2
-- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
-- **Network**: Base mainnet and testnet
-- **Assets**: ETH, USDC, and other Base-compatible tokens
-
-#### Arbitrum
-- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
-- **Network**: Arbitrum One mainnet and Sepolia testnet
-- **Assets**: ETH, USDC, and other Arbitrum-compatible tokens
-
-#### Optimism
-- **Supported Wallets**: MetaMask, Rabby, Coinbase Wallet
-- **Network**: Optimism mainnet and Sepolia testnet
-- **Assets**: ETH, USDC, and other Optimism-compatible tokens
-
-#### Solana
-> **⚠️ Temporarily Disabled**: Solana payment functionality is currently disabled and will be re-enabled in a future update.
-
-#### Starknet
-- **Supported Wallets**: Argent (native integration), Braavos
-- **Network**: Starknet mainnet and testnets
-- **Assets**: ETH, STRK, and other Starknet tokens
+:::note
+Solana payment functionality is currently disabled and will be re-enabled in a future update.
+:::
 
 ## Purchase and Claim Flows
 
@@ -348,309 +316,6 @@ The claiming process follows these steps:
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
-
-## Integration Examples
-
-### Basic Starterpack Integration
-
-```typescript
-import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
-
-const controller = new Controller();
-
-// Display both paid and free starterpack options
-function StarterpackOffers() {
-  return (
-    <div className="starterpack-offers">
-      {/* Paid starterpack (existing ID) */}
-      <div className="starterpack-offer">
-        <h3>Premium Welcome Pack</h3>
-        <p>Get started with 1000 credits and exclusive items!</p>
-        <button 
-          onClick={() => controller.openStarterPack("premium-pack-2024")}
-          className="buy-button"
-        >
-          Buy Welcome Pack - $9.99
-        </button>
-      </div>
-
-      {/* Claimable starterpack (existing ID) */}
-      <div className="starterpack-offer">
-        <h3>Free Starter Pack</h3>
-        <p>Claim your free starter bundle with game assets!</p>
-        <button 
-          onClick={() => controller.openStarterPack("free-pack-2024")}
-          className="claim-button"
-        >
-          Claim Free Pack
-        </button>
-      </div>
-    </div>
-  );
-}
-```
-
-### Custom Starterpack Integration
-
-```typescript
-import { StarterPack, StarterPackItemType } from "@cartridge/controller";
-
-// Define a custom starter pack with contract calls
-const customStarterPack: StarterPack = {
-  name: "Warrior Starter Pack",
-  description: "Everything you need to start your adventure as a warrior",
-  iconURL: "https://yourgame.com/images/warrior-pack.png",
-  items: [
-    {
-      type: StarterPackItemType.NONFUNGIBLE,
-      name: "Legendary Sword",
-      description: "A powerful starting weapon with +50 attack power",
-      iconURL: "https://yourgame.com/images/sword.png",
-      amount: 1,
-      price: 50000000n, // $50.00 in USDC micro-units
-      call: [
-        {
-          contractAddress: "0x1234...abcd", // Your game's weapon contract
-          entrypoint: "mint_weapon",
-          calldata: [
-            userAddress,        // recipient
-            "1",               // weapon_type (sword)
-            "50",              // attack_power
-            "0"                // padding
-          ]
-        }
-      ]
-    },
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins",
-      description: "In-game currency for purchasing items and upgrades",
-      iconURL: "https://yourgame.com/images/gold.png",
-      amount: 1000,
-      price: 10000n, // $0.01 per coin, so $10.00 total for 1000 coins
-      call: [
-        {
-          contractAddress: "0x5678...efgh", // Your game's currency contract
-          entrypoint: "mint",
-          calldata: [
-            userAddress,    // recipient  
-            "1000",        // amount
-            "0"            // padding
-          ]
-        }
-      ]
-    },
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Health Potions",
-      description: "Restore health during combat",
-      iconURL: "https://yourgame.com/images/potion.png",
-      amount: 5,
-      price: 2000000n, // $2.00 per potion, so $10.00 total for 5 potions
-      call: [
-        {
-          contractAddress: "0x9abc...def0", // Your game's items contract
-          entrypoint: "mint_consumable",
-          calldata: [
-            userAddress,    // recipient
-            "1",           // item_type (health potion)
-            "5",           // quantity
-            "0"            // padding
-          ]
-        }
-      ]
-    }
-  ]
-};
-
-function CustomStarterpackOffer({ userAddress }: { userAddress: string }) {
-  const handlePurchase = () => {
-    // Replace userAddress placeholders in calldata
-    const packWithUserAddress = {
-      ...customStarterPack,
-      items: customStarterPack.items.map(item => ({
-        ...item,
-        call: item.call?.map(call => ({
-          ...call,
-          calldata: call.calldata.map(data => 
-            data === userAddress ? userAddress : data
-          )
-        }))
-      }))
-    };
-    
-    controller.openStarterPack(packWithUserAddress);
-  };
-
-  // Calculate total price
-  const totalPrice = customStarterPack.items.reduce((sum, item) => {
-    if (item.price && item.amount) {
-      return sum + (item.price * BigInt(item.amount));
-    }
-    return sum + (item.price || 0n);
-  }, 0n);
-  
-  const totalUSD = Number(totalPrice) / 1000000; // Convert from micro-units to dollars
-
-  return (
-    <div className="custom-starterpack-offer">
-      <h3>{customStarterPack.name}</h3>
-      <p>{customStarterPack.description}</p>
-      <div className="items-preview">
-        {customStarterPack.items.map((item, index) => (
-          <div key={index} className="item">
-            <img src={item.iconURL} alt={item.name} />
-            <span>{item.amount}x {item.name}</span>
-          </div>
-        ))}
-      </div>
-      <button onClick={handlePurchase} className="buy-button">
-        Buy Warrior Pack - ${totalUSD.toFixed(2)}
-      </button>
-    </div>
-  );
-}
-```
-
-### Credit Top-up Integration
-
-```typescript
-// Add credit purchase option to game UI
-function CreditDisplay({ credits }: { credits: number }) {
-  return (
-    <div className="credit-display">
-      <span>Credits: {credits}</span>
-      <button 
-        onClick={() => controller.openPurchaseCredits()}
-        className="top-up-button"
-      >
-        + Add Credits
-      </button>
-    </div>
-  );
-}
-```
-
-### Conditional Purchase Offers
-
-```typescript
-// Show purchase options based on game state and user eligibility
-function PurchaseIntegration({ 
-  playerLevel, 
-  credits, 
-  hasClaimedFreePack 
-}: { 
-  playerLevel: number, 
-  credits: number, 
-  hasClaimedFreePack: boolean 
-}) {
-  const showPaidStarterpack = playerLevel >= 5; // Offer premium packs to experienced players
-  const showFreeStarterpack = !hasClaimedFreePack && playerLevel < 3; // Free pack for new players
-  const showCredits = credits < 100;
-
-  return (
-    <div className="purchase-options">
-      {showFreeStarterpack && (
-        <button onClick={() => controller.openStarterPack("free-beginner-pack")}>
-          Claim Free Beginner Pack
-        </button>
-      )}
-
-      {showPaidStarterpack && (
-        <button onClick={() => controller.openStarterPack("premium-pack")}>
-          Premium Pack ($9.99)
-        </button>
-      )}
-      
-      {showCredits && (
-        <button onClick={() => controller.openPurchaseCredits()}>
-          Buy Credits
-        </button>
-      )}
-    </div>
-  );
-}
-```
-
-## Best Practices
-
-### User Experience
-- **Clear Value Proposition**: Clearly communicate what users receive with each purchase or claim
-- **Strategic Timing**: Show purchase options at natural moments (low credits, level milestones)
-- **Multiple Options**: Offer both individual credits and value bundles through starterpacks
-- **Payment Choice**: Let users choose their preferred payment method
-- **Free First**: Prioritize showing claimable starterpacks to new users before paid options
-- **Eligibility Clarity**: Make it clear when starterpacks are free vs. paid
-- **Collection Context**: Highlight which game collections/platforms are supported for claimed assets
-- **Custom Pack Transparency**: When using custom starterpacks, clearly show all items and their individual values
-- **Price Calculation**: Display total pricing upfront so users understand the value proposition
-
-### Integration Guidelines
-- **Non-intrusive**: Don't block gameplay with purchase prompts
-- **Contextual**: Show relevant purchase options based on user needs
-- **Progressive**: Start with smaller purchases and gradually introduce larger bundles
-- **Accessible**: Ensure purchase buttons are easily discoverable but not overwhelming
-- **Custom Pack Design**: Design custom starterpacks that provide genuine value compared to individual purchases
-- **Contract Call Safety**: Test all contract calls thoroughly in development before using in production starterpacks
-- **Price Consistency**: Use consistent pricing units (USDC micro-units) across all custom starterpack items
-- **User Address Handling**: Always replace placeholder addresses with actual user addresses before calling openStarterPack()
-
-### Security Considerations
-- **Client-side Only**: Purchase methods only open interfaces; no sensitive operations in frontend code
-- **Secure Handling**: All payment processing happens within Controller's secure iframe
-- **User Control**: Users maintain control over all payment authorizations
-
-## Troubleshooting
-
-### Common Issues
-
-**Purchase interface doesn't open**
-- Ensure Controller is properly initialized and connected
-- Verify the user is authenticated
-- Check browser console for any JavaScript errors
-
-**Starterpack not found**
-- Verify the starterpack ID exists and is active
-- Check that the starterpack is available in the current environment (mainnet/testnet)
-
-**Custom starterpack issues**
-- Verify all required fields are present in the StarterPack configuration object
-- Check that all item prices are specified as bigint values in USDC micro-units
-- Ensure contract addresses in call arrays are valid and deployed on the current network
-- Verify that calldata arrays have the correct format and parameter count for the target contract methods
-- Test contract calls individually before including them in starterpack configurations
-
-**Claim eligibility issues**
-- Verify the user meets all claim requirements for the starterpack
-- Check if the user has already claimed their maximum allowed starterpacks
-- Ensure the starterpack has remaining supply if there are mint limits
-- Confirm the external wallet address is included in the merkle tree for the specific claim
-- Verify the user is connecting the wallet from the correct network (Ethereum, Base, Arbitrum, etc.)
-
-**Wallet connection fails during crypto payment**
-- Ensure the wallet extension is installed and unlocked
-- Verify the wallet supports the selected network (MetaMask, Rabby, and Coinbase Wallet for EVM chains)
-- Check that the wallet is connected to the correct network (mainnet vs testnet)
-- Try refreshing the page and reconnecting the wallet
-
-**Cross-chain bridging issues**
-- Ensure sufficient token balance on the source network for both the purchase amount and bridging fees
-- Verify the selected token is supported on the source network (ETH, USDC commonly supported)
-- Check that Layerswap bridging is available for the selected network pair
-- Allow additional time for cross-chain transactions to complete (typically 5-15 minutes)
-
-**Payment processing errors**
-- For credit card issues, users should check their card details and limits
-- For crypto payments, verify network connectivity and sufficient balance for gas fees plus purchase amount
-- Ensure the user completes the full payment flow without closing the interface
-- If bridging fails, the transaction may need to be retried or completed on a different network
-
-**Merkle drop claim issues**
-- Ensure you're connecting the wallet that contains the claimable address (check the specific wallet address used for the distribution)
-- For EVM claims, verify the wallet signature process completes successfully - some wallets may require approval for message signing
-- Check that the merkle proof validation passes (this typically indicates eligibility or contract issues)
-- If claims fail, verify the forwarder contract is accessible and the claim hasn't already been processed
-- Confirm you're claiming during the valid claim period (some merkle drops have time limits)
 
 ### Getting Help
 
