@@ -185,17 +185,6 @@ Cartridge Controller automatically stays synchronized with account changes in co
 4. Connected accounts list and active account are automatically synchronized
 5. On disconnect, listeners are properly cleaned up to prevent memory issues
 
-**Benefits for Developers:**
-- Applications automatically stay current with the user's active wallet account
-- No need to manually poll for account changes or ask users to reconnect
-- Improved user experience with seamless account switching
-- Reduced development complexity for handling multi-account scenarios
-
-**Benefits for Users:**
-- Switch accounts in your Argent or Braavos wallet without needing to reconnect
-- Controller interface immediately reflects your newly selected account
-- Consistent experience across all Controller-enabled applications
-
 > **Note**: Account synchronization is currently available for StarkNet wallets (Argent and Braavos). Other external wallets maintain their existing connection behavior.
 
 ### Chain Switching for External Wallets
