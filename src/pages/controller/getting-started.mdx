@@ -186,6 +186,11 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 
 The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.2):
 
+:::note
+This ecosystem is evolving rapidly.
+This information is accurate as of September 19, 2025.
+:::
+
 ```ts
   "@cartridge/arcade": "0.0.2"
   "@cartridge/connector": "0.10.2"
@@ -250,6 +255,36 @@ The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your app
 #### Lodash Removal
 
 The lodash dependency has been completely removed. If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
+
+## Development Workflow
+
+If you're contributing to the Cartridge Controller or running the examples locally, you have two development modes available:
+
+### Local Development Mode
+
+```bash
+pnpm dev
+```
+
+This runs all services locally with local API endpoints, perfect for offline development and testing changes to the controller itself.
+
+### Production API Testing Mode
+
+```bash
+pnpm dev:live
+```
+
+This hybrid mode runs the keychain and examples locally while connecting to production APIs. This is useful for:
+
+- Testing your application against production data
+- Debugging issues that only occur with production configurations
+- Validating your integration before deployment
+
+The `dev:live` mode provides production RPC endpoints, Auth0, Stripe, and Turnkey configurations while keeping the keychain frame at `localhost:3001` and your application at `localhost:3002`.
+
+:::warning
+The `dev:live` mode connects to production APIs, so be careful with any transaction testing as it will use real network resources.
+:::
 
 ## Examples
 
