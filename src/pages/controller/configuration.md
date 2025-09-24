@@ -54,12 +54,35 @@ When you provide custom chains via the `chains` option, they take precedence ove
 - Override default chain configurations
 - Programmatically switch chains for connected external wallets (MetaMask, Rabby, WalletConnect)
 
-### External Wallet Chain Switching
+### Network Switching
 
-Controller supports programmatic chain switching for compatible external wallets through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
+Controller supports multiple methods for switching between different blockchain networks:
+
+#### External Wallet Chain Switching
+
+For external wallets, Controller supports programmatic chain switching through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
 
 **Supported Wallets**: MetaMask, Rabby, Base, WalletConnect
 **Not Supported**: Braavos (does not support the `wallet_switchStarknetChain` API)
+
+#### Dynamic RPC URL Override
+
+The keychain interface supports dynamic RPC URL switching via URL parameters, allowing users to connect to different networks without page reloads:
+
+```
+https://x.cartridge.gg/?rpc_url=https://custom-rpc-endpoint.com
+```
+
+When an RPC URL parameter is provided, the keychain will:
+- Detect the chain ID from the new RPC endpoint
+- Recreate the controller instance with the new network configuration
+- Update all network-related state without requiring a page reload
+
+This feature is particularly useful for:
+- Testing applications against different networks
+- Connecting to custom Starknet deployments
+- Switching between mainnet and testnet environments
+- Integration with development and staging environments
 
 **Example:**
 ```typescript
