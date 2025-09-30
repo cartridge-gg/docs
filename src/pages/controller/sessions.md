@@ -40,6 +40,28 @@ const tx = await account.execute([
 ]);
 ```
 
+## Transactions With Policies
+
+```ts
+const policies = {
+  // Define your polices here
+}
+
+// Using the controller directly
+const controller = new Controller({
+  policies,
+  // other options
+});
+
+// Using the starknet-react connector
+const connector = new CartridgeConnector({
+  policies,
+  // other options
+});
+
+// Future transactions will not require approval
+```
+
 ## Sessions vs. Manual Approval
 
 | Feature | With Policies (Sessions) | Without Policies (Manual) |
@@ -109,7 +131,7 @@ The `disconnectRedirectUrl` option allows you to redirect users to a specific UR
 ```typescript
 const session = new SessionConnector({
   policies,
-  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7", 
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
   chainId: "SN_MAIN",
   redirectUrl: "https://myapp.com/",
   disconnectRedirectUrl: "whatsapp://", // Deep link example
@@ -120,26 +142,52 @@ When `disconnect()` is called, users will be redirected to the keychain logout p
 
 **Note**: If no `disconnectRedirectUrl` is provided, users will remain on the keychain logout page after disconnection.
 
+## Verified Sessions
+
+Verified session policies provide a better user experience by attesting to the validity of a game's policy configuration, giving confidence to the players.
+
+![Verified Session](/verified-session.svg)
+
+**Automatic Session Creation**
+
+When using verified session policies, the user experience is significantly improved:
+
+- **No Approval Screen**: Verified sessions automatically bypass the user approval screen
+- **Instant Connection**: Sessions are created automatically with a default 24-hour duration
+- **Seamless UX**: Users can start playing immediately without manual session approval
+- **Graceful Fallback**: If automatic session creation fails, the system falls back to showing the standard approval UI
+
+This automatic behavior only applies to **verified policies.**
+Unverified policies will continue to show the approval screen as before, maintaining security for untrusted applications.
+
+**Getting Verified**
+
+Verified configs can be committed to the `configs` folder in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
+
+Before they are merged, the team will need to collaborate with Cartridge to verify the policies.
+
 ## Usage Examples
 
-### Contract Interaction Policies Example
+#### Contract Interaction Policies
+
+Contract interaction policies allow the application to send contract transactions without manual approval from the user.
 
 ```typescript
 const policies: SessionPolicies = {
   contracts: {
-    "0x4ed3a7c5f53c6e96186eaf1b670bd2e2a3699c08e070aedf4e5fc6ac246ddc1": {
+    "0x4ed3a7...": {
       name: "Pillage",
-      description: "Allows you to raid a structure and pillage resources",
+      description: "Allows you to raid and pillage a structure",
       methods: [
         {
-          name: "Battle Pillage",
+          name: "Pillage Structure",
           description: "Pillage a structure",
-          entrypoint: "battle_pillage"
+          entrypoint: "pillage_structure"
         }
       ]
     },
-    "0x2620f65aa2fd72d705306ada1ee7410023a3df03da9291f1ccb744fabfebc0": {
-      name: "Battle contract",
+    "0x2620f6...": {
+      name: "Battle",
       description: "Required to engage in battles",
       methods: [
         {
@@ -152,16 +200,12 @@ const policies: SessionPolicies = {
           description: "Join a battle",
           entrypoint: "battle_join"
         },
-        {
-          name: "Battle Leave",
-          description: "Leave a battle",
-          entrypoint: "battle_leave"
-        },
       ]
     },
     // Include other contracts as needed
   }
 };
+<<<<<<< HEAD
 
 // Using the controller directly
 const controller = new Controller({
@@ -183,9 +227,11 @@ const session = new SessionConnector({
   redirectUrl: "https://myapp.com/",
   disconnectRedirectUrl: "https://myapp.com/logout-complete", // Optional: redirect after logout
 });
+=======
+>>>>>>> 53108ce (fix: clean up sessions.md)
 ```
 
-### Signed Message Policy Example
+#### Signed Message Policies
 
 Signed Message policies allow the application to sign a typed message without manual approval from the user.
 
@@ -221,26 +267,3 @@ const policies: SessionPolicies = {
   ]
 };
 ```
-
-### Verified Sessions
-
-Verified session policies provide a better user experience by attesting to the validity of a games session policy configuration, providing confidence to it's players.
-
-![Verified Session](/verified-session.svg)
-
-**Automatic Session Creation**
-
-When using verified session policies, the user experience is significantly improved:
-
-- **No Approval Screen**: Verified sessions automatically bypass the user approval screen
-- **Instant Connection**: Sessions are created automatically with a default 24-hour duration  
-- **Seamless UX**: Users can start playing immediately without manual session approval
-- **Graceful Fallback**: If automatic session creation fails, the system falls back to showing the standard approval UI
-
-This automatic behavior only applies to verified policies. Unverified policies will continue to show the approval screen as before, maintaining security for untrusted applications.
-
-**Getting Verified**
-
-Verified configs can be committed to the `configs` folder in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
-
-Before they are merged, the team will need to collaborate with Cartridge to verify the policies.
