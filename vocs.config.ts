@@ -51,7 +51,6 @@ export default defineConfig({
 
   // Separate sidebars for different sections
   sidebar: {
-    // Controller sidebar
     "/controller": [
       {
         text: "Controller",
@@ -65,20 +64,12 @@ export default defineConfig({
             link: "/controller/getting-started",
           },
           {
-            text: "Passkey Support",
-            link: "/controller/passkey-support",
-          },
-          {
-            text: "Signer Management",
-            link: "/controller/signer-management",
-          },
-          {
             text: "Configuration",
             link: "/controller/configuration",
           },
           {
-            text: "Purchase Integration",
-            link: "/controller/purchasing",
+            text: "Passkey Support",
+            link: "/controller/passkey-support",
           },
           {
             text: "Sessions",
@@ -89,12 +80,29 @@ export default defineConfig({
             link: "/controller/presets",
           },
           {
+            text: "Signer Management",
+            link: "/controller/signer-management",
+          },
+          {
+            text: "Purchase Integration",
+            link: "/controller/purchasing",
+          },
+          {
             text: "Usernames",
             link: "/controller/usernames",
           },
           {
+            text: "Inventory",
+            link: "/controller/inventory",
+          },
+          {
+            text: "Native Integration",
+            link: "/controller/native-integration",
+          },
+          {
             text: "Achievements",
             link: "/controller/achievements",
+            collapsed: true,
             items: [
               {
                 text: "Setup",
@@ -119,11 +127,8 @@ export default defineConfig({
             ],
           },
           {
-            text: "Inventory",
-            link: "/controller/inventory",
-          },
-          {
-            text: "Controller Examples",
+            text: "Integration Examples",
+            collapsed: true,
             items: [
               {
                 text: "React",
