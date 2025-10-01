@@ -52,6 +52,8 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, and WalletConnect.
 
+> **Note**: Ethereum-based external wallets (MetaMask, Rabby, Base, WalletConnect) are only available on desktop browsers. These wallets are automatically disabled on mobile devices for optimal user experience. StarkNet wallets (Argent, Braavos) remain fully functional on mobile.
+
 ## Adding Signers
 
 ### Accessing Signer Management
@@ -126,12 +128,14 @@ Controller offers integration with popular external web3 wallets, including Braa
 2. Choose from the supported wallet types:
    - **Argent**: StarkNet-native wallet with advanced security features and account management
    - **Braavos**: StarkNet-native wallet with built-in security features
-   - **MetaMask**: Popular browser extension wallet
-   - **Rabby**: Security-focused multi-chain wallet
-   - **Base**: Coinbase's official wallet with multi-chain support
-   - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets
+   - **MetaMask**: Popular browser extension wallet (desktop only)
+   - **Rabby**: Security-focused multi-chain wallet (desktop only)
+   - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
+   - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets (desktop only)
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
+
+> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
 
 ## Managing Existing Signers
 

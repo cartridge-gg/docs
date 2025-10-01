@@ -58,8 +58,10 @@ When you provide custom chains via the `chains` option, they take precedence ove
 
 Controller supports programmatic chain switching for compatible external wallets through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
 
-**Supported Wallets**: MetaMask, Rabby, Base, WalletConnect
+**Supported Wallets**: MetaMask, Rabby, Base, WalletConnect (desktop only)
 **Not Supported**: Braavos (does not support the `wallet_switchStarknetChain` API)
+
+> **Note**: Ethereum-based external wallets are only available on desktop browsers. Mobile devices automatically disable these wallets to provide better mobile user experience.
 
 **Example:**
 ```typescript
