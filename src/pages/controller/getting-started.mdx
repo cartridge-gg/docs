@@ -182,6 +182,52 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## Wallet Standard Integration
+
+The ControllerConnector supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with frontend libraries like `starknet-react` and generic libraries like `solid.js`. This provides a higher-level interface than the standard `StarknetWindowObject`.
+
+### Using asWalletStandard()
+
+You can convert a ControllerConnector to a wallet-standard compatible interface:
+
+```tsx
+import { ControllerConnector } from "@cartridge/connector";
+import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
+
+const controller = new ControllerConnector({
+  policies: {
+    // Your session policies
+  }
+});
+
+// Convert to wallet standard interface
+const walletStandard: WalletWithStarknetFeatures = controller.asWalletStandard();
+
+// Now compatible with any library that expects WalletWithStarknetFeatures
+```
+
+:::warning
+The `asWalletStandard()` method is an experimental feature and may contain bugs. Please [report any issues](https://github.com/cartridge-gg/controller/issues) you encounter.
+:::
+
+### Alternative Direct Casting
+
+You can also use the `StarknetInjectedWallet` directly:
+
+```tsx
+import Controller from "@cartridge/controller";
+import { StarknetInjectedWallet } from "@starknet-io/get-starknet-wallet-standard";
+
+const controller = new Controller();
+const walletStandard = new StarknetInjectedWallet(controller);
+```
+
+The wallet standard interface provides these key methods:
+- `StandardConnect` (similar to `connect`)
+- `StandardDisconnect` (similar to `disconnect`) 
+- `StandardEvents` (similar to `on`)
+- `StarknetWalletApi` (similar to `request`)
+
 ## Compatibility Guide
 
 The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.3):
