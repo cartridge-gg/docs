@@ -78,11 +78,7 @@ When an RPC URL parameter is provided, the keychain will:
 - Recreate the controller instance with the new network configuration
 - Update all network-related state without requiring a page reload
 
-This feature is particularly useful for:
-- Testing applications against different networks
-- Connecting to custom Starknet deployments
-- Switching between mainnet and testnet environments
-- Integration with development and staging environments
+This feature is particularly useful for testing against development and staging environments and connecting to custom Starknet deployments.
 
 **Example:**
 ```typescript
