@@ -47,7 +47,7 @@ As a final step, the native application will receive a GraphQL push with the use
 
 #### Native application sends transactions
 
-Once the signed session has been recorded onchain, the native application can then sign transactions using the original private key.
+Once the signed session has been recorded onchain, the native application can then sign transactions using the session signer.
 These signed transactions will be validated against the recorded session payload and executed.
 
 ::::
@@ -101,3 +101,7 @@ Here is an example of how to integrate Controller.c:
   Controller_execute(controller, calls, &writeable);
   printf("Transaction hash: %.*s\n", (int)writeable.len, buffer);
 ```
+
+:::info
+A complete integration example [is available here](https://github.com/cartridge-gg/controller.c/blob/main/examples/test_controller.c).
+:::
