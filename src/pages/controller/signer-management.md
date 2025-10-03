@@ -52,7 +52,6 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, and WalletConnect.
 
-> **Note**: Ethereum-based external wallets (MetaMask, Rabby, Base, WalletConnect) are only available on desktop browsers. These wallets are automatically disabled on mobile devices for optimal user experience. StarkNet wallets (Argent, Braavos) remain fully functional on mobile.
 
 ## Adding Signers
 
