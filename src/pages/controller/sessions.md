@@ -62,6 +62,10 @@ const connector = new CartridgeConnector({
 // Future transactions will not require approval
 ```
 
+:::info
+Full integration examples [are available here](https://github.com/cartridge-gg/controller/blob/main/examples/next/src/components/providers/StarknetProvider.tsx).
+:::
+
 ## Sessions vs. Manual Approval
 
 | Feature | With Policies (Sessions) | Without Policies (Manual) |
@@ -153,7 +157,7 @@ Verified session policies provide a better user experience by attesting to the v
 When using verified session policies, the user experience is significantly improved:
 
 - **No Approval Screen**: Verified sessions automatically bypass the user approval screen
-- **Instant Connection**: Sessions are created automatically with a default 24-hour duration
+- **Instant Connection**: Sessions are created automatically with a default 7-day duration
 - **Seamless UX**: Users can start playing immediately without manual session approval
 - **Graceful Fallback**: If automatic session creation fails, the system falls back to showing the standard approval UI
 
