@@ -54,10 +54,11 @@ const tx = await account.execute([
 
 ```typescript
 export type SessionOptions = {
-  rpc: string;                // RPC endpoint URL
-  chainId: string;            // Chain ID for the session
-  policies: SessionPolicies;  // Approved transaction policies
-  redirectUrl: string;        // URL to redirect after registration
+  rpc: string;                      // RPC endpoint URL
+  chainId: string;                  // Chain ID for the session
+  policies: SessionPolicies;        // Approved transaction policies
+  redirectUrl: string;              // URL to redirect after registration
+  disconnectRedirectUrl?: string;   // Optional URL to redirect after disconnect/logout
 };
 ```
 
@@ -96,6 +97,28 @@ type TypedDataPolicy = {
   domain: StarknetDomain;
 };
 ```
+
+## Disconnect Redirect
+
+The `disconnectRedirectUrl` option allows you to redirect users to a specific URL after they disconnect or logout from their session. This is particularly useful for:
+
+- **Mobile Apps**: Redirect users back to your mobile app using deep links (e.g., `"myapp://logout-complete"`)
+- **Web Apps**: Send users to a logout confirmation page or back to your landing page
+- **Cross-Platform**: Handle logout flows consistently across different platforms
+
+```typescript
+const session = new SessionConnector({
+  policies,
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7", 
+  chainId: "SN_MAIN",
+  redirectUrl: "https://myapp.com/",
+  disconnectRedirectUrl: "whatsapp://", // Deep link example
+});
+```
+
+When `disconnect()` is called, users will be redirected to the keychain logout page, and after successful logout, they will be automatically redirected to your specified URL.
+
+**Note**: If no `disconnectRedirectUrl` is provided, users will remain on the keychain logout page after disconnection.
 
 ## Usage Examples
 
@@ -150,6 +173,15 @@ const controller = new Controller({
 const connector = new CartridgeConnector({
   policies,
   // other options
+});
+
+// Using SessionConnector with disconnect redirect
+const session = new SessionConnector({
+  policies,
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
+  chainId: "SN_MAIN",
+  redirectUrl: "https://myapp.com/",
+  disconnectRedirectUrl: "https://myapp.com/logout-complete", // Optional: redirect after logout
 });
 ```
 
