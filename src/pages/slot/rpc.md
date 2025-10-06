@@ -7,6 +7,10 @@ title: Cartridge RPC
 
 Cartridge provides dedicated RPC endpoints for Starknet networks with built-in authentication and CORS support.
 
+## Pricing
+
+Cartridge RPC is free for up to 1m requests per month. Additional requests are charged at $5/1m requests to the related slot team.
+
 ## Endpoints
 
 ### Mainnet
