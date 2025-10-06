@@ -193,6 +193,10 @@ export default defineConfig({
             text: "vRNG",
             link: "/slot/vrng",
           },
+          {
+            text: "RPC",
+            link: "/slot/rpc",
+          },
         ],
       },
     ],
