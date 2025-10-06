@@ -11,6 +11,10 @@ Cartridge provides dedicated RPC endpoints for Starknet networks with built-in a
 
 Cartridge RPC is free for up to 1m requests per month. Additional requests are charged at $5/1m requests to the related slot team.
 
+:::info
+During the beta phase, Cartridge RPC is free. From November 1st 2025, pricing will be applied.
+:::
+
 ## Endpoints
 
 ### Mainnet
