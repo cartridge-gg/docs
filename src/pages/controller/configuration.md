@@ -62,8 +62,10 @@ Controller supports multiple methods for switching between different blockchain 
 
 For external wallets, Controller supports programmatic chain switching through the `externalSwitchChain` method. This allows applications to request connected external wallets to switch to different blockchain networks seamlessly.
 
-**Supported Wallets**: MetaMask, Rabby, Base, WalletConnect
+**Supported Wallets**: MetaMask, Rabby, Base, WalletConnect (desktop only)
 **Not Supported**: Braavos (does not support the `wallet_switchStarknetChain` API)
+
+> **Note**: Ethereum-based external wallets are only available on desktop browsers. Mobile devices automatically disable these wallets to provide better mobile user experience.
 
 #### Dynamic RPC URL Override
 
