@@ -182,6 +182,28 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## Wallet Standard Integration
+
+The ControllerConnector supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), a higher-level interface than `StarknetWindowObject` which enables integration with libraries like `starknet-react` and `solid.js`.
+
+### Using asWalletStandard()
+
+You can use the ControllerConnector to cast `Controller` to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
+
+```tsx
+import { ControllerConnector } from "@cartridge/connector";
+import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
+
+const controller: WalletWithStarknetFeatures = (new ControllerConnector()).asWalletStandard();
+
+// Now compatible with any library that expects WalletWithStarknetFeatures
+```
+
+:::warning
+The `asWalletStandard()` method is an experimental feature and may contain bugs.
+Please [report any issues](https://github.com/cartridge-gg/controller/issues) you encounter.
+:::
+
 ## Compatibility Guide
 
 The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.3):
