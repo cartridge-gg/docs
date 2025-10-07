@@ -53,7 +53,7 @@ export const REDIRECT_URI = "https://t.me/hitthingbot/hitthing";
 ```typescript
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import { constants } from "starknet";
-import SessionConnector from "@cartridge/connector/session";
+import { SessionConnector } from "@cartridge/connector";
 import { StarknetConfig, jsonRpcProvider } from "@starknet-react/core";
 import { useLaunchParams, cloudStorage } from "@telegram-apps/sdk-react";
 import { RPC_URL, SESSION_POLICIES, REDIRECT_URI } from "./config";
