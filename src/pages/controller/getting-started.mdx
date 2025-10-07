@@ -40,9 +40,8 @@ Here's a simple example of how to initialize and use the controller:
 ```ts
 import Controller from "@cartridge/controller";
 
-const controller = new Controller();
-
 // All transactions will require manual approval
+const controller = new Controller();
 ```
 
 :::note
@@ -71,9 +70,8 @@ const policies: SessionPolicies = {
   },
 };
 
+// `move_player` and `attack` txs will not require approval
 const controller = new Controller({ policies });
-
-// `move_player` and `attack` transactions will not require approval
 ```
 
 ### With custom configuration
@@ -81,8 +79,8 @@ const controller = new Controller({ policies });
 The Controller ships with sensible defaults for chain RPCs, but you can override them if needed.
 
 ```ts
-import Controller from "@cartridge/controller";
 import { constants } from "starknet";
+import Controller from "@cartridge/controller";
 
 const controller = new Controller({
   // Optional chain configuration
@@ -94,37 +92,13 @@ const controller = new Controller({
 });
 ```
 
-## Session Connector
+## Connectors
 
-The `SessionConnector` provides direct session management capabilities, allowing for more granular control over session handling:
+Connectors provide standardized integrations of Controller into various types of applications.
 
-```tsx
-import { constants } from "starknet";
-import SessionConnector from "@cartridge/connector/session";
-import { SessionPolicies } from "@cartridge/controller";
+### Controller Connector (Web Applications)
 
-const policies: SessionPolicies = {
-  // Define session policies here
- };
-
-const sessionConnector = new SessionConnector({
-  policies,
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
-  chainId: constants.StarknetChainId.SN_SEPOLIA,
-  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
-  // Optional: specify keychain URL for custom deployments
-  keychainUrl: "https://x.cartridge.gg",
-});
-```
-
-The SessionConnector is ideal for applications that need:
-- Direct control over session lifecycle
-- Custom session management flows
-- Integration with existing authentication systems
-
-## Starknet React Integration
-
-This example shows how to integrate the ControllerConnector and SessionConnector with Starknet React.
+The `ControllerConnector` provides a standard way to integrate with frontend frameworks like `starknet-react`.
 
 ```tsx
 import React from "react";
@@ -133,24 +107,16 @@ import { constants } from "starknet";
 import { sepolia, mainnet } from "@starknet-react/chains";
 import { StarknetConfig, jsonRpcProvider, cartridge } from "@starknet-react/core";
 
-import ControllerConnector from "@cartridge/connector/controller";
-import SessionConnector from "@cartridge/connector/session";
 import { SessionPolicies } from "@cartridge/controller";
+import { ControllerConnector } from "@cartridge/connector";
 
 const policies: SessionPolicies = {
   // Define session policies here
 };
 
-// Create the controller and session connectors
+// Create the controller connector
 const controller = new ControllerConnector({
   policies,
-});
-
-const session = new SessionConnector({
-  policies,
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
-  chainId: constants.StarknetChainId.SN_SEPOLIA,
-  redirectUrl: typeof window !== "undefined" ? window.location.origin : ""
 });
 
 // Configure the JSON RPC provider
@@ -166,14 +132,14 @@ const provider = jsonRpcProvider({
   },
 });
 
-// Create the Starknet provider with the controller and session connectors
+// Create the Starknet provider
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
       defaultChainId={sepolia.id}
       chains={[mainnet, sepolia]}
       provider={provider}
-      connectors={[controller, session]}
+      connectors={[controller]}
       explorer={cartridge}
     >
       {children}
@@ -182,11 +148,10 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-## Wallet Standard Integration
+#### Wallet Standard Integration
 
-The ControllerConnector supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), a higher-level interface than `StarknetWindowObject` which enables integration with libraries like `starknet-react` and `solid.js`.
-
-### Using asWalletStandard()
+By default, the Controller exposes the `StarknetWindowObject` interface.
+However, the ControllerConnector also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
 
 You can use the ControllerConnector to cast `Controller` to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
 
@@ -194,15 +159,47 @@ You can use the ControllerConnector to cast `Controller` to the wallet-standard 
 import { ControllerConnector } from "@cartridge/connector";
 import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
 
-const controller: WalletWithStarknetFeatures = (new ControllerConnector()).asWalletStandard();
-
 // Now compatible with any library that expects WalletWithStarknetFeatures
+const controller: WalletWithStarknetFeatures = (new ControllerConnector()).asWalletStandard();
 ```
 
 :::warning
 The `asWalletStandard()` method is an experimental feature and may contain bugs.
 Please [report any issues](https://github.com/cartridge-gg/controller/issues) you encounter.
 :::
+
+### Session Connector (Native Applications)
+
+The `SessionConnector` enables native applications to create local sessions linked to a user's existing Controller account.
+
+:::tip
+To learn more about native application workflows, read our [native application guide](/controller/native-integration.md).
+:::
+
+:::info
+Under-the-hood, `SessionConnector` returns a `SessionProvider`, an alternative Controller implementation designed for native application.
+For web application use-cases, use the regular `Controller` instead.
+:::
+
+```tsx
+import { constants } from "starknet";
+
+import { SessionPolicies } from "@cartridge/controller";
+import { SessionConnector } from "@cartridge/connector";
+
+const policies: SessionPolicies = {
+  // Define session policies here
+ };
+
+const sessionConnector = new SessionConnector({
+  policies,
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
+  // Optional: specify keychain URL for custom deployments
+  keychainUrl: "https://x.cartridge.gg",
+});
+```
 
 ## Compatibility Guide
 
@@ -296,12 +293,7 @@ This runs all services locally with local API endpoints, perfect for offline dev
 pnpm dev:live
 ```
 
-This hybrid mode runs the keychain and examples locally while connecting to production APIs. This is useful for:
-
-- Testing your application against production data
-- Debugging issues that only occur with production configurations
-- Validating your integration before deployment
-
+This hybrid mode runs the keychain and examples locally while connecting to production APIs.
 The `dev:live` mode provides production RPC endpoints, Auth0, Stripe, and Turnkey configurations while keeping the keychain frame at `localhost:3001` and your application at `localhost:3002`.
 
 :::warning
