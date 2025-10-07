@@ -53,7 +53,7 @@ import {
   jsonRpcProvider,
   cartridge,
 } from "@starknet-react/core";
-import ControllerConnector from "@cartridge/connector/controller";
+import { ControllerConnector } from "@cartridge/connector";
 import { SessionPolicies } from "@cartridge/controller";
 
 // Define your contract addresses
@@ -121,9 +121,9 @@ Use the `useConnect`, `useDisconnect`, and `useAccount` hooks to manage wallet
 connections:
 
 ```typescript
-import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { useEffect, useState } from 'react'
-import ControllerConnector from '@cartridge/connector/controller'
+import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
+import { ControllerConnector } from '@cartridge/connector'
 import { Button } from '@cartridge/ui'
 
 export function ConnectWallet() {
@@ -280,7 +280,7 @@ If you're using external wallets (MetaMask, Rabby, etc.) with Cartridge Controll
 
 ```typescript
 import { useState, useCallback } from 'react'
-import ControllerConnector from '@cartridge/connector/controller'
+import { ControllerConnector } from '@cartridge/connector'
 import { useConnect } from '@starknet-react/core'
 
 export const ExternalWalletTransaction = () => {
@@ -292,7 +292,7 @@ export const ExternalWalletTransaction = () => {
 
   const waitForTransaction = useCallback(async () => {
     if (!txHash || !controller) return
-    
+
     setIsWaiting(true)
     try {
       // Wait for transaction confirmation with 30-second timeout
@@ -301,7 +301,7 @@ export const ExternalWalletTransaction = () => {
         txHash,
         30000 // 30 seconds
       )
-      
+
       if (response.success) {
         setReceipt(response.result)
         console.log('Transaction confirmed:', response.result)
@@ -318,21 +318,21 @@ export const ExternalWalletTransaction = () => {
   return (
     <div>
       <h2>External Wallet Transaction Monitor</h2>
-      
+
       <input
         type="text"
         placeholder="Enter transaction hash"
         value={txHash || ''}
         onChange={(e) => setTxHash(e.target.value)}
       />
-      
-      <button 
-        onClick={waitForTransaction} 
+
+      <button
+        onClick={waitForTransaction}
         disabled={!txHash || isWaiting}
       >
         {isWaiting ? 'Waiting for confirmation...' : 'Wait for Transaction'}
       </button>
-      
+
       {receipt && (
         <div>
           <h3>Transaction Receipt:</h3>
