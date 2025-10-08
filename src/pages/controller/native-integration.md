@@ -29,6 +29,31 @@ Controller.c includes support for "headless" Controllers, which takes user-suppl
 One use-case of headless Controllers is for application developers to designate a single signing key as the `owner` of multiple accounts.
 :::
 
+Here is an illustrative example of how to set up a new headless Controller with Controller.c:
+
+```c
+  #include "bindings/c/Controller.h"
+  #include "bindings/c/DiplomatOwner.h"
+
+  // Create owner from locally-generated private key
+  // IMPORTANT: never commit private keys in source code
+  DiplomatStringView private_key = {"0x1234...", 66};
+  DiplomatOwner *owner = DiplomatOwner_new_from_starknet_signer(private_key).ok;
+
+  // Create a new headless Controller
+  Controller *controller = Controller_new_headless(
+      app_id, username, class_hash, rpc_url, owner, chain_id).ok;
+
+  // Register a new Controller account onchain
+  Controller_signup_result signup_result = Controller_signup(
+      controller, SignerType_Starknet, session_expiration, cartridge_api_url);
+```
+
+:::info
+A complete example [is available here](https://github.com/cartridge-gg/controller.c/blob/main/examples/test_controller.c).
+:::
+
+
 ### Native Sessions
 
 With the regular Controller, signing keys are created by the Cartridge keychain and stored in a secure enclave, inaccessible to application developers.
@@ -67,56 +92,63 @@ These signed transactions will be validated against the recorded session payload
 
 ::::
 
-## Integrating Controller
-
-Here is an example of how to sign transactions using Controller.c:
+Here is an illustrative example of how to set up a native session for an existing Controller with Controller.c:
 
 ```c
-  #include "bindings/c/CONTROLLERS.h"
-  #include "bindings/c/Controller.h"
-  #include "bindings/c/DiplomatCall.h"
-  #include "bindings/c/DiplomatOwner.h"
+#include "../bindings/c/ContractPolicy.h"
+#include "../bindings/c/DiplomatFelt.h"
+#include "../bindings/c/DiplomatOwner.h"
+#include "../bindings/c/DiplomatSessionPolicies.h"
+#include "../bindings/c/DiplomatSigner.h"
+#include "../bindings/c/Method.h"
+#include "../bindings/c/SessionAccount.h"
+#include "../bindings/c/Utils.h"
 
-  // Setup
-  char buffer[256];
-  DiplomatWrite writeable = diplomat_simple_write(buffer, sizeof(buffer));
+// Test private key - DO NOT USE IN PRODUCTION
+DiplomatStringView private_key_view = toStringView(
+    "0x1234567890123456789012345678901234567890123456789012345678901234");
+DiplomatFelt_new_from_hex_result pk =
+    DiplomatFelt_new_from_hex(private_key_view);
 
-  // Get class hash
-  CONTROLLERS_get_class_hash(Version_LATEST, &writeable);
+// Generate public key and starknet signer from private key
+DiplomatFelt *public_key = Utils_get_public_key(pk.ok);
+DiplomatSigner *starknet_signer = DiplomatSigner_new_starknet_signer(pk.ok);
 
-  // Create owner from private key
-  DiplomatStringView private_key = {"0x1234...", 66}; // Note: never commit private keys in source code
-  DiplomatOwner *owner = DiplomatOwner_new_from_starknet_signer(private_key).ok;
+// Build policies
+DiplomatSessionPolicies *session_policies = DiplomatSessionPolicies_new();
 
-  // Create controller
-  Controller *controller = Controller_new_headless(
-      (DiplomatStringView){"my_app", 6},     // app_id
-      (DiplomatStringView){"user123", 7},    // username
-      (DiplomatStringView){buffer, strlen(buffer)}, // class_hash
-      (DiplomatStringView){"https://starknet-mainnet.public.blastapi.io", 43}, // rpc_url
-      owner,
-      (DiplomatStringView){"0x534e5f4d41494e", 16} // chain_id
-  ).ok;
+ContractPolicy *policy =
+    ContractPolicy_new(noneStringViewOption(), noneStringViewOption());
 
-  // Create transaction call
-  DiplomatCall *call = DiplomatCall_new(
-      (DiplomatStringView){"0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", 66}, // contract
-      (DiplomatStringView){"0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e", 64}    // selector
-  );
+Method *method =
+    Method_new(toStringView("transfer"),
+                toStringView("transfer funds from one account to the other"),
+                toStringView("transfer"), true, true, true);
+ContractPolicy_push_method(policy, method);
 
-  // Add call data
-  DiplomatCall_push_calldata_str(call, (DiplomatStringView){"0x123...", 5}); // recipient
-  DiplomatCall_push_calldata_str(call, (DiplomatStringView){"0x64", 4});     // amount
+DiplomatSessionPolicies_add_contract_policy(
+    session_policies,
+    toStringView(
+        "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"),
+    policy);
 
-  // Execute
-  DiplomatCallList *calls = DiplomatCallList_new();
-  DiplomatCallList_add_call(calls, call);
+// Link the session to the Controller account via the browser
+printf("\nPlease open a browser to this URL and create a session:\n"
+        "%s/session"
+        "?public_key=%.*s"
+        "&policies=%s"
+        "&rpc_url=%s"
+        "&redirect_uri=http://example.com"
+        "&redirect_query_name=startapp\n",
+        KEYCHAIN_URL, (int)writeable.len, buffer, policies, RPC_URL);
 
-  writeable = diplomat_simple_write(buffer, sizeof(buffer));
-  Controller_execute(controller, calls, &writeable);
-  printf("Transaction hash: %.*s\n", (int)writeable.len, buffer);
+// Create session account
+SessionAccount_create_from_subscribe_create_session_result ret =
+    SessionAccount_create_from_subscribe_create_session(
+        starknet_signer, session_policies,
+        toStringView(RPC_URL), toStringView(CARTRIDGE_API_URL));
 ```
 
 :::info
-A complete integration example [is available here](https://github.com/cartridge-gg/controller.c/blob/main/examples/test_controller.c).
+A complete example [is available here](https://github.com/cartridge-gg/controller.c/blob/main/examples/test_session_account.c).
 :::
