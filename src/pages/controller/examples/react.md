@@ -91,9 +91,9 @@ const provider = jsonRpcProvider({
   rpc: (chain: Chain) => {
     switch (chain) {
       case mainnet:
-        return { nodeUrl: 'https://api.cartridge.gg/x/starknet/mainnet' }
-      case sepolia:
       default:
+        return { nodeUrl: 'https://api.cartridge.gg/x/starknet/mainnet' };
+      case sepolia:
         return { nodeUrl: 'https://api.cartridge.gg/x/starknet/sepolia' }
     }
   },

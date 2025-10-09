@@ -49,8 +49,8 @@ async function main() {
 
   // Create a session provider
   const provider = new SessionProvider({
-    rpc: "https://api.cartridge.gg/x/starknet/sepolia",
-    chainId: constants.StarknetChainId.SN_SEPOLIA,
+    rpc: "https://api.cartridge.gg/x/starknet/mainnet",
+    chainId: constants.StarknetChainId.SN_MAIN,
     policies: {
       contracts: {
         [STRK_CONTRACT_ADDRESS]: {
