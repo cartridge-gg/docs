@@ -1,5 +1,5 @@
 ---
-description: Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and best practices.
+description: Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and the new autocomplete features.
 title: Username Lookup
 ---
 
@@ -8,7 +8,19 @@ title: Username Lookup
 A service for looking up usernames and addresses in the Cartridge ecosystem.
 You can use either the helper methods from the SDK or query the endpoint directly.
 
+## Username Autocomplete
+
+When creating a new controller, Cartridge now provides an enhanced username input with real-time autocomplete functionality.
+As you type a username, the system will query existing usernames and render a list of matches for easy selection.
+This feature makes it easier for users to discover and connect to existing controllers.
+
+:::tip
+The autocomplete feature uses the same GraphQL `searchAccounts` query described in the API section below, providing up to 5 matching results with a 300ms debounce for optimal performance.
+:::
+
 ## Direct API Access
+
+### Account Lookup Endpoint
 
 The lookup endpoint can be accessed directly via HTTP POST:
 
@@ -18,6 +30,25 @@ curl -X POST \
   -d '{"usernames": ["shinobi","sensei"]}' \
   https://api.cartridge.gg/accounts/lookup
 ```
+
+### Account Search GraphQL Query
+
+For real-time username search (used by the autocomplete feature), you can use the GraphQL endpoint:
+
+```graphql
+query AccountSearch($query: String!, $limit: Int = 5) {
+  searchAccounts(query: $query, limit: $limit) {
+    username
+    credits {
+      amount
+      decimals
+    }
+    updatedAt
+  }
+}
+```
+
+This query returns matching usernames along with their credit information and last update timestamp, perfect for implementing search and autocomplete functionality.
 
 Request Format
 ```json
