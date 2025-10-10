@@ -10,15 +10,9 @@ You can use either the helper methods from the SDK or query the endpoint directl
 
 ## Username Autocomplete
 
-When creating a new controller, Cartridge now provides an enhanced username input with real-time autocomplete functionality. As you type a username, the system will:
-
-- **Search existing usernames** in real-time and display matching results
-- **Show user profiles** including avatars, achievement badges, and credit balances  
-- **Enable quick selection** of existing accounts from the dropdown
-- **Support keyboard navigation** with arrow keys and Enter to select
-- **Display loading states** and handle errors gracefully
-
-This feature makes it easier for users to discover and connect to existing controllers, improving the overall user experience during account creation and login flows.
+When creating a new controller, Cartridge now provides an enhanced username input with real-time autocomplete functionality.
+As you type a username, the system will query existing usernames and render a list of matches for easy selection.
+This feature makes it easier for users to discover and connect to existing controllers.
 
 :::tip
 The autocomplete feature uses the same GraphQL `searchAccounts` query described in the API section below, providing up to 5 matching results with a 300ms debounce for optimal performance.
