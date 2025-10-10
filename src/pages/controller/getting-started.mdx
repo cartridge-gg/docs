@@ -88,7 +88,7 @@ const controller = new Controller({
     { rpcUrl: "https://api.cartridge.gg/x/starknet/sepolia" },
     { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
   ],
-  defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
+  defaultChainId: constants.StarknetChainId.SN_MAIN,
 });
 ```
 
@@ -124,9 +124,9 @@ const provider = jsonRpcProvider({
   rpc: (chain) => {
     switch (chain) {
       case mainnet:
+      default:
         return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
       case sepolia:
-      default:
         return { nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia" };
     }
   },
@@ -136,7 +136,7 @@ const provider = jsonRpcProvider({
 export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
-      defaultChainId={sepolia.id}
+      defaultChainId={mainnet.id}
       chains={[mainnet, sepolia]}
       provider={provider}
       connectors={[controller]}
@@ -193,8 +193,8 @@ const policies: SessionPolicies = {
 
 const sessionConnector = new SessionConnector({
   policies,
-  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
-  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  rpc: "https://api.cartridge.gg/x/starknet/mainnet",
+  chainId: constants.StarknetChainId.SN_MAIN,
   redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
   // Optional: specify keychain URL for custom deployments
   keychainUrl: "https://x.cartridge.gg",
