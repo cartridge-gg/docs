@@ -3,8 +3,6 @@ import Controller from "../public/controller.svg?react";
 import Sensei from "../public/sensei.png";
 import Slot from "../public/slot.svg?react";
 
-import { Link } from "react-router-dom";
-
 const cardContent = [
   {
     title: "Play with",
@@ -43,7 +41,7 @@ export function HomePage() {
           </div>
           <div className="sm:w-3/4 flex items-center">
             <h1 className="text-3xl sm:text-4xl">
-              <span className="text-primary">High Performance</span> Tooling and
+              <span style={{ color: "#ffc52a" }}>High Performance</span> Tooling and
               Infrastructure for Provable Games and Applications
             </h1>
           </div>
@@ -53,8 +51,8 @@ export function HomePage() {
         <div className="container mx-auto p-4 sm:p-6 lg:p-12 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {cardContent.map((card, index) => (
-              <Link
-                to={card.link}
+              <a
+                href={card.link}
                 key={index}
                 className="p-6 sm:p-8 border border-[#252525] rounded-xl bg-gradient-to-br from-[#181818] to-[#0c0c0c] bg-opacity-30 backdrop-filter backdrop-blur-lg gap-4 sm:gap-8 shadow-lg hover:shadow-red-600/5 duration-150 hover:bg-[#0c0c0c] hover:bg-opacity-50 cursor-pointer relative overflow-hidden"
               >
@@ -79,7 +77,7 @@ export function HomePage() {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
