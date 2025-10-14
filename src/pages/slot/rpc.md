@@ -102,6 +102,8 @@ slot rpc tokens delete <KEY_ID> --team <TEAM_NAME>
 
 ### Managing CORS Whitelist
 
+Domain whitelists are always specified as root domains, all subdomains are automatically included.
+
 Add a domain to the CORS whitelist:
 
 ```bash
@@ -112,9 +114,6 @@ Examples:
 ```bash
 # Whitelist a specific domain
 slot rpc whitelist add example.com --team my-team
-
-# Wildcard patterns are supported
-slot rpc whitelist add *.example.com --team my-team
 ```
 
 List all whitelisted domains:
