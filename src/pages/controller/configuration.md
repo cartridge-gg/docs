@@ -171,7 +171,7 @@ controller.openPurchaseCredits();
 
 ### openStarterPack(starterpackId: string)
 
-Opens the starterpack purchase interface for a specific bundle.
+Opens the starterpack purchase interface for a specific bundle from the onchain registry.
 
 ```typescript
 controller.openStarterPack("starterpack-id-123");

@@ -27,7 +27,7 @@ The purchase system includes:
 Controller provides simple methods to open purchase interfaces:
 
 ```typescript
-import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
+import Controller, { StarterPackItemType } from "@cartridge/controller";
 
 const controller = new Controller();
 
@@ -36,23 +36,6 @@ controller.openPurchaseCredits();
 
 // Open starterpack purchase/claim flow (works for both paid and free starterpacks)
 controller.openStarterPack("starterpack-id-123");
-
-// Open custom starterpack with configuration object
-const customPack: StarterPack = {
-  name: "Beginner Pack",
-  description: "Essential items for new players",
-  items: [
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins",
-      description: "In-game currency",
-      amount: 100,
-      price: 5000000n, // $5.00 in USDC micro-units
-      call: [{ contractAddress: "0x123...", entrypoint: "mint", calldata: ["user", "100", "0"] }]
-    }
-  ]
-};
-controller.openStarterPack(customPack);
 ```
 
 ## API Reference
@@ -77,151 +60,70 @@ const handleBuyCredits = () => {
 };
 ```
 
-### openStarterPack(options: string | StarterPack)
+### openStarterPack(starterpackId: string)
 
-Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
+Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility). Starterpacks are defined in the onchain registry and referenced by their unique ID.
 
 ```typescript
-controller.openStarterPack(options: string | StarterPack);
+controller.openStarterPack(starterpackId: string);
 ```
 
 **Parameters:**
-- `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
+- `starterpackId` (string): The unique ID of the starterpack from the onchain registry
 
 **Returns:** `void`
 
 **Usage Examples:**
 
 ```typescript
-// Backward compatible - existing usage with string ID
+// Open a paid starterpack for purchase
 const handleBuyStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
 
-// Offer free claimable starterpack
+// Open a free claimable starterpack
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024");
 };
-
-// New - custom starter pack with outside execution
-const customPack: StarterPack = {
-  name: "Warrior Starter Pack",
-  description: "Everything you need to start your adventure",
-  iconURL: "https://example.com/warrior-pack.png",
-  items: [
-    {
-      type: StarterPackItemType.NONFUNGIBLE,
-      name: "Legendary Sword",
-      description: "A powerful starting weapon",
-      iconURL: "https://example.com/sword.png",
-      amount: 1,
-      price: 50000000n, // 50 USDC in micro-units (6 decimals)
-      call: [
-        {
-          contractAddress: "0x123...",
-          entrypoint: "mint",
-          calldata: [userAddress, "1", "0"]
-        }
-      ]
-    },
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins",
-      description: "In-game currency",
-      amount: 1000,
-      price: 10000n, // 0.01 USDC in micro-units
-      call: [
-        {
-          contractAddress: "0x456...",
-          entrypoint: "transfer",
-          calldata: [userAddress, "1000", "0"]
-        }
-      ]
-    }
-  ]
-};
-
-const handleCustomStarterpack = () => {
-  controller.openStarterPack(customPack);
-  // Total price: $60.00 (50 + 1000×0.01), all calls executed after payment
-};
 ```
 
-## StarterPack Configuration
+## Onchain Starterpack Registry
 
-The `StarterPack` interface enables you to create custom starter pack bundles with associated contract calls that are executed automatically after successful payment. This provides complete control over the purchase experience and allows for complex multi-item bundles.
+Starterpacks are now exclusively managed through the **Arcade Starterpack Registry Contract** on Starknet. This ensures:
 
-### StarterPack Interface
+- **Onchain Metadata**: All starterpack definitions are stored and validated onchain
+- **Immutable Definitions**: Starterpack content cannot be modified after creation
+- **Consistent Data Source**: All applications access the same starterpack data
+- **Enhanced Security**: Contract-level validation of all starterpack operations
 
-```typescript
-interface StarterPack {
-  name: string;
-  description: string;
-  iconURL?: string;
-  items: StarterPackItem[];
-}
-```
+### Breaking Change Notice
 
-**Properties:**
-- `name` (string): Display name for the starter pack
-- `description` (string): Description shown to users
-- `iconURL` (string, optional): URL for the pack icon/image
-- `items` (StarterPackItem[]): Array of items included in the pack
+:::warning
+**Breaking Change in Controller v2.0**: The `openStarterPack()` method now only accepts starterpack IDs from the onchain registry. Custom `StarterPack` objects are no longer supported.
 
-### StarterPackItem Interface
+**Migration Required**: If you were passing custom `StarterPack` objects, you must register your starterpacks in the Arcade Registry Contract and use the returned ID instead.
+:::
 
-```typescript
-interface StarterPackItem {
-  type: StarterPackItemType;
-  name: string;
-  description: string;
-  iconURL?: string;
-  amount?: number;
-  price?: bigint;
-  call?: Call[];
-}
-```
+### StarterPackItem Types
 
-**Properties:**
-- `type` (StarterPackItemType): Type of item (NONFUNGIBLE or FUNGIBLE)
-- `name` (string): Display name for the item
-- `description` (string): Item description
-- `iconURL` (string, optional): URL for item icon/image
-- `amount` (number, optional): Quantity of the item
-- `price` (bigint, optional): Price in USDC micro-units (6 decimals, e.g., 1000000n = $1.00)
-- `call` (Call[], optional): Contract calls to execute for this item after payment
-
-### StarterPackItemType Enum
+For UI rendering purposes, the `StarterPackItem` interface and `StarterPackItemType` enum are still available for displaying starterpack contents:
 
 ```typescript
 enum StarterPackItemType {
   NONFUNGIBLE = "NONFUNGIBLE",  // Unique items like NFTs, weapons, characters
   FUNGIBLE = "FUNGIBLE"         // Quantity-based items like coins, potions, resources
 }
+
+interface StarterPackItem {
+  type: StarterPackItemType;
+  name: string;
+  description: string;
+  iconURL?: string;
+  amount?: number;
+}
 ```
 
-### Key Features
-
-- **Outside Execution**: Contract calls are automatically aggregated into a multicall and executed after successful payment
-- **Dynamic Pricing**: Total pack price is calculated from `sum(item.price × item.amount)`
-- **Flexible Calls**: Any contract calls can be included - minting, transfers, game state updates, etc.
-- **UI Generation**: Purchase interface renders directly from the provided data structure
-- **Self-Contained**: No backend integration required - everything is defined in the configuration
-
-### Important Notes
-
-**Pricing Format:**
-- All prices must be specified in USDC micro-units (6 decimal places)
-- Example: `1000000n` = $1.00, `500000n` = $0.50, `10000n` = $0.01
-
-**Contract Calls:**
-- Use the standard Starknet `Call` format with `contractAddress`, `entrypoint`, and `calldata`
-- Calls are executed in the order they appear in the `call` array for each item
-- All calls across all items are combined into a single multicall transaction
-
-**Error Handling:**
-- If any contract call fails, the entire transaction is reverted
-- Users are only charged if all contract calls execute successfully
+These types are used internally by the Controller to render starterpack contents from the onchain registry data.
 
 ## Starterpack Types
 

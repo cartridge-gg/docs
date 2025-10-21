@@ -44,5 +44,5 @@ title: Controller Overview
 ### Monetization and Payments
 
 -   Multi-chain cryptocurrency and fiat support
--   Starterpack bundles combining credits and game assets
+-   Onchain starterpack registry for secure, immutable bundles of credits and game assets
 -   ERC721 and ERC1155 NFT marketplace support with automated fee management
