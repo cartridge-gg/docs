@@ -22,6 +22,12 @@ const account = await controller.connect();
 
 When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
+The connection interface supports full keyboard navigation for enhanced accessibility:
+- **Enter** or **Space** to progress through the connection flow when valid input is provided
+- **Arrow keys** (↑/↓) to navigate authentication method options
+- **Enter** or **Space** to select authentication methods
+- Smart handling that prevents conflicts with dropdown selections and input fields
+
 :::info
 Controller will set **essential cookies** as part of the initialization.
 These are necessary for the controller to function properly.
