@@ -127,3 +127,30 @@ Remove a domain from the CORS whitelist:
 ```bash
 slot rpc whitelist remove <ENTRY_ID> --team <TEAM_NAME>
 ```
+
+### Viewing RPC Logs
+
+View RPC request logs for your team:
+
+```bash
+slot rpc logs --team <TEAM_NAME>
+```
+
+#### Options
+
+- `--after <CURSOR>`: Fetch logs after a specific cursor for pagination
+- `--limit <NUMBER>`: Limit the number of log entries returned (default: 100)
+- `--since <DURATION>`: Fetch logs from a specific time period (e.g., `30m`, `1h`, `24h`)
+
+#### Examples
+
+```bash
+# View the last 5 log entries from the past 30 minutes
+slot rpc logs --team my-team --limit 5 --since 30m
+
+# Paginate through logs using a cursor
+slot rpc logs --team my-team --after gaFpuWNtaDVhZ3k2Nzc2c2gwMWR4N3FsYXlhc2s --limit 5
+
+# View recent logs with time filter
+slot rpc logs --team my-team --since 1h
+```
