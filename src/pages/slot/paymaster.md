@@ -33,26 +33,7 @@ slot auth login
 
 ## Team Setup
 
-Before creating a paymaster, you need a team with sufficient credits.
-
-### Create a Team (if it doesn't exist)
-
-```sh
-slot teams <team-name> create --email <your-email@example.com>
-```
-
-### Fund Your Account and Transfer to Team
-
-Paymasters automatically deduct from your team's account balance when created. If you don't have sufficient credits:
-
-```sh
-# Buy credits for your account (opens browser)
-slot auth fund
-```
-
-1. Select the team you want to fund from the list
-2. Choose your payment method (credit card or crypto)
-3. Complete the purchase
+Before creating a paymaster, you need a team with sufficient credits. See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
 
 ## Creating a Paymaster
 
@@ -554,13 +535,8 @@ slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 
 ### Setting up a new game paymaster
 ```sh
-# Create team if it doesn't exist
-slot teams my-team create --email developer@mygame.com
-
-# Fund a team
-slot auth fund
-
-# Create paymaster
+# Set up billing first (see /slot/billing for details)
+# Then create paymaster
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
 
 # Add game contract policies
@@ -585,15 +561,4 @@ slot paymaster my-game-pm budget increase --amount 500 --unit CREDIT
 ```
 
 ### Insufficient Credits Error
-If you encounter insufficient credits when creating or funding a paymaster:
-
-```sh
-# Check team balance first
-slot teams my-team info
-
-# Fund a team
-slot auth fund
-
-# Retry your paymaster operation
-slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
-```
+If you encounter insufficient credits when creating or funding a paymaster, see the [Billing](/slot/billing) documentation for information on funding your team.

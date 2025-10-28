@@ -187,6 +187,10 @@ export default defineConfig({
             link: "/slot/getting-started",
           },
           {
+            text: "Billing",
+            link: "/slot/billing",
+          },
+          {
             text: "Scale",
             link: "/slot/scale",
           },

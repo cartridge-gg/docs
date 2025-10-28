@@ -60,20 +60,9 @@ Katana can be only launched in a single region, while torii uses replicas and ro
 
 Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
 
-## Set up billing
+## Billing
 
-To set up slot billing, you need to buy credits and transfer them to a slot team.
-
-If you have existing deployments, a team of the same name as your account will be created for you, and you can transfer credits to it.
-
-```shell
-slot teams my-team create --email my-email@example.com # email is required for billing alerts
-slot teams my-team update --email my-email@example.com # if you want to update an existing team's email
-
-slot auth fund # buy credits for a team, this opens the browser
-```
-
-Once you create paid slot instances, funds are deducted on a daily basic with a minimum charge of one day. For example, if you create a deployment and delete it after one hour, you will be charged 1/30th of the monthly cost.
+Before creating paid tier deployments, you need to set up billing for your team. See the [Billing](/slot/billing) documentation for detailed information on creating teams, funding, and managing credits.
 
 ## Create an instance with a paid tier
 

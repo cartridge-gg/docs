@@ -95,14 +95,6 @@ slot teams <Team Name> remove <Account Name>
 The account name can also be called controller username. The one used to login on controller.
 :::
 
-### Fund teams
+## Billing
 
-Teams need credits to run services and paymasters. You can fund teams using CLI commands or the web interface:
-
-**CLI:**
-```sh
-slot auth fund
-```
-
-**Web Interface:**
-Navigate to `https://x.cartridge.gg/slot/fund` to fund teams through a user-friendly interface with credit card or crypto payments.
+Teams need credits to run paid services and paymasters. See the [Billing](/slot/billing) documentation for information on funding teams and managing credits.
