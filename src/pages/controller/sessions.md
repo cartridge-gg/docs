@@ -83,10 +83,33 @@ export type SessionOptions = {
   rpc: string;                      // RPC endpoint URL
   chainId: string;                  // Chain ID for the session
   policies: SessionPolicies;        // Approved transaction policies
-  redirectUrl: string;              // URL to redirect after registration
+  redirectUrl?: string;             // Optional URL to redirect after registration
   disconnectRedirectUrl?: string;   // Optional URL to redirect after disconnect/logout
 };
 ```
+
+## Session Registration Flow
+
+Session registration can work in two modes:
+
+### In-App Registration (No Redirects)
+
+When no `redirectUrl` or callback parameters are provided, sessions complete entirely within the Cartridge interface:
+
+- Users see the session approval screen
+- After approval, they see a success message: "Return to the game to continue"  
+- No external redirects occur
+- Ideal for web applications that can poll for session status
+
+### External Callback Registration
+
+When callback or redirect parameters are provided, sessions can integrate with external applications:
+
+- `callback_uri` - POST session data to a webhook endpoint after approval
+- `redirect_uri` - Redirect browser to external URL with session data as query parameter  
+- `redirectUrl` - Configure default redirect destination
+
+**Security Note**: Callback URLs are strictly validated and must be on an allowlist of approved hostnames and paths for security.
 
 ## Defining Policies
 

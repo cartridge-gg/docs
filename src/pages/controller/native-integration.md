@@ -133,6 +133,7 @@ DiplomatSessionPolicies_add_contract_policy(
     policy);
 
 // Link the session to the Controller account via the browser
+// Note: redirect_uri is optional - if omitted, session completes in-app
 printf("\nPlease open a browser to this URL and create a session:\n"
         "%s/session"
         "?public_key=%.*s"
