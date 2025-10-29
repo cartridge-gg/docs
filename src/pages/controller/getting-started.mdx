@@ -94,6 +94,106 @@ const controller = new Controller({
 });
 ```
 
+## Standalone Authentication Flow
+
+For applications that need to handle third-party cookie restrictions in Safari and Firefox, Controller provides a standalone authentication flow that establishes first-party storage access.
+
+### Key Benefits
+
+- **Eliminates storage access prompts** - User action on first-party site enables automatic iframe access
+- **Cross-game single sign-on** - Works across all games using Cartridge controller  
+- **Safari/Firefox compatible** - Leverages Storage Access API correctly
+- **Better UX** - One-time redirect establishes persistent authenticated state
+
+### Basic Usage
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller();
+
+// Check if user has already established first-party storage access
+const hasAccess = await controller.hasFirstPartyAccess();
+
+if (!hasAccess) {
+  // Redirect to keychain in first-party context for authentication
+  controller.open({
+    redirectTo: "https://yourgame.com", // Optional: redirect after auth
+  });
+} else {
+  // User can proceed with normal controller operations
+  const account = await controller.connect();
+}
+```
+
+### Smart Game Launching
+
+For games that want to provide seamless navigation, you can implement smart launching that checks storage access before navigating:
+
+```ts
+const launchGame = async (gameUrl: string) => {
+  const hasAccess = await controller.hasFirstPartyAccess();
+  
+  if (!hasAccess) {
+    // Route through standalone auth to establish storage access
+    controller.open({ redirectTo: gameUrl });
+  } else {
+    // Direct navigation - storage access already established
+    window.location.href = gameUrl;
+  }
+};
+```
+
+### User Flow
+
+**First-Time User:**
+1. Click game launch button in your application
+2. Get redirected to x.cartridge.gg (first-party context)
+3. Authenticate with any supported method (Passkeys, social login, etc.)
+4. Keychain sets first-party cookies/storage
+5. Redirect back to the game
+6. Embedded iframe can now access storage without prompts ✓
+
+**Returning User:**
+1. Click game launch button
+2. `hasFirstPartyAccess()` returns true
+3. Direct navigation to game
+4. Embedded iframe works seamlessly ✓
+
+### API Reference
+
+#### `controller.open(options)`
+
+Opens the keychain in a first-party context for standalone authentication.
+
+**Parameters:**
+- `options.redirectTo` (optional): URL to redirect to after authentication. Defaults to current page.
+
+**Example:**
+```ts
+// Redirect to game after authentication
+controller.open({ redirectTo: "https://lootsurvivor.io" });
+
+// Stay on current page after authentication  
+controller.open();
+```
+
+#### `controller.hasFirstPartyAccess()`
+
+Checks if the Storage Access API has granted access to first-party storage.
+
+**Returns:** `Promise<boolean>` - True if storage access is available, false otherwise.
+
+**Example:**
+```ts
+const canUseEmbeddedKeychain = await controller.hasFirstPartyAccess();
+console.log("Can use embedded features:", canUseEmbeddedKeychain);
+```
+
+:::tip
+The standalone authentication flow is particularly useful for games and applications that need to work across multiple domains while maintaining a seamless user experience.
+:::
+
 ## Connectors
 
 Connectors provide standardized integrations of Controller into various types of applications.
@@ -335,3 +435,4 @@ Cartridge Controller in your preferred environment.
 - Customize your [Controller](/controller/presets.md)
 - Set up [Usernames](/controller/usernames.md)
 - Configure [Paymaster](/controller/configuration.md)
+- For cross-domain applications, see the [React example](/controller/examples/react.md#implementing-standalone-authentication) for implementing standalone authentication
