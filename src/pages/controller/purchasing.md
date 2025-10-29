@@ -252,6 +252,17 @@ This system allows users to claim assets that were originally distributed on oth
 3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership
 4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
 
+**EVM Cross-Network Claiming:**
+
+When connecting with any EVM-compatible wallet (MetaMask, Rabby, Coinbase Wallet), users can claim merkle drops from **all EVM networks** in a single transaction. This means:
+
+- **Ethereum wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
+- **Base wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously  
+- **Arbitrum wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
+- **Optimism wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
+
+This unified claiming experience is possible because EVM wallets use the same address across all EVM-compatible chains. Non-EVM networks (Starknet, Solana) continue to claim drops only for their specific network.
+
 **Supported Networks for Claims:**
 
 - **Starknet**: Native claims without additional signature requirements
@@ -321,6 +332,8 @@ The claiming process follows these steps:
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
 4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
+   - **EVM Wallets**: When connecting any EVM wallet, you'll automatically claim drops from all EVM networks (Ethereum, Base, Arbitrum, Optimism)
+   - **Non-EVM Wallets**: Starknet and Solana wallets claim drops only for their specific network
 5. **Signature Verification**: For EVM-based claims, sign a verification message with your external wallet to prove ownership
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
