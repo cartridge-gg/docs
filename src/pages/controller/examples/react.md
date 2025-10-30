@@ -158,7 +158,56 @@ export function ConnectWallet() {
 }
 ```
 
-### 3. Performing Transactions
+### 3. Standalone Authentication
+
+For gaming ecosystems or applications that need first-party storage access, you can use the standalone authentication flow:
+
+```typescript
+import { useEffect, useState } from 'react'
+import { useConnect } from '@starknet-react/core'
+import { ControllerConnector } from '@cartridge/connector'
+
+export function StandaloneAuth() {
+  const { connectors } = useConnect()
+  const controller = connectors[0] as ControllerConnector
+  const [hasAccess, setHasAccess] = useState<boolean>(false)
+
+  useEffect(() => {
+    // Check if we have first-party storage access
+    controller.hasFirstPartyAccess().then(setHasAccess)
+  }, [controller])
+
+  const handleStandaloneAuth = () => {
+    controller.open({
+      redirectUrl: window.location.href  // Redirect back to current page
+    })
+  }
+
+  return (
+    <div>
+      <h2>Standalone Authentication</h2>
+      <p>First-party storage access: {hasAccess ? 'Yes' : 'No'}</p>
+      
+      {!hasAccess && (
+        <button onClick={handleStandaloneAuth}>
+          Authenticate via Standalone
+        </button>
+      )}
+      
+      {hasAccess && (
+        <p>✅ Ready for seamless cross-game authentication</p>
+      )}
+    </div>
+  )
+}
+```
+
+This pattern is especially useful for:
+- Gaming platforms that launch multiple games
+- Applications needing seamless wallet access across domains
+- Establishing authentication before redirecting to external games
+
+### 4. Performing Transactions
 
 Execute transactions using the `account` object from `useAccount` hook:
 
