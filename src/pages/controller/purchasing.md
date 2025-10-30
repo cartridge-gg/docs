@@ -252,6 +252,14 @@ This system allows users to claim assets that were originally distributed on oth
 3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership
 4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
 
+**Enhanced Claim Interface:**
+
+- **Grouped Display**: Claims are automatically grouped by key (e.g., network/collection) for cleaner presentation
+- **Batch Claiming**: "Claim All" button allows claiming multiple groups at once
+- **Automatic Fallback**: If batch claiming fails, the interface automatically switches to individual claim mode with per-item buttons
+- **Dynamic Item Filtering**: When `matchStarterpackItem` is enabled on a merkle drop, only relevant starterpack items matching the user's eligible claims are displayed
+- **Intelligent Error Handling**: Failed batch transactions gracefully fallback to individual claiming to avoid resource limit issues
+
 **Supported Networks for Claims:**
 
 - **Starknet**: Native claims without additional signature requirements
@@ -320,10 +328,14 @@ The claiming process follows these steps:
 1. **Starterpack Selection**: User opens a claimable starterpack
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
+   - Items are dynamically filtered based on claim eligibility when `matchStarterpackItem` is enabled
+   - Claims are grouped by key (network/collection) for cleaner display
 4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
 5. **Signature Verification**: For EVM-based claims, sign a verification message with your external wallet to prove ownership
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
-7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
+7. **Claim Processing**: 
+   - **Batch Mode** (default): Use "Claim All" button to claim multiple groups at once
+   - **Individual Mode** (fallback): If batch claiming fails, individual claim buttons appear for each item
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
 
 ### Getting Help
