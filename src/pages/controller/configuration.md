@@ -183,3 +183,34 @@ Both methods support:
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
 For detailed integration guidance, see the [Purchase Integration](/controller/purchasing.md) guide.
+
+## Authentication Methods
+
+Controller provides several authentication-related methods for managing user sessions and access.
+
+### open(options?: OpenOptions)
+
+Opens the keychain in standalone mode for authentication, establishing first-party storage access. This is particularly useful for gaming ecosystems where users need seamless access across multiple games.
+
+```typescript
+controller.open({
+  redirectUrl: "https://your-game.com"  // Optional: redirect after auth
+});
+```
+
+**OpenOptions:**
+```typescript
+type OpenOptions = {
+  redirectUrl?: string;  // URL to redirect to after authentication
+};
+```
+
+### hasFirstPartyAccess()
+
+Checks if the controller has first-party storage access, which is required for seamless iframe communication across different domains.
+
+```typescript
+const hasAccess = await controller.hasFirstPartyAccess();
+```
+
+This method is commonly used in gaming platforms to determine whether users need to go through standalone authentication before accessing games.
