@@ -206,6 +206,10 @@ export default defineConfig({
             text: "RPC",
             link: "/slot/rpc",
           },
+          {
+            text: "Observability",
+            link: "/slot/observability",
+          },
         ],
       },
     ],
