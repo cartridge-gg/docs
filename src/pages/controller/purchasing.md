@@ -230,6 +230,20 @@ Paid starterpacks require purchase and support multiple payment methods (credit 
 These typically include premium game assets, larger credit bundles, and exclusive items.
 Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
 
+#### Onchain Token Swap Support
+For onchain starterpack purchases, users can pay with ETH, STRK, or USDC even if the starterpack requires a different token. The system automatically:
+
+- **Token Selection**: Provides a dropdown to select from available payment tokens (ETH, STRK, USDC)
+- **Automatic Conversion**: Uses Ekubo DEX to generate swap quotes and show converted prices
+- **Balance Verification**: Checks user has sufficient balance in the selected token before purchase
+- **Atomic Execution**: Combines all operations in a single transaction:
+  1. Approve selected token for swap
+  2. Execute swap to required token  
+  3. Approve required token for starterpack purchase
+  4. Execute starterpack purchase
+
+This swap functionality supports both Controller wallets and external wallets (Argent, Braavos) with proper transaction formatting for each wallet type.
+
 ### Claimable Starterpacks
 Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
 - **No payment required**: Users can claim them for free
@@ -274,10 +288,23 @@ The purchase process follows these steps:
 2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
+   - **Onchain Payment**: Direct payment on Starknet with token swap support
 3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+4. **Token Selection** (Onchain only): Choose payment token (ETH, STRK, or USDC) with real-time conversion display
+5. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+6. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation or atomic swap execution
+7. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+
+#### Onchain Payment Flow
+
+For onchain payments on Starknet, the process includes additional token flexibility:
+
+1. **Token Selection**: Choose from ETH, STRK, or USDC regardless of the starterpack's required token
+2. **Quote Generation**: System fetches swap quotes from Ekubo DEX if token conversion is needed
+3. **Balance Check**: Verify sufficient balance in selected token
+4. **Price Display**: Shows both the amount in selected token and USD equivalent
+5. **Atomic Transaction**: If swap is needed, executes approve → swap → approve → purchase in single transaction
+6. **Direct Purchase**: If paying with the required token, executes approve → purchase directly
 
 ## Cross-Chain Bridging with Layerswap
 
@@ -294,12 +321,18 @@ If a wallet doesn't support chain switching, users can manually switch chains wi
 
 ### Fee Structure
 
-Cryptocurrency payments include several fee components:
+**Cross-Chain Cryptocurrency Payments** include several fee components:
 
 - **Base Cost**: The actual purchase amount (starterpack or credit value)
 - **Cartridge Processing Fee**: 2.5% service fee
 - **Layerswap Bridging Fee**: Variable fee based on source network and token (typically 0.1-0.5%)
 - **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
+
+**Onchain Payments** (Starknet) have a simplified fee structure:
+
+- **Base Cost**: The actual purchase amount (starterpack or credit value)
+- **Swap Fee**: Ekubo DEX swap fee (if token conversion is needed, typically 0.05-0.3%)
+- **Network Gas Fees**: Starknet transaction fees (paid separately by user)
 
 The total cost including all fees is displayed upfront before payment confirmation.
 
@@ -326,6 +359,44 @@ The claiming process follows these steps:
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
 
+## Technical Implementation
+
+### Token Swap Architecture
+
+The onchain token swap functionality uses a sophisticated architecture to provide seamless payments:
+
+**Key Components:**
+- **Ekubo DEX Integration**: Fetches real-time swap quotes and generates swap calls
+- **Token Selection Context**: Manages available tokens (ETH, STRK, USDC) and user selection
+- **Balance Verification**: Checks user balances against selected tokens with conversion amounts
+- **Atomic Multicall**: Combines multiple operations into a single transaction
+
+**Supported Wallets:**
+- **Controller Wallet**: Native execution with standard call format
+- **External Wallets**: Argent and Braavos with snake_case call formatting
+- **Automatic Detection**: System automatically formats calls based on wallet type
+
+**Transaction Flow:**
+```typescript
+// Example atomic transaction for token swap + purchase
+const calls = [
+  // 1. Approve selected token for Ekubo router
+  { contractAddress: selectedToken, entrypoint: "approve", calldata: [...] },
+  // 2. Execute swap via Ekubo
+  { contractAddress: ekuboRouter, entrypoint: "swap", calldata: [...] },
+  // 3. Approve payment token for starterpack contract  
+  { contractAddress: paymentToken, entrypoint: "approve", calldata: [...] },
+  // 4. Execute starterpack purchase
+  { contractAddress: starterpackContract, entrypoint: "issue", calldata: [...] }
+];
+```
+
+**Error Handling:**
+- Quote fetching failures fall back to direct token requirement
+- Insufficient balance prevents transaction initiation
+- Failed swaps or purchases revert the entire transaction
+- Detailed error messages help users troubleshoot issues
+
 ### Getting Help
 
 If you encounter issues with purchase integration:
@@ -333,6 +404,7 @@ If you encounter issues with purchase integration:
 - Verify your Controller setup matches the [getting started guide](/controller/getting-started.mdx)
 - Ensure you're using the latest version of the Controller SDK
 - Review [external wallet setup](/controller/signer-management.md) for wallet-related issues
+- For onchain payment issues, verify token balances and network connectivity
 
 ## Next Steps
 
