@@ -94,6 +94,41 @@ const controller = new Controller({
 });
 ```
 
+## Standalone Authentication
+
+The Controller provides an `open()` method for standalone authentication, which opens the keychain in first-party context. This is useful for establishing first-party storage and enabling seamless iframe access across all games.
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller();
+
+// Basic usage - redirect to current page after authentication
+controller.open();
+
+// With custom redirect URL
+controller.open({
+  redirectUrl: "https://mygame.com/dashboard",
+});
+
+// With preset theme and redirect
+controller.open({
+  redirectUrl: "https://mygame.com/play",
+  preset: "mygame",
+});
+```
+
+### Parameters
+
+The `open()` method accepts an options object with the following properties:
+
+- `redirectUrl?: string` - The URL to redirect to after authentication (defaults to current page)
+- `preset?: string` - The preset theme to use for the keychain interface
+
+:::info
+When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
+:::
+
 ## Connectors
 
 Connectors provide standardized integrations of Controller into various types of applications.
