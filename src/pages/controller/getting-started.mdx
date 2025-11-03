@@ -94,6 +94,60 @@ const controller = new Controller({
 });
 ```
 
+## Standalone Authentication
+
+The Controller provides a standalone authentication method that opens the keychain in first-party context for seamless cross-game authentication. This is particularly useful for gaming ecosystems where users need to access multiple games with the same controller account.
+
+### controller.open(options?)
+
+Opens the keychain in standalone mode for authentication, establishing first-party storage access.
+
+```ts
+controller.open({
+  redirectUrl: "https://your-game.com"  // Optional: URL to redirect after auth
+});
+```
+
+#### OpenOptions
+
+```typescript
+type OpenOptions = {
+  /** The URL to redirect to after authentication (defaults to current page) */
+  redirectUrl?: string;
+};
+```
+
+### Use Cases
+
+The standalone authentication flow is designed for:
+
+1. **Cross-game authentication**: Users authenticate once and can seamlessly access multiple games
+2. **First-party storage establishment**: Ensures the controller can access storage across different domains
+3. **Gaming ecosystem integration**: Smooth transitions between launcher and games
+
+### Example: Game Launcher Integration
+
+```tsx
+import Controller from "@cartridge/controller";
+
+const controller = new Controller();
+
+// Check if user has first-party storage access
+const hasAccess = await controller.hasFirstPartyAccess();
+
+if (!hasAccess) {
+  // Redirect through standalone auth to establish first-party storage
+  controller.open({
+    redirectUrl: "https://your-game.com"
+  });
+} else {
+  // Direct navigation - user already authenticated
+  window.location.href = "https://your-game.com";
+}
+```
+
+This pattern is commonly used in gaming platforms where a launcher needs to authenticate users before redirecting them to specific games.
+
 ## Connectors
 
 Connectors provide standardized integrations of Controller into various types of applications.
