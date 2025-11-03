@@ -77,33 +77,41 @@ const handleBuyCredits = () => {
 };
 ```
 
-### openStarterPack(options: string | StarterPack)
+### openStarterPack(options: string | number | StarterPack)
 
-Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
+Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility). The method now supports dual-path architecture with automatic backend/onchain detection.
 
 ```typescript
-controller.openStarterPack(options: string | StarterPack);
+controller.openStarterPack(options: string | number | StarterPack);
 ```
 
 **Parameters:**
-- `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
+- `options` (string | number | StarterPack): 
+  - **Numeric ID** (number): Onchain starterpack ID for smart contract-based starterpacks
+  - **String ID** (string): Backend starterpack UUID for GraphQL-based starterpacks
+  - **StarterPack object**: Complete StarterPack configuration object for custom packs
 
 **Returns:** `void`
 
 **Usage Examples:**
 
 ```typescript
-// Backward compatible - existing usage with string ID
-const handleBuyStarterpack = () => {
+// Backend starterpack - existing usage with string UUID
+const handleBuyBackendStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
 
-// Offer free claimable starterpack
+// Onchain starterpack - new usage with numeric ID
+const handleBuyOnchainStarterpack = () => {
+  controller.openStarterPack(12345); // Numeric ID for onchain starterpack
+};
+
+// Offer free claimable starterpack (backend)
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024");
 };
 
-// New - custom starter pack with outside execution
+// Custom starter pack with outside execution
 const customPack: StarterPack = {
   name: "Warrior Starter Pack",
   description: "Everything you need to start your adventure",
@@ -225,13 +233,64 @@ enum StarterPackItemType {
 
 ## Starterpack Types
 
-### Paid Starterpacks
-Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency).
+Cartridge Controller now supports a dual-path architecture for starterpacks, automatically detecting the type based on the ID format:
+
+### Dual-Path Architecture
+
+**Automatic Detection:**
+- **Numeric IDs** (e.g., `12345`) → **Onchain Starterpacks** (smart contract-based)
+- **String IDs** (e.g., `"beginner-pack-2024"`) → **Backend Starterpacks** (GraphQL-based)
+
+This allows seamless integration of both traditional backend-managed starterpacks and new blockchain-native onchain starterpacks in a single interface.
+
+### Backend Starterpacks (Traditional)
+Backend starterpacks are managed via GraphQL and support multiple payment methods (credit card or cryptocurrency).
 These typically include premium game assets, larger credit bundles, and exclusive items.
 Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
 
+**Features:**
+- Custom StarterPack object configuration
+- Cross-chain payments with automatic bridging
+- Both paid and claimable variants
+- Merkle drop claim support
+
+### Onchain Starterpacks (New)
+Onchain starterpacks are managed entirely via smart contracts on Starknet, providing a decentralized purchase experience.
+Users purchase directly from a registry contract using payment tokens like USDC or ETH.
+
+**Features:**
+- Direct smart contract interaction
+- Transparent on-chain pricing and fees
+- Automatic balance checking before purchase
+- Real-time supply tracking
+- Protocol and referral fee support
+- Payment token flexibility (USDC, ETH, etc.)
+
+**Key Differences:**
+- **Pricing**: Fetched directly from smart contract with transparent fee breakdown
+- **Purchase Flow**: ERC-20 token approval + registry contract `issue` call
+- **Supply**: Real-time supply tracking from blockchain state
+- **Fees**: Protocol fees and referral fees handled on-chain
+- **Payment**: Native token payments (displays in token amounts, e.g. "100.00 USDC")
+
+### Paid Starterpacks
+Both backend and onchain starterpacks support paid variants that require purchase through multiple payment methods.
+
+**Backend Paid Starterpacks:**
+- Support credit card payments via Stripe
+- Support crypto payments with cross-chain bridging via Layerswap
+- Configurable pricing in USD with automatic conversion
+
+**Onchain Paid Starterpacks:**
+- Direct payment using ERC-20 tokens (USDC, ETH, etc.)
+- Smart contract handles pricing and fee calculation
+- Transparent fee breakdown (base price + protocol fee + referral fee)
+- Automatic balance checking with insufficient funds warnings
+
 ### Claimable Starterpacks
-Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
+Free starterpacks that users can claim based on eligibility criteria. Currently, only backend starterpacks support claimable variants.
+
+**Backend Claimable Starterpacks:**
 - **No payment required**: Users can claim them for free
 - **Eligibility checking**: System verifies if user meets claim requirements
 - **Collection showcase**: Display supported game collections with platform indicators
@@ -268,9 +327,11 @@ Solana payment functionality is currently disabled and will be re-enabled in a f
 
 ### Purchase Flow (Paid Starterpacks)
 
-The purchase process follows these steps:
+The purchase process varies based on starterpack type:
 
-1. **Item Selection**: User selects starterpack or credit amount
+#### Backend Starterpack Purchase Flow
+
+1. **Item Selection**: User selects backend starterpack (string ID)
 2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
@@ -279,9 +340,24 @@ The purchase process follows these steps:
 5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
 6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
+#### Onchain Starterpack Purchase Flow
+
+1. **Item Selection**: User selects onchain starterpack (numeric ID)
+2. **Smart Contract Data**: System fetches metadata, pricing, and fee breakdown from registry contract
+3. **Balance Check**: Automatic verification of user's payment token balance
+4. **Wallet Selection**: Choose wallet (uses wallet address for Argent/Braavos, controller address otherwise)
+5. **Token Approval**: Approve payment token for exact transfer amount to registry contract
+6. **Registry Purchase**: Call `issue` function on starterpack registry contract
+7. **Transaction Confirmation**: Wait for Starknet transaction confirmation with explorer link
+8. **Asset Delivery**: Receive starterpack assets directly from smart contract execution
+
 ## Cross-Chain Bridging with Layerswap
 
-Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+Cartridge uses Layerswap to enable seamless cross-chain payments for **backend starterpacks**. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+
+:::note
+Onchain starterpacks use direct Starknet payments and do not require cross-chain bridging.
+:::
 
 ### Wallet Chain Switching Behavior
 
@@ -294,14 +370,27 @@ If a wallet doesn't support chain switching, users can manually switch chains wi
 
 ### Fee Structure
 
-Cryptocurrency payments include several fee components:
+Fee structures vary based on starterpack type:
+
+#### Backend Starterpack Fees
+
+Cryptocurrency payments for backend starterpacks include several fee components:
 
 - **Base Cost**: The actual purchase amount (starterpack or credit value)
 - **Cartridge Processing Fee**: 2.5% service fee
 - **Layerswap Bridging Fee**: Variable fee based on source network and token (typically 0.1-0.5%)
 - **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
 
-The total cost including all fees is displayed upfront before payment confirmation.
+#### Onchain Starterpack Fees
+
+Onchain starterpack fees are handled entirely on-chain with transparent calculation:
+
+- **Base Price**: The starterpack's base cost (fetched from smart contract)
+- **Protocol Fee**: Fee charged by the starterpack protocol
+- **Referral Fee**: Fee paid to referrers (if applicable)
+- **Network Gas Fees**: Standard Starknet transaction fees
+
+The total cost including all fees is displayed upfront before payment confirmation for both types.
 
 #### NFT Marketplace Fees
 
@@ -315,9 +404,9 @@ These fees are transparently displayed in the purchase interface before transact
 
 ### Claim Flow (Free Starterpacks)
 
-The claiming process follows these steps:
+The claiming process is currently available for backend starterpacks only and follows these steps:
 
-1. **Starterpack Selection**: User opens a claimable starterpack
+1. **Starterpack Selection**: User opens a claimable backend starterpack (string ID)
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
 4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
@@ -325,6 +414,10 @@ The claiming process follows these steps:
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
+
+:::note
+Onchain starterpacks do not currently support claimable variants and are always paid purchases.
+:::
 
 ### Getting Help
 
