@@ -25,10 +25,10 @@ Enable observability when creating a new deployment:
 
 ```sh
 # For Katana
-slot deployments create <Project Name> katana --observability
+slot deployments create <Project Name> --observability katana
 
 # For Torii
-slot deployments create <Project Name> torii --observability --world 0x3fa481f41522b90b3684ecfab7650c259a76387fab9c380b7a959e3d4ac69f
+slot deployments create <Project Name> --observability torii --world 0x3fa481f41522b90b3684ecfab7650c259a76387fab9c380b7a959e3d4ac69f
 ```
 
 ### On Deployment Update
@@ -37,10 +37,10 @@ Add observability to an existing deployment:
 
 ```sh
 # For Katana
-slot deployments update <Project Name> katana --observability
+slot deployments update <Project Name> --observability katana
 
 # For Torii
-slot deployments update <Project Name> torii --observability
+slot deployments update <Project Name> --observability torii
 ```
 
 ## Accessing Dashboards
@@ -62,23 +62,3 @@ https://<your-deployment-url>/grafana
 :::info
 Both Prometheus and Grafana are protected by username/password authentication. Credentials are provided when you enable observability on your deployment.
 :::
-
-## Features
-
-- **Performance Monitoring**: Track request rates, response times, and throughput
-- **Resource Utilization**: Monitor CPU, memory, and network usage
-- **Debugging**: Correlate metrics with application behavior during issues
-- **Capacity Planning**: Analyze trends to plan for scaling needs
-- **Alerting**: Set up alerts based on metric thresholds (via Grafana)
-
-## Examples
-
-Enable observability for a production Katana instance:
-```sh
-slot deployments create my-game katana --observability
-```
-
-Add observability to an existing Torii deployment:
-```sh
-slot deployments update my-game torii --observability
-```
