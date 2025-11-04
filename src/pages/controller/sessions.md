@@ -110,6 +110,8 @@ type ContractMethod = {
   name: string;                         // Method name
   entrypoint: string;                   // Contract method entrypoint
   description?: string;                 // Optional method description
+  spender?: string;                     // For approve methods: address that can spend tokens
+  amount?: string | number;             // For approve methods: amount that can be spent
 };
 
 type SignMessagePolicy = TypedDataPolicy & {
@@ -209,30 +211,57 @@ const policies: SessionPolicies = {
     // Include other contracts as needed
   }
 };
-<<<<<<< HEAD
+```
 
-// Using the controller directly
-const controller = new Controller({
-  policies,
-  // other options
-});
+#### Token Approval Policies
 
-// Using starknet-react connector
-const connector = new CartridgeConnector({
-  policies,
-  // other options
-});
+For token approval methods, you must specify both `spender` and `amount` fields to create an `ApprovalPolicy`. This provides enhanced security and user experience with spending limits.
 
-// Using SessionConnector with disconnect redirect
-const session = new SessionConnector({
-  policies,
-  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
-  chainId: "SN_MAIN",
-  redirectUrl: "https://myapp.com/",
-  disconnectRedirectUrl: "https://myapp.com/logout-complete", // Optional: redirect after logout
-});
-=======
->>>>>>> 53108ce (fix: clean up sessions.md)
+```typescript
+const policies: SessionPolicies = {
+  contracts: {
+    "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+      name: "Ethereum",
+      description: "ETH token contract",
+      methods: [
+        {
+          name: "Approve Spending",
+          description: "Allow contract to spend ETH tokens",
+          entrypoint: "approve",
+          spender: "0x1234567890abcdef...",     // Contract that can spend tokens
+          amount: "0x1774160BC6690000"          // Maximum amount (in wei)
+        },
+        {
+          name: "Transfer",
+          description: "Transfer ETH tokens",
+          entrypoint: "transfer"
+        }
+      ]
+    }
+  }
+};
+```
+
+**Important**: When using approve methods, always specify both `spender` and `amount` fields. Legacy approve methods without these fields will fall back to `CallPolicy` and show a deprecation warning.
+
+**Migration from Legacy Approve Methods**
+
+If you have existing approve methods without `spender` and `amount` fields, update them to use the new format:
+
+```typescript
+// ❌ Legacy format (deprecated)
+{
+  name: "Approve",
+  entrypoint: "approve"
+}
+
+// ✅ New format (recommended)
+{
+  name: "Approve Spending",
+  entrypoint: "approve",
+  spender: "0x1234567890abcdef...",  // Contract that can spend tokens
+  amount: "0x1774160BC6690000"       // Maximum spending amount
+}
 ```
 
 #### Signed Message Policies

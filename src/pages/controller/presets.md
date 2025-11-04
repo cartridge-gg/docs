@@ -49,6 +49,24 @@ For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/mai
                 "entrypoint": "request_random"
               }
             ]
+          },
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+            "name": "Ethereum Token",
+            "description": "ETH token contract for approvals and transfers",
+            "methods": [
+              {
+                "name": "Approve Spending",
+                "description": "Allow contract to spend ETH tokens",
+                "entrypoint": "approve",
+                "spender": "0x1234567890abcdef1234567890abcdef12345678",
+                "amount": "0x1774160BC6690000"
+              },
+              {
+                "name": "Transfer",
+                "description": "Transfer ETH tokens",
+                "entrypoint": "transfer"
+              }
+            ]
           }
         }
       }
@@ -115,6 +133,71 @@ When a transaction is submitted:
 3. The transaction will only be sponsored if the predicate function returns a truthy value
 
 This allows for sophisticated gas sponsorship policies based on game state, user eligibility, or other conditional logic.
+
+## Token Approval Policies
+
+Starting with controller-wasm 0.3.12+, token approval methods require explicit `spender` and `amount` fields to create an `ApprovalPolicy`. This provides enhanced security and a better user experience with spending limits.
+
+### ApprovalPolicy Configuration
+
+When configuring approve methods in your preset, include both `spender` and `amount` fields:
+
+```json
+{
+  "origin": "mygame.example.com",
+  "chains": {
+    "SN_MAIN": {
+      "policies": {
+        "contracts": {
+          "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+            "name": "Ethereum Token",
+            "description": "ETH token for game transactions",
+            "methods": [
+              {
+                "name": "Approve Game Contract",
+                "description": "Allow game contract to spend ETH for in-game purchases",
+                "entrypoint": "approve",
+                "spender": "0x1234567890abcdef1234567890abcdef12345678",
+                "amount": "0x1774160BC6690000"
+              },
+              {
+                "name": "Transfer",
+                "description": "Transfer ETH tokens",
+                "entrypoint": "transfer"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Migration from Legacy Approve Methods
+
+If you have existing approve methods without `spender` and `amount` fields, they will continue to work but show a deprecation warning. Update them to the new format:
+
+```json
+// ❌ Legacy format (will show deprecation warning)
+{
+  "name": "Approve",
+  "entrypoint": "approve"
+}
+
+// ✅ New format (creates ApprovalPolicy)
+{
+  "name": "Approve Spending",
+  "entrypoint": "approve",
+  "spender": "0x1234567890abcdef...",
+  "amount": "0x1774160BC6690000"
+}
+```
+
+**Key Benefits:**
+- **Enhanced Security**: Explicit spender and amount limits
+- **Better UX**: Users see spending limits in a dedicated UI
+- **Future-Proof**: Prepares for stricter validation in future versions
 
 ## Apple App Site Association
 
