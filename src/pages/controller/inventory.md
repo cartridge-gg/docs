@@ -1,11 +1,11 @@
 ---
-description: Learn how to use and configure the Cartridge Controller's Inventory modal for managing ERC-20 and ERC-721 assets.
+description: Learn how to use and configure the Cartridge Controller's Inventory modal for managing ERC-20, ERC-721, and ERC-1155 assets.
 title: Controller Inventory Management
 ---
 
 # Inventory
 
-Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
+Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`, `ERC-1155`) with integrated marketplace functionality for buying and selling digital assets.
 
 ## Configure tokens
 
@@ -19,7 +19,8 @@ By default, commonly used tokens are indexed and automatically shown. Full list 
 [indexing]
 contracts = [
   "erc20:<contract-address>",
-  "erc721:<contract-address>"
+  "erc721:<contract-address>",
+  "erc1155:<contract-address>"
 ]
 ```
 
@@ -49,6 +50,26 @@ const connector = new CartridgeConnector({
 ```typescript
 controller.openProfile("inventory");
 ```
+
+## ERC-1155 Support
+
+The Controller provides comprehensive support for ERC-1155 multi-token standard, offering enhanced features for managing fungible and non-fungible tokens within the same contract.
+
+### Key Features
+
+- **Amount Tracking**: For ERC-1155 tokens, the inventory displays the quantity owned for each token ID
+- **Balance Management**: Automatic balance fetching and display for all token types within a contract
+- **Transfer History**: Complete transfer tracking for ERC-1155 tokens including amounts and transaction details
+- **Collection Browsing**: Browse collections containing both unique and fungible tokens
+- **Marketplace Integration**: Full marketplace support for buying and selling ERC-1155 assets
+
+### Enhanced Asset Information
+
+ERC-1155 assets in the inventory display additional information compared to ERC-721 tokens:
+
+- **Token Amount**: Shows the quantity owned for fungible ERC-1155 tokens
+- **Collection Type**: Clearly identifies ERC-1155 contracts vs ERC-721
+- **Balance History**: Track balance changes over time for each token ID
 
 ## Marketplace Integration
 
