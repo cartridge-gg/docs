@@ -22,12 +22,12 @@ Slot uses a prepaid credit system where:
 First, create a team with an email address for billing notifications:
 
 ```sh
-slot teams <team-name> create --email <your-email@example.com>
+slot teams <team-name> create --email <your-email@example.com> [--address "your address"] [--tax-id "abc123"]
 ```
 
 **Example:**
 ```sh
-slot teams my-game create --email developer@mygame.com
+slot teams my-game create --email developer@mygame.com --address "123 Main St, City, Country" --tax-id "TAX123456"
 ```
 
 :::info
@@ -54,12 +54,12 @@ You can also navigate directly to `https://x.cartridge.gg/slot/fund` to fund tea
 
 ## Managing Teams
 
-### Update Team Email
+### Update Team Information
 
-Update the billing email for an existing team:
+Update the billing email, address, or tax ID for an existing team:
 
 ```sh
-slot teams <team-name> update --email <new-email@example.com>
+slot teams <team-name> update [--email <new-email@example.com>] [--address "your address"] [--tax-id "abc123"]
 ```
 
 ### Check Team Balance
