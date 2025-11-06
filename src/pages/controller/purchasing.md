@@ -6,7 +6,7 @@ title: Purchase Integration
 # Purchase Integration
 
 Cartridge Controller provides built-in purchase functionality that enables seamless monetization for games and applications.
-The purchase system supports both traditional payment methods (credit cards) and cryptocurrency transactions across multiple blockchain networks.
+The purchase system supports cryptocurrency transactions across multiple blockchain networks.
 
 ## Overview
 
@@ -17,7 +17,7 @@ The purchase system includes:
 - **Credit Purchases**: Direct credit top-ups for gasless transactions
 - **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
 - **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with automatic chain switching for compatible wallets
-- **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
+- **Multi-wallet Integration**: Support for popular wallets across different ecosystems with automatic chain switching for compatible wallets
 - **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure
 
 ## Quick Start
@@ -226,9 +226,9 @@ enum StarterPackItemType {
 ## Starterpack Types
 
 ### Paid Starterpacks
-Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency).
+Paid starterpacks require purchase and support cryptocurrency payment methods.
 These typically include premium game assets, larger credit bundles, and exclusive items.
-Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
+Cross-chain crypto payments are powered by Layerswap.
 
 ### Claimable Starterpacks
 Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
@@ -271,8 +271,7 @@ Solana payment functionality is currently disabled and will be re-enabled in a f
 The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
-2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
-   - **Credit Card**: Direct fiat payment via Stripe
+2. **Payment Method & Network Selection**: Choose from available cryptocurrency payment options:
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
 3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
