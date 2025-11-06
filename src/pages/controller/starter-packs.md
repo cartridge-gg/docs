@@ -1,43 +1,37 @@
 ---
-description: Learn how to integrate Cartridge Controller's purchase and monetization features, including starterpack purchases and credit transactions using multiple payment methods.
-title: Purchase Integration
+description: Learn how to integrate starter packs in your game - pre-configured bundles of game assets and credits that players can purchase or claim with streamlined payment flows across multiple blockchains.
+title: Starter Packs
 ---
 
-# Purchase Integration
+# Starter Packs
 
-Cartridge Controller provides built-in purchase functionality that enables seamless monetization for games and applications.
-The purchase system supports both traditional payment methods (credit cards) and cryptocurrency transactions across multiple blockchain networks.
+Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players. Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
 
 ## Overview
 
-The purchase system includes:
+Starter packs enable you to:
 
-- **Starterpack Purchases**: Pre-configured bundles of game assets and credits with streamlined purchasing flow
-- **Starterpack Claims**: Free starterpack bundles that users can claim based on eligibility, featuring collection support display
-- **Credit Purchases**: Direct credit top-ups for gasless transactions
-- **Multichain Payment Support**: Accept payments on Starknet, Ethereum (Base), Arbitrum, and Optimism with unified payment method selection
-- **Multiple Wallet Integration**: Support for popular wallets across different ecosystems with automatic chain switching for compatible wallets
-- **Unified Payment Interface**: Both fiat (credit card) and crypto payment options displayed on a single screen
-- **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated client fee structure
+- **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and on-chain items with automatic contract execution
+- **Offer Paid Packs**: Accept payments via credit card (Stripe) or cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
+- **Enable Free Claims**: Distribute free packs using Merkle Drop technology with cross-chain eligibility verification
+- **Flexible Configuration**: Build packs programmatically or reference pre-configured packs by ID
+- **Multichain Payment Support**: Unified payment interface with automatic token bridging via Layerswap
+- **Multiple Wallet Integration**: Support for popular wallets with automatic chain switching where supported
+- **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated fee structure
 
 ## Quick Start
 
-### Opening Purchase Flows
-
-Controller provides simple methods to open purchase interfaces:
+Opening a starter pack interface is straightforward:
 
 ```typescript
 import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
 
 const controller = new Controller();
 
-// Open credit purchase flow
-controller.openPurchaseCredits();
-
-// Open starterpack purchase/claim flow (works for both paid and free starterpacks)
+// Open an existing starterpack by ID (works for both paid and free packs)
 controller.openStarterPack("starterpack-id-123");
 
-// Open custom starterpack with configuration object
+// Or create a custom starterpack with full configuration
 const customPack: StarterPack = {
   name: "Beginner Pack",
   description: "Essential items for new players",
@@ -56,26 +50,6 @@ controller.openStarterPack(customPack);
 ```
 
 ## API Reference
-
-### openPurchaseCredits()
-
-Opens the credit purchase interface, allowing users to buy credits for gasless transactions and other platform services.
-
-```typescript
-controller.openPurchaseCredits();
-```
-
-**Parameters:** None
-
-**Returns:** `void`
-
-**Usage Example:**
-```typescript
-// In a game's UI, add a "Buy Credits" button
-const handleBuyCredits = () => {
-  controller.openPurchaseCredits();
-};
-```
 
 ### openStarterPack(options: string | StarterPack)
 
@@ -326,7 +300,33 @@ The claiming process follows these steps:
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
 
-### Getting Help
+## Credit Purchases
+
+In addition to starter packs, Controller provides direct credit purchase functionality for topping up user accounts with credits for gasless transactions and other platform services.
+
+### openPurchaseCredits()
+
+Opens the credit purchase interface where users can buy credits using the same payment methods available for starter packs (credit card or cryptocurrency).
+
+```typescript
+controller.openPurchaseCredits();
+```
+
+**Parameters:** None
+
+**Returns:** `void`
+
+**Usage Example:**
+```typescript
+// Add a "Buy Credits" button in your game's UI
+const handleBuyCredits = () => {
+  controller.openPurchaseCredits();
+};
+```
+
+Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and both fiat and crypto payment options.
+
+## Getting Help
 
 If you encounter issues with purchase integration:
 - Check the browser console for detailed error messages

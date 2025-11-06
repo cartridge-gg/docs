@@ -182,4 +182,4 @@ Both methods support:
 - Cryptocurrency payments across multiple networks (Starknet, Base, Arbitrum, Optimism)
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
-For detailed integration guidance, see the [Purchase Integration](/controller/purchasing.md) guide.
+For detailed integration guidance, see the [Starter Packs](/controller/starter-packs.md) guide.

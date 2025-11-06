@@ -84,8 +84,8 @@ export default defineConfig({
             link: "/controller/signer-management",
           },
           {
-            text: "Purchase Integration",
-            link: "/controller/purchasing",
+            text: "Starter Packs",
+            link: "/controller/starter-packs",
           },
           {
             text: "Usernames",
