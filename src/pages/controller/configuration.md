@@ -183,3 +183,127 @@ Both methods support:
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
 For detailed integration guidance, see the [Starter Packs](/controller/starter-packs.md) guide.
+
+## Standalone Authentication
+
+Controller supports **standalone authentication flows** that establish first-party storage access for seamless cross-domain gameplay. This is particularly useful for games that redirect users between different domains (e.g., from game launcher to game client).
+
+### controller.open()
+
+The `open()` method redirects users to the keychain in standalone mode, establishing first-party storage access that enables seamless iframe authentication across all game domains.
+
+```typescript
+type OpenOptions = {
+  redirectUrl?: string; // URL to redirect to after authentication (defaults to current page)
+};
+
+controller.open(options?: OpenOptions);
+```
+
+**Example Usage:**
+
+```typescript
+// Redirect to keychain for authentication, then return to current page
+controller.open();
+
+// Redirect to keychain, then redirect to a specific game URL
+controller.open({ 
+  redirectUrl: "https://my-game.com/play" 
+});
+```
+
+### How Standalone Authentication Works
+
+The standalone authentication flow follows this pattern:
+
+1. **Application calls `controller.open()`** - User is redirected to the keychain in first-party context
+2. **User authenticates** - Keychain establishes first-party storage and session state
+3. **Keychain redirects back** - User returns to the application with `controller_standalone=1` parameter
+4. **Controller detects return** - Automatically requests Storage Access API permissions for iframe
+5. **Seamless iframe access** - All subsequent controller operations work seamlessly across domains
+
+### Storage Access Management
+
+Controller automatically manages the Storage Access API to enable cross-domain iframe functionality:
+
+#### Automatic Storage Access Detection
+
+```typescript
+// Check if keychain iframe has first-party storage access
+const hasAccess = await controller.hasFirstPartyAccess();
+
+if (!hasAccess) {
+  // Redirect to standalone auth flow
+  controller.open();
+}
+```
+
+#### Manual Storage Access Control
+
+The keychain iframe also exposes a `requestStorageAccess()` method for manual control:
+
+```typescript
+// Request storage access from within the keychain iframe context
+await keychain.requestStorageAccess();
+```
+
+### URL Parameter Handling
+
+Controller automatically handles several URL parameters related to authentication flows:
+
+- **`controller_standalone=1`** - Indicates successful completion of standalone auth flow
+- **`controller_redirect`** - Triggers automatic redirect to keychain for authentication
+- **`lastUsedConnector=controller`** - Backwards compatibility parameter for framework detection
+
+These parameters are automatically cleaned from the URL after processing to maintain clean application URLs.
+
+### Cross-Domain Game Integration
+
+The standalone authentication pattern is particularly powerful for games that operate across multiple domains:
+
+**Example: Game Launcher → Game Client Flow**
+
+```typescript
+// In game launcher (launcher.example.com)
+const controller = new Controller();
+
+// Check if user needs authentication
+const account = await controller.probe();
+if (!account) {
+  // Redirect to keychain, then to game client
+  controller.open({ 
+    redirectUrl: "https://game.example.com/play" 
+  });
+  return;
+}
+
+// User is authenticated, can redirect directly to game
+window.location.href = "https://game.example.com/play";
+```
+
+```typescript
+// In game client (game.example.com)  
+const controller = new Controller();
+
+// Controller automatically detects return from standalone auth
+// and requests storage access for seamless iframe operations
+const account = await controller.probe(); // Works seamlessly
+```
+
+### Security Considerations
+
+The standalone authentication flow includes several security measures:
+
+- **URL validation** - Redirect URLs are validated to prevent open redirect attacks
+- **Protocol restrictions** - Only `http:` and `https:` protocols are allowed
+- **Localhost restrictions** - Localhost redirects are blocked in production environments
+- **Domain validation** - Redirect URLs must have valid hostnames
+
+### Browser Compatibility
+
+Storage Access API support varies by browser:
+
+- **Safari** - Full support, required for cross-domain iframe access
+- **Chrome/Edge** - Full support when third-party cookies are blocked
+- **Firefox** - Full support in private browsing and with strict privacy settings
+- **Legacy browsers** - Graceful degradation, assumes storage access is available
