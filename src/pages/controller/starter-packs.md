@@ -24,178 +24,73 @@ Starter packs enable you to:
 Opening a starter pack interface is straightforward:
 
 ```typescript
-import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
+import Controller from "@cartridge/controller";
 
 const controller = new Controller();
 
 // Open an existing starterpack by ID (works for both paid and free packs)
 controller.openStarterPack("starterpack-id-123");
 
-// Or create a custom starterpack with full configuration
-const customPack: StarterPack = {
-  name: "Beginner Pack",
-  description: "Essential items for new players",
-  items: [
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins",
-      description: "In-game currency",
-      amount: 100,
-      price: 5000000n, // $5.00 in USDC micro-units
-      call: [{ contractAddress: "0x123...", entrypoint: "mint", calldata: ["user", "100", "0"] }]
-    }
-  ]
-};
-controller.openStarterPack(customPack);
+// Open starterpack with options (e.g., for claims with preimage)
+controller.openStarterPack("claim-starterpack-id", { preimage: "your-preimage" });
 ```
 
 ## API Reference
 
-### openStarterPack(options: string | StarterPack)
+### openStarterPack(id: string | number, options?: StarterpackOptions)
 
-Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
+Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
 
 ```typescript
-controller.openStarterPack(options: string | StarterPack);
+controller.openStarterPack(id: string | number, options?: StarterpackOptions);
 ```
 
 **Parameters:**
-- `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
+- `id` (string | number): The starterpack ID. String IDs are for claimed starterpacks, numeric IDs are for onchain starterpacks
+- `options` (StarterpackOptions, optional): Additional options for the starterpack operation
 
-**Returns:** `void`
+**Returns:** `Promise<void>`
 
 **Usage Examples:**
 
 ```typescript
-// Backward compatible - existing usage with string ID
+// Purchase an onchain starterpack (numeric ID)
 const handleBuyStarterpack = () => {
-  controller.openStarterPack("beginner-pack-2024");
+  controller.openStarterPack(0); // Onchain starterpack with ID 0
 };
 
-// Offer free claimable starterpack
+// Claim a free starterpack (string ID)
 const handleClaimStarterpack = () => {
-  controller.openStarterPack("free-welcome-pack-2024");
+  controller.openStarterPack("claim-dopewars-sepolia");
 };
 
-// New - custom starter pack with outside execution
-const customPack: StarterPack = {
-  name: "Warrior Starter Pack",
-  description: "Everything you need to start your adventure",
-  iconURL: "https://example.com/warrior-pack.png",
-  items: [
-    {
-      type: StarterPackItemType.NONFUNGIBLE,
-      name: "Legendary Sword",
-      description: "A powerful starting weapon",
-      iconURL: "https://example.com/sword.png",
-      amount: 1,
-      price: 50000000n, // 50 USDC in micro-units (6 decimals)
-      call: [
-        {
-          contractAddress: "0x123...",
-          entrypoint: "mint",
-          calldata: [userAddress, "1", "0"]
-        }
-      ]
-    },
-    {
-      type: StarterPackItemType.FUNGIBLE,
-      name: "Gold Coins",
-      description: "In-game currency",
-      amount: 1000,
-      price: 10000n, // 0.01 USDC in micro-units
-      call: [
-        {
-          contractAddress: "0x456...",
-          entrypoint: "transfer",
-          calldata: [userAddress, "1000", "0"]
-        }
-      ]
-    }
-  ]
+// Claim with preimage for Merkle Drop verification
+const handleClaimWithPreimage = () => {
+  controller.openStarterPack("claim-dopewars-sepolia", {
+    preimage: "your-preimage-for-verification"
+  });
 };
 
-const handleCustomStarterpack = () => {
-  controller.openStarterPack(customPack);
-  // Total price: $60.00 (50 + 1000×0.01), all calls executed after payment
+// Purchase starterpack by string ID (for backend starterpacks)
+const handlePurchaseBackendPack = () => {
+  controller.openStarterPack("premium-warrior-pack-2024");
 };
 ```
 
-## StarterPack Configuration
+## StarterpackOptions Configuration
 
-The `StarterPack` interface enables you to create custom starter pack bundles with associated contract calls that are executed automatically after successful payment. This provides complete control over the purchase experience and allows for complex multi-item bundles.
+The `StarterpackOptions` type allows you to pass additional configuration when opening starterpacks.
 
-### StarterPack Interface
+### StarterpackOptions Interface
 
 ```typescript
-interface StarterPack {
-  name: string;
-  description: string;
-  iconURL?: string;
-  items: StarterPackItem[];
+type StarterpackOptions = {
+  preimage?: string;
 }
 ```
 
 **Properties:**
-- `name` (string): Display name for the starter pack
-- `description` (string): Description shown to users
-- `iconURL` (string, optional): URL for the pack icon/image
-- `items` (StarterPackItem[]): Array of items included in the pack
-
-### StarterPackItem Interface
-
-```typescript
-interface StarterPackItem {
-  type: StarterPackItemType;
-  name: string;
-  description: string;
-  iconURL?: string;
-  amount?: number;
-  price?: bigint;
-  call?: Call[];
-}
-```
-
-**Properties:**
-- `type` (StarterPackItemType): Type of item (NONFUNGIBLE or FUNGIBLE)
-- `name` (string): Display name for the item
-- `description` (string): Item description
-- `iconURL` (string, optional): URL for item icon/image
-- `amount` (number, optional): Quantity of the item
-- `price` (bigint, optional): Price in USDC micro-units (6 decimals, e.g., 1000000n = $1.00)
-- `call` (Call[], optional): Contract calls to execute for this item after payment
-
-### StarterPackItemType Enum
-
-```typescript
-enum StarterPackItemType {
-  NONFUNGIBLE = "NONFUNGIBLE",  // Unique items like NFTs, weapons, characters
-  FUNGIBLE = "FUNGIBLE"         // Quantity-based items like coins, potions, resources
-}
-```
-
-### Key Features
-
-- **Outside Execution**: Contract calls are automatically aggregated into a multicall and executed after successful payment
-- **Dynamic Pricing**: Total pack price is calculated from `sum(item.price × item.amount)`
-- **Flexible Calls**: Any contract calls can be included - minting, transfers, game state updates, etc.
-- **UI Generation**: Purchase interface renders directly from the provided data structure
-- **Self-Contained**: No backend integration required - everything is defined in the configuration
-
-### Important Notes
-
-**Pricing Format:**
-- All prices must be specified in USDC micro-units (6 decimal places)
-- Example: `1000000n` = $1.00, `500000n` = $0.50, `10000n` = $0.01
-
-**Contract Calls:**
-- Use the standard Starknet `Call` format with `contractAddress`, `entrypoint`, and `calldata`
-- Calls are executed in the order they appear in the `call` array for each item
-- All calls across all items are combined into a single multicall transaction
-
-**Error Handling:**
-- If any contract call fails, the entire transaction is reverted
-- Users are only charged if all contract calls execute successfully
+- `preimage` (string, optional): A preimage value used for Merkle Drop claims to verify eligibility
 
 ## Starterpack Types
 
