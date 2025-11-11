@@ -31,6 +31,11 @@ const controller = new Controller();
 // Open an existing starterpack by ID (works for both paid and free packs)
 controller.openStarterPack("starterpack-id-123");
 
+// Open a claimable starterpack with preimage for verification
+controller.openStarterPack("starterpack-id-123", {
+  preimage: "verification-hash-for-claim"
+});
+
 // Or create a custom starterpack with full configuration
 const customPack: StarterPack = {
   name: "Beginner Pack",
@@ -51,30 +56,55 @@ controller.openStarterPack(customPack);
 
 ## API Reference
 
-### openStarterPack(options: string | StarterPack)
+### openStarterPack(id: string | number | StarterPack, options?: StarterpackOptions)
 
 Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
 
 ```typescript
-controller.openStarterPack(options: string | StarterPack);
+controller.openStarterPack(id: string | number | StarterPack, options?: StarterpackOptions);
 ```
 
 **Parameters:**
-- `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
+- `id` (string | number | StarterPack): Either a starterpack ID (string or number) for existing packs, or a complete StarterPack configuration object for custom packs
+- `options` (StarterpackOptions, optional): Additional options for the starterpack, including preimage for claim verification
 
 **Returns:** `void`
+
+#### StarterpackOptions
+
+```typescript
+type StarterpackOptions = {
+  /** The preimage to use for claim verification */
+  preimage?: string;
+};
+```
+
+**Properties:**
+- `preimage` (string, optional): A verification hash used for claimable starterpacks to validate eligibility
 
 **Usage Examples:**
 
 ```typescript
-// Backward compatible - existing usage with string ID
+// Purchase starterpack with string ID
 const handleBuyStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
 
-// Offer free claimable starterpack
+// Purchase starterpack with numeric ID
+const handleBuyNumericStarterpack = () => {
+  controller.openStarterPack(123);
+};
+
+// Claim free starterpack without verification
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024");
+};
+
+// Claim starterpack with preimage verification
+const handleClaimWithPreimage = () => {
+  controller.openStarterPack("claim-dopewars-mainnet", {
+    preimage: "verification-hash-for-eligibility"
+  });
 };
 
 // New - custom starter pack with outside execution
