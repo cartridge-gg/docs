@@ -85,7 +85,56 @@ export type SessionOptions = {
   policies: SessionPolicies;        // Approved transaction policies
   redirectUrl: string;              // URL to redirect after registration
   disconnectRedirectUrl?: string;   // Optional URL to redirect after disconnect/logout
+  signupOptions?: AuthOptions;      // Optional authentication methods available during session creation
 };
+```
+
+### Authentication Options
+
+The `signupOptions` parameter allows you to customize which authentication methods are available during session creation, providing the same flexibility as the ControllerProvider:
+
+```typescript
+type AuthOptions = (
+  | "google"        // Google OAuth
+  | "webauthn"      // WebAuthn/Passkeys
+  | "discord"       // Discord OAuth
+  | "walletconnect" // WalletConnect
+  | "metamask"      // MetaMask
+  | "password"      // Email/Password
+  | "rabby"         // Rabby Wallet
+)[];
+```
+
+**Benefits of customizing authentication options:**
+- **Consistent UX**: Provide the same authentication methods across ControllerProvider and SessionProvider
+- **Targeted Experience**: Show only the authentication methods that work best for your application
+- **Platform Optimization**: Customize options based on platform (e.g., remove external wallets on mobile)
+- **Branding**: Focus on authentication methods that align with your user base
+
+**Example: Shared authentication configuration**
+```typescript
+const signupOptions: AuthOptions = [
+  "google",
+  "webauthn", 
+  "discord",
+  "walletconnect",
+  "metamask",
+];
+
+// Use the same options for both connectors
+const controller = new ControllerConnector({
+  policies,
+  signupOptions,
+  // other options...
+});
+
+const session = new SessionConnector({
+  policies,
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
+  chainId: "SN_MAIN", 
+  redirectUrl: "https://myapp.com/",
+  signupOptions, // Same authentication options
+});
 ```
 
 ## Defining Policies
@@ -139,6 +188,7 @@ const session = new SessionConnector({
   chainId: "SN_MAIN",
   redirectUrl: "https://myapp.com/",
   disconnectRedirectUrl: "whatsapp://", // Deep link example
+  signupOptions: ["google", "webauthn", "discord"], // Optional: customize auth methods
 });
 ```
 

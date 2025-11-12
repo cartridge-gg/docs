@@ -31,7 +31,7 @@ export type ControllerOptions = {
     origin?: string;  // The origin of keychain
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
-    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together)
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together) - also available on SessionProvider
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
