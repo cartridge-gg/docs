@@ -334,6 +334,10 @@ If you encounter issues with purchase integration:
 - Ensure you're using the latest version of the Controller SDK
 - Review [external wallet setup](/controller/signer-management.md) for wallet-related issues
 
+## Related Features
+
+For cryptographic reward claiming using private keys and signatures, see [Booster Pack Claims](/controller/booster-pack-claims.md).
+
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md) for gasless gaming experiences

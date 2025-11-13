@@ -88,6 +88,10 @@ export default defineConfig({
             link: "/controller/starter-packs",
           },
           {
+            text: "Booster Pack Claims",
+            link: "/controller/booster-pack-claims",
+          },
+          {
             text: "Usernames",
             link: "/controller/usernames",
           },
