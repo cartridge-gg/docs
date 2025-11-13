@@ -57,6 +57,12 @@ slot deployments update <Project Name> torii --version v0.3.5
 slot deployments delete <Project Name> torii
 ```
 
+### Transfer a service to another team
+
+```sh
+slot d transfer <Project Name> <katana | torii> <To Team Name>
+```
+
 ### Read service logs
 
 ```sh
