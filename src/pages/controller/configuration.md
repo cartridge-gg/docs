@@ -169,12 +169,15 @@ Opens the credit purchase flow, allowing users to buy credits for gasless transa
 controller.openPurchaseCredits();
 ```
 
-### openStarterPack(starterpackId: string)
+### openStarterPack(starterpackId: string, preimage?: string)
 
-Opens the starterpack purchase interface for a specific bundle.
+Opens the starterpack purchase interface for a specific bundle. Supports both paid and claimable starterpacks.
 
 ```typescript
 controller.openStarterPack("starterpack-id-123");
+
+// For Merkle claims with Ethereum preimage signing
+controller.openStarterPack("starterpack-id-123", "0x1234567890abcdef...");
 ```
 
 Both methods support:

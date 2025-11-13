@@ -51,16 +51,17 @@ controller.openStarterPack(customPack);
 
 ## API Reference
 
-### openStarterPack(options: string | StarterPack)
+### openStarterPack(options: string | StarterPack, preimage?: string)
 
 Opens the starterpack interface for a specific starterpack bundle or a custom starter pack configuration. This method works for both paid starterpacks (requiring purchase) and free starterpacks (that can be claimed based on eligibility).
 
 ```typescript
-controller.openStarterPack(options: string | StarterPack);
+controller.openStarterPack(options: string | StarterPack, preimage?: string);
 ```
 
 **Parameters:**
 - `options` (string | StarterPack): Either a starterpack ID string for existing packs, or a complete StarterPack configuration object for custom packs
+- `preimage` (string, optional): Ethereum private key for direct preimage signing of Merkle claims (EVM-based claims only)
 
 **Returns:** `void`
 
@@ -75,6 +76,12 @@ const handleBuyStarterpack = () => {
 // Offer free claimable starterpack
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024");
+};
+
+// Claim starterpack with Ethereum preimage signing
+const handlePreimageClaimStarterpack = () => {
+  const ethereumPrivateKey = "0x1234567890abcdef..."; // User's Ethereum private key
+  controller.openStarterPack("free-welcome-pack-2024", ethereumPrivateKey);
 };
 
 // New - custom starter pack with outside execution
@@ -223,8 +230,13 @@ This system allows users to claim assets that were originally distributed on oth
 
 1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starterpack
 2. **Cryptographic Proof**: Claims are validated using merkle proofs that mathematically prove eligibility without revealing the entire distribution list
-3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership
+3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership, or provide an Ethereum private key for direct signing
 4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
+
+**Signing Methods for EVM Claims:**
+
+- **External Wallet Signing** (Default): Connect your external wallet (MetaMask, Rabby, Coinbase Wallet) and sign the verification message
+- **Preimage Signing** (Alternative): Provide your Ethereum private key directly for automatic message signing without requiring wallet interaction
 
 **Supported Networks for Claims:**
 
@@ -294,8 +306,12 @@ The claiming process follows these steps:
 1. **Starterpack Selection**: User opens a claimable starterpack
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
-4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
-5. **Signature Verification**: For EVM-based claims, sign a verification message with your external wallet to prove ownership
+4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and either:
+   - Connect the corresponding external wallet for standard signing, or
+   - Provide your Ethereum private key for direct preimage signing (EVM claims only)
+5. **Signature Verification**: For EVM-based claims, either:
+   - Sign a verification message with your connected external wallet, or
+   - Automatic signing using the provided Ethereum private key
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
