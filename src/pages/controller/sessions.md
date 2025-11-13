@@ -152,17 +152,15 @@ Verified session policies provide a better user experience by attesting to the v
 
 ![Verified Session](/verified-session.svg)
 
-**Automatic Session Creation**
+**Enhanced Session Creation**
 
-When using verified session policies, the user experience is significantly improved:
+When using verified session policies, the user experience is improved with enhanced trust indicators:
 
-- **No Approval Screen**: Verified sessions automatically bypass the user approval screen
-- **Instant Connection**: Sessions are created automatically with a default 7-day duration
-- **Seamless UX**: Users can start playing immediately without manual session approval
-- **Graceful Fallback**: If automatic session creation fails, the system falls back to showing the standard approval UI
+- **Trust Indicators**: Verified sessions display clear verification badges and streamlined approval flows
+- **Enhanced Security**: Verified policies provide additional context and confidence to users during approval
+- **Consistent Experience**: All session creation flows require user approval to maintain security standards
 
-This automatic behavior only applies to **verified policies.**
-Unverified policies will continue to show the approval screen as before, maintaining security for untrusted applications.
+Both verified and unverified policies follow the same approval flow, with verified policies providing enhanced trust indicators and streamlined user interfaces.
 
 **Getting Verified**
 
