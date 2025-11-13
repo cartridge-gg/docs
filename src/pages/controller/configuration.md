@@ -183,3 +183,71 @@ Both methods support:
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
 For detailed integration guidance, see the [Starter Packs](/controller/starter-packs.md) guide.
+
+## Standalone Authentication Flow
+
+Controller provides methods for establishing first-party storage access through standalone authentication flows. This is particularly useful for applications that need seamless iframe access across different domains.
+
+### controller.open(options)
+
+Opens the keychain in standalone mode (first-party context) for authentication. This establishes first-party storage, enabling seamless iframe access across all games.
+
+```typescript
+export type OpenOptions = {
+  redirectUrl?: string; // URL to redirect back to after authentication (defaults to current page)
+};
+
+// Open standalone keychain with default redirect
+controller.open();
+
+// Open with custom redirect URL
+controller.open({
+  redirectUrl: "https://my-game.com/authenticated"
+});
+```
+
+**Key Features:**
+- **First-Party Storage**: Establishes first-party storage access for the keychain iframe
+- **URL Validation**: Validates redirect URLs to prevent XSS and open redirect attacks  
+- **Configuration Preservation**: Maintains all controller configuration (preset, slot, namespace, etc.)
+- **Chain Awareness**: Includes RPC URL configuration in the redirect
+
+### Automatic Controller Redirect
+
+Controller supports automatic redirection to the keychain when the `controller_redirect` query parameter is present in the URL. This feature enables seamless first-party storage establishment without manual intervention.
+
+```bash
+# URL with controller_redirect parameter
+https://my-game.com?controller_redirect=true
+
+# Controller automatically redirects to:
+https://x.cartridge.gg/?redirect_url=https://my-game.com&preset=my-game
+```
+
+**How it works:**
+1. Controller detects `controller_redirect` in URL query parameters during initialization
+2. Automatically redirects to the configured keychain URL (`options.url` or default)
+3. Preserves the current page URL (including query params and hash) as `redirect_url`
+4. Maintains preset configuration if specified in controller options
+5. Cleans up controller-specific URL parameters after redirect flow completion
+
+**Configuration:**
+- Uses the keychain URL from `ControllerOptions.url` or falls back to the default Cartridge keychain
+- Preserves `ControllerOptions.preset` during the redirect flow
+- Maintains all query parameters and URL hash fragments in the redirect URL
+
+This automatic flow is particularly useful for applications that need to establish first-party storage access programmatically, such as games that redirect users from external marketing pages or referral links.
+
+### Storage Access Verification
+
+Check if the keychain iframe has first-party storage access:
+
+```typescript
+const hasAccess = await controller.hasFirstPartyAccess();
+if (!hasAccess) {
+  // Redirect to establish first-party access
+  controller.open();
+}
+```
+
+This method returns `true` if the user has previously authenticated via standalone mode and the keychain iframe has storage access.
