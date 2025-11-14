@@ -119,6 +119,36 @@ await controller.connect(); // Iframe is created and mounted now
 - Applications that need immediate controller availability
 - When the slight delay during first connect() is unacceptable
 
+## Cross-Domain iframe Security
+
+### Storage Access API Integration
+
+Starting in version 0.11.2, Controller implements enhanced security for cross-domain iframe operations through the Storage Access API with encrypted localStorage snapshots.
+
+**Key Features:**
+- **Split-key encryption**: State data is encrypted using a split-key architecture for enhanced security
+- **Third-party iframe support**: Seamless operation when Controller is embedded in third-party contexts
+- **Automatic fallback**: Falls back gracefully on browsers that don't support Storage Access API
+- **Cookie-less operation**: Eliminates dependency on Cookie Store API for better compatibility
+
+**How it works:**
+1. When Controller needs to access state in a third-party iframe context, it requests storage access
+2. User data is encrypted using split-key encryption before being stored in localStorage
+3. The encrypted snapshot enables secure state transfer across iframe boundaries
+4. This approach maintains security while improving reliability on iOS and other restrictive environments
+
+**Developer impact:**
+- No code changes required - this enhancement works automatically
+- Improved reliability for applications embedded in third-party contexts
+- Better iOS compatibility and authentication flow stability
+- Enhanced security through encryption of sensitive state data
+
+This feature is particularly beneficial for:
+- Games embedded on third-party platforms
+- Applications running within other web applications
+- iOS Safari environments with restrictive cookie policies
+- Any context where traditional cookie-based authentication may be blocked
+
 ## Configuration Categories
 
 The configuration options are organized into several categories:

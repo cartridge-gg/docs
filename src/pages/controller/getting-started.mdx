@@ -205,17 +205,17 @@ const sessionConnector = new SessionConnector({
 
 ## Compatibility Guide
 
-The following common dependencies are compatible with the latest version of Cartridge Controller (v0.10.3):
+The following common dependencies are compatible with the latest version of Cartridge Controller (v0.11.2):
 
 :::note
 This ecosystem is evolving rapidly.
-This information is accurate as of September 24, 2025.
+This information is accurate as of November 14, 2025.
 :::
 
 ```ts
   "@cartridge/arcade": "0.0.2"
-  "@cartridge/connector": "0.10.3"
-  "@cartridge/controller": "0.10.3"
+  "@cartridge/connector": "0.11.2"
+  "@cartridge/controller": "0.11.2"
   "@cartridge/presets": "0.5.4"
   "@dojoengine/core": "^1.7.0"
   "@dojoengine/predeployed-connector": "1.7.0-preview.3"
@@ -246,6 +246,19 @@ This information is accurate as of September 24, 2025.
   "vite-plugin-wasm": "^3.4.1"
   "zustand": "^5.0.3"
 ```
+
+### Migration Notes for v0.11.2
+
+#### Storage Access API Enhancement
+
+Version 0.11.2 introduces automatic Storage Access API integration with encrypted localStorage snapshots. This enhancement:
+
+- **No breaking changes**: Existing applications continue to work without modification
+- **Improved iOS support**: Better authentication flow reliability on iOS Safari
+- **Enhanced third-party embedding**: More reliable operation when embedded in third-party contexts
+- **Automatic encryption**: User state is now automatically encrypted using split-key architecture
+
+Applications will automatically benefit from these improvements without requiring any code changes.
 
 ### Migration Notes for v0.10.0
 

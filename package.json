@@ -9,8 +9,8 @@
     "validate-twoslash": "node scripts/validate-twoslash.js"
   },
   "dependencies": {
-    "@cartridge/connector": "^0.10.7",
-    "@cartridge/controller": "^0.10.7",
+    "@cartridge/connector": "^0.11.2",
+    "@cartridge/controller": "^0.11.2",
     "@starknet-io/get-starknet-core": "^4.0.8",
     "@starknet-io/types-js": "^0.9.2",
     "@starknet-react/chains": "^5.0.3",
