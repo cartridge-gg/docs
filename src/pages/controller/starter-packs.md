@@ -204,6 +204,11 @@ Paid starterpacks require purchase and support multiple payment methods (credit 
 These typically include premium game assets, larger credit bundles, and exclusive items.
 Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
 
+As of v0.11.0, starterpack purchases now use **Layerswap deposit support**, replacing the previous backend purchase flow with a more flexible deposit-based approach. This enables:
+- More reliable cross-chain bridging
+- Better transaction transparency with hash display
+- Simplified purchase flow integration
+
 ### Claimable Starterpacks
 Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
 - **No payment required**: Users can claim them for free
@@ -250,8 +255,8 @@ The purchase process follows these steps:
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
 3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation  
+6. **Confirmation**: Receive purchase confirmation with transaction hash display and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 

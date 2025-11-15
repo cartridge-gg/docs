@@ -29,6 +29,7 @@ export type ControllerOptions = {
     // Keychain options
     url?: string;  // The URL of keychain
     origin?: string;  // The origin of keychain
+    controller_redirect?: string;  // Redirect URL for standalone flow with preset support
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
     signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together)
