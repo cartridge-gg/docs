@@ -18,10 +18,11 @@ Starter packs enable you to:
 - **Multichain Payment Support**: Unified payment interface with automatic token bridging via Layerswap
 - **Multiple Wallet Integration**: Support for popular wallets with automatic chain switching where supported
 - **NFT Marketplace Support**: ERC721 and ERC1155 listing and purchase capabilities with integrated fee structure
+- **Streamlined User Experience**: Direct routing to checkout with quantity selection and interactive wallet chooser for faster purchases
 
 ## Quick Start
 
-Opening a starter pack interface is straightforward:
+Opening a starter pack interface is straightforward and now features a streamlined purchase flow:
 
 ```typescript
 import Controller, { StarterPack, StarterPackItemType } from "@cartridge/controller";
@@ -29,6 +30,7 @@ import Controller, { StarterPack, StarterPackItemType } from "@cartridge/control
 const controller = new Controller();
 
 // Open an existing starterpack by ID (works for both paid and free packs)
+// Users can now select quantity and proceed directly to checkout
 controller.openStarterPack("starterpack-id-123");
 
 // Or create a custom starterpack with full configuration
@@ -48,6 +50,11 @@ const customPack: StarterPack = {
 };
 controller.openStarterPack(customPack);
 ```
+
+**New Features:**
+- **Quantity Selection**: Users can purchase multiple starterpacks using +/- buttons in the interface
+- **Direct Checkout**: Streamlined flow routes directly to checkout, reducing friction
+- **Wallet Selection**: Interactive wallet selector allows users to choose between Controller wallet and external wallets
 
 ## API Reference
 
@@ -242,16 +249,24 @@ Solana payment functionality is currently disabled and will be re-enabled in a f
 
 ### Purchase Flow (Paid Starterpacks)
 
-The purchase process follows these steps:
+The purchase process has been streamlined for faster checkout:
 
-1. **Item Selection**: User selects starterpack or credit amount
-2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
-   - **Credit Card**: Direct fiat payment via Stripe
-   - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+**Streamlined Flow (Default):**
+1. **Starterpack Selection & Quantity**: Select starterpack and choose quantity using increment/decrement controls
+2. **Direct Checkout**: Click "Buy" to proceed directly to checkout with Controller wallet as default
+
+**Alternative Flow (External Wallets):**
+1. **Starterpack Selection**: Select starterpack and choose quantity
+2. **Wallet Selection**: Click the wallet selector to choose from available wallets:
+   - **Controller Wallet**: Fastest option with session key support  
+   - **External Wallets**: MetaMask, Rabby, Coinbase Wallet, etc.
+3. **Checkout**: Complete payment with selected wallet and automatic token conversion if needed
+
+**Key Features:**
+- **Quantity Purchase**: Use +/- buttons to buy multiple starterpacks in a single transaction
+- **Interactive Wallet Display**: Click the wallet selector to change from the default Controller wallet
+- **Smart Routing**: Bypasses unnecessary payment method and network selection screens
+- **Real-time Pricing**: Cost breakdown updates automatically based on quantity and selected token
 
 ## Cross-Chain Bridging with Layerswap
 
