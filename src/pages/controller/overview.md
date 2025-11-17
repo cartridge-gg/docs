@@ -45,4 +45,5 @@ title: Controller Overview
 
 -   Multi-chain cryptocurrency and fiat support
 -   Starterpack bundles combining credits and game assets
+-   Booster pack reward systems with Merkle Drop claiming
 -   ERC721 and ERC1155 NFT marketplace support with automated fee management
