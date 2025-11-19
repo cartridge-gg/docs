@@ -45,7 +45,7 @@ export const SESSION_POLICIES = {
   },
 };
 
-export const REDIRECT_URI = "https://t.me/hitthingbot/hitthing";
+export const REDIRECT_URI = "https://t.me/hitthingbot/hitthing"; // Optional - can be omitted for in-app completion
 ```
 
 ### 2. Create the SessionProvider:
@@ -62,7 +62,7 @@ const connector = new SessionConnector({
   policies: SESSION_POLICIES,
   rpc: RPC_URL,
   chainId: constants.StarknetChainId.SN_MAINNET,
-  redirectUrl: REDIRECT_URI,
+  redirectUrl: REDIRECT_URI, // Optional - omit for in-app session completion
 });
 
 const provider = jsonRpcProvider({
