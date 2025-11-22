@@ -169,12 +169,14 @@ Opens the credit purchase flow, allowing users to buy credits for gasless transa
 controller.openPurchaseCredits();
 ```
 
-### openStarterPack(starterpackId: string)
+### openStarterPack(id: string | number, options?: StarterpackOptions)
 
-Opens the starterpack purchase interface for a specific bundle.
+Opens the starterpack interface for a specific bundle.
 
 ```typescript
 controller.openStarterPack("starterpack-id-123");
+controller.openStarterPack(0); // Onchain starterpack
+controller.openStarterPack("claim-id", { preimage: "preimage-value" });
 ```
 
 Both methods support:
