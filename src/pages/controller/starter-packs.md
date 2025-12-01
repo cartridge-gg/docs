@@ -274,7 +274,6 @@ If a wallet doesn't support chain switching, users can manually switch chains wi
 Cryptocurrency payments include several fee components:
 
 - **Base Cost**: The actual purchase amount (starterpack or credit value)
-- **Cartridge Processing Fee**: 2.5% service fee
 - **Layerswap Bridging Fee**: Variable fee based on source network and token (typically 0.1-0.5%)
 - **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
 
