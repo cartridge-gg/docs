@@ -110,6 +110,7 @@ type ContractMethod = {
   name: string;                         // Method name
   entrypoint: string;                   // Contract method entrypoint
   description?: string;                 // Optional method description
+  amount?: string;                      // Optional spending limit for approve methods (hex format)
 };
 
 type SignMessagePolicy = TypedDataPolicy & {
@@ -207,31 +208,59 @@ const policies: SessionPolicies = {
     // Include other contracts as needed
   }
 };
-<<<<<<< HEAD
-
-// Using the controller directly
-const controller = new Controller({
-  policies,
-  // other options
-});
-
-// Using starknet-react connector
-const connector = new CartridgeConnector({
-  policies,
-  // other options
-});
-
-// Using SessionConnector with disconnect redirect
-const session = new SessionConnector({
-  policies,
-  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
-  chainId: "SN_MAIN",
-  redirectUrl: "https://myapp.com/",
-  disconnectRedirectUrl: "https://myapp.com/logout-complete", // Optional: redirect after logout
-});
-=======
->>>>>>> 53108ce (fix: clean up sessions.md)
 ```
+
+#### Token Spending Limits
+
+When defining `approve` methods in your contract policies, you can specify spending limits using the `amount` parameter. This creates a spending limit that users can see and approve during session creation.
+
+```typescript
+const policies: SessionPolicies = {
+  contracts: {
+    // ETH contract with spending limit
+    "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+      name: "Ethereum",
+      methods: [
+        {
+          name: "approve",
+          entrypoint: "approve",
+          amount: "0x3", // Limit to 3 ETH (in wei, hex format)
+          description: "Approve spending up to 3 ETH"
+        },
+        {
+          name: "transfer",
+          entrypoint: "transfer"
+        }
+      ]
+    },
+    // STRK contract with unlimited spending
+    "0x04718f5a0Fc34cC1AF16A1cdee98fFB20C31f5cD61D6Ab07201858f4287c938D": {
+      name: "Starknet Token",
+      methods: [
+        {
+          name: "approve",
+          entrypoint: "approve",
+          amount: "0xffffffffffffffffffffffffffffffff", // Unlimited (max uint128)
+          description: "Approve unlimited STRK spending"
+        }
+      ]
+    }
+  }
+};
+```
+
+**Spending Limit Display**
+
+When users connect with spending limits configured:
+- They'll see a **Spending Limit Card** showing each token and its approved amount
+- USD values are displayed alongside token amounts when price data is available
+- Users see a consent notice explaining the spending permissions
+- Unlimited spending limits are clearly labeled as "Unlimited"
+
+**Amount Format**
+- Use hexadecimal format (e.g., `"0x3"` for 3, `"0xffffffffffffffffffffffffffffffff"` for unlimited)
+- For ERC20 tokens, amounts should account for token decimals
+- Maximum value for unlimited spending is `2^128 - 1` (`0xffffffffffffffffffffffffffffffff`)
 
 #### Signed Message Policies
 
