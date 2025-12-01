@@ -254,14 +254,9 @@ This system allows users to claim assets that were originally distributed on oth
 
 **EVM Cross-Network Claiming:**
 
-When connecting with any EVM-compatible wallet (MetaMask, Rabby, Coinbase Wallet), users can claim merkle drops from **all EVM networks** in a single transaction. This means:
-
-- **Ethereum wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
-- **Base wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously  
-- **Arbitrum wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
-- **Optimism wallet**: Claims drops from Ethereum, Base, Arbitrum, and Optimism simultaneously
-
-This unified claiming experience is possible because EVM wallets use the same address across all EVM-compatible chains. Non-EVM networks (Starknet, Solana) continue to claim drops only for their specific network.
+When connecting with any EVM-compatible wallet (MetaMask, Rabby, Coinbase Wallet), users can claim merkle drops from **all EVM networks** in a single transaction.
+This unified claiming experience is possible because EVM wallets use the same address across all EVM-compatible chains.
+Non-EVM networks (Starknet, Solana) continue to claim drops only for their specific network.
 
 **Supported Networks for Claims:**
 
