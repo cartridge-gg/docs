@@ -219,6 +219,8 @@ The claiming flow automatically determines eligibility and guides users through 
 Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
 This system allows users to claim assets that were originally distributed on other networks and receive them in their Cartridge account on Starknet.
 
+**DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses. This enables seamless cross-chain reward distribution for DevConnect participants.
+
 **How Merkle Drop Claims Work:**
 
 1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starterpack
@@ -245,13 +247,14 @@ Solana payment functionality is currently disabled and will be re-enabled in a f
 The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
-2. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
+2. **Streamlined Checkout**: Improved onchain starterpack purchase flow with direct navigation, removing intermediate screens and defaulting to controller wallet for faster transactions
+3. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-3. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-4. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-5. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-6. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+4. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
+5. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+6. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+7. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 
