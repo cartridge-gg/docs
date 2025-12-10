@@ -31,7 +31,7 @@ export type ControllerOptions = {
     origin?: string;  // The origin of keychain
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
-    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together)
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together). When only one option is configured, submit buttons show branded styling
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
@@ -299,7 +299,67 @@ The standalone authentication flow includes several security measures:
 - **Localhost restrictions** - Localhost redirects are blocked in production environments
 - **Domain validation** - Redirect URLs must have valid hostnames
 
-### Browser Compatibility
+## Branded Submit Buttons
+
+When `signupOptions` contains only a single authentication method, Controller automatically displays branded submit buttons with:
+
+- **Signer icon**: Visual representation of the authentication method (e.g., Phantom icon, Google icon)
+- **Brand background color**: Themed background matching the signer's brand colors
+- **Branded text**: Context-aware text like "log in with Phantom" or "sign up with Google"
+
+### Single Signer Configuration
+
+```typescript
+// Single signer configuration enables branded buttons
+const controller = new Controller({
+  signupOptions: ["phantom-evm"], // Only Phantom EVM authentication
+});
+
+// Users will see "sign up with Phantom" button with Phantom icon and branding
+```
+
+### Multiple Signer Configuration
+
+```typescript
+// Multiple signers show generic buttons
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Multiple options
+});
+
+// Users will see generic "log in" or "sign up" buttons
+```
+
+### Supported Branded Signers
+
+The following authentication methods support branded styling:
+
+- **webauthn**: Passkey icon with default styling
+- **google**: Google icon with white background
+- **discord**: Discord icon with Discord purple background  
+- **metamask**: MetaMask icon with orange background
+- **phantom**: Phantom icon with purple background
+- **phantom-evm**: Phantom icon with purple background
+- **password**: Lock icon with gray background
+- **walletconnect**: WalletConnect icon with blue background
+- **rabby**: Rabby icon with themed background
+
+### Button Behavior
+
+The branded submit button adapts its text based on the user's state:
+
+- **New users**: Displays "sign up with [Signer]" when entering a new username
+- **Existing users**: Displays "log in with [Signer]" when entering an existing username  
+- **Generic state**: Shows "log in" or "sign up" when username field is empty
+
+### Extension Validation
+
+For extension-based signers (MetaMask, Phantom, Rabby), the branded button automatically:
+
+- Detects if the required browser extension is installed
+- Disables the button if the extension is missing
+- Shows appropriate error messaging to guide users to install the extension
+
+## Browser Compatibility
 
 Storage Access API support varies by browser:
 
