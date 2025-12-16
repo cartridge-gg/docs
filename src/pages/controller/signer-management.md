@@ -50,7 +50,7 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 ### 4. External Wallets
 
-Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, and WalletConnect.
+Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, Phantom, and WalletConnect.
 
 
 ## Adding Signers
@@ -131,6 +131,7 @@ Controller offers integration with popular external web3 wallets, including Braa
    - **Phantom**: Multi-chain wallet supporting Solana, Ethereum, and other networks (desktop only)
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
    - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
+   - **Phantom**: Multi-chain wallet with EVM-compatible mode support (desktop only)
    - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets (desktop only)
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
@@ -182,7 +183,7 @@ Cartridge Controller automatically stays synchronized with account changes in co
 
 ### Chain Switching for External Wallets
 
-External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -198,7 +199,7 @@ External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic cha
 ```typescript
 // Switch connected external wallet to a different chain
 const success = await controller.externalSwitchChain(
-  walletType, // e.g., "metamask", "rabby", "base"
+  walletType, // e.g., "metamask", "rabby", "base", "phantom"
   chainId     // Target chain identifier
 );
 ```
@@ -209,7 +210,7 @@ const success = await controller.externalSwitchChain(
 
 ### Transaction Confirmation for External Wallets
 
-External wallets (MetaMask, Rabby, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface.
+External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface.
 This allows applications to monitor transaction status and receive confirmation when transactions are mined.
 
 **Supported Functionality:**
@@ -226,10 +227,9 @@ This allows applications to monitor transaction status and receive confirmation 
 ```typescript
 // Wait for transaction confirmation with default timeout (60s)
 const response = await controller.externalWaitForTransaction(
-  walletType, // e.g., "metamask", "rabby"
+  walletType, // e.g., "metamask", "rabby", "phantom"
   txHash      // Transaction hash from sendTransaction
 );
-}
 
 // Wait with custom timeout (30 seconds)
 const responseWithTimeout = await controller.externalWaitForTransaction(

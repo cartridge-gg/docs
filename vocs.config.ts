@@ -84,6 +84,10 @@ export default defineConfig({
             link: "/controller/signer-management",
           },
           {
+            text: "Toast Notifications",
+            link: "/controller/toast-notifications",
+          },
+          {
             text: "Starter Packs",
             link: "/controller/starter-packs",
           },
@@ -127,6 +131,21 @@ export default defineConfig({
               {
                 text: "Testing",
                 link: "/controller/achievements/testing",
+              },
+            ],
+          },
+          {
+            text: "Quests",
+            link: "/controller/quests",
+            collapsed: true,
+            items: [
+              {
+                text: "Setup",
+                link: "/controller/quests/setup",
+              },
+              {
+                text: "Integration",
+                link: "/controller/quests/integration",
               },
             ],
           },
