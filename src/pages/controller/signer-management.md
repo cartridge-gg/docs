@@ -50,7 +50,7 @@ Both Google and Discord login use an intelligent authentication flow that adapts
 
 ### 4. External Wallets
 
-Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, and WalletConnect.
+Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, Phantom, and WalletConnect.
 
 
 ## Adding Signers
@@ -130,11 +130,12 @@ Controller offers integration with popular external web3 wallets, including Braa
    - **MetaMask**: Popular browser extension wallet (desktop only)
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
    - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
+   - **Phantom**: Multi-chain wallet with EVM-compatible mode support (desktop only)
    - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets (desktop only)
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
 
-> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
+> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
 
 ## Managing Existing Signers
 
@@ -149,7 +150,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, Phantom, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -181,7 +182,7 @@ Cartridge Controller automatically stays synchronized with account changes in co
 
 ### Chain Switching for External Wallets
 
-External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -197,7 +198,7 @@ External wallets (MetaMask, Rabby, Base, WalletConnect) support programmatic cha
 ```typescript
 // Switch connected external wallet to a different chain
 const success = await controller.externalSwitchChain(
-  walletType, // e.g., "metamask", "rabby", "base"
+  walletType, // e.g., "metamask", "rabby", "base", "phantom"
   chainId     // Target chain identifier
 );
 ```
@@ -208,7 +209,7 @@ const success = await controller.externalSwitchChain(
 
 ### Transaction Confirmation for External Wallets
 
-External wallets (MetaMask, Rabby, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface.
+External wallets (MetaMask, Rabby, Phantom, Argent, WalletConnect) support waiting for transaction confirmations through the Controller interface.
 This allows applications to monitor transaction status and receive confirmation when transactions are mined.
 
 **Supported Functionality:**
@@ -225,10 +226,9 @@ This allows applications to monitor transaction status and receive confirmation 
 ```typescript
 // Wait for transaction confirmation with default timeout (60s)
 const response = await controller.externalWaitForTransaction(
-  walletType, // e.g., "metamask", "rabby"
+  walletType, // e.g., "metamask", "rabby", "phantom"
   txHash      // Transaction hash from sendTransaction
 );
-}
 
 // Wait with custom timeout (30 seconds)
 const responseWithTimeout = await controller.externalWaitForTransaction(

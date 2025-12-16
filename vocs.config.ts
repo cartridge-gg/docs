@@ -84,6 +84,10 @@ export default defineConfig({
             link: "/controller/signer-management",
           },
           {
+            text: "Toast Notifications",
+            link: "/controller/toast-notifications",
+          },
+          {
             text: "Starter Packs",
             link: "/controller/starter-packs",
           },
