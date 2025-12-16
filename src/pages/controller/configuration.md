@@ -31,7 +31,7 @@ export type ControllerOptions = {
     origin?: string;  // The origin of keychain
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
-    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together)
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Supports branded text for single-signer flows)
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
@@ -126,7 +126,7 @@ The configuration options are organized into several categories:
 -   **Chain Options**: Core network configuration and chain settings
 -   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
 -   **Performance Options**: Lazy loading and other performance optimizations
--   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
+-   **Keychain Options**: Authentication, signup flow with branded button text, and keychain-specific settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
 
 ## When to Use Policies

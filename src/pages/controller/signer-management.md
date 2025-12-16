@@ -7,6 +7,8 @@ title: Signer Management
 
 Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature is now generally available and enables you to sign in using different methods while maintaining access to the same Controller account and assets.
 
+The authentication interface automatically displays **branded login and signup text** when using single-signer flows, providing clear messaging like "sign up with Passkey" or "log in with MetaMask" for improved user experience.
+
 ## Overview
 
 Multi-signer support provides several benefits:
@@ -131,6 +133,7 @@ Controller offers integration with popular external web3 wallets, including Braa
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
    - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
    - **Phantom**: Multi-chain wallet with EVM-compatible mode support (desktop only)
+   - **Phantom (EVM)**: Phantom wallet specifically in EVM-compatible mode (desktop only)
    - **WalletConnect**: Use QR code or deep link to connect mobile/desktop wallets (desktop only)
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
@@ -150,7 +153,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, Phantom, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, Phantom, Phantom (EVM), or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -304,11 +307,12 @@ For developers integrating Controller's social login, the implementation include
 ```typescript
 // Controller automatically handles social login based on environment
 const controller = new Controller({
-  // Supports both "google" and "discord" AuthOptions
-  signupOptions: ["webauthn", "google", "discord", "password"]
+  // Supports social providers, wallets, and authentication methods
+  signupOptions: ["webauthn", "google", "discord", "password", "phantom-evm"]
 });
 
 // Social providers are automatically available in connection flow
+// Single-signer flows display branded text like "sign up with Passkey"
 await controller.connect();
 ```
 
