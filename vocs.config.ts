@@ -131,6 +131,21 @@ export default defineConfig({
             ],
           },
           {
+            text: "Quests",
+            link: "/controller/quests",
+            collapsed: true,
+            items: [
+              {
+                text: "Setup",
+                link: "/controller/quests/setup",
+              },
+              {
+                text: "Integration",
+                link: "/controller/quests/integration",
+              },
+            ],
+          },
+          {
             text: "Integration Examples",
             collapsed: true,
             items: [
