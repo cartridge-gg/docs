@@ -128,6 +128,7 @@ Controller offers integration with popular external web3 wallets, including Braa
    - **Argent**: StarkNet-native wallet with advanced security features and account management
    - **Braavos**: StarkNet-native wallet with built-in security features
    - **MetaMask**: Popular browser extension wallet (desktop only)
+   - **Phantom**: Multi-chain wallet supporting Solana, Ethereum, and other networks (desktop only)
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
    - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
    - **Phantom**: Multi-chain wallet with EVM-compatible mode support (desktop only)
@@ -135,7 +136,7 @@ Controller offers integration with popular external web3 wallets, including Braa
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
 
-> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
+> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Phantom, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
 
 ## Managing Existing Signers
 
@@ -150,7 +151,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, Phantom, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -304,8 +305,8 @@ For developers integrating Controller's social login, the implementation include
 ```typescript
 // Controller automatically handles social login based on environment
 const controller = new Controller({
-  // Supports both "google" and "discord" AuthOptions
-  signupOptions: ["webauthn", "google", "discord", "password"]
+  // Supports various AuthOptions including social login and external wallets
+  signupOptions: ["webauthn", "google", "discord", "phantom-evm", "password"]
 });
 
 // Social providers are automatically available in connection flow
