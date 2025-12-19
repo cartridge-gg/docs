@@ -149,16 +149,113 @@ export function ConnectWallet() {
       {address ? (
         <Button onClick={() => disconnect()}>Disconnect</Button>
       ) : (
-        <Button onClick={() => connect({ connector: controller })}>
-          Connect
-        </Button>
+        <div className="space-y-2">
+          {/* Standard connection using default signupOptions */}
+          <Button onClick={() => connect({ connector: controller })}>
+            Connect
+          </Button>
+          
+          {/* Dynamic authentication options for branded flows */}
+          <Button onClick={() => controller.connect({ signupOptions: ["phantom-evm"] })}>
+            Connect with Phantom
+          </Button>
+          
+          <Button onClick={() => controller.connect({ signupOptions: ["google"] })}>
+            Connect with Google
+          </Button>
+          
+          <Button onClick={() => controller.connect({ signupOptions: ["discord"] })}>
+            Connect with Discord
+          </Button>
+        </div>
       )}
     </div>
   )
 }
 ```
 
-### 3. Performing Transactions
+### 3. Dynamic Authentication Options
+
+The ControllerConnector now supports dynamic authentication configuration per connection call. This allows you to create multiple branded authentication flows while using a single Controller instance:
+
+```typescript
+// Direct connector method - bypasses starknet-react state management
+controller.connect({ signupOptions: ["phantom-evm"] })
+
+// For starknet-react integration, use the standard connect method
+connect({ connector: controller })
+```
+
+#### Key Points:
+
+- **Per-call Override**: `signupOptions` passed to `connect()` override the constructor defaults
+- **Branded Flows**: Create specific authentication buttons like "Login with Phantom", "Login with Google"
+- **Single Instance**: Use one Controller instance for multiple authentication methods
+- **React Integration**: Note that direct `controller.connect()` calls bypass starknet-react's state management
+
+#### Complete Example with Multiple Auth Options:
+
+```tsx
+import { useConnect, useAccount } from '@starknet-react/core'
+import { ControllerConnector } from '@cartridge/connector'
+
+export function MultiAuthConnectWallet() {
+  const { connect, connectors } = useConnect()
+  const { address } = useAccount()
+  const controller = connectors[0] as ControllerConnector
+
+  const handleSpecificAuth = async (signupOptions: string[]) => {
+    try {
+      // Direct controller connection for specific auth options
+      await controller.connect({ signupOptions })
+      
+      // Manually trigger starknet-react state update
+      connect({ connector: controller })
+    } catch (error) {
+      console.error('Connection failed:', error)
+    }
+  }
+
+  if (address) {
+    return <div>Connected: {address}</div>
+  }
+
+  return (
+    <div className="grid gap-2">
+      <h3>Choose your authentication method:</h3>
+      
+      {/* Standard multi-option flow */}
+      <button onClick={() => connect({ connector: controller })}>
+        Connect Wallet
+      </button>
+      
+      {/* Branded single-option flows */}
+      <button 
+        onClick={() => handleSpecificAuth(["phantom-evm"])}
+        className="phantom-branded-button"
+      >
+        Continue with Phantom
+      </button>
+      
+      <button 
+        onClick={() => handleSpecificAuth(["google"])}
+        className="google-branded-button"
+      >
+        Continue with Google
+      </button>
+      
+      <button 
+        onClick={() => handleSpecificAuth(["discord"])}
+        className="discord-branded-button"
+      >
+        Continue with Discord
+      </button>
+    </div>
+  )
+}
+```
+
+### 4. Performing Transactions
 
 Execute transactions using the `account` object from `useAccount` hook:
 
