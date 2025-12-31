@@ -73,6 +73,7 @@ Full integration examples [are available here](https://github.com/cartridge-gg/c
 | Transaction Approval | Pre-approved via policies | Manual approval each time |
 | User Experience | Seamless gameplay | Confirmation prompts |
 | Gasless Transactions | Yes (via Paymaster) | No |
+| Error Handling | Configurable (see [error propagation](/controller/configuration.md#propagate-session-errors)) | Always shows keychain UI |
 | Setup Complexity | Higher (policy definition) | Lower (basic setup) |
 | Best For | Games, frequent transactions | Simple apps, occasional transactions |
 
