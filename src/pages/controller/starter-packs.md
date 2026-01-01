@@ -88,10 +88,11 @@ Starterpacks are pre-configured on the Cartridge platform and referenced by ID. 
 ### Key Features
 
 - **Pre-configured**: Packs are set up through the Cartridge platform with predefined items and pricing
-- **Cross-chain Support**: Automatic token bridging and multi-network compatibility
+- **Cross-chain Support**: Automatic token bridging and multi-network compatibility  
 - **Smart Contract Integration**: Automatic execution of associated contract calls after payment
 - **Unified Interface**: Single method works for both paid and claimed packs
 - **Platform Managed**: No need to define complex item structures in your code
+- **Additional Payment Tokens**: Support for custom payment options beyond default ETH, STRK, and USDC through starterpack metadata configuration
 
 ### Paid Starterpacks
 Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency).
@@ -142,13 +143,15 @@ The purchase process follows these steps:
 
 1. **Item Selection**: User selects starterpack or credit amount
 2. **Streamlined Checkout**: Improved onchain starterpack purchase flow with direct navigation, removing intermediate screens and defaulting to controller wallet for faster transactions
-3. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
+3. **Wallet Selection Drawer**: Enhanced onchain checkout with inline slide-up drawer for wallet selection, replacing navigation-based flow for more seamless UX
+4. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-4. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-5. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-6. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-7. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+   - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
+5. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
+6. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+7. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+8. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 
