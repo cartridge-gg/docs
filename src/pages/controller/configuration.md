@@ -22,6 +22,7 @@ export type ControllerOptions = {
     // Session options 
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
+    errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction errors
     
     // Performance options
     lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
@@ -124,7 +125,7 @@ await controller.connect(); // Iframe is created and mounted now
 The configuration options are organized into several categories:
 
 -   **Chain Options**: Core network configuration and chain settings
--   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
+-   [**Session Options**](/controller/sessions.md): Session policies, transaction-related settings, and error handling
 -   **Performance Options**: Lazy loading and other performance optimizations
 -   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
@@ -358,6 +359,98 @@ For extension-based signers (MetaMask, Phantom, Rabby), the branded button autom
 - Detects if the required browser extension is installed
 - Disables the button if the extension is missing
 - Shows appropriate error messaging to guide users to install the extension
+
+## Error Display Configuration
+
+Controller provides flexible error display options to customize how transaction errors are presented to users:
+
+### errorDisplayMode
+
+The `errorDisplayMode` option controls how transaction errors are displayed to users. It works independently from `propagateSessionErrors` and provides three display modes:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal", // "modal" | "notification" | "silent"
+  // other options...
+});
+```
+
+#### Display Modes
+
+**`modal` (default)**
+- Opens the controller modal when transaction errors occur
+- Preserves existing behavior for backward compatibility
+- Provides detailed error information in a focused interface
+- Recommended for applications that prefer modal-based error handling
+
+**`notification`**
+- Shows a clickable toast notification when errors occur
+- Users can click the toast to open the modal for manual retry
+- Provides a less intrusive error experience
+- Ideal for gaming applications where modal interruptions are disruptive
+
+**`silent`**
+- No UI is displayed for transaction errors
+- Errors are logged to console for programmatic handling
+- Applications must handle error states programmatically
+- Best for applications that implement custom error handling
+
+#### Error Display Behavior
+
+The error display behavior depends on the combination of `propagateSessionErrors` and `errorDisplayMode`:
+
+| `propagateSessionErrors` | `errorDisplayMode` | Behavior |
+|-------------------------|-------------------|----------|
+| `true` | Any | Errors are always rejected immediately, no UI shown |
+| `false` (default) | `modal` | Opens controller modal for error handling |
+| `false` | `notification` | Shows clickable toast notification |
+| `false` | `silent` | No UI, errors logged to console |
+
+#### Special Cases
+
+Certain error types always display UI regardless of the `errorDisplayMode` setting:
+
+- **SessionRefreshRequired**: Always opens modal to refresh user session
+- **ManualExecutionRequired**: Always opens modal for manual transaction approval
+
+These exceptions ensure users can complete required authentication or approval flows.
+
+#### Usage Examples
+
+**Gaming Application (Minimal Interruption)**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "notification",
+  policies: gameSessionPolicies,
+});
+
+// Transaction errors show as clickable toast notifications
+// Users can continue gameplay and address errors when convenient
+```
+
+**Financial Application (Detailed Error Handling)**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal",
+});
+
+// Transaction errors open detailed modal interface
+// Users get comprehensive error information and retry options
+```
+
+**Custom Error Handling**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "silent",
+});
+
+try {
+  await account.execute(calls);
+} catch (error) {
+  // Application handles error display and retry logic
+  handleTransactionError(error);
+}
+```
 
 ## Browser Compatibility
 
