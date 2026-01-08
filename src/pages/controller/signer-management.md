@@ -313,6 +313,187 @@ const controller = new Controller({
 await controller.connect();
 ```
 
+## Social Connections (OAuth)
+
+In addition to managing authentication signers, Controller allows you to connect social media accounts for enhanced platform features. Social connections are separate from authentication signers and are used specifically for content publishing and social integrations.
+
+### Overview
+
+Social connections enable:
+
+- **Content Publishing**: Connect TikTok to enable video publishing features
+- **Profile Integration**: Display social profile information within Controller
+- **Cross-Platform Features**: Unified social identity across gaming experiences
+
+> **Note**: Social connections are currently behind a feature flag and being rolled out gradually. This feature may not be available to all users immediately.
+
+### Supported Social Platforms
+
+#### TikTok
+
+Controller supports TikTok OAuth integration for content creators and users who want to publish gaming content directly to TikTok.
+
+**Features:**
+- **OAuth Authentication**: Secure connection via TikTok's official OAuth flow
+- **Profile Information**: Display TikTok username and avatar
+- **Connection Status**: Monitor connection health and token expiration
+- **Content Publishing**: Enable video publishing capabilities (when available)
+
+### Managing Social Connections
+
+#### Accessing Social Connections
+
+1. Connect to your Controller account using any authentication method
+2. Open the **Settings** panel within the Controller interface
+3. Navigate to the **Connected Accounts** section (appears next to Signers when available)
+4. View your existing connections or add new ones
+
+#### Adding Social Connections
+
+**Connecting TikTok:**
+
+1. In the Connected Accounts section, click **Connect Socials**
+2. You'll be redirected to the Add Connection interface
+3. Select **TikTok** from the available social platforms
+4. Click the TikTok connection button to initiate OAuth flow
+5. A popup window will open with TikTok's authorization page
+6. Sign in to your TikTok account and authorize Cartridge Controller
+7. Complete the authorization process in the popup
+8. Once successful, you'll be redirected back to Settings with your TikTok account connected
+
+**OAuth Flow Details:**
+- Opens TikTok authentication in a secure popup window
+- Uses official TikTok OAuth 2.0 flow for maximum security
+- Requests minimal necessary permissions for content publishing
+- Stores secure tokens for ongoing API access
+
+#### Managing Existing Connections
+
+**Viewing Connected Accounts:**
+
+The Connected Accounts section displays:
+
+- **Platform Icon**: Visual identifier for the connected social platform
+- **Profile Information**: Username and avatar from the connected account
+- **Connection Status**: Active connections and any expiration warnings
+- **Account Details**: Partially masked account information for privacy
+
+**Connection Status Indicators:**
+
+Each connected account shows its current status:
+
+- **Active**: Connection is healthy and ready for use
+- **Expired**: OAuth token has expired and requires reconnection
+- **Error**: Connection encountered an issue and may need attention
+
+**Disconnecting Social Accounts:**
+
+To remove a social connection:
+
+1. Navigate to the **Connected Accounts** section in Settings
+2. Find the social account you want to disconnect
+3. Click on the account card to open connection details
+4. Select **Disconnect** from the options
+5. Confirm the disconnection when prompted
+
+> **Important**: Disconnecting a social account will remove access to associated publishing features and may affect content that was previously shared through the platform.
+
+### Privacy and Security
+
+#### OAuth Security
+
+- **Secure Token Storage**: All OAuth tokens are encrypted and stored securely
+- **Minimal Permissions**: Controller requests only the permissions necessary for enabled features
+- **Token Expiration**: Regular token refresh ensures ongoing security
+- **Revocation Support**: Users can disconnect accounts at any time to revoke access
+
+#### Data Handling
+
+- **Profile Information**: Only public profile data (username, avatar) is stored
+- **No Content Access**: Controller cannot access private content or personal information
+- **User Control**: All social connections are user-initiated and user-managed
+
+### Troubleshooting Social Connections
+
+#### Connection Issues
+
+**Popup Blocked:**
+- Ensure your browser allows popups for the Controller domain
+- Try disabling popup blockers temporarily during connection
+- Some browsers may require clicking the connection button directly (not programmatically)
+
+**Authorization Failed:**
+- Check that you're signed in to the social platform account you want to connect
+- Ensure your social account has the necessary permissions to authorize third-party apps
+- Try clearing your browser cache and cookies for the social platform
+
+**Connection Expired:**
+- Navigate to Connected Accounts in Settings
+- Look for expired connection indicators
+- Click on the expired connection and select "Reconnect"
+- Complete the OAuth flow again to refresh the connection
+
+#### Feature Availability
+
+If you don't see the Connected Accounts section:
+- The feature may be behind a feature flag that's not yet enabled for your account
+- Check back later as the feature is being rolled out gradually
+- Ensure you're using the latest version of Controller
+
+### Developer Integration
+
+For developers looking to integrate with social connections:
+
+#### Feature Detection
+
+```typescript
+import { useFeatures } from "@/hooks/features";
+
+const SocialSection = () => {
+  const { isFeatureEnabled } = useFeatures();
+  
+  if (!isFeatureEnabled("connections")) {
+    return null; // Feature not available
+  }
+  
+  // Render social connections UI
+  return <ConnectionsSection />;
+};
+```
+
+#### Connection Management
+
+The social connections feature uses GraphQL queries for managing connections:
+
+```typescript
+// Query user's OAuth connections
+const GET_OAUTH_CONNECTIONS = gql`
+  query GetOAuthConnections($username: String!) {
+    account(username: $username) {
+      oauthConnections {
+        id
+        provider
+        profile {
+          providerUserId
+          username
+          avatarUrl
+        }
+        isExpired
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+// Disconnect an OAuth connection
+const DISCONNECT_OAUTH = gql`
+  mutation DisconnectOAuth($provider: OAuthProvider!) {
+    disconnectOAuth(provider: $provider)
+  }
+`;
+```
+
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md) for gasless gaming transactions
