@@ -100,6 +100,7 @@ type AuthOptions = (
   | "google"        // Google OAuth
   | "webauthn"      // WebAuthn/Passkeys
   | "discord"       // Discord OAuth
+  | "twitter"       // Twitter/X OAuth
   | "walletconnect" // WalletConnect
   | "metamask"      // MetaMask
   | "password"      // Email/Password
@@ -119,6 +120,7 @@ const signupOptions: AuthOptions = [
   "google",
   "webauthn", 
   "discord",
+  "twitter",
   "walletconnect",
   "metamask",
 ];
@@ -135,7 +137,7 @@ const session = new SessionConnector({
   rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
   chainId: "SN_MAIN", 
   redirectUrl: "https://myapp.com/",
-  signupOptions, // Same authentication options
+  signupOptions, // Same authentication options including Twitter
 });
 ```
 
