@@ -20,6 +20,20 @@ const account = await controller.connect();
 // You're ready to execute transactions!
 ```
 
+For more advanced use cases, you can also pass dynamic authentication options:
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({});
+
+// Use default signupOptions from constructor
+const account = await controller.connect();
+
+// Or override with specific options for this connection
+const phantomAccount = await controller.connect(["phantom-evm"]);
+```
+
 When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
 :::info
@@ -181,6 +195,42 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
     </StarknetConfig>
+  );
+}
+```
+
+#### Dynamic Authentication Options
+
+The ControllerConnector supports dynamic authentication configuration per connection, enabling multiple branded authentication flows:
+
+```tsx
+import { useConnect } from "@starknet-react/core";
+import { ControllerConnector } from "@cartridge/connector";
+
+function MyConnectComponent() {
+  const { connect } = useConnect();
+  const connector = ControllerConnector.fromConnectors(connectors);
+
+  return (
+    <div>
+      {/* Use default signupOptions from constructor */}
+      <button onClick={() => connect({ connector })}>
+        Connect
+      </button>
+      
+      {/* Override with specific options for branded auth flows */}
+      <button onClick={() => connector.connect({ signupOptions: ["phantom-evm"] })}>
+        Connect with Phantom
+      </button>
+      
+      <button onClick={() => connector.connect({ signupOptions: ["google"] })}>
+        Connect with Google
+      </button>
+      
+      <button onClick={() => connector.connect({ signupOptions: ["discord"] })}>
+        Connect with Discord
+      </button>
+    </div>
   );
 }
 ```

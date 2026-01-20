@@ -32,7 +32,7 @@ export type ControllerOptions = {
     origin?: string;  // The origin of keychain
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
-    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together). When only one option is configured, submit buttons show branded styling
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together). With one option configured, submit buttons show branded styling
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
@@ -416,6 +416,100 @@ const sessionController = new Controller({
   }
 });
 ```
+
+## Dynamic Authentication Options
+
+Controller supports dynamic authentication configuration on a per-connection basis. This enables multiple branded authentication flows while using a single Controller instance.
+
+### Per-Connection signupOptions Override
+
+The `connect()` method now accepts an optional `signupOptions` parameter that overrides the constructor defaults:
+
+```typescript
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "discord"] // Default options
+});
+
+// Use default signupOptions
+const account1 = await controller.connect();
+
+// Override with specific options for branded flows
+const account2 = await controller.connect(["phantom-evm"]);
+const account3 = await controller.connect(["google"]);
+const account4 = await controller.connect(["discord"]);
+```
+
+### ControllerConnector Dynamic Options
+
+The `ControllerConnector` also supports dynamic authentication options:
+
+```typescript
+import { ControllerConnector } from "@cartridge/connector";
+
+const connector = new ControllerConnector({
+  signupOptions: ["webauthn", "google", "discord"] // Default options
+});
+
+// Use default options
+await connector.connect();
+
+// Override with specific options and chain hint
+await connector.connect({
+  signupOptions: ["phantom-evm"],
+  chainIdHint: BigInt(constants.StarknetChainId.SN_MAIN)
+});
+```
+
+### Use Cases
+
+Dynamic authentication options enable several powerful patterns:
+
+**Branded Authentication Buttons**
+```typescript
+// Create multiple specific authentication flows
+<button onClick={() => controller.connect(["phantom-evm"])}>
+  Continue with Phantom
+</button>
+
+<button onClick={() => controller.connect(["google"])}>
+  Continue with Google  
+</button>
+
+<button onClick={() => controller.connect(["discord"])}>
+  Continue with Discord
+</button>
+```
+
+**Platform-Specific Authentication**
+```typescript
+// Mobile-optimized authentication (remove external wallets)
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const authOptions = isMobile 
+  ? ["webauthn", "google", "discord"]
+  : ["webauthn", "google", "discord", "metamask", "walletconnect"];
+
+await controller.connect(authOptions);
+```
+
+**Conditional Authentication Flows**
+```typescript
+// Different options based on user preferences or game context
+const isNewUser = !localStorage.getItem("returning_user");
+const authOptions = isNewUser
+  ? ["google", "discord"] // Simplified for first-time users
+  : ["webauthn", "google", "discord", "metamask"]; // All options for experienced users
+
+await controller.connect(authOptions);
+```
+
+### Benefits
+
+- **Single Instance**: Use one Controller/Connector for multiple authentication methods
+- **Branded UI**: Create specific authentication buttons for different providers  
+- **Flexible UX**: Adapt authentication options based on context or user preferences
+- **Override Capability**: Per-connection options override constructor defaults
 
 ## Purchase Methods
 
