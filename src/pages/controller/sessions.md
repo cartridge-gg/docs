@@ -137,7 +137,7 @@ const session = new SessionConnector({
   rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
   chainId: "SN_MAIN", 
   redirectUrl: "https://myapp.com/",
-  signupOptions, // Same authentication options including Twitter
+  signupOptions, // Same authentication options
 });
 ```
 
