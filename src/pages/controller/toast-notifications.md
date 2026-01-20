@@ -53,18 +53,35 @@ toast(options: ToastOptions);
 
 ### Error Toast
 
-Display error messages with clear visual indicators.
+Display error messages with clear visual indicators. Error toasts can be made clickable to provide additional functionality.
 
 ```typescript
+// Basic error toast
 toast({
   variant: "error",
   message: "Transaction failed",
+});
+
+// Clickable error toast (used with errorDisplayMode: "notification")
+toast({
+  variant: "error",
+  message: "Transaction failed",
+  onClick: () => {
+    // Handle click action (e.g., open modal for retry)
+    console.log("Error toast clicked");
+  },
 });
 ```
 
 **Properties:**
 - `variant: "error"` - Sets the toast type to error
 - `message: string` - The error message to display
+- `onClick?: () => void` - Optional click handler for interactive error toasts
+
+**Interactive Error Toasts:**
+- When `onClick` is provided, the error toast becomes clickable with hover states
+- Commonly used with `errorDisplayMode: "notification"` to allow users to retry failed transactions
+- The toast automatically dismisses when clicked to prevent duplicate interactions
 
 ### Transaction Toast
 
@@ -305,6 +322,38 @@ function runToastDemo() {
 }
 ```
 
+### Error Notification Integration
+
+The toast API integrates with the Controller's error display system when `errorDisplayMode: "notification"` is configured:
+
+```typescript
+import { Controller } from "@cartridge/controller";
+
+// Configure controller to use notification error display mode
+const controller = new Controller({
+  errorDisplayMode: "notification", // Show clickable error toasts
+  // other options...
+});
+
+// When transactions fail, Controller automatically displays clickable error toasts
+// Users can click the toast to open the modal and retry the transaction
+const account = controller.account;
+
+try {
+  await account.execute(calls);
+} catch (error) {
+  // With notification mode, error toasts are shown automatically
+  // Users can click the toast to retry via the controller modal
+}
+```
+
+**Error Notification Flow:**
+1. Transaction fails during execution
+2. Controller displays a clickable error toast with the error message
+3. User can click the toast to open the controller modal
+4. Modal allows manual retry of the failed transaction
+5. Toast automatically dismisses to prevent duplicate clicks
+
 ## Best Practices
 
 ### Timing and User Experience
@@ -312,12 +361,14 @@ function runToastDemo() {
 - **Avoid Toast Spam**: Don't display multiple toasts simultaneously that could overwhelm users
 - **Appropriate Duration**: Error messages should stay visible longer than success messages
 - **Progressive Disclosure**: Use `isExpanded` appropriately for transaction toasts
+- **Click Responsiveness**: For interactive error toasts, ensure click actions are clear and immediate
 
 ### Visual Design
 
 - **Consistent Branding**: Use appropriate network icons and maintain visual consistency
 - **Clear Messaging**: Keep toast messages concise and actionable
 - **Status Clarity**: Ensure transaction status messages clearly indicate the current state
+- **Interactive Indicators**: Make clickable toasts visually distinct with hover states
 
 ### Integration Patterns
 

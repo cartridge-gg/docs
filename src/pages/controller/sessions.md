@@ -75,6 +75,7 @@ Full integration examples [are available here](https://github.com/cartridge-gg/c
 | Gasless Transactions | Yes (via Paymaster) | No |
 | Error Handling | Configurable (see [error propagation](/controller/configuration.md#propagate-session-errors)) | Always shows keychain UI |
 | Setup Complexity | Higher (policy definition) | Lower (basic setup) |
+| Error Handling | Configurable display modes | Standard modal display |
 | Best For | Games, frequent transactions | Simple apps, occasional transactions |
 
 ## Session Options
@@ -173,6 +174,90 @@ type TypedDataPolicy = {
   primaryType: string;
   domain: StarknetDomain;
 };
+```
+
+## Error Handling in Sessions
+
+When using session policies, Controller provides configurable error handling options through the `errorDisplayMode` setting. This works in conjunction with the existing `propagateSessionErrors` option to give you fine-grained control over how transaction errors are presented to users.
+
+### Error Display Configuration
+
+```typescript
+const controller = new Controller({
+  policies: sessionPolicies,
+  errorDisplayMode: "notification", // "modal" | "notification" | "silent"
+  propagateSessionErrors: false, // Optional: control error propagation
+});
+```
+
+### Error Display Modes
+
+**Modal Mode (Default)**
+- Transaction errors open the controller modal interface
+- Users see detailed error information and retry options
+- Preserves existing session error handling behavior
+
+**Notification Mode**
+- Transaction errors display as clickable toast notifications
+- Users can continue their session and address errors when convenient
+- Clicking the toast opens the modal for manual retry
+- Ideal for gaming applications where modal interruptions are disruptive
+
+**Silent Mode**
+- No UI is displayed for transaction errors
+- Errors are logged to console for programmatic handling
+- Applications must implement custom error handling logic
+
+### Special Error Cases
+
+Certain session-related errors always display UI regardless of the `errorDisplayMode` setting:
+
+- **SessionRefreshRequired**: Always opens modal to refresh expired sessions
+- **ManualExecutionRequired**: Always opens modal when manual approval is needed
+
+These exceptions ensure users can complete required authentication flows even in silent mode.
+
+### Error Handling Examples
+
+**Gaming Application with Minimal Interruptions**
+```typescript
+const gameController = new Controller({
+  policies: gameSessionPolicies,
+  errorDisplayMode: "notification", // Show clickable toast notifications
+});
+
+// Transaction errors show as toast notifications
+// Players can continue gameplay and retry when convenient
+const account = gameController.account;
+await account.execute(gameMoves); // Failed moves show toast notifications
+```
+
+**DeFi Application with Detailed Error Handling**
+```typescript
+const defiController = new Controller({
+  policies: tradingPolicies,
+  errorDisplayMode: "modal", // Show detailed error modals
+  propagateSessionErrors: false,
+});
+
+// Transaction errors open detailed modal interface
+// Users get comprehensive error information for financial operations
+```
+
+**Custom Error Management**
+```typescript
+const customController = new Controller({
+  policies: sessionPolicies,
+  errorDisplayMode: "silent",
+  propagateSessionErrors: true, // Errors are thrown for custom handling
+});
+
+try {
+  await account.execute(calls);
+} catch (error) {
+  // Implement custom error UI and retry logic
+  handleCustomErrorFlow(error);
+}
 ```
 
 ## Disconnect Redirect
