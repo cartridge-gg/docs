@@ -21,7 +21,7 @@ export type ControllerOptions = {
     
     // Session options 
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
-    propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller (restored in v0.12.0 - when enabled, errors are properly propagated instead of showing manual approval modal)
+    propagateSessionErrors?: boolean;  // When true, return contract execution errors to caller instead of showing keychain UI
     
     // Performance options
     lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
@@ -118,6 +118,117 @@ await controller.connect(); // Iframe is created and mounted now
 **When not to use lazy loading:**
 - Applications that need immediate controller availability
 - When the slight delay during first connect() is unacceptable
+
+## Error Handling
+
+### Propagate Session Errors
+
+The `propagateSessionErrors` option controls how contract execution errors are handled when using session-based transactions. When enabled, errors are returned directly to your application instead of showing the manual approval modal in the keychain.
+
+**Example:**
+```typescript
+const controller = new Controller({
+  policies: {
+    // ... your session policies
+  },
+  propagateSessionErrors: true, // Enable error propagation
+});
+```
+
+#### How Error Propagation Works
+
+**With `propagateSessionErrors: false` (default behavior):**
+- Contract execution errors trigger the keychain's manual approval UI
+- Users see an error screen with retry/cancel options
+- Application receives `USER_INTERACTION_REQUIRED` response
+- Transaction flow continues through the keychain interface
+
+**With `propagateSessionErrors: true`:**
+- Contract execution errors are returned directly to your application
+- No keychain UI interruption for certain error types
+- Application receives detailed error information for handling
+- Users stay in your application's error handling flow
+
+#### Error Types and Behavior
+
+| Error Type | Propagated? | Behavior |
+|------------|-------------|-----------|
+| Contract revert/failure | ✅ Yes | Returned as `ERROR` response with details |
+| Insufficient balance | ✅ Yes | Returned as `ERROR` response with details |
+| General execution errors | ✅ Yes | Returned as `ERROR` response with details |
+| Session refresh required | ❌ No | Still shows keychain UI for re-authentication |
+| Manual execution required | ❌ No | Still shows keychain UI for user approval |
+
+#### Implementation Example
+
+```typescript
+import { Controller, ResponseCodes } from '@cartridge/controller';
+
+const controller = new Controller({
+  policies: {
+    // ... your policies
+  },
+  propagateSessionErrors: true,
+});
+
+const account = await controller.connect();
+
+try {
+  const result = await account.execute([
+    {
+      contractAddress: "0x123...",
+      entrypoint: "transfer", 
+      calldata: ["0x456...", "1000000000000000000"] // 1 ETH
+    }
+  ]);
+
+  if (result.code === ResponseCodes.SUCCESS) {
+    console.log('Transaction successful:', result.transaction_hash);
+  } else if (result.code === ResponseCodes.ERROR) {
+    // Handle the error in your application
+    console.error('Transaction failed:', result.message);
+    console.error('Error details:', result.error);
+    
+    // Show custom error UI to user
+    showCustomErrorMessage(result.message);
+  } else if (result.code === ResponseCodes.USER_INTERACTION_REQUIRED) {
+    // User interaction still required (session refresh, manual approval, etc.)
+    console.log('Redirecting to keychain for user action');
+  }
+} catch (error) {
+  console.error('Unexpected error:', error);
+}
+```
+
+#### When to Use Error Propagation
+
+**Use `propagateSessionErrors: true` when:**
+- You want to handle transaction errors with custom UI
+- Building games where keychain UI interruptions break immersion
+- You need programmatic access to detailed error information
+- Your application has sophisticated error handling and retry logic
+
+**Use default behavior (`false`) when:**
+- You're okay with keychain handling errors
+- You prefer built-in error UI and retry mechanisms
+- Building simple applications without custom error flows
+- You want users to have consistent error experiences across all apps
+
+#### Error Response Format
+
+When `propagateSessionErrors` is enabled, error responses include:
+
+```typescript
+{
+  code: ResponseCodes.ERROR,
+  message: string, // Human-readable error message
+  error: {
+    code: ErrorCode, // Specific error code from controller
+    message: string, // Detailed error message
+    data?: any, // Additional error context (e.g., execution details)
+  }
+}
+```
 
 ## Configuration Categories
 
