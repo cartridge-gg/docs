@@ -22,7 +22,7 @@ export type ControllerOptions = {
     // Session options 
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller instead of showing keychain UI
-    errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction errors
+    errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction/execution errors. Defaults to "modal"
     
     // Performance options
     lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
@@ -240,6 +240,154 @@ The configuration options are organized into several categories:
 -   **Performance Options**: Lazy loading and other performance optimizations
 -   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
+
+## Error Display Modes
+
+Controller provides configurable error handling through the `errorDisplayMode` option, allowing you to control how transaction and execution errors are presented to users. This gives you fine-grained control over the user experience during error scenarios.
+
+### Available Modes
+
+#### Modal (Default)
+
+The default error handling behavior that displays errors in a modal dialog:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal", // Can be omitted since this is the default
+});
+```
+
+**Behavior:**
+- Displays transaction errors in a modal overlay
+- Blocks user interaction until dismissed
+- Provides detailed error information
+- Best for applications where users need to understand and resolve errors
+
+#### Notification
+
+Displays errors as clickable toast notifications:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "notification",
+});
+```
+
+**Behavior:**
+- Shows errors as [toast notifications](/controller/notifications.md)
+- Non-blocking - users can continue interacting with the application
+- Auto-dismisses after a few seconds
+- Clickable for more details
+- Best for applications where errors shouldn't interrupt gameplay flow
+
+#### Silent
+
+Suppresses error UI and only logs errors to the console:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "silent",
+});
+```
+
+**Behavior:**
+- No visual error display to users
+- Errors are logged to the browser console
+- Application must handle error feedback through other means
+- Best for applications with custom error handling or where errors are handled programmatically
+
+### Special Cases
+
+#### USER_INTERACTION_REQUIRED Errors
+
+Certain errors that require user interaction (such as session refresh or manual execution approval) **always show modal UI** regardless of the `errorDisplayMode` setting. This ensures critical authentication and approval flows are not bypassed.
+
+Examples of errors that always show modals:
+- Session refresh required
+- Manual execution approval needed
+- Authentication failures
+
+### Error Handling Examples
+
+**Gaming Application with Non-Blocking Errors:**
+
+```typescript
+const gameController = new Controller({
+  errorDisplayMode: "notification", // Don't interrupt gameplay
+  policies: {
+    // Game-specific policies
+  },
+});
+
+// Transaction errors appear as toast notifications
+// Players can continue playing while being aware of issues
+```
+
+**Financial Application with Detailed Error Handling:**
+
+```typescript
+const financeController = new Controller({
+  errorDisplayMode: "modal", // Show detailed errors
+});
+
+// Critical transaction errors require user acknowledgment
+// Users must understand what went wrong before proceeding
+```
+
+**Custom Error Handling Application:**
+
+```typescript
+const customController = new Controller({
+  errorDisplayMode: "silent",
+  propagateSessionErrors: true, // Enable error propagation
+});
+
+// Handle errors programmatically
+try {
+  await customController.account.execute(calls);
+} catch (error) {
+  // Custom error handling logic
+  showCustomErrorUI(error);
+}
+```
+
+### Integration with Toast Notifications
+
+When using `errorDisplayMode: "notification"`, errors are displayed using Controller's built-in [toast notification system](/controller/notifications.md). This provides:
+
+- Consistent styling with your controller preset
+- Cross-iframe compatibility
+- Automatic positioning and duration management
+- Integration with other game notifications
+
+### Best Practices
+
+**Choose the Right Mode:**
+
+- **Modal**: Financial apps, critical operations, or when users need detailed error information
+- **Notification**: Games, real-time applications, or when errors shouldn't interrupt user flow  
+- **Silent**: Applications with custom error handling or sophisticated error management systems
+
+**Error Handling Strategy:**
+
+```typescript
+// Recommended: Combine error modes with propagation for flexibility
+const controller = new Controller({
+  errorDisplayMode: "notification", // User-friendly notifications
+  propagateSessionErrors: true,     // Also handle programmatically
+});
+
+// Handle both automatic notifications and custom logic
+try {
+  await controller.account.execute(calls);
+  // Success handling
+} catch (error) {
+  // Additional custom error handling if needed
+  if (error.code === 'CRITICAL_ERROR') {
+    showCriticalErrorModal(error);
+  }
+}
+```
 
 ## When to Use Policies
 
