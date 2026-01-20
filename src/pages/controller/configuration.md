@@ -21,7 +21,8 @@ export type ControllerOptions = {
     
     // Session options 
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
-    propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
+    propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller instead of showing keychain UI
+    errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction/execution errors. Defaults to "modal"
     
     // Performance options
     lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
@@ -31,7 +32,7 @@ export type ControllerOptions = {
     origin?: string;  // The origin of keychain
     starterPackId?: string;  // The ID of the starter pack to use
     feeSource?: FeeSource;  // The fee source to use for execute from outside
-    signupOptions?: AuthOptions;  // Default signup options (order reflects UI. Group socials and wallets together)
+    signupOptions?: AuthOptions;  // Signup options (order reflects UI. Group socials and wallets together). With one option configured, submit buttons show branded styling
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
@@ -119,15 +120,274 @@ await controller.connect(); // Iframe is created and mounted now
 - Applications that need immediate controller availability
 - When the slight delay during first connect() is unacceptable
 
+## Error Handling
+
+### Propagate Session Errors
+
+The `propagateSessionErrors` option controls how contract execution errors are handled when using session-based transactions. When enabled, errors are returned directly to your application instead of showing the manual approval modal in the keychain.
+
+**Example:**
+```typescript
+const controller = new Controller({
+  policies: {
+    // ... your session policies
+  },
+  propagateSessionErrors: true, // Enable error propagation
+});
+```
+
+#### How Error Propagation Works
+
+**With `propagateSessionErrors: false` (default behavior):**
+- Contract execution errors trigger the keychain's manual approval UI
+- Users see an error screen with retry/cancel options
+- Application receives `USER_INTERACTION_REQUIRED` response
+- Transaction flow continues through the keychain interface
+
+**With `propagateSessionErrors: true`:**
+- Contract execution errors are returned directly to your application
+- No keychain UI interruption for certain error types
+- Application receives detailed error information for handling
+- Users stay in your application's error handling flow
+
+#### Error Types and Behavior
+
+| Error Type | Propagated? | Behavior |
+|------------|-------------|-----------|
+| Contract revert/failure | ✅ Yes | Returned as `ERROR` response with details |
+| Insufficient balance | ✅ Yes | Returned as `ERROR` response with details |
+| General execution errors | ✅ Yes | Returned as `ERROR` response with details |
+| Session refresh required | ❌ No | Still shows keychain UI for re-authentication |
+| Manual execution required | ❌ No | Still shows keychain UI for user approval |
+
+#### Implementation Example
+
+```typescript
+import { Controller, ResponseCodes } from '@cartridge/controller';
+
+const controller = new Controller({
+  policies: {
+    // ... your policies
+  },
+  propagateSessionErrors: true,
+});
+
+const account = await controller.connect();
+
+try {
+  const result = await account.execute([
+    {
+      contractAddress: "0x123...",
+      entrypoint: "transfer", 
+      calldata: ["0x456...", "1000000000000000000"] // 1 ETH
+    }
+  ]);
+
+  if (result.code === ResponseCodes.SUCCESS) {
+    console.log('Transaction successful:', result.transaction_hash);
+  } else if (result.code === ResponseCodes.ERROR) {
+    // Handle the error in your application
+    console.error('Transaction failed:', result.message);
+    console.error('Error details:', result.error);
+    
+    // Show custom error UI to user
+    showCustomErrorMessage(result.message);
+  } else if (result.code === ResponseCodes.USER_INTERACTION_REQUIRED) {
+    // User interaction still required (session refresh, manual approval, etc.)
+    console.log('Redirecting to keychain for user action');
+  }
+} catch (error) {
+  console.error('Unexpected error:', error);
+}
+```
+
+#### When to Use Error Propagation
+
+**Use `propagateSessionErrors: true` when:**
+- You want to handle transaction errors with custom UI
+- Building games where keychain UI interruptions break immersion
+- You need programmatic access to detailed error information
+- Your application has sophisticated error handling and retry logic
+
+**Use default behavior (`false`) when:**
+- You're okay with keychain handling errors
+- You prefer built-in error UI and retry mechanisms
+- Building simple applications without custom error flows
+- You want users to have consistent error experiences across all apps
+
+#### Error Response Format
+
+When `propagateSessionErrors` is enabled, error responses include:
+
+```typescript
+{
+  code: ResponseCodes.ERROR,
+  message: string, // Human-readable error message
+  error: {
+    code: ErrorCode, // Specific error code from controller
+    message: string, // Detailed error message
+    data?: any, // Additional error context (e.g., execution details)
+  }
+}
+```
+
 ## Configuration Categories
 
 The configuration options are organized into several categories:
 
 -   **Chain Options**: Core network configuration and chain settings
--   [**Session Options**](/controller/sessions.md): Session policies and transaction-related settings
+-   [**Session Options**](/controller/sessions.md): Session policies, transaction-related settings, and error handling
 -   **Performance Options**: Lazy loading and other performance optimizations
 -   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
 -   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
+
+## Error Display Modes
+
+Controller provides configurable error handling through the `errorDisplayMode` option, allowing you to control how transaction and execution errors are presented to users. This gives you fine-grained control over the user experience during error scenarios.
+
+### Available Modes
+
+#### Modal (Default)
+
+The default error handling behavior that displays errors in a modal dialog:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal", // Can be omitted since this is the default
+});
+```
+
+**Behavior:**
+- Displays transaction errors in a modal overlay
+- Blocks user interaction until dismissed
+- Provides detailed error information
+- Best for applications where users need to understand and resolve errors
+
+#### Notification
+
+Displays errors as clickable toast notifications:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "notification",
+});
+```
+
+**Behavior:**
+- Shows errors as [toast notifications](/controller/notifications.md)
+- Non-blocking - users can continue interacting with the application
+- Auto-dismisses after a few seconds
+- Clickable for more details
+- Best for applications where errors shouldn't interrupt gameplay flow
+
+#### Silent
+
+Suppresses error UI and only logs errors to the console:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "silent",
+});
+```
+
+**Behavior:**
+- No visual error display to users
+- Errors are logged to the browser console
+- Application must handle error feedback through other means
+- Best for applications with custom error handling or where errors are handled programmatically
+
+### Special Cases
+
+#### USER_INTERACTION_REQUIRED Errors
+
+Certain errors that require user interaction (such as session refresh or manual execution approval) **always show modal UI** regardless of the `errorDisplayMode` setting. This ensures critical authentication and approval flows are not bypassed.
+
+Examples of errors that always show modals:
+- Session refresh required
+- Manual execution approval needed
+- Authentication failures
+
+### Error Handling Examples
+
+**Gaming Application with Non-Blocking Errors:**
+
+```typescript
+const gameController = new Controller({
+  errorDisplayMode: "notification", // Don't interrupt gameplay
+  policies: {
+    // Game-specific policies
+  },
+});
+
+// Transaction errors appear as toast notifications
+// Players can continue playing while being aware of issues
+```
+
+**Financial Application with Detailed Error Handling:**
+
+```typescript
+const financeController = new Controller({
+  errorDisplayMode: "modal", // Show detailed errors
+});
+
+// Critical transaction errors require user acknowledgment
+// Users must understand what went wrong before proceeding
+```
+
+**Custom Error Handling Application:**
+
+```typescript
+const customController = new Controller({
+  errorDisplayMode: "silent",
+  propagateSessionErrors: true, // Enable error propagation
+});
+
+// Handle errors programmatically
+try {
+  await customController.account.execute(calls);
+} catch (error) {
+  // Custom error handling logic
+  showCustomErrorUI(error);
+}
+```
+
+### Integration with Toast Notifications
+
+When using `errorDisplayMode: "notification"`, errors are displayed using Controller's built-in [toast notification system](/controller/notifications.md). This provides:
+
+- Consistent styling with your controller preset
+- Cross-iframe compatibility
+- Automatic positioning and duration management
+- Integration with other game notifications
+
+### Best Practices
+
+**Choose the Right Mode:**
+
+- **Modal**: Financial apps, critical operations, or when users need detailed error information
+- **Notification**: Games, real-time applications, or when errors shouldn't interrupt user flow  
+- **Silent**: Applications with custom error handling or sophisticated error management systems
+
+**Error Handling Strategy:**
+
+```typescript
+// Recommended: Combine error modes with propagation for flexibility
+const controller = new Controller({
+  errorDisplayMode: "notification", // User-friendly notifications
+  propagateSessionErrors: true,     // Also handle programmatically
+});
+
+// Handle both automatic notifications and custom logic
+try {
+  await controller.account.execute(calls);
+  // Success handling
+} catch (error) {
+  // Additional custom error handling if needed
+  if (error.code === 'CRITICAL_ERROR') {
+    showCriticalErrorModal(error);
+  }
+}
+```
 
 ## When to Use Policies
 
@@ -393,7 +653,199 @@ The standalone authentication flow includes several security measures:
 - **Localhost restrictions** - Localhost redirects are blocked in production environments
 - **Domain validation** - Redirect URLs must have valid hostnames
 
-### Browser Compatibility
+## Dynamic Authentication Options
+
+### Dynamic `signupOptions` Override
+
+The `signupOptions` can be dynamically overridden on a per-connection basis, enabling developers to create multiple branded authentication flows using a single Controller instance:
+
+```typescript
+// Constructor configuration sets the default options
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Default options
+});
+
+// Override options per connection for branded flows
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Only Phantom for this specific connection
+});
+
+// Different branded flow for the same controller instance
+await controller.connect({
+  signupOptions: ["google"] // Only Google for this connection
+});
+```
+
+This pattern enables applications to create branded authentication experiences like "Login with Phantom" and "Login with Google" using the same Controller instance, perfect for supporting multiple wallet types or creating game-specific authentication flows.
+
+## Branded Submit Buttons
+
+When `signupOptions` contains only a single authentication method (either in constructor or dynamically via `connect()`), Controller automatically displays branded submit buttons with:
+
+- **Signer icon**: Visual representation of the authentication method (e.g., Phantom icon, Google icon)
+- **Brand background color**: Themed background matching the signer's brand colors
+- **Branded text**: Context-aware text like "log in with Phantom" or "sign up with Google"
+
+### Single Signer Configuration
+
+```typescript
+// Single signer configuration enables branded buttons
+const controller = new Controller({
+  signupOptions: ["phantom-evm"], // Only Phantom EVM authentication
+});
+
+// Users will see "sign up with Phantom" button with Phantom icon and branding
+```
+
+### Dynamic Single Signer Configuration
+
+```typescript
+// Dynamic override also enables branded buttons
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Multiple default options
+});
+
+// This connection will show branded Phantom button
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Single option override
+});
+```
+
+### Multiple Signer Configuration
+
+```typescript
+// Multiple signers show generic buttons
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Multiple options
+});
+
+// Users will see generic "log in" or "sign up" buttons
+```
+
+### Supported Branded Signers
+
+The following authentication methods support branded styling:
+
+- **webauthn**: Passkey icon with default styling
+- **google**: Google icon with white background
+- **discord**: Discord icon with Discord purple background
+- **twitter**: Twitter/X icon with themed background
+- **metamask**: MetaMask icon with orange background
+- **phantom**: Phantom icon with purple background
+- **phantom-evm**: Phantom icon with purple background
+- **password**: Lock icon with gray background
+- **walletconnect**: WalletConnect icon with blue background
+- **rabby**: Rabby icon with themed background
+
+### Button Behavior
+
+The branded submit button adapts its text based on the user's state:
+
+- **New users**: Displays "sign up with [Signer]" when entering a new username
+- **Existing users**: Displays "log in with [Signer]" when entering an existing username  
+- **Generic state**: Shows "log in" or "sign up" when username field is empty
+
+### Extension Validation
+
+For extension-based signers (MetaMask, Phantom, Rabby), the branded button automatically:
+
+- Detects if the required browser extension is installed
+- Disables the button if the extension is missing
+- Shows appropriate error messaging to guide users to install the extension
+
+## Error Display Configuration
+
+Controller provides flexible error display options to customize how transaction errors are presented to users:
+
+### errorDisplayMode
+
+The `errorDisplayMode` option controls how transaction errors are displayed to users. It works independently from `propagateSessionErrors` and provides three display modes:
+
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal", // "modal" | "notification" | "silent"
+  // other options...
+});
+```
+
+#### Display Modes
+
+**`modal` (default)**
+- Opens the controller modal when transaction errors occur
+- Preserves existing behavior for backward compatibility
+- Provides detailed error information in a focused interface
+- Recommended for applications that prefer modal-based error handling
+
+**`notification`**
+- Shows a clickable toast notification when errors occur
+- Users can click the toast to open the modal for manual retry
+- Provides a less intrusive error experience
+- Ideal for gaming applications where modal interruptions are disruptive
+
+**`silent`**
+- No UI is displayed for transaction errors
+- Errors are logged to console for programmatic handling
+- Applications must handle error states programmatically
+- Best for applications that implement custom error handling
+
+#### Error Display Behavior
+
+The error display behavior depends on the combination of `propagateSessionErrors` and `errorDisplayMode`:
+
+| `propagateSessionErrors` | `errorDisplayMode` | Behavior |
+|-------------------------|-------------------|----------|
+| `true` | Any | Errors are always rejected immediately, no UI shown |
+| `false` (default) | `modal` | Opens controller modal for error handling |
+| `false` | `notification` | Shows clickable toast notification |
+| `false` | `silent` | No UI, errors logged to console |
+
+#### Special Cases
+
+Certain error types always display UI regardless of the `errorDisplayMode` setting:
+
+- **SessionRefreshRequired**: Always opens modal to refresh user session
+- **ManualExecutionRequired**: Always opens modal for manual transaction approval
+
+These exceptions ensure users can complete required authentication or approval flows.
+
+#### Usage Examples
+
+**Gaming Application (Minimal Interruption)**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "notification",
+  policies: gameSessionPolicies,
+});
+
+// Transaction errors show as clickable toast notifications
+// Users can continue gameplay and address errors when convenient
+```
+
+**Financial Application (Detailed Error Handling)**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "modal",
+});
+
+// Transaction errors open detailed modal interface
+// Users get comprehensive error information and retry options
+```
+
+**Custom Error Handling**
+```typescript
+const controller = new Controller({
+  errorDisplayMode: "silent",
+});
+
+try {
+  await account.execute(calls);
+} catch (error) {
+  // Application handles error display and retry logic
+  handleTransactionError(error);
+}
+```
+
+## Browser Compatibility
 
 Storage Access API support varies by browser:
 

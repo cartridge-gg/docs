@@ -35,13 +35,13 @@ Controller supports four types of signers:
 
 ### 3. Social Login
 
-Controller offers native social login options through Google and Discord:
+Controller offers native social login options through Google, Discord, and Twitter/X:
 
 - **Streamlined onboarding** for users with existing social accounts  
 - **Secure integration** via Turnkey wallet infrastructure with Auth0
 - **Native implementation** using OAuth2 flows for improved security and UX
 
-Both Google and Discord login use an intelligent authentication flow that adapts to browser restrictions:
+All social login providers use an intelligent authentication flow that adapts to browser restrictions:
 
 1. **Primary Method**: Attempts to open OAuth in a popup window for seamless experience
 2. **Fallback Method**: Automatically redirects to OAuth provider when popups are blocked
@@ -119,7 +119,22 @@ Controller offers integration with popular external web3 wallets, including Braa
 4. The system creates a secure Turnkey wallet linked to your Discord account
 5. Your Discord login is now available as a Controller authentication method
 
-> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across both social providers.
+> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across all social providers.
+
+#### Adding Twitter/X Login
+
+1. Select **Twitter** from the signer options
+2. The system uses the same intelligent OAuth flow as other social providers:
+   - **Popup-first approach**: Attempts popup for seamless authentication
+   - **Redirect fallback**: Automatically falls back to full redirect when necessary
+   - **Browser compatibility**: Handles CSP restrictions and iframe limitations
+3. Complete the Twitter OAuth authorization:
+   - Sign in to your Twitter/X account if not already logged in
+   - Authorize Cartridge Controller to access your Twitter identity
+4. The system creates a secure Turnkey wallet linked to your Twitter account
+5. Your Twitter login is now available as a Controller authentication method
+
+> **Technical Details**: Twitter authentication uses the same Auth0 + Turnkey infrastructure as Google and Discord login, ensuring consistent security and user experience across all social providers.
 
 ### Adding External Wallets
 
@@ -128,6 +143,7 @@ Controller offers integration with popular external web3 wallets, including Braa
    - **Argent**: StarkNet-native wallet with advanced security features and account management
    - **Braavos**: StarkNet-native wallet with built-in security features
    - **MetaMask**: Popular browser extension wallet (desktop only)
+   - **Phantom**: Multi-chain wallet supporting Solana, Ethereum, and other networks (desktop only)
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
    - **Base**: Coinbase's official wallet with multi-chain support (desktop only)
    - **Phantom**: Multi-chain wallet with EVM-compatible mode support (desktop only)
@@ -135,7 +151,7 @@ Controller offers integration with popular external web3 wallets, including Braa
 3. Follow the wallet-specific connection flow
 4. Sign the verification message to link the wallet to your account
 
-> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
+> **Mobile Limitation**: Ethereum-based wallets (MetaMask, Phantom, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
 
 ## Managing Existing Signers
 
@@ -150,7 +166,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Rabby, Phantom, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Twitter, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -304,12 +320,193 @@ For developers integrating Controller's social login, the implementation include
 ```typescript
 // Controller automatically handles social login based on environment
 const controller = new Controller({
-  // Supports both "google" and "discord" AuthOptions
-  signupOptions: ["webauthn", "google", "discord", "password"]
+  // Supports various AuthOptions including social login and external wallets
+  signupOptions: ["webauthn", "google", "discord", "twitter", "phantom-evm", "password"]
 });
 
 // Social providers are automatically available in connection flow
 await controller.connect();
+```
+
+## Social Connections (OAuth)
+
+In addition to managing authentication signers, Controller allows you to connect social media accounts for enhanced platform features. Social connections are separate from authentication signers and are used specifically for content publishing and social integrations.
+
+### Overview
+
+Social connections enable:
+
+- **Content Publishing**: Connect TikTok to enable video publishing features
+- **Profile Integration**: Display social profile information within Controller
+- **Cross-Platform Features**: Unified social identity across gaming experiences
+
+> **Note**: Social connections are currently behind a feature flag and being rolled out gradually. This feature may not be available to all users immediately.
+
+### Supported Social Platforms
+
+#### TikTok
+
+Controller supports TikTok OAuth integration for content creators and users who want to publish gaming content directly to TikTok.
+
+**Features:**
+- **OAuth Authentication**: Secure connection via TikTok's official OAuth flow
+- **Profile Information**: Display TikTok username and avatar
+- **Connection Status**: Monitor connection health and token expiration
+- **Content Publishing**: Enable video publishing capabilities (when available)
+
+### Managing Social Connections
+
+#### Accessing Social Connections
+
+1. Connect to your Controller account using any authentication method
+2. Open the **Settings** panel within the Controller interface
+3. Navigate to the **Connected Accounts** section (appears next to Signers when available)
+4. View your existing connections or add new ones
+
+#### Adding Social Connections
+
+**Connecting TikTok:**
+
+1. In the Connected Accounts section, click **Connect Socials**
+2. You'll be redirected to the Add Connection interface
+3. Select **TikTok** from the available social platforms
+4. Click the TikTok connection button to initiate OAuth flow
+5. A popup window will open with TikTok's authorization page
+6. Sign in to your TikTok account and authorize Cartridge Controller
+7. Complete the authorization process in the popup
+8. Once successful, you'll be redirected back to Settings with your TikTok account connected
+
+**OAuth Flow Details:**
+- Opens TikTok authentication in a secure popup window
+- Uses official TikTok OAuth 2.0 flow for maximum security
+- Requests minimal necessary permissions for content publishing
+- Stores secure tokens for ongoing API access
+
+#### Managing Existing Connections
+
+**Viewing Connected Accounts:**
+
+The Connected Accounts section displays:
+
+- **Platform Icon**: Visual identifier for the connected social platform
+- **Profile Information**: Username and avatar from the connected account
+- **Connection Status**: Active connections and any expiration warnings
+- **Account Details**: Partially masked account information for privacy
+
+**Connection Status Indicators:**
+
+Each connected account shows its current status:
+
+- **Active**: Connection is healthy and ready for use
+- **Expired**: OAuth token has expired and requires reconnection
+- **Error**: Connection encountered an issue and may need attention
+
+**Disconnecting Social Accounts:**
+
+To remove a social connection:
+
+1. Navigate to the **Connected Accounts** section in Settings
+2. Find the social account you want to disconnect
+3. Click on the account card to open connection details
+4. Select **Disconnect** from the options
+5. Confirm the disconnection when prompted
+
+> **Important**: Disconnecting a social account will remove access to associated publishing features and may affect content that was previously shared through the platform.
+
+### Privacy and Security
+
+#### OAuth Security
+
+- **Secure Token Storage**: All OAuth tokens are encrypted and stored securely
+- **Minimal Permissions**: Controller requests only the permissions necessary for enabled features
+- **Token Expiration**: Regular token refresh ensures ongoing security
+- **Revocation Support**: Users can disconnect accounts at any time to revoke access
+
+#### Data Handling
+
+- **Profile Information**: Only public profile data (username, avatar) is stored
+- **No Content Access**: Controller cannot access private content or personal information
+- **User Control**: All social connections are user-initiated and user-managed
+
+### Troubleshooting Social Connections
+
+#### Connection Issues
+
+**Popup Blocked:**
+- Ensure your browser allows popups for the Controller domain
+- Try disabling popup blockers temporarily during connection
+- Some browsers may require clicking the connection button directly (not programmatically)
+
+**Authorization Failed:**
+- Check that you're signed in to the social platform account you want to connect
+- Ensure your social account has the necessary permissions to authorize third-party apps
+- Try clearing your browser cache and cookies for the social platform
+
+**Connection Expired:**
+- Navigate to Connected Accounts in Settings
+- Look for expired connection indicators
+- Click on the expired connection and select "Reconnect"
+- Complete the OAuth flow again to refresh the connection
+
+#### Feature Availability
+
+If you don't see the Connected Accounts section:
+- The feature may be behind a feature flag that's not yet enabled for your account
+- Check back later as the feature is being rolled out gradually
+- Ensure you're using the latest version of Controller
+
+### Developer Integration
+
+For developers looking to integrate with social connections:
+
+#### Feature Detection
+
+```typescript
+import { useFeatures } from "@/hooks/features";
+
+const SocialSection = () => {
+  const { isFeatureEnabled } = useFeatures();
+  
+  if (!isFeatureEnabled("connections")) {
+    return null; // Feature not available
+  }
+  
+  // Render social connections UI
+  return <ConnectionsSection />;
+};
+```
+
+#### Connection Management
+
+The social connections feature uses GraphQL queries for managing connections:
+
+```typescript
+// Query user's OAuth connections
+const GET_OAUTH_CONNECTIONS = gql`
+  query GetOAuthConnections($username: String!) {
+    account(username: $username) {
+      oauthConnections {
+        id
+        provider
+        profile {
+          providerUserId
+          username
+          avatarUrl
+        }
+        isExpired
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+// Disconnect an OAuth connection
+const DISCONNECT_OAUTH = gql`
+  mutation DisconnectOAuth($provider: OAuthProvider!) {
+    disconnectOAuth(provider: $provider)
+  }
+`;
 ```
 
 ## Next Steps
