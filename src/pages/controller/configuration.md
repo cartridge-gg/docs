@@ -21,7 +21,7 @@ export type ControllerOptions = {
     
     // Session options 
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
-    propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller
+    propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller instead of showing keychain UI
     errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction errors
     
     // Performance options
@@ -119,6 +119,117 @@ await controller.connect(); // Iframe is created and mounted now
 **When not to use lazy loading:**
 - Applications that need immediate controller availability
 - When the slight delay during first connect() is unacceptable
+
+## Error Handling
+
+### Propagate Session Errors
+
+The `propagateSessionErrors` option controls how contract execution errors are handled when using session-based transactions. When enabled, errors are returned directly to your application instead of showing the manual approval modal in the keychain.
+
+**Example:**
+```typescript
+const controller = new Controller({
+  policies: {
+    // ... your session policies
+  },
+  propagateSessionErrors: true, // Enable error propagation
+});
+```
+
+#### How Error Propagation Works
+
+**With `propagateSessionErrors: false` (default behavior):**
+- Contract execution errors trigger the keychain's manual approval UI
+- Users see an error screen with retry/cancel options
+- Application receives `USER_INTERACTION_REQUIRED` response
+- Transaction flow continues through the keychain interface
+
+**With `propagateSessionErrors: true`:**
+- Contract execution errors are returned directly to your application
+- No keychain UI interruption for certain error types
+- Application receives detailed error information for handling
+- Users stay in your application's error handling flow
+
+#### Error Types and Behavior
+
+| Error Type | Propagated? | Behavior |
+|------------|-------------|-----------|
+| Contract revert/failure | ✅ Yes | Returned as `ERROR` response with details |
+| Insufficient balance | ✅ Yes | Returned as `ERROR` response with details |
+| General execution errors | ✅ Yes | Returned as `ERROR` response with details |
+| Session refresh required | ❌ No | Still shows keychain UI for re-authentication |
+| Manual execution required | ❌ No | Still shows keychain UI for user approval |
+
+#### Implementation Example
+
+```typescript
+import { Controller, ResponseCodes } from '@cartridge/controller';
+
+const controller = new Controller({
+  policies: {
+    // ... your policies
+  },
+  propagateSessionErrors: true,
+});
+
+const account = await controller.connect();
+
+try {
+  const result = await account.execute([
+    {
+      contractAddress: "0x123...",
+      entrypoint: "transfer", 
+      calldata: ["0x456...", "1000000000000000000"] // 1 ETH
+    }
+  ]);
+
+  if (result.code === ResponseCodes.SUCCESS) {
+    console.log('Transaction successful:', result.transaction_hash);
+  } else if (result.code === ResponseCodes.ERROR) {
+    // Handle the error in your application
+    console.error('Transaction failed:', result.message);
+    console.error('Error details:', result.error);
+    
+    // Show custom error UI to user
+    showCustomErrorMessage(result.message);
+  } else if (result.code === ResponseCodes.USER_INTERACTION_REQUIRED) {
+    // User interaction still required (session refresh, manual approval, etc.)
+    console.log('Redirecting to keychain for user action');
+  }
+} catch (error) {
+  console.error('Unexpected error:', error);
+}
+```
+
+#### When to Use Error Propagation
+
+**Use `propagateSessionErrors: true` when:**
+- You want to handle transaction errors with custom UI
+- Building games where keychain UI interruptions break immersion
+- You need programmatic access to detailed error information
+- Your application has sophisticated error handling and retry logic
+
+**Use default behavior (`false`) when:**
+- You're okay with keychain handling errors
+- You prefer built-in error UI and retry mechanisms
+- Building simple applications without custom error flows
+- You want users to have consistent error experiences across all apps
+
+#### Error Response Format
+
+When `propagateSessionErrors` is enabled, error responses include:
+
+```typescript
+{
+  code: ResponseCodes.ERROR,
+  message: string, // Human-readable error message
+  error: {
+    code: ErrorCode, // Specific error code from controller
+    message: string, // Detailed error message
+    data?: any, // Additional error context (e.g., execution details)
+  }
+}
+```
 
 ## Configuration Categories
 
@@ -300,9 +411,34 @@ The standalone authentication flow includes several security measures:
 - **Localhost restrictions** - Localhost redirects are blocked in production environments
 - **Domain validation** - Redirect URLs must have valid hostnames
 
+## Dynamic Authentication Options
+
+### Dynamic `signupOptions` Override
+
+The `signupOptions` can be dynamically overridden on a per-connection basis, enabling developers to create multiple branded authentication flows using a single Controller instance:
+
+```typescript
+// Constructor configuration sets the default options
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Default options
+});
+
+// Override options per connection for branded flows
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Only Phantom for this specific connection
+});
+
+// Different branded flow for the same controller instance
+await controller.connect({
+  signupOptions: ["google"] // Only Google for this connection
+});
+```
+
+This pattern enables applications to create branded authentication experiences like "Login with Phantom" and "Login with Google" using the same Controller instance, perfect for supporting multiple wallet types or creating game-specific authentication flows.
+
 ## Branded Submit Buttons
 
-When `signupOptions` contains only a single authentication method, Controller automatically displays branded submit buttons with:
+When `signupOptions` contains only a single authentication method (either in constructor or dynamically via `connect()`), Controller automatically displays branded submit buttons with:
 
 - **Signer icon**: Visual representation of the authentication method (e.g., Phantom icon, Google icon)
 - **Brand background color**: Themed background matching the signer's brand colors
@@ -317,6 +453,20 @@ const controller = new Controller({
 });
 
 // Users will see "sign up with Phantom" button with Phantom icon and branding
+```
+
+### Dynamic Single Signer Configuration
+
+```typescript
+// Dynamic override also enables branded buttons
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Multiple default options
+});
+
+// This connection will show branded Phantom button
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Single option override
+});
 ```
 
 ### Multiple Signer Configuration
