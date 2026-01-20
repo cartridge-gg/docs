@@ -410,9 +410,34 @@ The standalone authentication flow includes several security measures:
 - **Localhost restrictions** - Localhost redirects are blocked in production environments
 - **Domain validation** - Redirect URLs must have valid hostnames
 
+## Dynamic Authentication Options
+
+### Dynamic `signupOptions` Override
+
+The `signupOptions` can be dynamically overridden on a per-connection basis, enabling developers to create multiple branded authentication flows using a single Controller instance:
+
+```typescript
+// Constructor configuration sets the default options
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Default options
+});
+
+// Override options per connection for branded flows
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Only Phantom for this specific connection
+});
+
+// Different branded flow for the same controller instance
+await controller.connect({
+  signupOptions: ["google"] // Only Google for this connection
+});
+```
+
+This pattern enables applications to create branded authentication experiences like "Login with Phantom" and "Login with Google" using the same Controller instance, perfect for supporting multiple wallet types or creating game-specific authentication flows.
+
 ## Branded Submit Buttons
 
-When `signupOptions` contains only a single authentication method, Controller automatically displays branded submit buttons with:
+When `signupOptions` contains only a single authentication method (either in constructor or dynamically via `connect()`), Controller automatically displays branded submit buttons with:
 
 - **Signer icon**: Visual representation of the authentication method (e.g., Phantom icon, Google icon)
 - **Brand background color**: Themed background matching the signer's brand colors
@@ -427,6 +452,20 @@ const controller = new Controller({
 });
 
 // Users will see "sign up with Phantom" button with Phantom icon and branding
+```
+
+### Dynamic Single Signer Configuration
+
+```typescript
+// Dynamic override also enables branded buttons
+const controller = new Controller({
+  signupOptions: ["webauthn", "google", "metamask"], // Multiple default options
+});
+
+// This connection will show branded Phantom button
+await controller.connect({
+  signupOptions: ["phantom-evm"] // Single option override
+});
 ```
 
 ### Multiple Signer Configuration
