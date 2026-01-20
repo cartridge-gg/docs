@@ -634,7 +634,8 @@ The following authentication methods support branded styling:
 
 - **webauthn**: Passkey icon with default styling
 - **google**: Google icon with white background
-- **discord**: Discord icon with Discord purple background  
+- **discord**: Discord icon with Discord purple background
+- **twitter**: Twitter/X icon with themed background
 - **metamask**: MetaMask icon with orange background
 - **phantom**: Phantom icon with purple background
 - **phantom-evm**: Phantom icon with purple background

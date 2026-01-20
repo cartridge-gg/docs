@@ -35,13 +35,13 @@ Controller supports four types of signers:
 
 ### 3. Social Login
 
-Controller offers native social login options through Google and Discord:
+Controller offers native social login options through Google, Discord, and Twitter/X:
 
 - **Streamlined onboarding** for users with existing social accounts  
 - **Secure integration** via Turnkey wallet infrastructure with Auth0
 - **Native implementation** using OAuth2 flows for improved security and UX
 
-Both Google and Discord login use an intelligent authentication flow that adapts to browser restrictions:
+All social login providers use an intelligent authentication flow that adapts to browser restrictions:
 
 1. **Primary Method**: Attempts to open OAuth in a popup window for seamless experience
 2. **Fallback Method**: Automatically redirects to OAuth provider when popups are blocked
@@ -119,7 +119,22 @@ Controller offers integration with popular external web3 wallets, including Braa
 4. The system creates a secure Turnkey wallet linked to your Discord account
 5. Your Discord login is now available as a Controller authentication method
 
-> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across both social providers.
+> **Technical Details**: Discord authentication uses the same Auth0 + Turnkey infrastructure as Google login, ensuring consistent security and user experience across all social providers.
+
+#### Adding Twitter/X Login
+
+1. Select **Twitter** from the signer options
+2. The system uses the same intelligent OAuth flow as other social providers:
+   - **Popup-first approach**: Attempts popup for seamless authentication
+   - **Redirect fallback**: Automatically falls back to full redirect when necessary
+   - **Browser compatibility**: Handles CSP restrictions and iframe limitations
+3. Complete the Twitter OAuth authorization:
+   - Sign in to your Twitter/X account if not already logged in
+   - Authorize Cartridge Controller to access your Twitter identity
+4. The system creates a secure Turnkey wallet linked to your Twitter account
+5. Your Twitter login is now available as a Controller authentication method
+
+> **Technical Details**: Twitter authentication uses the same Auth0 + Turnkey infrastructure as Google and Discord login, ensuring consistent security and user experience across all social providers.
 
 ### Adding External Wallets
 
@@ -151,7 +166,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
+- **Type**: Passkey, Password, Google, Discord, Twitter, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -306,7 +321,7 @@ For developers integrating Controller's social login, the implementation include
 // Controller automatically handles social login based on environment
 const controller = new Controller({
   // Supports various AuthOptions including social login and external wallets
-  signupOptions: ["webauthn", "google", "discord", "phantom-evm", "password"]
+  signupOptions: ["webauthn", "google", "discord", "twitter", "phantom-evm", "password"]
 });
 
 // Social providers are automatically available in connection flow
