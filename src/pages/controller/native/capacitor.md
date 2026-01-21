@@ -5,7 +5,7 @@ description: Wrap your web app for native iOS and Android distribution using Cap
 
 # Capacitor
 
-Capacitor allows you to wrap an existing web application for native iOS and Android distribution.
+[Capacitor](https://capacitorjs.com/) allows you to wrap an existing web application for native iOS and Android distribution.
 This approach uses the same web-based Controller integration with session-based authentication via deep links.
 
 ## When to Use Capacitor
