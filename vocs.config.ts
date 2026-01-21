@@ -105,7 +105,38 @@ export default defineConfig({
           },
           {
             text: "Native Integration",
-            link: "/controller/native-integration",
+            link: "/controller/native/overview",
+            collapsed: true,
+            items: [
+              {
+                text: "Overview",
+                link: "/controller/native/overview",
+              },
+              {
+                text: "React Native",
+                link: "/controller/native/react-native",
+              },
+              {
+                text: "Android",
+                link: "/controller/native/android",
+              },
+              {
+                text: "iOS",
+                link: "/controller/native/ios",
+              },
+              {
+                text: "Capacitor",
+                link: "/controller/native/capacitor",
+              },
+              {
+                text: "Session Flow",
+                link: "/controller/native/session-flow",
+              },
+              {
+                text: "Headless Controller",
+                link: "/controller/native/headless",
+              },
+            ],
           },
           {
             text: "Achievements",
