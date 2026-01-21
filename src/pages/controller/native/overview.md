@@ -28,7 +28,7 @@ These bindings enable direct integration with native programming environments.
 **Best for:** Performance-critical apps, games, apps that need offline transaction signing.
 
 :::info
-Controller's FFI definitions are generated using [rust-diplomat](https://github.com/rust-diplomat/diplomat).
+Controller's FFI bindings are generated using [UniFFI](https://github.com/mozilla/uniffi-rs).
 :::
 
 ### Web Wrappers (Capacitor)

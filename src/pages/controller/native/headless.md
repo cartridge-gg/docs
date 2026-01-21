@@ -19,49 +19,56 @@ Headless Controllers are useful for:
 
 ## Setup
 
-Here is an example of how to set up a headless Controller with Controller.c:
+Here is an example of how to set up a headless Controller with the UniFFI C++ bindings:
 
-```c
-#include "bindings/c/Controller.h"
-#include "bindings/c/DiplomatOwner.h"
+```cpp
+#include "controller.hpp"
+#include <memory>
+#include <string>
 
-// String parameters use DiplomatStringView: {data, length}
-DiplomatStringView private_key = {"0x1234...", 66};
-DiplomatStringView app_id = {"my_app", 6};
-DiplomatStringView username = {"player123", 9};
-DiplomatStringView class_hash = {"0x05f...", 66};
-DiplomatStringView rpc_url = {"https://api.cartridge.gg/x/starknet/sepolia", 43};
-DiplomatStringView chain_id = {"0x534e5f5345504f4c4941", 22};
+// IMPORTANT: never commit private keys in source code
+std::string private_key = "0x1234...";
+std::string app_id = "my_app";
+std::string username = "player123";
+std::string rpc_url = "https://api.cartridge.gg/x/starknet/sepolia";
+std::string chain_id = "0x534e5f5345504f4c4941";  // SEPOLIA
+
+// Get the latest Controller class hash
+std::string class_hash = controller::get_controller_class_hash(
+    controller::Version::kLatest
+);
 
 // Create owner from locally-generated private key
-// IMPORTANT: never commit private keys in source code
-DiplomatOwner_new_from_starknet_signer_result owner_result =
-    DiplomatOwner_new_from_starknet_signer(private_key);
-if (!owner_result.is_ok) {
-    // Handle error: owner_result.err contains ControllerError*
-    return;
-}
-DiplomatOwner *owner = owner_result.ok;
+std::shared_ptr<controller::Owner> owner = controller::Owner::init(private_key);
 
 // Create a new headless Controller
-Controller_new_headless_result controller_result = Controller_new_headless(
-    app_id, username, class_hash, rpc_url, owner, chain_id);
-if (!controller_result.is_ok) {
-    // Handle error: controller_result.err contains ControllerError*
-    return;
-}
-Controller *controller = controller_result.ok;
+std::shared_ptr<controller::Controller> ctrl = controller::Controller::new_headless(
+    app_id,
+    username,
+    class_hash,
+    rpc_url,
+    owner,
+    chain_id
+);
+
+// Access controller properties
+std::string address = ctrl->address();
+std::string user = ctrl->username();
 
 // Register a new Controller account onchain
-// Optional parameters use Option types (is_ok = false means None)
-OptionU64 session_expiration = {.is_ok = false};
-OptionStringView cartridge_api_url = {.is_ok = false};
+ctrl->signup(
+    controller::SignerType::kStarknet,
+    std::nullopt,  // session_expiration
+    std::nullopt   // cartridge_api_url
+);
 
-Controller_signup_result signup_result = Controller_signup(
-    controller, SignerType_Starknet, session_expiration, cartridge_api_url);
-if (!signup_result.is_ok) {
-    // Handle error
-}
+// Execute transactions
+controller::Call call{
+    "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+    "transfer",
+    {"0x1234...", "0x100", "0x0"}
+};
+std::string tx_hash = ctrl->execute({call});
 ```
 
 :::warning
