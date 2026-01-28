@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Arcade Setup
 description: Learn how to register, configure, and index your game with Arcade, including metadata management, edition publishing, and Torii integration.
 ---

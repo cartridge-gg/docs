@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Cartridge RPC endpoints for Starknet mainnet and Sepolia testnet with authentication and CORS configuration.
 title: Cartridge RPC
 ---

@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Explore Cartridge Controller, a gaming-focused smart contract wallet that makes Web3 gaming accessible and fun with features like session keys, identity management, and customization options.
 title: Controller Overview
 ---

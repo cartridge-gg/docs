@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Learn about booster pack claims - a reward system that allows eligible users to claim game credits, tokens, and special game passes through Merkle Drop technology.
 title: Booster Packs
 ---

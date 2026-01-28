@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Explore the configuration options available for Cartridge Controller, including chain settings, session management, and theme customization.
 title: Controller Configuration
 ---

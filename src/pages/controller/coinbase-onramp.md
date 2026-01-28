@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Learn how to integrate Coinbase onramp functionality for fiat-to-crypto purchases within your gaming application.
 title: Coinbase Onramp Integration
 ---
