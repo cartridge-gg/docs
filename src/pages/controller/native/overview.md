@@ -40,6 +40,13 @@ Authentication uses the same browser-based flow as web, with deep link redirects
 
 **Best for:** Existing web apps, faster time-to-market, teams stronger in web than native.
 
+## Passkey Authentication on Native
+
+To enable Passkey sign-in on native applications, you must configure your preset with Apple App Site Association (AASA).
+This allows the operating system to recognize your app as authorized for WebAuthn credentials associated with your domain.
+
+See the [Presets documentation](/controller/presets#apple-app-site-association) for configuration details.
+
 ## Additional Topics
 
 - [Session Flow](/controller/native/session-flow) - Understanding browser-based session authentication

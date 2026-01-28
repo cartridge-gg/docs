@@ -37,9 +37,13 @@ Controller supports four types of signers:
 
 Controller offers native social login options through Google, Discord, and Twitter/X:
 
-- **Streamlined onboarding** for users with existing social accounts  
+- **Streamlined onboarding** for users with existing social accounts
 - **Secure integration** via Turnkey wallet infrastructure with Auth0
 - **Native implementation** using OAuth2 flows for improved security and UX
+
+> **⚠️ Native App Limitation**: OAuth-based social login flows (Google, Discord, Twitter/X) may not work correctly in native applications that use webviews.
+> Many OAuth providers block or restrict authentication attempts from embedded webviews for security reasons.
+> For native integrations, consider using [Passkey authentication](/controller/passkey-support) or see the [Native Integration](/controller/native/overview) documentation for recommended approaches.
 
 All social login providers use an intelligent authentication flow that adapts to browser restrictions:
 
