@@ -65,17 +65,7 @@ export default defineConfig({
           },
           {
             text: "Authentication",
-            collapsed: true,
-            items: [
-              {
-                text: "Passkey Support",
-                link: "/controller/passkey-support",
-              },
-              {
-                text: "Signer Management",
-                link: "/controller/signer-management",
-              },
-            ],
+            link: "/controller/signer-management",
           },
           {
             text: "Sessions & Policies",
@@ -96,7 +86,7 @@ export default defineConfig({
             link: "/controller/configuration",
           },
           {
-            text: "Monetization",
+            text: "Monetization & Assets",
             collapsed: true,
             items: [
               {
@@ -111,6 +101,10 @@ export default defineConfig({
                 text: "Inventory",
                 link: "/controller/inventory",
               },
+              {
+                text: "Coinbase Onramp",
+                link: "/controller/coinbase-onramp",
+              },
             ],
           },
           {
@@ -124,42 +118,10 @@ export default defineConfig({
               {
                 text: "Achievements",
                 link: "/controller/achievements",
-                items: [
-                  {
-                    text: "Setup",
-                    link: "/controller/achievements/setup",
-                  },
-                  {
-                    text: "Creation",
-                    link: "/controller/achievements/creation",
-                  },
-                  {
-                    text: "Progression",
-                    link: "/controller/achievements/progression",
-                  },
-                  {
-                    text: "Integration",
-                    link: "/controller/achievements/integration",
-                  },
-                  {
-                    text: "Testing",
-                    link: "/controller/achievements/testing",
-                  },
-                ],
               },
               {
                 text: "Quests",
                 link: "/controller/quests",
-                items: [
-                  {
-                    text: "Setup",
-                    link: "/controller/quests/setup",
-                  },
-                  {
-                    text: "Integration",
-                    link: "/controller/quests/integration",
-                  },
-                ],
               },
               {
                 text: "Toast Notifications",
