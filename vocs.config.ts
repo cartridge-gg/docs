@@ -181,6 +181,10 @@ export default defineConfig({
             ],
           },
           {
+            text: "Architecture",
+            link: "/controller/architecture",
+          },
+          {
             text: "Integration Examples",
             collapsed: true,
             items: [
