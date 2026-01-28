@@ -49,18 +49,17 @@ async function main() {
 
   // Create a session provider
   const provider = new SessionProvider({
-    rpc: "https://api.cartridge.gg/x/starknet/mainnet",
-    chainId: constants.StarknetChainId.SN_MAIN,
+    rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+    chainId: constants.StarknetChainId.SN_SEPOLIA,
     policies: {
       contracts: {
         [STRK_CONTRACT_ADDRESS]: {
           methods: [
             {
-              name: "approve",
-              entrypoint: "approve",
-              description: "Approve spending of tokens",
+              name: "transfer",
+              entrypoint: "transfer",
+              description: "Transfer STRK",
             },
-            { name: "transfer", entrypoint: "transfer" },
           ],
         },
       },
@@ -68,40 +67,43 @@ async function main() {
     basePath: storagePath,
   });
 
+  console.log("Registering a session...");
+  console.log("Open the URL printed below to authorize the session.");
+
   try {
     // Connect and create session
     const account = await provider.connect();
-    console.log("Session initialized!");
-
-    if (account) {
-      console.log("Account address:", account.address);
-
-      // Example: Transfer STRK
-      const amount = "0x0";
-      const recipient = account.address; // Replace with actual recipient address
-
-      const result = await account.execute([
-        {
-          contractAddress: STRK_CONTRACT_ADDRESS,
-          entrypoint: "transfer",
-          calldata: [recipient, amount, "0x0"],
-        },
-      ]);
-
-      console.log("Transaction hash:", result.transaction_hash);
-    } else {
-      console.log("Please complete the session creation in your browser");
+    if (!account) {
+      console.log("Session not ready yet. Complete the browser flow and rerun.");
+      return;
     }
+
+    console.log("Session ready!");
+    console.log("Account address:", account.address);
+
+    // Example: Transfer STRK  
+    const recipient = account.address; // Self transfer for demo
+    const amount = "0x0"; // Keep it minimal for a demo
+
+    const result = await account.execute([
+      {
+        contractAddress: STRK_CONTRACT_ADDRESS,
+        entrypoint: "transfer",
+        calldata: [recipient, amount, "0x0"],
+      },
+    ]);
+
+    console.log("Transaction hash:", result.transaction_hash);
   } catch (error: unknown) {
     const controllerError = error as ControllerError;
-    if (controllerError.code) {
-      console.error("Session error:", {
+    if (controllerError?.code) {
+      console.error("Execute error:", {
         code: controllerError.code,
         message: controllerError.message,
         data: controllerError.data,
       });
     } else {
-      console.error("Session error:", error);
+      console.error("Execute error:", error);
     }
   }
 }
