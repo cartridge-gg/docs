@@ -5,7 +5,8 @@ title: Coinbase Onramp Integration
 
 # Coinbase Onramp Integration
 
-Cartridge Controller v0.12.0 introduces integrated Coinbase onramp functionality, enabling users to purchase cryptocurrency directly within the keychain interface using fiat payment methods. This streamlines the user experience by eliminating the need to exit your application to acquire crypto for gaming transactions.
+Cartridge Controller v0.12.0 introduces integrated Coinbase onramp functionality, enabling users to purchase cryptocurrency directly within the keychain interface using fiat payment methods.
+This streamlines the user experience by eliminating the need to exit your application to acquire crypto for gaming transactions.
 
 ## Overview
 
@@ -19,7 +20,8 @@ The Coinbase onramp integration provides:
 
 ## useCoinbase Hook
 
-The keychain provides a `useCoinbase` hook for managing Coinbase onramp operations. This hook is used internally by the purchase flows and provides comprehensive order management capabilities.
+The keychain provides a `useCoinbase` hook for managing Coinbase onramp operations.
+This hook is used internally by the purchase flows and provides comprehensive order management capabilities.
 
 ### Hook Features
 
@@ -102,7 +104,7 @@ Coinbase onramp integration is automatically included in Cartridge Controller v0
 
 ## Next Steps
 
-- Learn about [Starter Pack Integration](/controller/starter-packs.md) for complete purchase flows
-- Review [Configuration Options](/controller/configuration.md) for customization
-- Explore [Credit Purchases](/controller/starter-packs.md#credit-purchases) for account top-ups
-- See [Cross-Chain Payments](/controller/starter-packs.md#cross-chain-bridging-with-layerswap) for alternative payment methods
+- Learn about [Starter Pack Integration](/controller/starter-packs) for complete purchase flows
+- Review [Configuration Options](/controller/configuration) for customization
+- Explore [Credit Purchases](/controller/starter-packs#credit-purchases) for account top-ups
+- See [Cross-Chain Payments](/controller/starter-packs#cross-chain-bridging-with-layerswap) for alternative payment methods
