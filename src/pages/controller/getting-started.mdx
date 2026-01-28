@@ -146,6 +146,25 @@ When using presets, make sure your preset is configured in the [@cartridge/prese
 ## Connectors
 
 Connectors provide standardized integrations of Controller into various types of applications.
+The two main connectors serve fundamentally different deployment contexts.
+
+### Choosing a Connector
+
+| Aspect | ControllerConnector | SessionConnector |
+|--------|---------------------|------------------|
+| **Use when** | Building web apps | Building native/mobile apps |
+| **Authentication** | Browser cookies & localStorage | Local keypair + browser redirect |
+| **RPC configuration** | Via framework provider | Explicit in constructor |
+| **Framework integration** | `starknet-react`, wallet standards | Standalone |
+| **Redirect handling** | Not required | Required (`redirectUrl`) |
+
+**Decision guide:**
+- If your app runs in a browser and you're using `starknet-react` → **ControllerConnector**
+- If your app is native (iOS, Android, React Native, Capacitor) or a mini-app (Telegram) → **SessionConnector**
+
+The key difference is where the signing keys live.
+With `ControllerConnector`, keys are managed by Controller's backend via browser cookies.
+With `SessionConnector`, your app generates a local keypair and registers it with the user's Controller account through a browser redirect flow.
 
 ### Controller Connector (Web Applications)
 
@@ -257,16 +276,31 @@ Please [report any issues](https://github.com/cartridge-gg/controller/issues) yo
 
 ### Session Connector (Native Applications)
 
-The `SessionConnector` enables native applications to create local sessions linked to a user's existing Controller account.
+The `SessionConnector` enables native and mobile applications to create local sessions linked to a user's existing Controller account.
+Unlike `ControllerConnector`, it generates a local keypair that signs transactions on behalf of the user.
+
+**How it works:**
+1. Your app generates a local keypair
+2. User authenticates in a browser (opened via deep link)
+3. Browser redirects back to your app with session credentials
+4. Your app signs transactions locally using the private key
+
+**When to use SessionConnector:**
+- Mobile apps (React Native, Capacitor, native iOS/Android)
+- Telegram mini-apps or Discord bots
+- Any environment where browser cookies aren't available
 
 :::tip
 To learn more about native application workflows, read our [native integration guide](/controller/native/overview).
 :::
 
 :::info
-Under-the-hood, `SessionConnector` returns a `SessionProvider`, an alternative Controller implementation designed for native application.
-For web application use-cases, use the regular `Controller` instead.
+Under-the-hood, `SessionConnector` returns a `SessionProvider`, an alternative Controller implementation designed for native applications.
+For web application use-cases, use the regular `Controller` or `ControllerConnector` instead.
 :::
+
+Note that `SessionConnector` requires explicit `rpc` and `chainId` parameters because it operates outside a framework like `starknet-react` that would normally provide these.
+The `redirectUrl` is where the browser will redirect after authentication completes.
 
 ```tsx
 import { constants } from "starknet";
@@ -280,9 +314,9 @@ const policies: SessionPolicies = {
 
 const sessionConnector = new SessionConnector({
   policies,
-  rpc: "https://api.cartridge.gg/x/starknet/mainnet",
-  chainId: constants.StarknetChainId.SN_MAIN,
-  redirectUrl: typeof window !== "undefined" ? window.location.origin : "",
+  rpc: "https://api.cartridge.gg/x/starknet/mainnet",  // Required: no framework provider
+  chainId: constants.StarknetChainId.SN_MAIN,          // Required: no framework provider
+  redirectUrl: "myapp://auth-callback",                // Required: where to redirect after auth
   // Optional: specify keychain URL for custom deployments
   keychainUrl: "https://x.cartridge.gg",
 });
