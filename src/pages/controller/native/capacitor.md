@@ -56,12 +56,13 @@ Use `SessionConnector` instead of `ControllerConnector` for native apps.
 The key difference is the `redirectUrl` parameter, which uses a custom URL scheme.
 
 ```typescript
+import { constants } from "starknet";
 import { SessionConnector } from "@cartridge/connector";
 
 const controller = new SessionConnector({
   policies,
   rpc: "https://api.cartridge.gg/x/starknet/mainnet",
-  chainId: "SN_MAINNET",
+  chainId: constants.StarknetChainId.SN_MAIN,
   redirectUrl: "myapp://open",           // Custom URL scheme
   disconnectRedirectUrl: "myapp://open",
   signupOptions: ["google", "discord", "webauthn", "password"],

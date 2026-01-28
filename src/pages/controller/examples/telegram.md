@@ -61,7 +61,7 @@ import { RPC_URL, SESSION_POLICIES, REDIRECT_URI } from "./config";
 const connector = new SessionConnector({
   policies: SESSION_POLICIES,
   rpc: RPC_URL,
-  chainId: constants.StarknetChainId.SN_MAINNET,
+  chainId: constants.StarknetChainId.SN_MAIN,
   redirectUrl: REDIRECT_URI,
 });
 
