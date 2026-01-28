@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Learn how to add and manage multiple authentication methods (signers) for your Cartridge Controller account, including Passkeys, social login (Google, Discord), and external wallets.
 title: Signer Management
 ---

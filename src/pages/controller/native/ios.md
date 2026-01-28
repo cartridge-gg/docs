@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: iOS
 description: Integrate Cartridge Controller into iOS applications using Swift and UniFFI bindings.
 ---

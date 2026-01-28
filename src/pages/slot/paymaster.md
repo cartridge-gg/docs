@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Manage Slot paymasters to sponsor transaction fees for your applications.
 title: Paymaster Management
 ---

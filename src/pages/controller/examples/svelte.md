@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Controller Svelte Integration
 description: Learn how to integrate the Cartridge Controller into your Svelte application, including setup, configuration, and usage examples.
 ---

@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Session Flow
 description: Understanding the browser-based session linking flow for native Controller integration.
 ---

@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Scale your slot deployments by upgrading to paid instances.
 title: Scale your deployments
 ---

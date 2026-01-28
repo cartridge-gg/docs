@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Controller Presets
 description: Learn how to customize your Cartridge Controller.
 ---

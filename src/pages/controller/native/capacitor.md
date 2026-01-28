@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Capacitor
 description: Wrap your web app for native iOS and Android distribution using Capacitor and Controller's SessionConnector.
 ---

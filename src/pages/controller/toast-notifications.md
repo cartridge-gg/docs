@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Learn how to use the Controller Toast API to display contextual notifications including transactions, achievements, network switches, and marketplace activities.
 title: Toast Notifications
 ---

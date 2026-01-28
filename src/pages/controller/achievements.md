@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 title: Achievements
 description: Learn how to implement Cartridge's Achievement system that allows games to reward players for completing in-game objectives and track their progress.
 ---

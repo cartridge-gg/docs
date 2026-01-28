@@ -1,4 +1,5 @@
 ---
+showOutline: 2
 description: Discover how to use Cartridge Controller's username and address lookup service, including API access, helper methods, and the new autocomplete features.
 title: Username Lookup
 ---
