@@ -28,10 +28,11 @@ This hook is used internally by the purchase flows and provides comprehensive or
 
 The `useCoinbase` hook includes functionality for:
 
-- **Order Creation**: Initialize new fiat-to-crypto purchase orders
+- **Order Creation**: Initialize new fiat-to-crypto purchase orders with `createCoinbaseLayerswapOrder` mutation for enhanced order creation and processing
 - **Transaction Monitoring**: Query transaction status and completion
 - **Requirement Checks**: Verify user eligibility and regional compliance
 - **IP Detection**: Automatic client IP detection for regulatory compliance
+- **Order Management**: Enhanced order fetching by IDs for improved order tracking and management
 
 ### Integration Points
 
@@ -47,10 +48,12 @@ When users select Coinbase onramp as their payment method:
 
 1. **Selection**: User chooses Coinbase onramp from available payment options
 2. **Compliance Check**: Automatic verification of regional availability and user eligibility
-3. **Order Creation**: Coinbase order is created with specified amount and destination
-4. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
-5. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery
-6. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
+3. **Cost Breakdown**: Comprehensive cost breakdown display showing detailed fee structure including Coinbase fees and bridge fees with real-time pricing from Coinbase Onramp API
+4. **Apple Pay Integration**: Streamlined starterpack Apple Pay checkout functionality for mobile payments (iOS)
+5. **Order Creation**: Enhanced Coinbase order creation with `createCoinbaseLayerswapOrder` for improved processing
+6. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
+7. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery with order fetching by IDs
+8. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
 
 ## Regional Availability
 
@@ -67,10 +70,13 @@ The integration automatically detects user location via IP geolocation to determ
 Integrating Coinbase onramp provides several advantages:
 
 - **Reduced Friction**: Users can acquire crypto without leaving your application
+- **Enhanced UX**: Verification autofill functionality improves user experience during authentication flows
+- **Mobile Optimization**: Apple Pay checkout functionality provides streamlined mobile payment experience
 - **Higher Conversion**: Simplified path from fiat to game purchases
 - **Broader Audience**: Serves users who don't already own cryptocurrency
 - **Seamless Experience**: Integrated directly into existing purchase flows
 - **Compliance Handled**: Automatic regional restriction management
+- **Transparent Pricing**: Real-time cost breakdown with detailed fee structures
 
 ## Security and Compliance
 
@@ -100,7 +106,7 @@ When testing Coinbase onramp integration:
 - **Mobile Testing**: Verify mobile experience and payment flows
 
 :::note
-Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage.
+Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+.
 :::
 
 ## Next Steps

@@ -210,6 +210,31 @@ Capacitor provides plugins for common native features:
 
 Install and configure these as needed for your application.
 
-## Example Project
+## Session Management Example
 
-For a complete production example, see the [Jokers of Neon](https://github.com/caravana-studio/jokers-of-neon-app) repository.
+A complete Capacitor session example with iOS app integration is available in the repository. This example demonstrates:
+
+- **Mobile Session Management**: Comprehensive cross-platform session handling
+- **Deep Link Integration**: Proper URL scheme handling for iOS and Android
+- **Browser Interception**: Native browser management for authentication flows
+- **Session Persistence**: Local storage management and session restoration
+
+To run the example:
+
+```bash
+# From repo root
+pnpm install
+pnpm -C examples/capacitor dev
+
+# For native iOS testing
+pnpm -C examples/capacitor exec -- cap add ios
+pnpm -C examples/capacitor exec -- cap sync
+pnpm -C examples/capacitor exec -- cap run ios -l --external
+```
+
+The example includes complete setup for both iOS and Android platforms with proper deep link configuration.
+
+## Example Projects
+
+- **Complete Reference**: See the [Capacitor session example](https://github.com/cartridge-gg/controller/tree/main/examples/capacitor) in the repository
+- **Production Example**: [Jokers of Neon](https://github.com/caravana-studio/jokers-of-neon-app) repository
