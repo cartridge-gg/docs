@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 description: Explore Cartridge's Verifiable Random Number Generator (vRNG), a system designed to provide cheap, atomic, and verifiable randomness for fully onchain games.
 title: vRNG Overview
 ---

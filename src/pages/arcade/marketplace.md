@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Marketplace Setup
 description: Learn how to set up your game's Marketplace
 ---

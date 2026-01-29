@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Quests
 description: Learn how to implement Cartridge's Quest system that allows games to create time-based challenges with rewards and progress tracking for players.
 ---

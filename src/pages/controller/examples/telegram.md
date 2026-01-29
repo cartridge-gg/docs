@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Controller Telegram Integration
 description: Learn how to integrate the Cartridge Controller into your Telegram Mini App, including setup, configuration, and usage examples.
 ---

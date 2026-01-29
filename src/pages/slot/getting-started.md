@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 description: Get started with Slot, the execution layer of Dojo that provides low latency, dedicated, provable execution contexts for blockchain applications.
 title: Slot Getting Started
 ---

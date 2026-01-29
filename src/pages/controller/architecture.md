@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Architecture
 description: Technical overview of the Controller smart contract architecture, security model, and on-chain mechanisms.
 ---

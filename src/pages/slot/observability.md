@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 description: Monitor your Slot deployments with integrated Prometheus metrics and Grafana dashboards.
 title: Slot Observability
 ---
