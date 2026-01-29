@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Controller React Integration
 description: Learn how to integrate the Cartridge Controller into your React application, including setup, configuration, and usage examples.
 ---

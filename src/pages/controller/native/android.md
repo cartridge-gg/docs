@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Android
 description: Integrate Cartridge Controller into Android applications using Kotlin and UniFFI bindings.
 ---

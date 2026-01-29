@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 title: Native Integration
 description: Integrate Cartridge Controller into native and mobile applications.
 ---

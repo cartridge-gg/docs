@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 description: Learn how to integrate starter packs in your game - pre-configured bundles of game assets and credits that players can purchase or claim with streamlined payment flows across multiple blockchains.
 title: Starter Packs
 ---

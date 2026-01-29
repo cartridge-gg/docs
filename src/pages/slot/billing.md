@@ -1,5 +1,5 @@
 ---
-showOutline: 2
+showOutline: 1
 description: Learn how to manage billing for Slot services through team-based credit management.
 title: Billing
 ---
