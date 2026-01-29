@@ -110,7 +110,62 @@ Subsequent transactions can then bypass authorization signature verification.
 
 Sessions can use `'wildcard-policy'` as the `allowed_policies_root` to allow any method call, bypassing policy checks.
 
-## Outside Execution (SNIP-9)
+## Transaction Execution Flow
+
+When you call `account.execute()` in your application, the Controller SDK determines the best execution path based on your session configuration and fee source settings.
+
+### Execution Paths
+
+The SDK supports two primary execution methods:
+
+| Method | Description | Use Case |
+|--------|-------------|----------|
+| **Regular Execute** | Standard Starknet transaction signed by the account | User pays gas fees |
+| **Execute From Outside** | Meta-transaction via SNIP-9 | Paymaster-sponsored (gasless) transactions |
+
+### How Paymastered Transactions Work
+
+When using the Cartridge Paymaster (the default for session-based transactions), your `account.execute()` call is automatically converted into a meta-transaction:
+
+```
+account.execute(calls)
+    └── trySessionExecute(calls, feeSource)
+            └── executeFromOutsideV3(calls, feeSource)
+                    └── cartridge_addExecuteOutsideTransaction (RPC)
+                            └── Paymaster submits transaction on-chain
+```
+
+The SDK:
+1. Validates the session is active and policies match
+2. Constructs an `OutsideExecution` message with a 10-minute validity window
+3. Signs the message with the session key
+4. Sends the signed payload to Cartridge's paymaster service
+5. The paymaster submits the transaction on-chain and pays gas fees
+
+If the paymaster is unavailable (e.g., on local Katana), the SDK falls back to regular execution where the user pays fees.
+
+### Developer Experience
+
+Game developers don't need to call `executeFromOutside` directly.
+The abstraction is handled entirely by the SDK:
+
+```typescript
+// This is all you need - the SDK handles the rest
+const result = await account.execute([
+  {
+    contractAddress: GAME_CONTRACT,
+    entrypoint: "play_card",
+    calldata: [cardId],
+  },
+]);
+```
+
+The SDK automatically:
+- Uses `executeFromOutside` when paymaster is configured
+- Falls back to regular execute when paymaster isn't available
+- Opens the approval modal if the session is expired or policies don't match
+
+### Outside Execution (SNIP-9)
 
 The Controller implements [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) for meta-transactions via `execute_from_outside_v3`.
 
@@ -128,6 +183,8 @@ The `OutsideExecution` struct specifies:
 - `nonce`: Channel-based nonce for replay protection
 - `execute_after` / `execute_before`: Time window for validity
 - `calls`: The calls to execute
+
+For more details on outside execution, see the [Starknet.js documentation](https://starknetjs.com/docs/guides/account/outsideExecution/).
 
 ## Recovery (Threshold-Based)
 
