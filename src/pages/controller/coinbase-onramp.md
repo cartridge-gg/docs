@@ -29,7 +29,10 @@ This hook is used internally by the purchase flows and provides comprehensive or
 The `useCoinbase` hook includes functionality for:
 
 - **Order Creation**: Initialize new fiat-to-crypto purchase orders
+- **Real-time Quote Fetching**: Get up-to-date pricing and fee breakdowns via `getQuote`
+- **Cost Transparency**: Detailed fee breakdown showing Coinbase fees and cross-chain bridging costs
 - **Transaction Monitoring**: Query transaction status and completion
+- **Sandbox Mode**: Automatic toggling between production and sandbox environments based on network
 - **Requirement Checks**: Verify user eligibility and regional compliance
 - **IP Detection**: Automatic client IP detection for regulatory compliance
 
@@ -41,16 +44,37 @@ The Coinbase onramp is integrated into the existing purchase flows:
 2. **Credit Purchases**: Integrated into the credit purchase interface
 3. **Automatic Flow Management**: Seamlessly handles the transition from fiat payment to crypto receipt
 
+## Enhanced Cost Transparency
+
+Starting with the latest updates, Coinbase onramp provides detailed cost breakdowns for enhanced transparency:
+
+- **Real-time Quote Fetching**: Automatic retrieval of current pricing and fees when Apple Pay is selected
+- **Detailed Fee Breakdown**: Separate display of Coinbase service fees and cross-chain bridging costs
+- **Dynamic Updates**: Quotes automatically refresh when purchase quantity changes
+- **Total Cost Display**: Clear presentation of the final amount to be charged
+
+### Fee Structure Visibility
+
+The enhanced cost breakdown shows:
+
+- **Base Price**: The core cost of the items being purchased
+- **Protocol Fee**: Platform service fees
+- **Coinbase Fee**: Service fees charged by Coinbase for fiat-to-crypto conversion
+- **Bridge Fee**: Layerswap fees for cross-chain bridging to StarkNet
+- **Final Total**: The complete amount charged to the user's payment method
+
 ## User Experience Flow
 
 When users select Coinbase onramp as their payment method:
 
 1. **Selection**: User chooses Coinbase onramp from available payment options
-2. **Compliance Check**: Automatic verification of regional availability and user eligibility
-3. **Order Creation**: Coinbase order is created with specified amount and destination
-4. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
-5. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery
-6. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
+2. **Quote Fetching**: Real-time pricing and fee breakdown is automatically retrieved
+3. **Cost Display**: Detailed breakdown shows all fees and the total amount to be charged
+4. **Compliance Check**: Automatic verification of regional availability and user eligibility
+5. **Order Creation**: Coinbase order is created with specified amount and destination
+6. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
+7. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery
+8. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
 
 ## Regional Availability
 
@@ -68,9 +92,11 @@ Integrating Coinbase onramp provides several advantages:
 
 - **Reduced Friction**: Users can acquire crypto without leaving your application
 - **Higher Conversion**: Simplified path from fiat to game purchases
+- **Enhanced Transparency**: Real-time fee breakdowns build user trust and reduce abandonment
 - **Broader Audience**: Serves users who don't already own cryptocurrency
 - **Seamless Experience**: Integrated directly into existing purchase flows
 - **Compliance Handled**: Automatic regional restriction management
+- **Cost Clarity**: Users know exactly what they'll pay before committing to purchase
 
 ## Security and Compliance
 
@@ -94,10 +120,12 @@ The integration includes comprehensive error handling for:
 
 When testing Coinbase onramp integration:
 
-- **Sandbox Environment**: Use Coinbase's sandbox environment for development testing
+- **Sandbox Environment**: Use Coinbase's sandbox environment for development testing (automatically enabled on testnets)
+- **Quote Testing**: Verify quote fetching functionality and fee breakdown display
 - **Regional Testing**: Test from different IP locations to verify regional behavior
 - **Error Scenarios**: Test error conditions and fallback flows
 - **Mobile Testing**: Verify mobile experience and payment flows
+- **Cost Breakdown UI**: Test fee transparency components with various purchase amounts
 
 :::note
 Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage.
