@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 description: Learn how to add and manage multiple authentication methods (signers) for your Cartridge Controller account, including Passkeys, social login (Google, Discord), and external wallets.
 title: Signer Management
 ---
@@ -23,7 +24,28 @@ Controller supports four types of signers:
 - **Biometric authentication** using Face ID, Touch ID, or hardware security keys
 - **Platform-native** security with device-based credential storage
 - **Cross-platform** compatibility with password managers like Bitwarden, 1Password
-- See [Passkey Support](/controller/passkey-support.md) for detailed setup information
+
+#### Passkey Platform Support
+
+Passkeys are [generally well supported](https://www.passkeys.io/compatible-devices) across modern platforms.
+You can use them with:
+- Device authenticators directly
+- Mobile device pairing via QR code flow
+
+If your device does not natively support them, several password managers support Passkey creation and management:
+- [Bitwarden (free)](https://bitwarden.com/help/storing-passkeys/)
+- [1Password](https://1password.com/)
+- [Dashlane](https://www.dashlane.com/)
+
+When using a password manager, be sure to install the browser extension as well.
+
+#### Passkey Backup
+
+Passkey backup is handled differently depending on your platform or password manager:
+
+- **Apple Devices**: Passkeys are backed up with your keychain in iCloud. [Learn more](https://support.apple.com/en-us/102195)
+- **Android Devices**: Passkeys are backed up with your Google account. [Learn more](https://support.google.com/chrome/answer/13168025)
+- **Windows Devices**: Passkeys can be created and managed as part of your Windows account. [Learn more](https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys)
 
 ### 2. Password Authentication
 
@@ -37,9 +59,13 @@ Controller supports four types of signers:
 
 Controller offers native social login options through Google, Discord, and Twitter/X:
 
-- **Streamlined onboarding** for users with existing social accounts  
+- **Streamlined onboarding** for users with existing social accounts
 - **Secure integration** via Turnkey wallet infrastructure with Auth0
 - **Native implementation** using OAuth2 flows for improved security and UX
+
+> **⚠️ Native App Limitation**: OAuth-based social login flows (Google, Discord, Twitter/X) may not work correctly in native applications that use webviews.
+> Many OAuth providers block or restrict authentication attempts from embedded webviews for security reasons.
+> For native integrations, consider using Passkey authentication or see the [Native Integration](/controller/native/overview) documentation for recommended approaches.
 
 All social login providers use an intelligent authentication flow that adapts to browser restrictions:
 
@@ -306,7 +332,7 @@ You can now remove signers from your account for security or convenience:
 ### Getting Help
 
 If you encounter issues with signer management:
-- Check the [Passkey Support](/controller/passkey-support.md) guide for WebAuthn-specific help
+- Review the Passkey section above for WebAuthn-specific help
 - Verify your wallet setup in the respective wallet's documentation
 - Ensure you're using a supported browser and have the latest wallet extensions installed
 

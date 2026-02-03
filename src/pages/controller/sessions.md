@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Sessions and Policies
 description: Learn about Cartridge Controller's session-based authentication and policy-based transaction approvals system.
 ---

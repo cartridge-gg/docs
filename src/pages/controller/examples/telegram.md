@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Controller Telegram Integration
 description: Learn how to integrate the Cartridge Controller into your Telegram Mini App, including setup, configuration, and usage examples.
 ---
@@ -61,7 +62,7 @@ import { RPC_URL, SESSION_POLICIES, REDIRECT_URI } from "./config";
 const connector = new SessionConnector({
   policies: SESSION_POLICIES,
   rpc: RPC_URL,
-  chainId: constants.StarknetChainId.SN_MAINNET,
+  chainId: constants.StarknetChainId.SN_MAIN,
   redirectUrl: REDIRECT_URI,
 });
 

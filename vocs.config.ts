@@ -64,44 +64,84 @@ export default defineConfig({
             link: "/controller/getting-started",
           },
           {
+            text: "Authentication",
+            link: "/controller/signer-management",
+          },
+          {
+            text: "Sessions & Policies",
+            collapsed: true,
+            items: [
+              {
+                text: "Sessions",
+                link: "/controller/sessions",
+              },
+              {
+                text: "Presets",
+                link: "/controller/presets",
+              },
+            ],
+          },
+          {
             text: "Configuration",
             link: "/controller/configuration",
           },
           {
-            text: "Passkey Support",
-            link: "/controller/passkey-support",
+            text: "Monetization & Assets",
+            collapsed: true,
+            items: [
+              {
+                text: "Starter Packs",
+                link: "/controller/starter-packs",
+              },
+              {
+                text: "Booster Packs",
+                link: "/controller/booster-packs",
+              },
+              {
+                text: "Inventory",
+                link: "/controller/inventory",
+              },
+              {
+                text: "Coinbase Onramp",
+                link: "/controller/coinbase-onramp",
+              },
+            ],
           },
           {
-            text: "Sessions",
-            link: "/controller/sessions",
+            text: "Additional Features",
+            collapsed: true,
+            items: [
+              {
+                text: "Usernames",
+                link: "/controller/usernames",
+              },
+              {
+                text: "Achievements",
+                link: "/controller/achievements",
+              },
+              {
+                text: "Quests",
+                link: "/controller/quests",
+              },
+              {
+                text: "Toast Notifications",
+                link: "/controller/toast-notifications",
+              },
+            ],
           },
           {
-            text: "Presets",
-            link: "/controller/presets",
-          },
-          {
-            text: "Signer Management",
-            link: "/controller/signer-management",
-          },
-          {
-            text: "Toast Notifications",
-            link: "/controller/toast-notifications",
-          },
-          {
-            text: "Starter Packs",
-            link: "/controller/starter-packs",
-          },
-          {
-            text: "Booster Packs",
-            link: "/controller/booster-packs",
-          },
-          {
-            text: "Usernames",
-            link: "/controller/usernames",
-          },
-          {
-            text: "Inventory",
-            link: "/controller/inventory",
+            text: "Web Integration",
+            collapsed: true,
+            items: [
+              {
+                text: "React",
+                link: "/controller/examples/react",
+              },
+              {
+                text: "Svelte",
+                link: "/controller/examples/svelte",
+              },
+            ],
           },
           {
             text: "Native Integration",
@@ -139,59 +179,9 @@ export default defineConfig({
             ],
           },
           {
-            text: "Achievements",
-            link: "/controller/achievements",
+            text: "Other Integrations",
             collapsed: true,
             items: [
-              {
-                text: "Setup",
-                link: "/controller/achievements/setup",
-              },
-              {
-                text: "Creation",
-                link: "/controller/achievements/creation",
-              },
-              {
-                text: "Progression",
-                link: "/controller/achievements/progression",
-              },
-              {
-                text: "Integration",
-                link: "/controller/achievements/integration",
-              },
-              {
-                text: "Testing",
-                link: "/controller/achievements/testing",
-              },
-            ],
-          },
-          {
-            text: "Quests",
-            link: "/controller/quests",
-            collapsed: true,
-            items: [
-              {
-                text: "Setup",
-                link: "/controller/quests/setup",
-              },
-              {
-                text: "Integration",
-                link: "/controller/quests/integration",
-              },
-            ],
-          },
-          {
-            text: "Integration Examples",
-            collapsed: true,
-            items: [
-              {
-                text: "React",
-                link: "/controller/examples/react",
-              },
-              {
-                text: "Svelte",
-                link: "/controller/examples/svelte",
-              },
               {
                 text: "Node",
                 link: "/controller/examples/node",
@@ -205,6 +195,10 @@ export default defineConfig({
                 link: "/controller/examples/telegram",
               },
             ],
+          },
+          {
+            text: "Architecture",
+            link: "/controller/architecture",
           },
         ],
       },

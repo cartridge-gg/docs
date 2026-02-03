@@ -1,9 +1,112 @@
 ---
-title: Quest Integration
-description: Learn how to integrate the Cartridge Quest system into your game, including creating quests, tracking progress, and managing rewards.
+showOutline: 1
+title: Quests
+description: Learn how to implement Cartridge's Quest system that allows games to create time-based challenges with rewards and progress tracking for players.
 ---
 
-# Integration
+# Quests
+
+The Cartridge Quest system enables games to create time-based challenges and objectives for players with built-in progress tracking, rewards, and completion mechanics.
+
+## Key Features
+
+- **Time-based Quests**: Define quest intervals, durations, and deadlines
+- **Task Management**: Break down quests into multiple trackable tasks
+- **Progress Tracking**: Real-time advancement monitoring for each task
+- **Reward System**: Configurable rewards for quest completion
+- **Conditional Quests**: Prerequisites and dependencies between quests
+- **Real-time Updates**: Live quest status via Torii subscriptions
+
+## Benefits for Game Developers
+
+- **Player Engagement**: Keep players active with time-sensitive objectives
+- **Progression Systems**: Create structured advancement paths
+- **Community Events**: Coordinate time-based community challenges
+- **Retention**: Recurring quest intervals for ongoing engagement
+- **Analytics**: Track player participation and completion rates
+
+## How It Works
+
+Each quest consists of:
+- **Quest Definition**: Core quest parameters (timing, tasks, conditions)
+- **Quest Metadata**: Display information (name, description, icon, rewards)
+- **Tasks**: Individual objectives that must be completed
+- **Advancement**: Player progress tracking for each task
+- **Completion**: Final quest completion state and reward claiming
+
+## Setup
+
+### Dependencies
+
+Add the Cartridge `quest` package as a dependency in your Scarb.toml:
+
+```rust
+[dependencies]
+starknet = "2.8.4"
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.5.1" }
+quest = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.5.1" } // [!code focus]
+
+[[target.starknet-contract]]
+build-external-contracts = [
+    "dojo::world::world_contract::world",
+    "quest::events::index::e_QuestCreation", // [!code focus]
+    "quest::events::index::e_QuestProgression", // [!code focus]
+    "quest::events::index::e_QuestAdvancement", // [!code focus]
+    "quest::events::index::e_QuestCompletion", // [!code focus]
+]
+```
+
+:::info
+Don't forget to add the corresponding writes while deploying your contract if not globally declared:
+
+```toml
+[writers]
+"<namespace>-QuestCreation" = ["<namespace>-Actions"]
+"<namespace>-QuestProgression" = ["<namespace>-Actions"]
+"<namespace>-QuestAdvancement" = ["<namespace>-Actions"]
+"<namespace>-QuestCompletion" = ["<namespace>-Actions"]
+"<namespace>-QuestDefinition" = ["<namespace>-Actions"]
+```
+:::
+
+### Torii Configuration
+
+Quest events require historical tracking by Torii for proper progress monitoring:
+
+```toml
+rpc = <YOUR-RPC-URL>
+world_address = <YOUR-WORLD-ADDRESS>
+
+[indexing]
+...
+
+[sql] // [!code focus]
+historical = [ // [!code focus]
+    "<YOUR-NAMESPACE>-QuestProgression", // [!code focus]
+    "<YOUR-NAMESPACE>-QuestAdvancement", // [!code focus]
+] // [!code focus]
+```
+
+:::info
+Quest Definition and Creation events are typically not historical since they should only be emitted once per quest.
+Quest Completion events may be historical depending on whether you need to track multiple completions per quest interval.
+:::
+
+### Controller Configuration
+
+Configure the Controller to enable quest functionality:
+
+```typescript
+import { ControllerConnector } from "@cartridge/connector";
+
+const connector = new ControllerConnector({
+  // Your existing configuration
+  namespace: "your-game-namespace", // Required for quest data
+  // ... other options
+});
+```
+
+The `namespace` parameter is required for the quest system to fetch quest data from the Torii indexer.
 
 ## Creating Quests
 
@@ -39,11 +142,9 @@ emit!(world, QuestCreation {
 });
 ```
 
-## Quest Timing
+### Quest Timing Patterns
 
-Quests support flexible timing patterns:
-
-### One-time Quests
+**One-time Quests:**
 ```rust
 QuestDefinition {
     start: quest_start_time,
@@ -54,7 +155,7 @@ QuestDefinition {
 }
 ```
 
-### Recurring Quests
+**Recurring Quests:**
 ```rust
 QuestDefinition {
     start: first_occurrence,
@@ -65,7 +166,7 @@ QuestDefinition {
 }
 ```
 
-### Limited-time Events
+**Limited-time Events:**
 ```rust
 QuestDefinition {
     start: event_start,
@@ -76,7 +177,7 @@ QuestDefinition {
 }
 ```
 
-## Progress Tracking
+## Tracking Progress
 
 Track player progress by emitting advancement events:
 
@@ -145,9 +246,24 @@ Define quest display information:
 }
 ```
 
+## Quest Dependencies
+
+Create quest dependencies using conditions:
+
+```rust
+// Quest that requires completing other quests
+QuestDefinition {
+    id: 'master_quest',
+    conditions: array!['basic_quest', 'intermediate_quest'],
+    // ... other fields
+}
+```
+
+Conditional quests will remain locked until all prerequisite quests are completed.
+
 ## Frontend Integration
 
-The Controller automatically provides quest UI when configured:
+The Controller automatically provides quest UI when configured.
 
 ### Using the Hook
 
@@ -180,8 +296,6 @@ function QuestComponent() {
 
 ### Quest Properties
 
-Each quest object contains:
-
 ```typescript
 type QuestProps = {
   id: string;
@@ -201,21 +315,6 @@ type QuestProps = {
   }[];
 };
 ```
-
-## Quest Conditions
-
-Create quest dependencies:
-
-```rust
-// Quest that requires completing other quests
-QuestDefinition {
-    id: 'master_quest',
-    conditions: array!['basic_quest', 'intermediate_quest'],
-    // ... other fields
-}
-```
-
-Conditional quests will remain locked until all prerequisite quests are completed.
 
 ## Best Practices
 
@@ -237,6 +336,6 @@ Conditional quests will remain locked until all prerequisite quests are complete
 - Cache quest metadata to reduce on-chain reads
 - Implement proper error handling for failed events
 
-## Example Implementation
+## Examples
 
 For a complete working example, see the [GitHub repository](https://github.com/cartridge-gg/arcade) quest implementation.

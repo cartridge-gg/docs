@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Controller Node.js Integration
 description: Learn how to integrate the Cartridge Controller into your Node.js application, including setup, configuration, and usage examples.
 ---

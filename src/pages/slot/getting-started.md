@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 description: Get started with Slot, the execution layer of Dojo that provides low latency, dedicated, provable execution contexts for blockchain applications.
 title: Slot Getting Started
 ---
@@ -38,7 +39,34 @@ You can set this environment variable in CI, scripts, or deployment platforms to
 
 ```sh
 slot deployments create <Project Name> katana
-slot deployments create <Project Name> torii --world 0x3fa481f41522b90b3684ecfab7650c259a76387fab9c380b7a959e3d4ac69f
+slot deployments create <Project Name> torii --config <path/to/torii.toml>
+```
+
+Torii requires a TOML configuration file.
+A minimal config specifies the RPC endpoint and world address:
+
+```toml
+# torii.toml
+rpc = "https://api.cartridge.gg/x/starknet/mainnet"
+world_address = "0x3fa481f41522b90b3684ecfab7650c259a76387fab9c380b7a959e3d4ac69f"
+```
+
+The config file also supports additional indexing and event options:
+
+```toml
+[indexing]
+allowed_origins = ["*"]
+index_pending = true
+index_transactions = false
+polling_interval = 1000
+contracts = [
+  "erc20:<contract-address>",
+  "erc721:<contract-address>"
+]
+
+[events]
+raw = true
+historical = ["namespace-EventName"]
 ```
 
 :::info
@@ -48,7 +76,9 @@ When you create a service with a project name that didn't exist before, a new te
 ### Update a service
 
 ```sh
-slot deployments update <Project Name> torii --version v0.3.5
+slot deployments update <Project Name> torii --version v1.0.0
+slot deployments update <Project Name> torii --config <path/to/torii.toml>
+slot deployments update <Project Name> torii --replicas 3
 ```
 
 ### Delete a service

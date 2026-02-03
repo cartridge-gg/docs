@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 description: Explore the configuration options available for Cartridge Controller, including chain settings, session management, and theme customization.
 title: Controller Configuration
 ---
@@ -274,7 +275,7 @@ const controller = new Controller({
 ```
 
 **Behavior:**
-- Shows errors as [toast notifications](/controller/notifications.md)
+- Shows errors as [toast notifications](/controller/toast-notifications)
 - Non-blocking - users can continue interacting with the application
 - Auto-dismisses after a few seconds
 - Clickable for more details
@@ -353,7 +354,7 @@ try {
 
 ### Integration with Toast Notifications
 
-When using `errorDisplayMode: "notification"`, errors are displayed using Controller's built-in [toast notification system](/controller/notifications.md). This provides:
+When using `errorDisplayMode: "notification"`, errors are displayed using Controller's built-in [toast notification system](/controller/toast-notifications). This provides:
 
 - Consistent styling with your controller preset
 - Cross-iframe compatibility

@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Native Integration
 description: Integrate Cartridge Controller into native and mobile applications.
 ---
@@ -39,6 +40,13 @@ Use this approach when you have an existing web application and want to distribu
 Authentication uses the same browser-based flow as web, with deep link redirects back to your app.
 
 **Best for:** Existing web apps, faster time-to-market, teams stronger in web than native.
+
+## Passkey Authentication on Native
+
+To enable Passkey sign-in on native applications, you must configure your preset with Apple App Site Association (AASA).
+This allows the operating system to recognize your app as authorized for WebAuthn credentials associated with your domain.
+
+See the [Presets documentation](/controller/presets#apple-app-site-association) for configuration details.
 
 ## Additional Topics
 

@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Headless Controller
 description: Using user-supplied signing keys with Controller for server-side and automated applications.
 ---

@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Arcade Overview
 description: Discover Arcade, the ultimate hub for onchain games. Register, manage, and publish your games with ease — no permission required.
 ---

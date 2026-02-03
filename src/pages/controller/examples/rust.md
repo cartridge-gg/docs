@@ -1,4 +1,5 @@
 ---
+showOutline: 1
 title: Controller Rust Integration
 description: Learn how to integrate the Cartridge Controller into your Rust application, including setup, configuration, and usage examples.
 ---
