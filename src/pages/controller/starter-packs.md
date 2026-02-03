@@ -38,16 +38,21 @@ controller.openStarterPack(42);
 
 ## API Reference
 
-### openStarterPack(starterpackId: string | number)
+### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
 Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and claimed starterpacks (that can be claimed based on eligibility).
 
 ```typescript
-controller.openStarterPack(starterpackId: string | number);
+controller.openStarterPack(starterpackId: string | number, options?: StarterpackOptions);
 ```
 
 **Parameters:**
 - `starterpackId` (string | number): The starterpack ID. String IDs are used for claimed packs, numeric IDs for onchain packs
+- `options` (StarterpackOptions, optional): Configuration options for the starterpack
+
+**StarterpackOptions:**
+- `preimage` (string, optional): The preimage to use for claimed starterpacks
+- `onPurchaseComplete` (function, optional): Callback fired after the Play button closes the starterpack modal
 
 **Returns:** `void`
 
@@ -59,9 +64,21 @@ const handleBuyStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
 
-// Open a free claimable starterpack
+// Open a starterpack with play callback
+const handleBuyWithCallback = () => {
+  controller.openStarterPack("beginner-pack-2024", {
+    onPurchaseComplete: () => {
+      console.log("Starterpack purchase completed!");
+      // Redirect to game or refresh inventory
+    }
+  });
+};
+
+// Open a free claimable starterpack with preimage
 const handleClaimStarterpack = () => {
-  controller.openStarterPack("free-welcome-pack-2024");
+  controller.openStarterPack("free-welcome-pack-2024", {
+    preimage: "claim-preimage-data"
+  });
 };
 
 // Open an onchain starterpack using numeric ID
