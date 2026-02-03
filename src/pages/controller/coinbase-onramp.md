@@ -28,8 +28,11 @@ This hook is used internally by the purchase flows and provides comprehensive or
 
 The `useCoinbase` hook includes functionality for:
 
-- **Order Creation**: Initialize new fiat-to-crypto purchase orders with `createCoinbaseLayerswapOrder` mutation for enhanced order creation and processing
+- **Order Creation**: Initialize new fiat-to-crypto purchase orders
+- **Real-time Quote Fetching**: Get up-to-date pricing and fee breakdowns via `getQuote`
+- **Cost Transparency**: Detailed fee breakdown showing Coinbase fees and cross-chain bridging costs
 - **Transaction Monitoring**: Query transaction status and completion
+- **Sandbox Mode**: Automatic toggling between production and sandbox environments based on network
 - **Requirement Checks**: Verify user eligibility and regional compliance
 - **IP Detection**: Automatic client IP detection for regulatory compliance
 - **Order Management**: Enhanced order fetching by IDs for improved order tracking and management
@@ -41,6 +44,25 @@ The Coinbase onramp is integrated into the existing purchase flows:
 1. **Starter Pack Purchases**: Available as a payment option in the wallet selection drawer
 2. **Credit Purchases**: Integrated into the credit purchase interface
 3. **Automatic Flow Management**: Seamlessly handles the transition from fiat payment to crypto receipt
+
+## Enhanced Cost Transparency
+
+Starting with the latest updates, Coinbase onramp provides detailed cost breakdowns for enhanced transparency:
+
+- **Real-time Quote Fetching**: Automatic retrieval of current pricing and fees when Apple Pay is selected
+- **Detailed Fee Breakdown**: Separate display of Coinbase service fees and cross-chain bridging costs
+- **Dynamic Updates**: Quotes automatically refresh when purchase quantity changes
+- **Total Cost Display**: Clear presentation of the final amount to be charged
+
+### Fee Structure Visibility
+
+The enhanced cost breakdown shows:
+
+- **Base Price**: The core cost of the items being purchased
+- **Protocol Fee**: Platform service fees
+- **Coinbase Fee**: Service fees charged by Coinbase for fiat-to-crypto conversion
+- **Bridge Fee**: Layerswap fees for cross-chain bridging to StarkNet
+- **Final Total**: The complete amount charged to the user's payment method
 
 ## User Experience Flow
 
@@ -73,6 +95,7 @@ Integrating Coinbase onramp provides several advantages:
 - **Enhanced UX**: Verification autofill functionality improves user experience during authentication flows
 - **Mobile Optimization**: Apple Pay checkout functionality provides streamlined mobile payment experience
 - **Higher Conversion**: Simplified path from fiat to game purchases
+- **Enhanced Transparency**: Real-time fee breakdowns build user trust and reduce abandonment
 - **Broader Audience**: Serves users who don't already own cryptocurrency
 - **Seamless Experience**: Integrated directly into existing purchase flows
 - **Compliance Handled**: Automatic regional restriction management
@@ -100,10 +123,12 @@ The integration includes comprehensive error handling for:
 
 When testing Coinbase onramp integration:
 
-- **Sandbox Environment**: Use Coinbase's sandbox environment for development testing
+- **Sandbox Environment**: Use Coinbase's sandbox environment for development testing (automatically enabled on testnets)
+- **Quote Testing**: Verify quote fetching functionality and fee breakdown display
 - **Regional Testing**: Test from different IP locations to verify regional behavior
 - **Error Scenarios**: Test error conditions and fallback flows
 - **Mobile Testing**: Verify mobile experience and payment flows
+- **Cost Breakdown UI**: Test fee transparency components with various purchase amounts
 
 :::note
 Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+.

@@ -7,7 +7,7 @@ description: Wrap your web app for native iOS and Android distribution using Cap
 # Capacitor
 
 [Capacitor](https://capacitorjs.com/) allows you to wrap an existing web application for native iOS and Android distribution.
-This approach uses the same web-based Controller integration with session-based authentication via deep links.
+This approach uses Controller's SessionProvider for session-based authentication via deep links and custom URL schemes.
 
 ## When to Use Capacitor
 
@@ -53,36 +53,50 @@ export default config;
 
 ## Controller Setup
 
-Use `SessionConnector` instead of `ControllerConnector` for native apps.
+Use `SessionProvider` from `@cartridge/controller/session` for native apps.
 The key difference is the `redirectUrl` parameter, which uses a custom URL scheme.
 
 ```typescript
+import SessionProvider from "@cartridge/controller/session";
 import { constants } from "starknet";
-import { SessionConnector } from "@cartridge/connector";
 
-const controller = new SessionConnector({
+const policies = {
+  contracts: {
+    "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
+      methods: [{ name: "transfer", entrypoint: "transfer" }],
+    },
+  },
+};
+
+const provider = new SessionProvider({
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  redirectUrl: "myapp://session",        // Custom URL scheme
   policies,
-  rpc: "https://api.cartridge.gg/x/starknet/mainnet",
-  chainId: constants.StarknetChainId.SN_MAIN,
-  redirectUrl: "myapp://open",           // Custom URL scheme
-  disconnectRedirectUrl: "myapp://open",
-  signupOptions: ["google", "discord", "webauthn", "password"],
 });
 ```
 
-:::warning
-Android does not support WebAuthn passkeys in in-app browsers.
-For Android builds, remove `"webauthn"` from signup options.
-:::
+## Browser Interception
+
+In native Capacitor apps, you need to intercept window.open calls to ensure the system browser opens for authentication:
 
 ```typescript
 import { Capacitor } from "@capacitor/core";
+import { Browser } from "@capacitor/browser";
 
-const isAndroid = Capacitor.getPlatform() === "android";
+if (Capacitor.isNativePlatform()) {
+  const originalOpen = window.open;
+  window.open = ((url: string | URL) => {
+    Browser.open({ url: url.toString() }).catch((error) => {
+      console.warn("Failed to open browser", error);
+    });
+    return null as Window | null;
+  }) as typeof window.open;
 
-const signupOptions = isAndroid
-  ? ["google", "discord", "password"]
-  : ["google", "discord", "webauthn", "password"];
+  window.addEventListener("beforeunload", () => {
+    window.open = originalOpen;
+  });
+}
 ```
 
 ## Deep Link Handling
@@ -99,7 +113,7 @@ Add your URL scheme to `ios/App/App/Info.plist`:
   <dict>
     <key>CFBundleURLSchemes</key>
     <array>
-      <string>myapp</string>
+      <string>cartridge-session</string>
     </array>
   </dict>
 </array>
@@ -107,8 +121,7 @@ Add your URL scheme to `ios/App/App/Info.plist`:
 
 ### Android Configuration
 
-Add intent filters inside the main `<activity>` tag in `android/app/src/main/AndroidManifest.xml`.
-You'll need both a custom scheme for basic deep links and optionally HTTPS App Links for verified domain redirects:
+Add intent filters inside the main `<activity>` tag in `android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <activity
@@ -123,42 +136,52 @@ You'll need both a custom scheme for basic deep links and optionally HTTPS App L
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="myapp" />
-  </intent-filter>
-
-  <!-- Optional: HTTPS App Links for verified domain -->
-  <intent-filter android:autoVerify="true">
-    <action android:name="android.intent.action.VIEW" />
-    <category android:name="android.intent.category.DEFAULT" />
-    <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="https" android:host="yourdomain.com" android:pathPrefix="/open" />
+    <data android:scheme="cartridge-session" android:host="session" />
   </intent-filter>
 </activity>
 ```
 
 Note: The `android:launchMode="singleTask"` ensures deep links open in the existing app instance.
-For App Links with `autoVerify="true"`, you'll need to host an `assetlinks.json` file at `https://yourdomain.com/.well-known/assetlinks.json`.
 
 ### Handling the Redirect
 
-Listen for the app URL open event and close the browser.
-Check for both custom scheme and HTTPS domain redirects:
+Listen for the app URL open event and process the session data:
 
 ```typescript
 import { App } from "@capacitor/app";
 import { Browser } from "@capacitor/browser";
 
-App.addListener("appUrlOpen", async ({ url }) => {
-  // Handle both custom scheme and HTTPS App Links
-  if (url.startsWith("myapp://open") || url.startsWith("https://yourdomain.com/open")) {
-    try {
-      await Browser.close();
-    } catch (error) {
-      // Browser may already be closed
-      console.debug("Browser close:", error);
+const handleDeepLink = async (url: string) => {
+  try {
+    const parsed = new URL(url);
+    const startapp = parsed.searchParams.get("startapp");
+    if (!startapp) {
+      return;
     }
+
+    // Ingest the session from the redirect payload
+    const stored = provider.ingestSessionFromRedirect(startapp);
+    if (!stored) {
+      throw new Error("Invalid session payload");
+    }
+
+    await Browser.close().catch(() => undefined);
+    const account = await provider.probe();
+    if (account) {
+      console.log("Session ready. Address:", account.address);
+    }
+  } catch (error) {
+    console.error("Failed to handle deep link", error);
   }
-});
+};
+
+if (Capacitor.isNativePlatform()) {
+  App.addListener("appUrlOpen", ({ url }) => {
+    if (url) {
+      handleDeepLink(url);
+    }
+  });
+}
 ```
 
 ## Build and Deploy

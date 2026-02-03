@@ -286,6 +286,42 @@ When `disconnect()` is called, users will be redirected to the keychain logout p
 
 **Note**: If no `disconnectRedirectUrl` is provided, users will remain on the keychain logout page after disconnection.
 
+## Manual Session Processing
+
+For native applications (like Capacitor apps), you may need to manually process session data from redirect URLs. The `ingestSessionFromRedirect()` method allows you to handle this:
+
+```typescript
+const provider = new SessionProvider({
+  rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+  chainId: constants.StarknetChainId.SN_SEPOLIA,
+  redirectUrl: "myapp://session",
+  policies,
+});
+
+// Handle deep link with session data
+const handleDeepLink = async (url: string) => {
+  const parsed = new URL(url);
+  const sessionData = parsed.searchParams.get("startapp");
+  
+  if (sessionData) {
+    // Process the encoded session payload
+    const session = provider.ingestSessionFromRedirect(sessionData);
+    if (session) {
+      // Session stored successfully
+      const account = await provider.probe();
+      console.log("Session ready:", account?.address);
+    }
+  }
+};
+```
+
+This is particularly useful for:
+- **Capacitor apps**: Processing deep links from authentication flows
+- **Native mobile apps**: Handling custom URL scheme redirects  
+- **Manual session handling**: When you need custom control over session processing
+
+The method automatically decodes the session payload and stores it in localStorage for future use.
+
 ## Verified Sessions
 
 Verified session policies provide a better user experience by attesting to the validity of a game's policy configuration, giving confidence to the players.
