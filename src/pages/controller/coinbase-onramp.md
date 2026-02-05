@@ -131,7 +131,7 @@ When testing Coinbase onramp integration:
 - **Cost Breakdown UI**: Test fee transparency components with various purchase amounts
 
 :::note
-Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+.
+Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+. The latest version v0.12.3 includes additional sandbox configuration improvements and bug fixes for enhanced reliability.
 :::
 
 ## Next Steps
