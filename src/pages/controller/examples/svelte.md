@@ -47,6 +47,8 @@ let controller = new Controller({
                     {
                         name: "approve",
                         entrypoint: "approve",
+                        spender: "0x1234567890abcdef1234567890abcdef12345678",
+                        amount: "0xffffffffffffffffffffffffffffffff",
                         description: "Approve spending of tokens",
                     },
                     {
