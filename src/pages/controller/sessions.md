@@ -337,7 +337,7 @@ When using verified session policies, the user experience is improved with enhan
 - **Enhanced Security**: Verified policies provide additional context and confidence to users during approval
 - **Consistent Experience**: All session creation flows require user approval to maintain security standards
 
-Both verified and unverified policies follow the same approval flow, with verified policies providing enhanced trust indicators and streamlined user interfaces.
+Both verified and unverified policies follow the same approval flow, with verified policies providing enhanced trust indicators and streamlined user interfaces. The session creation interface organizes permissions using expandable cards for better user comprehension.
 
 **Getting Verified**
 
@@ -429,11 +429,16 @@ const policies: SessionPolicies = {
 
 **Spending Limit Display**
 
-When users connect with spending limits configured:
-- They'll see a **Spending Limit Card** showing each token and its approved amount
-- USD values are displayed alongside token amounts when price data is available
-- Users see a consent notice explaining the spending permissions
-- Unlimited spending limits are clearly labeled as "Unlimited"
+When users connect with spending limits configured, the session creation interface organizes permissions for better clarity:
+
+1. **Contract Authorization**: Non-approve contract methods are grouped into an expandable "Authorize <game>" card at the top
+2. **Token Consent**: A consent notice explains the spending permissions
+3. **Spending Limit Card**: Contracts with approve methods are displayed separately in a dedicated spending limit section showing:
+   - Each token and its approved amount
+   - USD values alongside token amounts when price data is available  
+   - Unlimited spending limits clearly labeled as "Unlimited"
+
+This organization separates general contract permissions from token spending approvals, making it easier for users to understand what they're authorizing.
 
 **Required Fields for Approve Methods**
 - **`spender`**: The contract address authorized to spend tokens (required)
