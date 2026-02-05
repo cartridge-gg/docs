@@ -431,7 +431,7 @@ const policies: SessionPolicies = {
 
 When users connect with spending limits configured, the session creation interface organizes permissions for better clarity:
 
-1. **Contract Authorization**: Non-approve contract methods are grouped into an expandable "Authorize <game>" card at the top
+1. **Contract Authorization**: Non-approve contract methods are grouped into an expandable "Authorize [game]" card at the top
 2. **Token Consent**: A consent notice explains the spending permissions
 3. **Spending Limit Card**: Contracts with approve methods are displayed separately in a dedicated spending limit section showing:
    - Each token and its approved amount
