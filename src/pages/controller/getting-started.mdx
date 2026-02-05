@@ -37,6 +37,8 @@ const phantomAccount = await controller.connect(["phantom-evm"]);
 
 When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
+For session-based applications, users will see permissions organized into clear sections: an expandable "Authorize [game]" card containing contract methods, followed by dedicated spending limit cards for token approvals, making it easy to understand what they're authorizing.
+
 :::info
 Controller will set **essential cookies** as part of the initialization.
 These are necessary for the controller to function properly.
