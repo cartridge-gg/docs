@@ -24,6 +24,42 @@ To create a theme, teams should commit their theme config to the `configs` folde
 }
 ```
 
+### Origin Configuration
+
+The `origin` field specifies which origins are authorized to use your preset. This is important for security and preventing unauthorized use of your configuration.
+
+#### Web Applications
+For standard web applications, use your domain:
+```json
+{
+  "origin": "https://yourdomain.com"
+}
+```
+
+#### Multiple Origins
+You can specify multiple origins as an array:
+```json
+{
+  "origin": ["https://yourdomain.com", "https://staging.yourdomain.com"]
+}
+```
+
+#### Capacitor Apps with Custom Hostnames
+For Capacitor mobile apps using custom hostnames, include the custom hostname in your origins:
+
+```json
+{
+  "origin": ["https://yourdomain.com", "my-custom-app"]
+}
+```
+
+This authorizes both your web app and your Capacitor app with the custom hostname:
+- **Web**: `https://yourdomain.com` 
+- **iOS Capacitor**: `capacitor://my-custom-app`
+- **Android Capacitor**: `https://my-custom-app`
+
+**Note**: The default `localhost` origin (`capacitor://localhost`) is always allowed for development convenience and doesn't need to be explicitly listed in presets.
+
 See an example pull request [`here`](https://github.com/cartridge-gg/presets/pull/8/files)
 
 ## Verified Sessions
