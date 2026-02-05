@@ -164,7 +164,8 @@ type ContractMethod = {
   name: string;                         // Method name
   entrypoint: string;                   // Contract method entrypoint
   description?: string;                 // Optional method description
-  amount?: string;                      // Optional spending limit for approve methods (hex format)
+  spender?: string;                     // Required for approve methods: address authorized to spend
+  amount?: string;                      // Required for approve methods: spending limit (hex format)
 };
 
 type SignMessagePolicy = TypedDataPolicy & {
@@ -399,6 +400,7 @@ const policies: SessionPolicies = {
         {
           name: "approve",
           entrypoint: "approve",
+          spender: "0x1234567890abcdef1234567890abcdef12345678", // Address authorized to spend
           amount: "0x3", // Limit to 3 ETH (in wei, hex format)
           description: "Approve spending up to 3 ETH"
         },
@@ -415,6 +417,7 @@ const policies: SessionPolicies = {
         {
           name: "approve",
           entrypoint: "approve",
+          spender: "0xabcdef1234567890abcdef1234567890abcdef12", // Address authorized to spend
           amount: "0xffffffffffffffffffffffffffffffff", // Unlimited (max uint128)
           description: "Approve unlimited STRK spending"
         }
@@ -431,6 +434,11 @@ When users connect with spending limits configured:
 - USD values are displayed alongside token amounts when price data is available
 - Users see a consent notice explaining the spending permissions
 - Unlimited spending limits are clearly labeled as "Unlimited"
+
+**Required Fields for Approve Methods**
+- **`spender`**: The contract address authorized to spend tokens (required)
+- **`amount`**: The spending limit in hexadecimal format (required)
+- Both fields are required to create proper ApprovalPolicy objects and avoid deprecation warnings
 
 **Amount Format**
 - Use hexadecimal format (e.g., `"0x3"` for 3, `"0xffffffffffffffffffffffffffffffff"` for unlimited)

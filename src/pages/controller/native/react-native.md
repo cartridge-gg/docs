@@ -129,7 +129,12 @@ const CARTRIDGE_API_URL = 'https://api.cartridge.gg';
 const sessionPolicies = {
   policies: [
     { contractAddress: '0x049d...', entrypoint: 'transfer' },
-    { contractAddress: '0x049d...', entrypoint: 'approve' },
+    { 
+      contractAddress: '0x049d...', 
+      entrypoint: 'approve',
+      spender: '0x1234567890abcdef1234567890abcdef12345678',
+      amount: '0xffffffffffffffffffffffffffffffff'
+    },
   ],
   maxFee: '0x2386f26fc10000', // ~0.01 ETH
 };
