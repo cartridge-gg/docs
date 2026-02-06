@@ -111,7 +111,7 @@ const controller = new Controller({
 });
 ```
 
-## Standalone Authentication
+### Standalone Authentication
 
 The Controller provides an `open()` method for standalone authentication, which opens the keychain in first-party context. This is useful for establishing first-party storage and enabling seamless iframe access across all games.
 
@@ -455,25 +455,6 @@ environments, check out our integration guides:
 
 Each guide provides comprehensive examples and best practices for integrating
 Cartridge Controller in your preferred environment.
-
-## Advanced Authentication Flows
-
-For games that need cross-domain authentication or operate across multiple subdomains, Controller supports **standalone authentication flows**:
-
-```ts
-// Establish first-party storage access for seamless cross-domain gameplay
-controller.open();
-
-// Or redirect to a specific URL after authentication
-controller.open({ redirectUrl: "https://my-game.com/play" });
-```
-
-This is particularly useful for:
-- Games with separate launcher and game client domains
-- Multi-domain gaming ecosystems
-- Applications that need reliable iframe access across origins
-
-Learn more about [Standalone Authentication](/controller/configuration.md#standalone-authentication).
 
 ## Next Steps
 
