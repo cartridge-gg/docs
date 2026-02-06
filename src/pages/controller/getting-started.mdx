@@ -146,32 +146,48 @@ The `open()` method accepts an options object with the following properties:
 When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
 :::
 
-## Connectors
+## ControllerProvider vs SessionProvider
 
-Connectors provide standardized integrations of Controller into various types of applications.
-The two main connectors serve fundamentally different deployment contexts.
+There are two ways to integrate Cartridge Controller, each with a different security and signing model.
 
-### Choosing a Connector
+> `ControllerConnector` and `SessionConnector` are thin wrappers that plug these providers into frameworks like `starknet-react` — the providers do the real work.
 
-| Aspect | ControllerConnector | SessionConnector |
-|--------|---------------------|------------------|
-| **Use when** | Building web apps | Building native/mobile apps |
-| **Authentication** | Browser cookies & localStorage | Local keypair + browser redirect |
-| **RPC configuration** | Via framework provider | Explicit in constructor |
-| **Framework integration** | `starknet-react`, wallet standards | Standalone |
-| **Redirect handling** | Not required | Required (`redirectUrl`) |
+### ControllerProvider (iframe-based)
 
-**Decision guide:**
-- If your app runs in a browser and you're using `starknet-react` → **ControllerConnector**
-- If your app is native (iOS, Android, React Native, Capacitor) or a mini-app (Telegram) → **SessionConnector**
+The default `ControllerProvider` (often exported as `Controller`) embeds the Cartridge keychain in a sandboxed iframe.
+The owner's signer lives inside the iframe and never leaves it.
+When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`, where the keychain signs the transaction directly with the owner key.
 
-The key difference is where the signing keys live.
-With `ControllerConnector`, keys are managed by Controller's backend via browser cookies.
-With `SessionConnector`, your app generates a local keypair and registers it with the user's Controller account through a browser redirect flow.
+Because the iframe holds the real owner signer, **no on-chain session registration is needed**.
+The account contract sees a normal owner-signed transaction.
+This is the recommended approach for web applications.
 
-### Controller Connector (Web Applications)
+### SessionProvider (redirect-based)
 
-The `ControllerConnector` provides a standard way to integrate with frontend frameworks like `starknet-react`.
+The `SessionProvider` is designed for environments where an iframe cannot be used, such as native mobile apps (Capacitor, React Native) or server-side Node.js.
+
+Instead of holding the owner key, it:
+1. Opens a browser to the Cartridge keychain for one-time user authentication
+2. Generates an ephemeral session keypair locally
+3. **Registers the session key on-chain** so the account contract recognizes it
+4. Stores the session private key locally (in `localStorage` or on the filesystem)
+
+After registration, transactions are signed with the session key and executed via `executeFromOutside()` — no further UI is needed.
+Because the session key is not the owner key, on-chain registration is required so the account contract knows to accept it within the approved policies and expiration window.
+
+### When to use which
+
+| | ControllerProvider | SessionProvider |
+|---|---|---|
+| **Environment** | Web browsers | Native apps, Node.js, or environments without iframe support |
+| **Signing** | Owner key in iframe | Ephemeral session key stored locally |
+| **On-chain registration** | None | Required (`registerSession`) |
+| **Auth UX** | Embedded keychain modal | Browser redirect + deep link back |
+| **After auth** | Iframe signs each transaction | Transactions execute without UI |
+
+### ControllerConnector (Web)
+
+`ControllerConnector` wraps `ControllerProvider` for use with frontend frameworks like `starknet-react`.
 
 ```tsx
 import React from "react";
@@ -239,16 +255,16 @@ function MyConnectComponent() {
       <button onClick={() => connect({ connector })}>
         Connect
       </button>
-      
+
       {/* Override with specific options for branded auth flows */}
       <button onClick={() => connector.connect({ signupOptions: ["phantom-evm"] })}>
         Connect with Phantom
       </button>
-      
+
       <button onClick={() => connector.connect({ signupOptions: ["google"] })}>
         Connect with Google
       </button>
-      
+
       <button onClick={() => connector.connect({ signupOptions: ["discord"] })}>
         Connect with Discord
       </button>
@@ -277,33 +293,15 @@ The `asWalletStandard()` method is an experimental feature and may contain bugs.
 Please [report any issues](https://github.com/cartridge-gg/controller/issues) you encounter.
 :::
 
-### Session Connector (Native Applications)
+### SessionConnector (Native)
 
-The `SessionConnector` enables native and mobile applications to create local sessions linked to a user's existing Controller account.
-Unlike `ControllerConnector`, it generates a local keypair that signs transactions on behalf of the user.
-
-**How it works:**
-1. Your app generates a local keypair
-2. User authenticates in a browser (opened via deep link)
-3. Browser redirects back to your app with session credentials
-4. Your app signs transactions locally using the private key
-
-**When to use SessionConnector:**
-- Mobile apps (React Native, Capacitor, native iOS/Android)
-- Telegram mini-apps or Discord bots
-- Any environment where browser cookies aren't available
+`SessionConnector` wraps `SessionProvider` for use in native and mobile applications.
+It requires explicit `rpc` and `chainId` parameters because it operates outside a framework like `starknet-react` that would normally provide these.
+The `redirectUrl` is where the browser will redirect after authentication completes.
 
 :::tip
 To learn more about native application workflows, read our [native integration guide](/controller/native/overview).
 :::
-
-:::info
-Under-the-hood, `SessionConnector` returns a `SessionProvider`, an alternative Controller implementation designed for native applications.
-For web application use-cases, use the regular `Controller` or `ControllerConnector` instead.
-:::
-
-Note that `SessionConnector` requires explicit `rpc` and `chainId` parameters because it operates outside a framework like `starknet-react` that would normally provide these.
-The `redirectUrl` is where the browser will redirect after authentication completes.
 
 ```tsx
 import { constants } from "starknet";
