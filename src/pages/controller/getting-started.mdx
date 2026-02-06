@@ -146,48 +146,53 @@ The `open()` method accepts an options object with the following properties:
 When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
 :::
 
-## ControllerProvider vs SessionProvider
+## Providers
 
-There are two ways to integrate Cartridge Controller, each with a different security and signing model.
+Controller is initialized through a "provider."
+There are two providers, each with a different security and signing model.
 
-> `ControllerConnector` and `SessionConnector` are thin wrappers that plug these providers into frameworks like `starknet-react` — the providers do the real work.
+> "Connectors" are thin wrappers that plug providers into frameworks like `starknet-react`.
 
 ### ControllerProvider (iframe-based)
 
-The default `ControllerProvider` (often exported as `Controller`) embeds the Cartridge keychain in a sandboxed iframe.
-The owner's signer lives inside the iframe and never leaves it.
-When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`, where the keychain signs the transaction directly with the owner key.
+> ControllerProvider is the recommended provider for web applications.
 
-Because the iframe holds the real owner signer, **no on-chain session registration is needed**.
-The account contract sees a normal owner-signed transaction.
-This is the recommended approach for web applications.
+The default `ControllerProvider` (often exported as `Controller`) embeds the Cartridge keychain in a sandboxed iframe.
+Both the owner signer and a **session key** live inside the iframe, employing a trust model similar to any injected wallet (e.g. MetaMask, Argent).
+
+When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`.
+The keychain first tries to sign with the session key.
+If the call matches the app's [session policies](/controller/sessions.md), it signs automatically — no user prompt.
+If the call doesn't match any policy, it falls back to the **owner key** and prompts the user for approval.
+
+> The session's authorization is cached on-chain on first use, so no explicit `registerSession()` call is needed.
 
 ### SessionProvider (redirect-based)
 
+> SessionProvider is the recommended provider for native applications.
+
 The `SessionProvider` is designed for environments where an iframe cannot be used, such as native mobile apps (Capacitor, React Native) or server-side Node.js.
 
-Instead of holding the owner key, it:
+Instead of embedding the owner key in an iframe, it:
 1. Opens a browser to the Cartridge keychain for one-time user authentication
 2. Generates an ephemeral session keypair locally
-3. **Registers the session key on-chain** so the account contract recognizes it
+3. **Registers the session key on-chain** with the approved policies compiled into a merkle root
 4. Stores the session private key locally (in `localStorage` or on the filesystem)
 
 After registration, transactions are signed with the session key and executed via `executeFromOutside()` — no further UI is needed.
-Because the session key is not the owner key, on-chain registration is required so the account contract knows to accept it within the approved policies and expiration window.
+Because the session key is not the owner key, **policies are enforced on-chain** — every transaction must include a merkle proof showing the call matches the registered policies.
+The owner key is never exposed through this provider, so there is no fallback for calls outside the approved policies.
 
 ### When to use which
 
 | | ControllerProvider | SessionProvider |
 |---|---|---|
 | **Environment** | Web browsers | Native apps, Node.js, or environments without iframe support |
-| **Signing** | Owner key in iframe | Ephemeral session key stored locally |
-| **On-chain registration** | None | Required (`registerSession`) |
+| **Signing** | Session key in iframe (owner key fallback) | Ephemeral session key stored locally |
+| **Policy enforcement** | Keychain (wallet-level) | On-chain (merkle proofs) |
+| **Non-policy calls** | Prompts user, signs with owner key | Not supported |
 | **Auth UX** | Embedded keychain modal | Browser redirect + deep link back |
 | **After auth** | Iframe signs each transaction | Transactions execute without UI |
-
-Both providers support [session policies](/controller/sessions.md) to control which transactions can be signed automatically.
-With `ControllerProvider`, policies let the iframe approve matching transactions without prompting the user.
-With `SessionProvider`, the session key is registered with the approved policies on-chain, so all matching transactions execute without further interaction.
 
 ### ControllerConnector (Web)
 
