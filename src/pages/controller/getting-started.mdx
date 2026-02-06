@@ -285,16 +285,26 @@ function MyConnectComponent() {
 #### Wallet Standard Integration
 
 By default, the Controller exposes the `StarknetWindowObject` interface.
-However, the ControllerConnector also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
+However, the Controller also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
 
-You can use the ControllerConnector to cast `Controller` to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
+You can use the Controller directly or through the ControllerConnector to cast to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
+
+```tsx
+import Controller from "@cartridge/controller";
+import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
+
+// Direct usage without starknet-react
+const controller = new Controller({ /* options */ });
+const walletStandard: WalletWithStarknetFeatures = controller.asWalletStandard();
+```
 
 ```tsx
 import { ControllerConnector } from "@cartridge/connector";
 import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
 
-// Now compatible with any library that expects WalletWithStarknetFeatures
-const controller: WalletWithStarknetFeatures = (new ControllerConnector()).asWalletStandard();
+// Using ControllerConnector (delegates to the controller's implementation)
+const connector = new ControllerConnector();
+const walletStandard: WalletWithStarknetFeatures = connector.asWalletStandard();
 ```
 
 :::warning
