@@ -185,6 +185,10 @@ Because the session key is not the owner key, on-chain registration is required 
 | **Auth UX** | Embedded keychain modal | Browser redirect + deep link back |
 | **After auth** | Iframe signs each transaction | Transactions execute without UI |
 
+Both providers support [session policies](/controller/sessions.md) to control which transactions can be signed automatically.
+With `ControllerProvider`, policies let the iframe approve matching transactions without prompting the user.
+With `SessionProvider`, the session key is registered with the approved policies on-chain, so all matching transactions execute without further interaction.
+
 ### ControllerConnector (Web)
 
 `ControllerConnector` wraps `ControllerProvider` for use with frontend frameworks like `starknet-react`.
