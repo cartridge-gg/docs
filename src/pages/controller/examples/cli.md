@@ -13,6 +13,8 @@ This is useful for scripting, backend automation, and AI agent integration.
 
 ## Installation
 
+For humans or agents, via the command-line:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cartridge-gg/controller-cli/main/install.sh | bash
 ```
