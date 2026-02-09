@@ -46,10 +46,49 @@ const config: CapacitorConfig = {
   appId: "com.yourapp.id",
   appName: "Your App Name",
   webDir: "dist",  // Your build output directory
+  server: {
+    hostname: "my-custom-app",  // Recommended: Set a custom hostname for production
+    androidScheme: "https",
+    iosScheme: "capacitor",
+  },
 };
 
 export default config;
 ```
+
+### Security and Custom Hostnames
+
+For production apps, it is **strongly recommended** to set a custom hostname to prevent other Capacitor apps from potentially spoofing your origin.
+
+By default, Capacitor apps use `localhost` as the hostname (`capacitor://localhost` on iOS). While this is automatically verified by the Keychain for development convenience, custom hostnames require explicit authorization in your Controller preset configuration.
+
+#### Setting up Custom Hostnames:
+
+1. **Configure your Capacitor app** with a custom hostname:
+
+```typescript
+// capacitor.config.ts
+server: {
+  hostname: "my-custom-app",
+  iosScheme: "capacitor", 
+  androidScheme: "https"
+}
+```
+
+2. **Authorize the hostname in your Controller preset**. The Keychain will only verify custom Capacitor origins if the hostname is explicitly listed in your preset's allowed origins:
+
+```json
+{
+  "origin": ["my-custom-app"],
+  // ... other preset configuration
+}
+```
+
+This ensures your app is verified on both platforms:
+- **iOS**: `capacitor://my-custom-app`
+- **Android**: `https://my-custom-app`
+
+**Important**: The default `localhost` origin (`capacitor://localhost`) is always allowed for development convenience, but custom hostnames must be explicitly authorized in your preset configuration.
 
 ## Controller Setup
 
