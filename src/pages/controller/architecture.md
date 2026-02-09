@@ -110,52 +110,21 @@ Subsequent transactions can then bypass authorization signature verification.
 
 Sessions can use `'wildcard-policy'` as the `allowed_policies_root` to allow any method call, bypassing policy checks.
 
-## Authentication and Signing Flows
+## Auth Flows
 
-The following diagram shows how each provider authenticates users and signs transactions:
+The following diagrams show how each provider authenticates users and signs transactions.
 
-```mermaid
-sequenceDiagram
-    participant App as App
-    participant KC as Keychain
-    participant API as Cartridge API
-    participant Chain as Starknet
+### ControllerProvider
 
-    rect rgb(240, 248, 255)
-    note over App,Chain: ControllerProvider (Web) — iframe, self-custodial
-    App->>KC: postMessage(connect)
-    KC->>KC: User authenticates (passkey/social)
-    KC-->>App: Account connected
-    App->>KC: postMessage(execute)
-    KC->>KC: Try session key (if policy matches)
-    KC->>KC: Fallback to owner key (prompts user)
-    KC->>Chain: Submit transaction
-    Chain-->>App: Transaction result
-    end
+![ControllerProvider flow](/controller-provider-flow.svg)
 
-    rect rgb(240, 255, 240)
-    note over App,Chain: SessionProvider (Native) — redirect, self-custodial
-    App->>KC: Open keychain URL in browser
-    KC->>KC: User authenticates (passkey/social)
-    App->>App: Generate session keypair
-    KC->>Chain: registerSession(key, policies, expiry)
-    KC->>App: Deep link back to app
-    App->>App: Sign with session key
-    App->>Chain: executeFromOutside(tx)
-    Chain-->>App: Transaction result
-    end
+### SessionProvider
 
-    rect rgb(255, 248, 240)
-    note over App,Chain: Headless — programmatic, developer-custodial
-    App->>App: Generate Starknet keypair
-    App->>API: signup(username, public_key, session)
-    API->>Chain: Deploy account
-    API-->>App: Account registered
-    App->>App: Sign with owner key
-    App->>Chain: Submit transaction
-    Chain-->>App: Transaction result
-    end
-```
+![SessionProvider flow](/session-provider-flow.svg)
+
+### Headless
+
+![Headless flow](/headless-flow.svg)
 
 ## Transaction Execution Flow
 

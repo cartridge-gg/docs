@@ -183,7 +183,7 @@ After registration, transactions are signed with the session key and executed vi
 Because the session key is not the owner key, **policies are enforced on-chain** — every transaction must include a merkle proof showing the call matches the registered policies.
 The owner key is never exposed through this provider, so there is no fallback for calls outside the approved policies.
 
-> For a visual comparison of how each provider authenticates and signs, see the [Architecture](/controller/architecture#authentication-and-signing-flows) page.
+> For a visual comparison of how each provider authenticates and signs, see the [Architecture](/controller/architecture#auth-flows) page.
 
 ### When to use which
 
