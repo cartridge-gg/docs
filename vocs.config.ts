@@ -183,6 +183,10 @@ export default defineConfig({
             collapsed: true,
             items: [
               {
+                text: "CLI",
+                link: "/controller/examples/cli",
+              },
+              {
                 text: "Node",
                 link: "/controller/examples/node",
               },
