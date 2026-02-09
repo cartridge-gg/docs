@@ -110,6 +110,22 @@ Subsequent transactions can then bypass authorization signature verification.
 
 Sessions can use `'wildcard-policy'` as the `allowed_policies_root` to allow any method call, bypassing policy checks.
 
+## Auth Flows
+
+The following diagrams show how each provider authenticates users and signs transactions.
+
+### ControllerProvider
+
+![ControllerProvider flow](/controller-provider-flow.svg)
+
+### SessionProvider
+
+![SessionProvider flow](/session-provider-flow.svg)
+
+### Headless
+
+![Headless flow](/headless-flow.svg)
+
 ## Transaction Execution Flow
 
 When you call `account.execute()` in your application, the Controller SDK determines the best execution path based on your session configuration and fee source settings.
