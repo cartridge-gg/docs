@@ -258,7 +258,104 @@ export function MultiAuthConnectWallet() {
 }
 ```
 
-### 4. Performing Transactions
+### 4. Headless Authentication
+
+For programmatic authentication without opening any UI, you can use headless mode in your React components:
+
+```tsx
+import { useCallback, useState } from 'react'
+import { useConnect } from '@starknet-react/core'
+import { ControllerConnector } from '@cartridge/connector'
+
+export function HeadlessLogin() {
+  const { connectAsync, connectors } = useConnect()
+  const [username, setUsername] = useState('')
+  const [loading, setLoading] = useState(false)
+  const controller = connectors[0] as ControllerConnector
+
+  const handleHeadlessLogin = useCallback(async (signer: string) => {
+    if (!username) {
+      alert('Please enter a username')
+      return
+    }
+
+    setLoading(true)
+    try {
+      // Ensure we start fresh
+      if (controller.account) {
+        await controller.disconnect()
+      }
+
+      // Headless authentication
+      const account = await controller.connect({
+        username,
+        signer,
+      })
+
+      if (!account) {
+        throw new Error('Failed to authenticate')
+      }
+
+      // Sync with starknet-react state
+      await connectAsync({ connector: controller })
+      
+      alert(`Successfully authenticated as ${username}!`)
+    } catch (error) {
+      console.error('Headless authentication failed:', error)
+      alert('Authentication failed: ' + (error as Error).message)
+    } finally {
+      setLoading(false)
+    }
+  }, [username, controller, connectAsync])
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label htmlFor="username">Username:</label>
+        <input
+          id="username"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter your username"
+          disabled={loading}
+        />
+      </div>
+      
+      <div className="grid gap-2">
+        <button 
+          onClick={() => handleHeadlessLogin('webauthn')}
+          disabled={loading || !username}
+        >
+          Login with Passkey
+        </button>
+        
+        <button 
+          onClick={() => handleHeadlessLogin('metamask')}
+          disabled={loading || !username}
+        >
+          Login with MetaMask
+        </button>
+        
+        <button 
+          onClick={() => handleHeadlessLogin('google')}
+          disabled={loading || !username}
+        >
+          Login with Google
+        </button>
+      </div>
+      
+      {loading && <p>Authenticating...</p>}
+    </div>
+  )
+}
+```
+
+:::warning
+Headless mode requires that the user already has the specified signer (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
+:::
+
+### 5. Performing Transactions
 
 Execute transactions using the `account` object from `useAccount` hook:
 

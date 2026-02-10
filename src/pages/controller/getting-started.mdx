@@ -35,6 +35,41 @@ const account = await controller.connect();
 const phantomAccount = await controller.connect(["phantom-evm"]);
 ```
 
+### Headless Authentication
+
+For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`:
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({});
+
+// Headless authentication with WebAuthn/Passkey
+const account = await controller.connect({
+  username: "alice",
+  signer: "webauthn",
+});
+
+// Headless authentication with password
+const account = await controller.connect({
+  username: "alice",
+  signer: "password",
+  password: "your-secure-password",
+});
+
+// Headless authentication with OAuth providers
+await controller.connect({ username: "alice", signer: "google" });
+await controller.connect({ username: "alice", signer: "discord" });
+
+// Headless authentication with EVM wallets
+await controller.connect({ username: "alice", signer: "metamask" });
+await controller.connect({ username: "alice", signer: "phantom-evm" });
+```
+
+:::info
+Headless mode performs authentication in a hidden iframe without displaying any UI. However, if session policies need approval or verification, the UI will open automatically to request user consent.
+:::
+
 When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
 For session-based applications, users will see permissions organized into clear sections: an expandable "Authorize [game]" card containing contract methods, followed by dedicated spending limit cards for token approvals, making it easy to understand what they're authorizing.

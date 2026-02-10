@@ -1,13 +1,17 @@
 ---
 showOutline: 1
-title: Headless Controller
+title: Native Headless Controller
 description: Using user-supplied signing keys with Controller for server-side and automated applications.
 ---
 
-# Headless Controller
+# Native Headless Controller
 
-A headless Controller uses application-supplied signing keys rather than the Cartridge keychain.
+A native headless Controller uses application-supplied signing keys rather than the Cartridge keychain.
 This gives developers greater control over key management and enables server-side use cases.
+
+:::info
+This guide covers **native headless mode** using C++ bindings for server-side applications. For **web-based headless authentication** in browser applications, see the [Headless Authentication](/controller/headless-authentication) guide.
+:::
 
 ## Use Cases
 
