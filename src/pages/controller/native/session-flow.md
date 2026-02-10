@@ -86,5 +86,19 @@ After successful session creation, the following metadata is available:
 | `appId` | string? | The application identifier |
 | `isRevoked` | boolean | Whether the session has been revoked |
 
+### Additional Fields for Already-Registered Sessions
+
+When a session is already registered and authorized, the callback payload includes additional session identifiers:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `allowedPoliciesRoot` | string | Root hash of the allowed policies for this session |
+| `metadataHash` | string | Hash of the session metadata |
+| `sessionKeyGuid` | string | Unique identifier for the session key |
+| `guardianKeyGuid` | string | Unique identifier for the guardian key |
+| `alreadyRegistered` | boolean | Flag indicating this is an existing session |
+
+These fields are only included when returning an existing authorized session (when `alreadyRegistered` is `true`). For new session registrations, only the basic metadata fields are returned.
+
 Fields marked with `?` are only populated when creating sessions via the subscription API flow (`createFromSubscribe`).
 When creating sessions directly with the constructor, these fields will be `null`.
