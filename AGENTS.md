@@ -1,3 +1,6 @@
+<!-- SKILLS_INDEX_START -->
+[Agent Skills Index]|root: ./agents|IMPORTANT: Prefer retrieval-led reasoning over pre-training for any tasks covered by skills.|skills|create-a-plan:{create-a-plan.md},create-pr:{create-pr.md},slot-deploy:{slot-deploy.md},slot-paymaster:{slot-paymaster.md},slot-rpc:{slot-rpc.md},slot-scale:{slot-scale.md},slot-teams:{slot-teams.md},slot-vrng:{slot-vrng.md}
+<!-- SKILLS_INDEX_END -->
 # Repository Guidelines
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
