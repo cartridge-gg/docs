@@ -83,14 +83,56 @@ Full integration examples [are available here](https://github.com/cartridge-gg/c
 
 ```typescript
 export type SessionOptions = {
-  rpc: string;                      // RPC endpoint URL
-  chainId: string;                  // Chain ID for the session
-  policies: SessionPolicies;        // Approved transaction policies
-  redirectUrl: string;              // URL to redirect after registration
-  disconnectRedirectUrl?: string;   // Optional URL to redirect after disconnect/logout
-  signupOptions?: AuthOptions;      // Optional authentication methods available during session creation
+  rpc: string;                           // RPC endpoint URL
+  chainId: string;                       // Chain ID for the session
+  policies?: SessionPolicies;            // Approved transaction policies (optional if using preset)
+  preset?: string;                       // Preset name for verified session policies
+  shouldOverridePresetPolicies?: boolean; // Override preset policies with manual policies when both are provided
+  redirectUrl: string;                   // URL to redirect after registration
+  disconnectRedirectUrl?: string;        // Optional URL to redirect after disconnect/logout
+  signupOptions?: AuthOptions;           // Optional authentication methods available during session creation
 };
 ```
+
+### Using Presets with SessionProvider
+
+The `preset` parameter allows you to use verified session policies from `@cartridge/presets` instead of manually defining policies. This ensures consistency between SessionProvider and ControllerProvider and simplifies configuration for games with verified presets.
+
+**Basic preset usage:**
+```typescript
+const sessionProvider = new SessionProvider({
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
+  chainId: "SN_MAIN",
+  preset: "my-game",              // Load verified policies from preset
+  redirectUrl: "https://myapp.com/",
+});
+```
+
+**Policy precedence rules:**
+
+1. **Preset only**: When only `preset` is provided, policies are resolved from the preset configuration
+2. **Manual policies only**: When only `policies` are provided, manual policies are used
+3. **Both provided**: When both `preset` and `policies` are provided:
+   - By default, preset policies take precedence (manual policies are ignored with a console warning)
+   - Set `shouldOverridePresetPolicies: true` to use manual policies instead
+
+**Example with policy override:**
+```typescript
+const sessionProvider = new SessionProvider({
+  rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
+  chainId: "SN_MAIN",
+  preset: "my-game",
+  policies: customPolicies,           // These would normally be ignored
+  shouldOverridePresetPolicies: true, // Override preset with custom policies
+  redirectUrl: "https://myapp.com/",
+});
+```
+
+**Benefits of using presets:**
+- **Consistency**: Same policies used across SessionProvider and ControllerProvider
+- **Verification**: Preset policies are verified and provide enhanced trust indicators
+- **Maintenance**: Policy updates happen centrally in the preset configuration
+- **Error Prevention**: Eliminates policy hash divergence that can cause session/not-registered errors
 
 ### Authentication Options
 
@@ -126,15 +168,15 @@ const signupOptions: AuthOptions = [
   "metamask",
 ];
 
-// Use the same options for both connectors
+// Use the same preset for both connectors
 const controller = new ControllerConnector({
-  policies,
+  preset: "my-game",     // Using preset
   signupOptions,
   // other options...
 });
 
 const session = new SessionConnector({
-  policies,
+  preset: "my-game",     // Same preset for consistency
   rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
   chainId: "SN_MAIN", 
   redirectUrl: "https://myapp.com/",
@@ -296,7 +338,7 @@ const provider = new SessionProvider({
   rpc: "https://api.cartridge.gg/x/starknet/sepolia",
   chainId: constants.StarknetChainId.SN_SEPOLIA,
   redirectUrl: "myapp://session",
-  policies,
+  preset: "my-game", // Using preset instead of manual policies
 });
 
 // Handle deep link with session data
