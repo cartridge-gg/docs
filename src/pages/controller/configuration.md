@@ -44,6 +44,11 @@ export type ControllerOptions = {
 };
 ```
 
+:::warning
+When both `preset` and `policies` are provided, **preset policies take precedence** by default.
+Manually provided policies are ignored unless you set `shouldOverridePresetPolicies: true`.
+:::
+
 ## Chain Configuration
 
 Controller provides default Cartridge RPC endpoints for Starknet mainnet and sepolia networks:
