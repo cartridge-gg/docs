@@ -50,13 +50,64 @@ Response Format
 
 > **Note**: The API response includes an array of addresses per username to support multiple controllers/signers in the future. Currently, the helper methods assume a 1:1 relationship and use only the first address.
 
-## Helper Methods
+## Controller SDK Methods
 
-For convenience, you can also use the helper methods which include caching:
+The Controller SDK provides dedicated methods for username lookup with enhanced functionality:
 
 ```
 npm install @cartridge/controller
 ```
+
+### `lookupUsername(username: string)` - New in v0.13.7
+
+Check if a single username exists and get normalized signer options:
+
+```typescript
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({});
+
+// Check if username exists and get available authentication methods
+const result = await controller.lookupUsername("alice");
+console.log(result.exists);   // true/false
+console.log(result.signers);  // ["webauthn", "google", "discord"] 
+```
+
+**Return Type:**
+```typescript
+interface UsernameLookupResult {
+  exists: boolean;
+  signers: string[];  // Available authentication methods for the username
+}
+```
+
+**Use Cases:**
+- **Headless authentication flows**: Check account existence before attempting to connect
+- **Form validation**: Validate usernames in real-time
+- **Authentication method selection**: Show users only the authentication methods they have configured
+- **Auto-signup flows**: Determine whether to create a new account or authenticate existing one
+
+### ControllerConnector Integration
+
+The `lookupUsername` method is also available through `ControllerConnector` for starknet-react applications:
+
+```typescript
+import { ControllerConnector } from '@cartridge/connector';
+import { useConnectors } from '@starknet-react/core';
+
+function useUsernameLookup() {
+  const connectors = useConnectors();
+  const controller = connectors.find(c => c.id === 'cartridge') as ControllerConnector;
+  
+  return async (username: string) => {
+    return await controller.lookupUsername(username);
+  };
+}
+```
+
+## Legacy Helper Methods
+
+For bulk lookups and backwards compatibility, you can use the legacy helper methods:
 
 ```typescript
 import { lookupUsernames, lookupAddresses } from '@cartridge/controller';

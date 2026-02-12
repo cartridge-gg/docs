@@ -22,6 +22,42 @@ Controller SDK → Hidden Keychain iframe → Backend API → Authenticated Acco
 
 ## Basic Usage
 
+### Recommended: Lookup-First Flow Pattern
+
+The recommended pattern for headless authentication checks for account existence and available signers before attempting to connect:
+
+```ts
+import Controller from "@cartridge/controller";
+
+const controller = new Controller({});
+
+try {
+  // First, lookup the username to check existence and available signers
+  const lookupResult = await controller.lookupUsername("alice");
+  
+  if (!lookupResult.exists) {
+    // Account doesn't exist - handle auto-signup or show error
+    console.log("Account does not exist");
+    return;
+  }
+  
+  // Use the normalized signer options from lookup
+  const availableSigners = lookupResult.signers;
+  const preferredSigner = availableSigners.includes("webauthn") 
+    ? "webauthn" 
+    : availableSigners[0];
+  
+  const account = await controller.connect({
+    username: "alice",
+    signer: preferredSigner,
+  });
+  
+  console.log("Authenticated successfully:", account.address);
+} catch (error) {
+  console.error("Authentication failed:", error.message);
+}
+```
+
 ### WebAuthn/Passkey Authentication
 
 The most secure option for headless authentication uses WebAuthn (passkeys):
@@ -180,11 +216,72 @@ try {
 }
 ```
 
+## Username Lookup API
+
+### lookupUsername Method
+
+The `lookupUsername` method allows you to check if a username exists and what authentication methods are available:
+
+```ts
+const lookupResult = await controller.lookupUsername("alice");
+
+console.log(lookupResult.exists);    // true/false
+console.log(lookupResult.signers);   // ["webauthn", "google", "discord"]
+```
+
+**Return Type:**
+```ts
+interface UsernameLookupResult {
+  exists: boolean;
+  signers: string[];  // Available authentication methods
+}
+```
+
+This method is particularly useful for:
+- Validating usernames before attempting authentication
+- Displaying appropriate login options to users
+- Implementing auto-signup flows when accounts don't exist
+- Preventing unnecessary authentication attempts
+
+### Auto-Signup Support
+
+Version 0.13.7 adds auto-signup functionality for headless flows. When a username doesn't exist, you can automatically create an account:
+
+```ts
+try {
+  const lookupResult = await controller.lookupUsername("newuser");
+  
+  if (!lookupResult.exists) {
+    // Auto-signup: create new account with the desired signer
+    const account = await controller.connect({
+      username: "newuser",
+      signer: "webauthn", // or any preferred authentication method
+    });
+    
+    console.log("New account created:", account.address);
+  } else {
+    // Existing account: use available signers
+    const account = await controller.connect({
+      username: "newuser",
+      signer: lookupResult.signers[0],
+    });
+    
+    console.log("Existing account authenticated:", account.address);
+  }
+} catch (error) {
+  console.error("Authentication failed:", error.message);
+}
+```
+
+:::note
+Auto-signup maintains strict signer matching for existing accounts. If an account exists but the specified signer is not associated with it, authentication will fail rather than creating a duplicate account.
+:::
+
 ## Integration Patterns
 
-### React Hook Pattern
+### React Hook Pattern with Lookup
 
-Create a reusable hook for headless authentication:
+Create a reusable hook for headless authentication with username lookup:
 
 ```tsx
 import { useCallback, useState } from 'react';
@@ -198,7 +295,7 @@ export function useHeadlessAuth() {
 
   const authenticateHeadless = useCallback(async (
     username: string, 
-    signer: string
+    signer?: string
   ) => {
     setLoading(true);
     try {
@@ -207,8 +304,27 @@ export function useHeadlessAuth() {
         await controller.disconnect();
       }
 
-      // Headless authentication
-      const account = await controller.connect({ username, signer });
+      // Lookup username to check existence and available signers
+      const lookupResult = await controller.lookupUsername(username);
+      
+      let finalSigner = signer;
+      if (!signer) {
+        // Auto-select best available signer
+        if (lookupResult.exists) {
+          finalSigner = lookupResult.signers.includes("webauthn") 
+            ? "webauthn" 
+            : lookupResult.signers[0];
+        } else {
+          // Default signer for new accounts
+          finalSigner = "webauthn";
+        }
+      }
+
+      // Headless authentication (with auto-signup if needed)
+      const account = await controller.connect({ 
+        username, 
+        signer: finalSigner 
+      });
       
       if (!account) {
         throw new Error('Authentication failed');
@@ -217,13 +333,33 @@ export function useHeadlessAuth() {
       // Sync with starknet-react
       await connectAsync({ connector: controller });
       
-      return account;
+      return { 
+        account, 
+        isNewAccount: !lookupResult.exists,
+        availableSigners: lookupResult.signers
+      };
     } finally {
       setLoading(false);
     }
   }, [controller, connectAsync]);
 
   return { authenticateHeadless, loading };
+}
+```
+
+### ControllerConnector Helper Method
+
+The `ControllerConnector` also exposes the `lookupUsername` helper for starknet-react applications:
+
+```tsx
+import { ControllerConnector } from '@cartridge/connector';
+
+// In your React component or hook
+const connector = connectors.find(c => c.id === 'cartridge') as ControllerConnector;
+const lookupResult = await connector.lookupUsername("alice");
+
+if (lookupResult.exists) {
+  console.log("Available signers:", lookupResult.signers);
 }
 ```
 
@@ -292,7 +428,11 @@ This web-based headless authentication is different from the [native headless Co
 ### Common Issues
 
 1. **"User not found"**: Username doesn't exist in the system
+   - *Solution*: Use `lookupUsername()` to check existence before attempting to connect
+   - *Auto-signup*: Consider enabling auto-signup for new users
 2. **"Signer not found"**: The specified signer isn't associated with the username
+   - *Solution*: Use `lookupUsername()` to get available signers for the username
+   - *Fallback*: Implement signer selection UI based on available options
 3. **"Not ready to connect"**: Controller initialization is still in progress
 4. **Network timeouts**: Check network connectivity and RPC endpoint availability
 
