@@ -67,6 +67,11 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 Session Policies can be provided in the preset configuration, providing a smoother experience for your users.
 In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
+:::warning
+When a `preset` is configured, its policies **take precedence** over any `policies` passed directly to the Controller.
+To use manually provided policies instead, set `shouldOverridePresetPolicies: true`.
+:::
+
 For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/main/configs/dope-wars/config.json):
 
 ```json
