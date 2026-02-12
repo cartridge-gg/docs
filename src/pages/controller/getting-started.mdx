@@ -369,15 +369,23 @@ const policies: SessionPolicies = {
   // Define session policies here
  };
 
+// Using manual policies
 const sessionConnector = new SessionConnector({
   policies,
-  rpc: "https://api.cartridge.gg/x/starknet/mainnet",  // Required: no framework provider
-  chainId: constants.StarknetChainId.SN_MAIN,          // Required: no framework provider
-  redirectUrl: "myapp://auth-callback",                // Required: where to redirect after auth
-  // Optional: specify keychain URL for custom deployments
-  keychainUrl: "https://x.cartridge.gg",
+  rpc: "https://api.cartridge.gg/x/starknet/mainnet",
+  chainId: constants.StarknetChainId.SN_MAIN,
+  redirectUrl: "myapp://auth-callback",
+});
+
+// Or using a preset (recommended for verified games)
+const sessionConnector = new SessionConnector({
+  preset: "my-game",
+  rpc: "https://api.cartridge.gg/x/starknet/mainnet",
+  chainId: constants.StarknetChainId.SN_MAIN,
+  redirectUrl: "myapp://auth-callback",
 });
 ```
+
 
 ### Migration Notes for v0.10.0
 
