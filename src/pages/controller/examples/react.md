@@ -328,17 +328,142 @@ export const TransferEth = () => {
 }
 ```
 
-### 4. Add Components to Your App
+### 4. Username Lookup
+
+The Controller provides a `lookupUsername` method that allows you to check if a username exists and see what authentication options are available for existing accounts. This is particularly useful for headless flows where you want to determine login vs signup flows:
+
+```typescript
+import { useState, useCallback } from 'react'
+import { useConnect } from '@starknet-react/core'
+import { ControllerConnector } from '@cartridge/connector'
+
+export function UsernameLookup() {
+  const { connectors } = useConnect()
+  const controller = connectors[0] as ControllerConnector
+  const [username, setUsername] = useState<string>('')
+  const [lookupResult, setLookupResult] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleLookup = useCallback(async () => {
+    if (!username.trim()) return
+    
+    setIsLoading(true)
+    try {
+      const result = await controller.lookupUsername(username.trim())
+      setLookupResult(result)
+    } catch (error) {
+      console.error('Lookup failed:', error)
+      setLookupResult(null)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [controller, username])
+
+  const handleHeadlessConnect = useCallback(async (signer: string) => {
+    try {
+      await controller.connect({
+        username: username.trim(),
+        signer: signer as any,
+      })
+    } catch (error) {
+      console.error('Connection failed:', error)
+    }
+  }, [controller, username])
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <input
+          type="text"
+          placeholder="Enter username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="border p-2 rounded"
+        />
+        <button 
+          onClick={handleLookup}
+          disabled={isLoading || !username.trim()}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+        >
+          {isLoading ? 'Looking up...' : 'Lookup Username'}
+        </button>
+      </div>
+
+      {lookupResult && (
+        <div className="border p-4 rounded">
+          <h3 className="font-semibold">Username: {lookupResult.username}</h3>
+          <p>Exists: {lookupResult.exists ? 'Yes' : 'No'}</p>
+          
+          {lookupResult.exists && lookupResult.signers.length > 0 && (
+            <div className="mt-2">
+              <p>Available authentication methods:</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {lookupResult.signers.map((signer: string) => (
+                  <button
+                    key={signer}
+                    onClick={() => handleHeadlessConnect(signer)}
+                    className="px-3 py-1 bg-green-500 text-white rounded text-sm"
+                  >
+                    Login with {signer}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {!lookupResult.exists && (
+            <div className="mt-2">
+              <p className="text-gray-600">Username is available for signup</p>
+              <button
+                onClick={() => handleHeadlessConnect('webauthn')}
+                className="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
+              >
+                Sign up with WebAuthn
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+#### Lookup Response Format
+
+The `lookupUsername` method returns an object with the following structure:
+
+```typescript
+interface HeadlessUsernameLookupResult {
+  username: string;        // The username that was looked up
+  exists: boolean;         // Whether the username exists
+  signers: AuthOption[];   // Available authentication methods, e.g. ["webauthn", "google", "password"]
+}
+```
+
+Available `AuthOption` values include:
+- `"webauthn"` - Passkey/WebAuthn authentication
+- `"password"` - Password-based authentication  
+- `"google"` - Google OAuth
+- `"discord"` - Discord OAuth
+- `"walletconnect"` - WalletConnect
+- `"metamask"` - MetaMask wallet
+- `"rabby"` - Rabby wallet
+- `"phantom-evm"` - Phantom wallet (EVM)
+
+### 5. Add Components to Your App
 
 ```typescript
 import { StarknetProvider } from './context/StarknetProvider'
 import { ConnectWallet } from './components/ConnectWallet'
 import { TransferEth } from './components/TransferEth'
+import { UsernameLookup } from './components/UsernameLookup'
 
 function App() {
   return (
     <StarknetProvider>
       <ConnectWallet />
+      <UsernameLookup />
       <TransferEth />
     </StarknetProvider>
   )

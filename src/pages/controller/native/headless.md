@@ -9,6 +9,10 @@ description: Using user-supplied signing keys with Controller for server-side an
 A headless Controller uses application-supplied signing keys rather than the Cartridge keychain.
 This gives developers greater control over key management and enables server-side use cases.
 
+:::info
+This page covers headless usage with native bindings (C++/Rust). For JavaScript/TypeScript headless usage in browsers and Node.js, see the [Controller HEADLESS_MODE.md guide](https://github.com/cartridge-gg/controller/blob/main/packages/controller/HEADLESS_MODE.md).
+:::
+
 ## Use Cases
 
 Headless Controllers are useful for:
