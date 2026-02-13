@@ -6,21 +6,9 @@ description: Using user-supplied signing keys with Controller for server-side an
 
 # Native Headless Controller
 
-A native headless Controller uses application-supplied signing keys rather than the Cartridge keychain.
-This gives developers greater control over key management and enables server-side use cases.
-
 :::info
 This guide covers **native headless mode** using C++ bindings for server-side applications. For **web-based headless authentication** in browser applications, see the [Headless Authentication](/controller/headless-authentication) guide.
 :::
-
-## Use Cases
-
-Headless Controllers are useful for:
-
-- **Single owner, multiple accounts**: Designate one signing key as the owner of multiple Controller accounts
-- **Server-side execution**: Backend services that need to execute transactions automatically
-- **Automated game backends**: Bots, NPCs, or game systems that interact with the blockchain
-- **Custom key management**: Applications with specific security or compliance requirements
 
 ## Setup
 

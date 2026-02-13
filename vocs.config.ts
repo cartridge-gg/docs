@@ -169,12 +169,12 @@ export default defineConfig({
                 link: "/controller/native/capacitor",
               },
               {
-                text: "Session Flow",
-                link: "/controller/native/session-flow",
-              },
-              {
                 text: "Headless Controller",
                 link: "/controller/native/headless",
+              },
+              {
+                text: "Session URL Reference",
+                link: "/controller/native/session-flow",
               },
             ],
           },
