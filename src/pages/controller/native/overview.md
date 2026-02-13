@@ -1,45 +1,73 @@
 ---
 showOutline: 1
 title: Native Integration
-description: Integrate Cartridge Controller into native and mobile applications.
+description: Choose the right connection flow for integrating Cartridge Controller into native and mobile applications.
 ---
 
 # Native Integration
 
 Controller was initially developed as a web wallet for browser-based applications.
-As the ecosystem has grown, there has been increasing demand for integrating Controller into native and mobile applications.
+As the ecosystem has grown, native integration is now supported across mobile and server-side platforms.
 
-There are two approaches to native integration:
+The most important decision when integrating Controller natively is **which connection flow** to use.
+Your choice depends on your platform, your UX requirements, and whether you need browser-based authentication.
 
-## Choosing an Approach
+## Connection Flows
 
-### Native Bindings (Controller.c)
+### Browser-Based Sessions
 
-Use this approach when you want true native performance and are building a native application from scratch.
+The most common flow for native apps.
+Your app generates a local keypair, opens a browser for the user to authenticate with their Controller account, and receives a session signer back.
+The session signer can then execute transactions without further user interaction.
 
-[Controller.c](https://github.com/cartridge-gg/controller.c) provides FFI bindings generated from the Rust core.
-These bindings enable direct integration with native programming environments.
+**How it works:**
 
-**Platforms:**
-- [React Native](/controller/native/react-native) - Cross-platform mobile via TurboModules
-- [Android / Kotlin](/controller/native/android) - Native Android via UniFFI
-- [iOS / Swift](/controller/native/ios) - Native iOS via UniFFI
-- C / C++ - Direct FFI for game engines and native applications
+1. Generate a new keypair locally and store the private key securely
+2. Open a browser to the Controller session URL, passing the public key and session policies
+3. The user authenticates via WebAuthn in the browser
+4. The app receives the user's Controller address via callback
+5. The app signs transactions using the local private key, validated against the registered session
 
-**Best for:** Performance-critical apps, games, apps that need offline transaction signing.
+**Best for:** Mobile apps, games, any app where end users authenticate interactively.
 
-:::info
-Controller's FFI bindings are generated using [UniFFI](https://github.com/mozilla/uniffi-rs).
-:::
+**Platform guides:** [React Native](/controller/native/react-native) | [Android](/controller/native/android) | [iOS](/controller/native/ios) | [Capacitor](/controller/native/capacitor)
 
-### Web Wrappers (Capacitor)
+**Reference:** [Session URL Reference](/controller/native/session-flow) for URL parameters, policy format, and callback metadata.
 
-Use this approach when you have an existing web application and want to distribute it through app stores.
+### Headless (App-Managed Keys)
 
-[Capacitor](/controller/native/capacitor) wraps your web app in a native shell while providing access to native features through plugins.
-Authentication uses the same browser-based flow as web, with deep link redirects back to your app.
+Your app supplies its own signing keys rather than using the Cartridge keychain.
+No browser authentication is involved — the app directly controls a Controller account using a private key it manages.
 
-**Best for:** Existing web apps, faster time-to-market, teams stronger in web than native.
+**Best for:**
+
+- Server-side execution and automated game backends
+- Single owner managing multiple Controller accounts
+- Bots, NPCs, or game systems that interact with the blockchain
+- Applications with specific key management or compliance requirements
+
+**Implementation:** [Headless Controller](/controller/native/headless) (C++ UniFFI bindings)
+
+### Web Wrapper (Capacitor)
+
+If you already have a web app using Controller, you can wrap it in a native shell for app store distribution.
+Your app uses the web `SessionProvider` directly, with deep link redirects handling the browser-to-app callback.
+
+This is not a different authentication flow — it uses the same browser-based session flow as the web SDK.
+The difference is in the integration approach: you're packaging a web app rather than building a native one.
+
+**Best for:** Existing web apps, faster time-to-market, teams stronger in web than native development.
+
+**Platform guide:** [Capacitor](/controller/native/capacitor)
+
+## Choosing a Flow
+
+| Use Case | Flow | Platform Guides |
+|----------|------|-----------------|
+| Mobile game with player login | Browser-based sessions | [React Native](/controller/native/react-native), [Android](/controller/native/android), [iOS](/controller/native/ios) |
+| Existing web app → app store | Web wrapper | [Capacitor](/controller/native/capacitor) |
+| Game backend / server-side bots | Headless | [Headless Controller](/controller/native/headless) |
+| Custom key management | Headless | [Headless Controller](/controller/native/headless) |
 
 ## Passkey Authentication on Native
 
@@ -47,8 +75,3 @@ To enable Passkey sign-in on native applications, you must configure your preset
 This allows the operating system to recognize your app as authorized for WebAuthn credentials associated with your domain.
 
 See the [Presets documentation](/controller/presets#apple-app-site-association) for configuration details.
-
-## Additional Topics
-
-- [Session Flow](/controller/native/session-flow) - Understanding browser-based session authentication
-- [Headless Controller](/controller/native/headless) - Using custom signing keys for server-side or automated use cases

@@ -1,46 +1,12 @@
 ---
 showOutline: 1
-title: Session Flow
-description: Understanding the browser-based session linking flow for native Controller integration.
+title: Session URL Reference
+description: URL format, parameters, and callback metadata for the browser-based session flow.
 ---
 
-# Session Flow
+# Session URL Reference
 
-Native applications use a browser-based authentication flow to link locally-generated session keys to a user's Controller account.
-This allows the native app to sign transactions on behalf of the user without requiring the user to authenticate for each transaction.
-
-## Flow Overview
-
-::::steps
-
-#### Generate a new keypair locally
-
-The native application generates a new keypair using a local cryptographic utility.
-The private key should be stored securely and used to sign transactions.
-The public key will be sent to the Controller keychain for registration.
-
-#### Initiate the Controller login flow via browser
-
-The application opens a browser window to the Controller session URL, passing the public key and session policies as URL parameters.
-The user is prompted to log in with their Controller account.
-
-#### User authenticates and session is registered
-
-The user completes the Controller WebAuthn login flow in the browser.
-The keychain signs the public key and policy root using the user's credentials.
-The session registration is submitted through the Cartridge API, which records the session authorization onchain at the Controller contract.
-
-#### Application receives callback with Controller address
-
-After successful authentication, the application receives the user's Controller address via callback.
-This address should be used when preparing transactions.
-
-#### Application signs transactions with the session signer
-
-The native application can now sign transactions using the locally-stored private key.
-These transactions are validated against the recorded session and executed.
-
-::::
+This page documents the URL format and callback metadata for the [browser-based session flow](/controller/native/overview#browser-based-sessions).
 
 ## Session URL Format
 
@@ -105,7 +71,8 @@ When a session is already registered and authorized, the callback payload includ
 | `guardianKeyGuid` | string | Unique identifier for the guardian key |
 | `alreadyRegistered` | boolean | Flag indicating this is an existing session |
 
-These fields are only included when returning an existing authorized session (when `alreadyRegistered` is `true`). For new session registrations, only the basic metadata fields are returned.
+These fields are only included when returning an existing authorized session (when `alreadyRegistered` is `true`).
+For new session registrations, only the basic metadata fields are returned.
 
 Fields marked with `?` are only populated when creating sessions via the subscription API flow (`createFromSubscribe`).
 When creating sessions directly with the constructor, these fields will be `null`.
