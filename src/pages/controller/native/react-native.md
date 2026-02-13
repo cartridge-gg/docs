@@ -9,6 +9,14 @@ description: Integrate Cartridge Controller into React Native applications using
 Controller can be integrated into React Native applications using TurboModules and the Controller.c FFI bindings.
 This enables session-based authentication and transaction execution in cross-platform mobile apps.
 
+:::info
+This guide uses the native Controller.c bindings to implement the [session flow](/controller/native/session-flow) directly.
+This is the native equivalent of [SessionProvider](/controller/getting-started#sessionprovider-redirect-based) — it generates a local session keypair, authenticates via browser, and executes transactions with the session key.
+It is **not** the [headless controller](/controller/native/headless) pattern, which uses application-managed owner keys without any browser authentication.
+
+If you are wrapping an existing web app for mobile distribution, consider [Capacitor](/controller/native/capacitor) instead, which uses the JS `SessionProvider` directly.
+:::
+
 ## Prerequisites
 
 - Node.js >= 20
