@@ -27,15 +27,7 @@ cargo install --git https://github.com/cartridge-gg/controller-cli
 
 ## Quick Start
 
-### 1. Generate a keypair
-
-```bash
-controller generate-keypair
-```
-
-This creates a session signing keypair and stores it locally in `~/.config/controller-cli/`.
-
-### 2. Define policies
+### 1. Define policies
 
 Create a `policies.json` file specifying which contracts and methods the session can call:
 
@@ -58,39 +50,36 @@ Create a `policies.json` file specifying which contracts and methods the session
 
 This uses the same policy format as the [JavaScript SDK](/controller/sessions#defining-policies), with contract addresses mapping to allowed methods.
 
-### 3. Register a session
+### 2. Authorize a session
 
 Using a policy file:
 
 ```bash
-controller register-session --file policies.json --chain-id SN_MAIN
+controller session auth --file policies.json --chain-id SN_MAIN
 ```
 
 Or use a preset for popular games/apps:
 
 ```bash
-controller register-session --preset loot-survivor --chain-id SN_MAIN
+controller session auth --preset loot-survivor --chain-id SN_MAIN
 ```
 
 Available presets include: `loot-survivor`, `influence`, `realms`, `pistols`, `dope-wars`, and more.
 
-This prints an authorization URL. Open it in your browser and approve the session.
-The CLI automatically polls for authorization and stores the session credentials once approved.
+This generates a new keypair, creates an authorization URL, and automatically polls until you approve in the browser. Session credentials are stored once authorized.
 
-### 4. Execute transactions
+### 3. Execute transactions
 
-Single call:
+**Single call (positional args):**
 
 ```bash
 controller execute \
-  --contract 0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7 \
-  --entrypoint transfer \
-  --calldata 0x1234,0x100,0x0 \
-  --rpc-url https://api.cartridge.gg/x/starknet/mainnet \
-  --wait
+  0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7 \
+  transfer \
+  0x1234,u256:1000000000000000000
 ```
 
-Multiple calls from a file:
+**Multiple calls from a file:**
 
 ```bash
 controller execute --file calls.json --wait
@@ -110,27 +99,44 @@ Where `calls.json` contains:
 }
 ```
 
-## Commands
+Transactions are auto-subsidized via paymaster when possible. Use `--no-paymaster` to pay with user funds directly.
 
-### `generate-keypair`
-
-Creates a new session signing keypair and stores it locally.
+### 4. Read-only calls
 
 ```bash
-controller generate-keypair
+controller call \
+  0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7 \
+  balance_of \
+  0xaddress
 ```
 
-### `register-session`
+Use `--block-id` to query at a specific block (`latest`, `pending`, a block number, or block hash).
 
-Generates an authorization URL and waits for the user to approve in the browser.
-Polls the API automatically (up to 6 minutes).
+### Calldata formats
+
+Calldata values support multiple formats:
+
+| Format | Example | Description |
+|--------|---------|-------------|
+| Hex | `0x64` | Standard hex felt |
+| Decimal | `100` | Decimal felt |
+| `u256:` | `u256:1000000000000000000` | Auto-splits into low/high 128-bit felts |
+| `str:` | `str:hello` | Cairo short string |
+
+The `u256:` prefix eliminates the need to manually split token amounts into low/high parts.
+
+## Commands
+
+### `session auth`
+
+Generates a keypair, creates an authorization URL, and waits for the user to approve in the browser.
 
 ```bash
 # Using a policy file
-controller register-session --file <policy_file> --chain-id SN_MAIN
+controller session auth --file <policy_file> --chain-id SN_MAIN
 
 # Using a preset
-controller register-session --preset <preset_name> --chain-id SN_MAIN
+controller session auth --preset <preset_name> --chain-id SN_MAIN
 ```
 
 **Presets:** Popular games/apps have pre-defined policies:
@@ -142,34 +148,101 @@ controller register-session --preset <preset_name> --chain-id SN_MAIN
 
 See all presets at [github.com/cartridge-gg/presets](https://github.com/cartridge-gg/presets/tree/main/configs).
 
+### `session status`
+
+Displays current session status, keypair info, and expiration details.
+
+```bash
+controller session status
+```
+
+Returns one of three states: `no_session`, `keypair_only`, or `active`.
+
+### `session list`
+
+Lists all active sessions with pagination.
+
+```bash
+controller session list
+controller session list --limit 20 --page 2
+```
+
+### `session clear`
+
+Removes all stored session data and keypairs.
+
+```bash
+controller session clear [--yes]
+```
+
 ### `execute`
 
 Executes a transaction using the active session.
 
 ```bash
-# Single call
-controller execute --contract <address> --entrypoint <name> --calldata <hex,hex,...> [--rpc-url <url>] [--no-paymaster] [--wait] [--timeout <seconds>]
+# Single call (positional: contract entrypoint calldata)
+controller execute <address> <entrypoint> <calldata> [--chain-id <id>] [--no-paymaster] [--wait] [--timeout <seconds>]
 
-# Multiple calls
-controller execute --file <calls.json> [--rpc-url <url>] [--no-paymaster] [--wait] [--timeout <seconds>]
+# Multiple calls from file
+controller execute --file <calls.json> [--chain-id <id>] [--no-paymaster] [--wait] [--timeout <seconds>]
 ```
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--rpc-url` | RPC endpoint URL | From session registration |
+| `--chain-id` | Chain ID (`SN_MAIN`, `SN_SEPOLIA`) | From config |
 | `--no-paymaster` | Bypass paymaster, pay fees directly | off |
 | `--wait` | Wait for transaction confirmation | off |
 | `--timeout` | Confirmation timeout in seconds | 300 |
 
-### `status`
+### `call`
 
-Displays current session status, keypair info, and expiration details.
+Performs a read-only contract call (no transaction).
 
 ```bash
-controller status
+controller call <address> <entrypoint> [calldata] [--block-id <id>] [--chain-id <id>]
 ```
 
-Returns one of three states: `no_session`, `keypair_only`, or `active`.
+### `transaction`
+
+Gets the status of a transaction.
+
+```bash
+controller transaction <tx_hash> --chain-id SN_SEPOLIA
+```
+
+Add `--wait` to poll until the transaction reaches a final status.
+
+### `receipt`
+
+Gets the full receipt of a transaction including execution status, fees, events, and messages.
+
+```bash
+controller receipt <tx_hash> --chain-id SN_SEPOLIA
+```
+
+Add `--wait` to poll until the receipt is available.
+
+### `balance`
+
+Queries ERC20 token balances for the active session account.
+
+```bash
+# All known token balances
+controller balance
+
+# Specific token
+controller balance eth
+```
+
+Built-in tokens: ETH, STRK, USDC, USD.e, LORDS, SURVIVOR, WBTC. Custom tokens can be added via `config set token.<SYMBOL> <address>`.
+
+### `username`
+
+Displays the Cartridge username associated with the active session account.
+
+```bash
+controller username
+```
 
 ### `lookup`
 
@@ -185,21 +258,25 @@ controller lookup --addresses 0x123...,0x456...
 
 Output format: `username:address` pairs.
 
-### `store-session`
+### `config`
 
-Manually store session credentials from authorization (advanced use).
-
-```bash
-controller store-session <credentials_json>
-```
-
-### `clear`
-
-Removes all stored session data and keypairs.
+Manages CLI configuration values.
 
 ```bash
-controller clear [--yes]
+# Set a config value
+controller config set rpc-url https://api.cartridge.gg/x/starknet/mainnet
+
+# Get a config value
+controller config get rpc-url
+
+# List all config values
+controller config list
+
+# Add a custom token for balance tracking
+controller config set token.MYTOKEN 0x123...
 ```
+
+Valid keys: `rpc-url`, `keychain-url`, `api-url`, `storage-path`, `json-output`, `colors`, `callback-timeout`, `token.<symbol>`.
 
 ## Global Flags
 
@@ -212,14 +289,14 @@ All commands support:
 
 ## Network Selection
 
-Always be explicit about network using `--chain-id` or `--rpc-url`:
+Specify the network using `--chain-id` or configure a default RPC URL:
 
 | Chain ID | RPC URL | Usage |
 |----------|---------|-------|
 | `SN_MAIN` | `https://api.cartridge.gg/x/starknet/mainnet` | Starknet Mainnet |
 | `SN_SEPOLIA` | `https://api.cartridge.gg/x/starknet/sepolia` | Starknet Sepolia |
 
-For presets, use `--chain-id`. For policy files, use `--rpc-url`.
+RPC URL precedence: `--chain-id` flag > config `rpc-url` > environment variable.
 
 ## Paymaster Control
 
@@ -229,9 +306,9 @@ Use `--no-paymaster` to bypass the paymaster and pay with user funds:
 
 ```bash
 controller execute \
-  --contract 0x... \
-  --entrypoint transfer \
-  --calldata 0x... \
+  0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7 \
+  transfer \
+  0x1234,u256:1000000000000000000 \
   --no-paymaster
 ```
 
@@ -242,23 +319,25 @@ The CLI reads configuration from `~/.config/controller-cli/config.toml`:
 ```toml
 [session]
 storage_path = "~/.config/controller-cli"
-default_chain_id = "SN_SEPOLIA"
-default_rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
+rpc_url = "https://api.cartridge.gg/x/starknet/sepolia"
+keychain_url = "https://x.cartridge.gg"
+api_url = "https://api.cartridge.gg/query"
 
 [cli]
 json_output = false
 use_colors = true
-callback_timeout_seconds = 360
+callback_timeout_seconds = 300
+
+[tokens]
+MYTOKEN = "0x123..."
 ```
 
-Settings can be overridden with environment variables:
+Settings can also be managed with `controller config set/get/list`, or overridden with environment variables:
 
 | Variable | Description |
 |----------|-------------|
 | `CARTRIDGE_STORAGE_PATH` | Session storage location |
-| `CARTRIDGE_CHAIN_ID` | Default chain ID |
 | `CARTRIDGE_RPC_URL` | Default RPC endpoint |
-| `CARTRIDGE_API_URL` | API endpoint for session queries |
 | `CARTRIDGE_JSON_OUTPUT` | Default to JSON output (`true`/`1`) |
 
 Precedence: CLI flags > environment variables > config file.
@@ -269,11 +348,11 @@ Common errors and how to fix them:
 
 | Error | Meaning | Fix |
 |-------|---------|-----|
-| `NoSession` | No keypair found | Run `generate-keypair` |
-| `SessionExpired` | Session has expired | Run `register-session` again |
-| `InvalidSessionData` | Corrupted session data | Run `clear` and start over |
+| `NoSession` | No keypair found | Run `session auth` |
+| `SessionExpired` | Session has expired | Run `session auth` again |
+| `InvalidSessionData` | Corrupted session data | Run `session clear` and start over |
 | `TransactionFailed` | Execution failed | Check policies and calldata |
-| `CallbackTimeout` | Authorization timed out (360s) | Run `register-session` again |
+| `CallbackTimeout` | Authorization timed out | Run `session auth` again |
 | `ManualExecutionRequired` | No authorized session for this transaction | Register session with appropriate policies |
 | `InvalidInput` | Invalid input parameters | Check command syntax and calldata |
 
@@ -284,7 +363,7 @@ When using `--json`, errors return structured responses with machine-readable co
   "status": "error",
   "error_code": "SessionExpired",
   "message": "Session expired at 2025-01-01 00:00:00 UTC",
-  "recovery_hint": "Run 'controller register-session' to create a new session"
+  "recovery_hint": "Run 'controller session auth' to create a new session"
 }
 ```
 
