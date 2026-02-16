@@ -112,6 +112,7 @@ const provider = new SessionProvider({
   chainId: constants.StarknetChainId.SN_SEPOLIA,
   redirectUrl: "myapp://session",        // Custom URL scheme
   policies,
+  keychainUrl: "https://x.cartridge.gg", // Optional: customize keychain URL
 });
 ```
 
@@ -260,6 +261,24 @@ const isNative = platform === "ios" || platform === "android";
 const isIOS = platform === "ios";
 const isAndroid = platform === "android";
 ```
+
+## Configuration Options
+
+### Custom Keychain URL
+
+You can customize the keychain URL using the `keychainUrl` parameter or environment variable:
+
+```typescript
+const provider = new SessionProvider({
+  // ... other config
+  keychainUrl: process.env.VITE_KEYCHAIN_URL || "https://x.cartridge.gg",
+});
+```
+
+This is useful for:
+- Testing with development keychain instances
+- Enterprise deployments with custom keychain servers
+- Local development with different keychain configurations
 
 ## Additional Native Features
 
