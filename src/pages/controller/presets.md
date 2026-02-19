@@ -68,8 +68,14 @@ Session Policies can be provided in the preset configuration, providing a smooth
 In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
 :::warning
-When a `preset` is configured, its policies **take precedence** over any `policies` passed directly to the Controller.
-To use manually provided policies instead, set `shouldOverridePresetPolicies: true`.
+**Policy Precedence Rules:**
+
+1. When `shouldOverridePresetPolicies: true` and policies are provided → uses URL policies
+2. When preset is configured and has policies for the current chain → uses preset policies (ignores URL policies)
+3. When preset is configured but has no policies for the current chain → falls back to URL policies
+4. When no preset is configured → uses URL policies
+
+To force manually provided policies over preset policies, set `shouldOverridePresetPolicies: true`.
 :::
 
 For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/main/configs/dope-wars/config.json):

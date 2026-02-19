@@ -110,11 +110,13 @@ const sessionProvider = new SessionProvider({
 
 **Policy precedence rules:**
 
-1. **Preset only**: When only `preset` is provided, policies are resolved from the preset configuration
-2. **Manual policies only**: When only `policies` are provided, manual policies are used
+1. **Manual policies only**: When only `policies` are provided, manual policies are used
+2. **Preset only**: When only `preset` is provided, policies are resolved from the preset configuration
 3. **Both provided**: When both `preset` and `policies` are provided:
-   - By default, preset policies take precedence (manual policies are ignored with a console warning)
-   - Set `shouldOverridePresetPolicies: true` to use manual policies instead
+   - If `shouldOverridePresetPolicies: true` → uses manual policies (overrides preset)
+   - If preset has policies for the current chain → uses preset policies (ignores manual policies with console warning)
+   - If preset has no policies for the current chain → falls back to manual policies
+4. **No policies found**: If no policies are available from any source, Controller operates without session policies
 
 **Example with policy override:**
 ```typescript

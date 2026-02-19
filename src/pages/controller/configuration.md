@@ -45,8 +45,14 @@ export type ControllerOptions = {
 ```
 
 :::warning
-When both `preset` and `policies` are provided, **preset policies take precedence** by default.
-Manually provided policies are ignored unless you set `shouldOverridePresetPolicies: true`.
+**Policy Precedence Behavior:**
+
+When both `preset` and `policies` are provided:
+- If `shouldOverridePresetPolicies: true` → uses manual policies
+- If preset has policies for the current chain → uses preset policies (ignores manual policies)
+- If preset has no policies for the current chain → falls back to manual policies
+
+To guarantee manual policies take precedence, set `shouldOverridePresetPolicies: true`.
 :::
 
 ## Chain Configuration
