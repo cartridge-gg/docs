@@ -404,7 +404,7 @@ All commands support:
 |------|-------------|
 | `--json` | Machine-readable JSON output |
 | `--no-color` | Disable colored terminal output |
-| `--account <username>` | Cartridge Controller account to use (e.g., `--account player1`) |
+| `--account <username>` | Cartridge Controller account to use (e.g., `--account shinobi`) |
 
 ### Multi-Account Support
 
@@ -414,13 +414,13 @@ Each account gets its own isolated session storage, so you can manage multiple a
 
 ```bash
 # Authorize with a specific account (username prefilled)
-controller session auth --file policy.json --chain-id SN_MAIN --account player1
+controller session auth --file policy.json --chain-id SN_MAIN --account shinobi
 
 # Authorize without specifying (choose in browser)
 controller session auth --file policy.json --chain-id SN_MAIN
 
 # Execute as a specific account
-controller execute 0x... transfer 0x...,u256:100 --account player1
+controller execute 0x... transfer 0x...,u256:100 --account shinobi
 ```
 
 ## Network Selection
