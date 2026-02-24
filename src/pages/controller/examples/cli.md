@@ -404,11 +404,11 @@ All commands support:
 |------|-------------|
 | `--json` | Machine-readable JSON output |
 | `--no-color` | Disable colored terminal output |
-| `--account <label>` | Account label for multi-account support (e.g., `--account player1`) |
+| `--account <username>` | Cartridge Controller account to use (e.g., `--account player1`) |
 
 ### Multi-Account Support
 
-Use `--account` to manage multiple Controller sessions on the same machine. Each account label maps to a separate Cartridge Controller account — the label must correspond to an actual Controller account that will be authorized via browser during `session auth`. Each labeled account gets its own isolated session storage.
+Use `--account` to manage multiple Controller accounts on the same machine. The value must be a valid Cartridge Controller username — each account is authorized independently via browser during `session auth` and gets its own isolated session storage.
 
 ```bash
 # Authorize sessions for different Controller accounts
@@ -419,7 +419,7 @@ controller session auth --file policy.json --chain-id SN_MAIN --account player2
 controller execute 0x... transfer 0x...,u256:100 --account player1
 ```
 
-Account labels must be alphanumeric (plus `-` and `_`), up to 64 characters. When `--account` is omitted, the CLI uses the default (unlabeled) account.
+When `--account` is omitted, the CLI uses the default account.
 
 ## Network Selection
 
