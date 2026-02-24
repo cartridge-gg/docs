@@ -408,18 +408,20 @@ All commands support:
 
 ### Multi-Account Support
 
-Use `--account` to manage multiple Controller accounts on the same machine. The value must be a valid Cartridge Controller username — each account is authorized independently via browser during `session auth` and gets its own isolated session storage.
+Use `--account` to specify which Cartridge Controller account to use. When provided, the username is prefilled in the session authorization UI. When omitted, the user can choose which account to authorize in the browser.
+
+Each account gets its own isolated session storage, so you can manage multiple accounts on the same machine.
 
 ```bash
-# Authorize sessions for different Controller accounts
+# Authorize with a specific account (username prefilled)
 controller session auth --file policy.json --chain-id SN_MAIN --account player1
-controller session auth --file policy.json --chain-id SN_MAIN --account player2
+
+# Authorize without specifying (choose in browser)
+controller session auth --file policy.json --chain-id SN_MAIN
 
 # Execute as a specific account
 controller execute 0x... transfer 0x...,u256:100 --account player1
 ```
-
-When `--account` is omitted, the CLI uses the default account.
 
 ## Network Selection
 
