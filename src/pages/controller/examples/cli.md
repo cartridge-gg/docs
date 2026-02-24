@@ -408,10 +408,10 @@ All commands support:
 
 ### Multi-Account Support
 
-Use `--account` to manage multiple sessions on the same machine. Each account label gets its own isolated session storage:
+Use `--account` to manage multiple Controller sessions on the same machine. Each account label maps to a separate Cartridge Controller account — the label must correspond to an actual Controller account that will be authorized via browser during `session auth`. Each labeled account gets its own isolated session storage.
 
 ```bash
-# Authorize sessions for different accounts
+# Authorize sessions for different Controller accounts
 controller session auth --file policy.json --chain-id SN_MAIN --account player1
 controller session auth --file policy.json --chain-id SN_MAIN --account player2
 
@@ -419,7 +419,7 @@ controller session auth --file policy.json --chain-id SN_MAIN --account player2
 controller execute 0x... transfer 0x...,u256:100 --account player1
 ```
 
-When `--account` is omitted, the CLI uses the default (unlabeled) account.
+Account labels must be alphanumeric (plus `-` and `_`), up to 64 characters. When `--account` is omitted, the CLI uses the default (unlabeled) account.
 
 ## Network Selection
 
