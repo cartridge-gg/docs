@@ -94,6 +94,24 @@ export type SessionOptions = {
 };
 ```
 
+### Updating Session Policies
+
+The `updateSession()` method allows you to update session policies at runtime without requiring a full reconnect. This is useful when you need to add new permissions during gameplay or change policy configurations dynamically.
+
+```typescript
+// Update using a preset
+await controller.updateSession({
+  preset: "loot-survivor",
+});
+
+// Update using direct policies
+await controller.updateSession({
+  policies: newSessionPolicies,
+});
+```
+
+Either `policies` or `preset` must be provided. The method opens the keychain interface where users can approve the updated policies, following the same approval flow as initial session creation.
+
 ### Using Presets with SessionProvider
 
 The `preset` parameter allows you to use verified session policies from `@cartridge/presets` instead of manually defining policies. This ensures consistency between SessionProvider and ControllerProvider and simplifies configuration for games with verified presets.
