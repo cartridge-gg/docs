@@ -32,6 +32,7 @@ https://x.cartridge.gg/session?public_key={public_key}&preset={preset}&rpc_url={
 | `redirect_query_name` | No | Query parameter name for the redirect |
 | `callback_uri` | No | URL to POST session data after creation |
 | `account` | No | Username to prefill and lock during authentication. Forces logout if user is logged in with a different account |
+| `expires_at` | No | Unix timestamp (seconds) to override session expiration. When provided, this value is used instead of the duration picker |
 
 ## Policy Structure
 
