@@ -66,7 +66,7 @@ controller session auth --preset loot-survivor --chain-id SN_MAIN
 
 Available presets include: `loot-survivor`, `influence`, `realms`, `pistols`, `dope-wars`, and more.
 
-This generates a new keypair, creates an authorization URL, and automatically polls until you approve in the browser. Session credentials are stored once authorized.
+This generates a new keypair, creates an authorization URL, and automatically polls until you approve in the browser. Session credentials are stored once authorized. Sessions expire after 7 days by default — use `--expires` to customize (e.g., `--expires 1day`, `--expires 1hr`).
 
 ### 3. Execute transactions
 
@@ -174,7 +174,19 @@ controller session auth --file <policy_file> --chain-id SN_MAIN
 
 # Using a preset
 controller session auth --preset <preset_name> --chain-id SN_MAIN
+
+# With custom expiration (default: 7days)
+controller session auth --file <policy_file> --chain-id SN_MAIN --expires 1day
 ```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--file` | Path to policy JSON file | — |
+| `--preset` | Use a pre-defined policy preset | — |
+| `--chain-id` | Chain ID (e.g., `SN_MAIN`, `SN_SEPOLIA`) | — |
+| `--rpc-url` | RPC URL (overrides config) | — |
+| `--overwrite` | Overwrite existing session without confirmation | off |
+| `--expires` | Session expiration duration (e.g., `1min`, `1hr`, `1day`, `7days`, `1week`, `1year`) | `7days` |
 
 **Presets:** Popular games/apps have pre-defined policies:
 - `loot-survivor` — Loot Survivor game
