@@ -112,6 +112,32 @@ controller call \
 
 Use `--block-id` to query at a specific block (`latest`, `pending`, a block number, or block hash).
 
+### 5. Starterpacks
+
+```bash
+# Check what's in a starterpack
+controller starterpack info <ID> --chain-id SN_MAIN
+
+# Get the price
+controller starterpack quote <ID> --chain-id SN_MAIN
+
+# Purchase via browser (crosschain/Apple Pay)
+controller starterpack purchase <ID> --chain-id SN_MAIN
+
+# Purchase directly from wallet
+controller starterpack purchase <ID> --direct --chain-id SN_MAIN
+```
+
+### 6. Marketplace
+
+```bash
+# Check an order
+controller marketplace info --order-id 42 --collection 0x123... --token-id 1 --chain-id SN_MAIN
+
+# Buy an NFT
+controller marketplace buy --order-id 42 --collection 0x123... --token-id 1 --chain-id SN_MAIN --wait
+```
+
 ### Calldata formats
 
 Calldata values support multiple formats:
@@ -122,8 +148,19 @@ Calldata values support multiple formats:
 | Decimal | `100` | Decimal felt |
 | `u256:` | `u256:1000000000000000000` | Auto-splits into low/high 128-bit felts |
 | `str:` | `str:hello` | Cairo short string |
+| `bytearray:` | `bytearray:hello` | Cairo ByteArray (multi-felt serialization) |
 
 The `u256:` prefix eliminates the need to manually split token amounts into low/high parts.
+
+The `bytearray:` prefix serializes strings into Cairo ByteArray format (multiple felts):
+
+```bash
+# String encoding
+controller execute 0xCONTRACT set_name bytearray:hello --json
+
+# Raw bytes encoding
+controller execute 0xCONTRACT set_data "bytearray:[0x48,0x65,0x6c,0x6c,0x6f]" --json
+```
 
 ## Commands
 
@@ -278,6 +315,87 @@ controller config set token.MYTOKEN 0x123...
 
 Valid keys: `rpc-url`, `keychain-url`, `api-url`, `storage-path`, `json-output`, `colors`, `callback-timeout`, `token.<symbol>`.
 
+### `starterpack info`
+
+Fetches metadata for a starterpack (name, description, image, included items).
+
+```bash
+controller starterpack info <ID> --chain-id SN_MAIN
+```
+
+### `starterpack quote`
+
+Gets a price quote including base price, fees, and total cost.
+
+```bash
+controller starterpack quote <ID> --chain-id SN_MAIN
+```
+
+### `starterpack purchase`
+
+Purchases a starterpack. Two modes are available:
+
+**UI mode (default):** Opens the Cartridge purchase page in your browser. Supports crosschain payments and Apple Pay.
+
+```bash
+controller starterpack purchase <ID> --chain-id SN_MAIN
+# or explicitly:
+controller starterpack purchase <ID> --ui --chain-id SN_MAIN
+```
+
+**Direct mode:** Executes the purchase on-chain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starterpack contract.
+
+```bash
+controller starterpack purchase <ID> --direct --chain-id SN_MAIN
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--ui` | Open browser for purchase (crosschain/Apple Pay) | default |
+| `--direct` | Purchase directly via Controller wallet | off |
+| `--recipient` | Send to a different address | current controller |
+| `--quantity` | Number to purchase | 1 |
+| `--wait` | Wait for transaction confirmation (direct only) | off |
+| `--timeout` | Confirmation timeout in seconds (direct only) | 300 |
+| `--no-paymaster` | Pay gas directly (direct only) | off |
+
+### `marketplace info`
+
+Queries marketplace order validity and details before purchasing.
+
+```bash
+controller marketplace info \
+  --order-id 42 \
+  --collection 0x123...abc \
+  --token-id 1 \
+  --chain-id SN_MAIN
+```
+
+### `marketplace buy`
+
+Purchases an NFT from an active marketplace listing. Requires an active session with policies for `execute` on the marketplace contract and `approve` on the payment token.
+
+```bash
+controller marketplace buy \
+  --order-id 42 \
+  --collection 0x123...abc \
+  --token-id 1 \
+  --chain-id SN_MAIN \
+  --wait
+```
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--order-id` | Marketplace order ID (required) | — |
+| `--collection` | NFT collection contract address (required) | — |
+| `--token-id` | Token ID in the collection (required) | — |
+| `--asset-id` | Asset ID for ERC1155 tokens | 0 |
+| `--quantity` | Quantity to purchase | 1 |
+| `--no-royalties` | Skip paying creator royalties | off |
+| `--wait` | Wait for transaction confirmation | off |
+| `--timeout` | Confirmation timeout in seconds | 300 |
+| `--no-paymaster` | Pay gas directly | off |
+
 ## Global Flags
 
 All commands support:
@@ -286,6 +404,24 @@ All commands support:
 |------|-------------|
 | `--json` | Machine-readable JSON output |
 | `--no-color` | Disable colored terminal output |
+| `--account <username>` | Cartridge Controller account to use (e.g., `--account shinobi`) |
+
+### Multi-Account Support
+
+Use `--account` to specify which Cartridge Controller account to use. When provided, the username is prefilled in the session authorization UI. When omitted, the user can choose which account to authorize in the browser.
+
+Each account gets its own isolated session storage, so you can manage multiple accounts on the same machine.
+
+```bash
+# Authorize with a specific account (username prefilled)
+controller session auth --file policy.json --chain-id SN_MAIN --account shinobi
+
+# Authorize without specifying (choose in browser)
+controller session auth --file policy.json --chain-id SN_MAIN
+
+# Execute as a specific account
+controller execute 0x... transfer 0x...,u256:100 --account shinobi
+```
 
 ## Network Selection
 
