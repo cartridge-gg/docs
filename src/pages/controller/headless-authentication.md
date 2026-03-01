@@ -6,7 +6,8 @@ description: Programmatic authentication with the Cartridge Controller SDK witho
 
 # Headless Authentication
 
-Headless authentication enables programmatic authentication with the Cartridge Controller SDK without displaying any user interface. This is ideal for automated workflows, server-side applications, and creating seamless user experiences where you want to minimize UI interruptions.
+Headless authentication enables programmatic authentication with the Cartridge Controller SDK without displaying any user interface.
+This is ideal for automated workflows, server-side applications, and creating seamless user experiences where you want to minimize UI interruptions.
 
 ## Overview
 
@@ -24,7 +25,7 @@ Controller SDK → Hidden Keychain iframe → Backend API → Authenticated Acco
 
 ### Recommended: Lookup-First Flow Pattern
 
-The recommended pattern for headless authentication checks for account existence and available signers before attempting to connect:
+The recommended pattern for headless authentication checks for account existence and available authentication methods before attempting to connect:
 
 ```ts
 import Controller from "@cartridge/controller";
@@ -32,7 +33,7 @@ import Controller from "@cartridge/controller";
 const controller = new Controller({});
 
 try {
-  // First, lookup the username to check existence and available signers
+  // First, lookup the username to check existence and available authentication methods
   const lookupResult = await controller.lookupUsername("alice");
   
   if (!lookupResult.exists) {
@@ -92,7 +93,8 @@ const account = await controller.connect({
 ```
 
 :::warning
-Never hardcode passwords in your source code. Use environment variables, secure configuration files, or prompt users for their passwords at runtime.
+Never hardcode passwords in your source code.
+Use environment variables, secure configuration files, or prompt users for their passwords at runtime.
 :::
 
 ### OAuth Providers
@@ -148,7 +150,7 @@ await controller.connect({
 });
 ```
 
-## Supported Signer Options
+## Supported Authentication Methods
 
 Headless mode supports all implemented authentication methods:
 
@@ -189,6 +191,7 @@ await account.execute(/* your transaction */);
 
 ## Error Handling
 
+For comprehensive error handling patterns, see the [Configuration guide](/controller/configuration).
 Headless authentication provides specific error handling:
 
 ```ts
@@ -245,7 +248,8 @@ This method is particularly useful for:
 
 ### Auto-Signup Support
 
-Version 0.13.7 adds auto-signup functionality for headless flows. When a username doesn't exist, you can automatically create an account:
+Version 0.13.7 adds auto-signup functionality for headless flows.
+When a username doesn't exist, you can automatically create an account:
 
 ```ts
 try {
@@ -260,7 +264,7 @@ try {
     
     console.log("New account created:", account.address);
   } else {
-    // Existing account: use available signers
+    // Existing account: use available authentication methods
     const account = await controller.connect({
       username: "newuser",
       signer: lookupResult.signers[0],
@@ -274,7 +278,8 @@ try {
 ```
 
 :::note
-Auto-signup maintains strict signer matching for existing accounts. If an account exists but the specified signer is not associated with it, authentication will fail rather than creating a duplicate account.
+Auto-signup maintains strict signer matching for existing accounts.
+If an account exists but the specified signer is not associated with it, authentication will fail rather than creating a duplicate account.
 :::
 
 ## Integration Patterns
@@ -304,7 +309,7 @@ export function useHeadlessAuth() {
         await controller.disconnect();
       }
 
-      // Lookup username to check existence and available signers
+      // Lookup username to check existence and available authentication methods
       const lookupResult = await controller.lookupUsername(username);
       
       let finalSigner = signer;
@@ -359,7 +364,7 @@ const connector = connectors.find(c => c.id === 'cartridge') as ControllerConnec
 const lookupResult = await connector.lookupUsername("alice");
 
 if (lookupResult.exists) {
-  console.log("Available signers:", lookupResult.signers);
+  console.log("Available authentication methods:", lookupResult.signers);
 }
 ```
 
@@ -379,7 +384,8 @@ const sessionProvider = new SessionProvider({
 ```
 
 :::note
-Server-side headless authentication is currently only available through the browser-based Controller SDK. For true server-side usage, consider the [native headless Controller](/controller/native/headless) using C++ bindings.
+Server-side headless authentication is currently only available through the browser-based Controller SDK.
+For true server-side usage, consider the [native headless Controller](/controller/native/headless) using C++ bindings.
 :::
 
 ## Security Considerations
@@ -431,7 +437,7 @@ This web-based headless authentication is different from the [native headless Co
    - *Solution*: Use `lookupUsername()` to check existence before attempting to connect
    - *Auto-signup*: Consider enabling auto-signup for new users
 2. **"Signer not found"**: The specified signer isn't associated with the username
-   - *Solution*: Use `lookupUsername()` to get available signers for the username
+   - *Solution*: Use `lookupUsername()` to get available authentication methods for the username
    - *Fallback*: Implement signer selection UI based on available options
 3. **"Not ready to connect"**: Controller initialization is still in progress
 4. **Network timeouts**: Check network connectivity and RPC endpoint availability
@@ -472,7 +478,7 @@ function validateHeadlessOptions(username: string, signer: string) {
 
 ## Next Steps
 
-- Learn about [Session Policies](/controller/sessions) for fine-grained transaction control
+- Learn about [session policies](/controller/sessions) for fine-grained transaction control
 - Explore [React integration patterns](/controller/examples/react) for web applications
 - Consider [native headless mode](/controller/native/headless) for backend services
-- Set up [error handling and logging](/controller/configuration) for production use
+- Review detailed [signer implementation patterns](/controller/signer-management) for comprehensive authentication workflows

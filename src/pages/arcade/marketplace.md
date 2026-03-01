@@ -18,21 +18,7 @@ First, configure your game's Torii instances to index the asset, and then config
 #### Configure your Torii
 
 Every digital asset on the Marketplace must be indexed by Torii.
-To configure Torii to index an onchain asset, add the token address to the configuration file:
-
-```toml
-# torii.toml
-
-[indexing]
-contracts = [
-  "erc20:<contract-address>",
-  "erc721:<contract-address>"
-]
-```
-
-:::info
-See the [Torii docs](https://book.dojoengine.org/toolchain/torii/configuration#indexing-configuration) for more information about indexing token contracts.
-:::
+For detailed Torii configuration including asset indexing, see the [Arcade setup guide](setup.md#torii-configuration).
 
 #### Add Torii to Controller
 

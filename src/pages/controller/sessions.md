@@ -6,7 +6,8 @@ description: Learn about Cartridge Controller's session-based authentication and
 
 # Sessions and Policies
 
-Cartridge Controller supports session-based authorization and policy-based transaction approvals. When policies are pre-approved by the user, games can execute transactions seamlessly without requesting approval for each interaction, creating a smooth gaming experience.
+Cartridge Controller supports session-based authorization and policy-based transaction approvals.
+When policies are pre-approved by the user, games can execute transactions seamlessly without requesting approval for each interaction, creating a smooth gaming experience.
 
 ## How Sessions Work
 
@@ -74,9 +75,8 @@ Full integration examples [are available here](https://github.com/cartridge-gg/c
 | Transaction Approval | Pre-approved via policies | Manual approval each time |
 | User Experience | Seamless gameplay | Confirmation prompts |
 | Gasless Transactions | Yes (via Paymaster) | No |
-| Error Handling | Configurable (see [error propagation](/controller/configuration.md#propagate-session-errors)) | Always shows keychain UI |
+| Error Handling | Configurable (see [error propagation](/controller/configuration.md#propagate-session-errors)) | Standard modal display |
 | Setup Complexity | Higher (policy definition) | Lower (basic setup) |
-| Error Handling | Configurable display modes | Standard modal display |
 | Best For | Games, frequent transactions | Simple apps, occasional transactions |
 
 ## Session Options
@@ -96,7 +96,8 @@ export type SessionOptions = {
 
 ### Updating Session Policies
 
-The `updateSession()` method allows you to update session policies at runtime without requiring a full reconnect. This is useful when you need to add new permissions during gameplay or change policy configurations dynamically.
+The `updateSession()` method allows you to update session policies at runtime without requiring a full reconnect.
+This is useful when you need to add new permissions during gameplay or change policy configurations dynamically.
 
 ```typescript
 // Update using a preset
@@ -110,11 +111,13 @@ await controller.updateSession({
 });
 ```
 
-Either `policies` or `preset` must be provided. The method opens the keychain interface where users can approve the updated policies, following the same approval flow as initial session creation.
+Either `policies` or `preset` must be provided.
+The method opens the keychain interface where users can approve the updated policies, following the same approval flow as initial session creation.
 
 ### Using Presets with SessionProvider
 
-The `preset` parameter allows you to use verified session policies from `@cartridge/presets` instead of manually defining policies. This ensures consistency between SessionProvider and ControllerProvider and simplifies configuration for games with verified presets.
+The `preset` parameter allows you to use verified session policies from [presets](/controller/presets.md) instead of manually defining policies.
+This ensures consistency between SessionProvider and ControllerProvider and simplifies configuration for games with verified presets.
 
 **Basic preset usage:**
 ```typescript
@@ -156,7 +159,8 @@ const sessionProvider = new SessionProvider({
 
 ### Authentication Options
 
-The `signupOptions` parameter allows you to customize which authentication methods are available during session creation, providing the same flexibility as the ControllerProvider:
+The `signupOptions` parameter allows you to customize which authentication methods are available during session creation.
+See [authentication methods configuration](/controller/signer-management.md) for detailed information about OAuth flows and social authentication implementation.
 
 ```typescript
 type AuthOptions = (
@@ -244,91 +248,13 @@ type TypedDataPolicy = {
 
 ## Error Handling in Sessions
 
-When using session policies, Controller provides configurable error handling options through the `errorDisplayMode` setting. This works in conjunction with the existing `propagateSessionErrors` option to give you fine-grained control over how transaction errors are presented to users.
-
-### Error Display Configuration
-
-```typescript
-const controller = new Controller({
-  policies: sessionPolicies,
-  errorDisplayMode: "notification", // "modal" | "notification" | "silent"
-  propagateSessionErrors: false, // Optional: control error propagation
-});
-```
-
-### Error Display Modes
-
-**Modal Mode (Default)**
-- Transaction errors open the controller modal interface
-- Users see detailed error information and retry options
-- Preserves existing session error handling behavior
-
-**Notification Mode**
-- Transaction errors display as clickable toast notifications
-- Users can continue their session and address errors when convenient
-- Clicking the toast opens the modal for manual retry
-- Ideal for gaming applications where modal interruptions are disruptive
-
-**Silent Mode**
-- No UI is displayed for transaction errors
-- Errors are logged to console for programmatic handling
-- Applications must implement custom error handling logic
-
-### Special Error Cases
-
-Certain session-related errors always display UI regardless of the `errorDisplayMode` setting:
-
-- **SessionRefreshRequired**: Always opens modal to refresh expired sessions
-- **ManualExecutionRequired**: Always opens modal when manual approval is needed
-
-These exceptions ensure users can complete required authentication flows even in silent mode.
-
-### Error Handling Examples
-
-**Gaming Application with Minimal Interruptions**
-```typescript
-const gameController = new Controller({
-  policies: gameSessionPolicies,
-  errorDisplayMode: "notification", // Show clickable toast notifications
-});
-
-// Transaction errors show as toast notifications
-// Players can continue gameplay and retry when convenient
-const account = gameController.account;
-await account.execute(gameMoves); // Failed moves show toast notifications
-```
-
-**DeFi Application with Detailed Error Handling**
-```typescript
-const defiController = new Controller({
-  policies: tradingPolicies,
-  errorDisplayMode: "modal", // Show detailed error modals
-  propagateSessionErrors: false,
-});
-
-// Transaction errors open detailed modal interface
-// Users get comprehensive error information for financial operations
-```
-
-**Custom Error Management**
-```typescript
-const customController = new Controller({
-  policies: sessionPolicies,
-  errorDisplayMode: "silent",
-  propagateSessionErrors: true, // Errors are thrown for custom handling
-});
-
-try {
-  await account.execute(calls);
-} catch (error) {
-  // Implement custom error UI and retry logic
-  handleCustomErrorFlow(error);
-}
-```
+When using session policies, Controller provides configurable error handling options through error display modes.
+For detailed information about error handling configuration, see [error display modes in configuration](/controller/configuration.md#error-display-modes).
 
 ## Disconnect Redirect
 
-The `disconnectRedirectUrl` option allows you to redirect users to a specific URL after they disconnect or logout from their session. This is particularly useful for:
+The `disconnectRedirectUrl` option allows you to redirect users to a specific URL after they disconnect or logout from their session.
+This is particularly useful for:
 
 - **Mobile Apps**: Redirect users back to your mobile app using deep links (e.g., `"myapp://logout-complete"`)
 - **Web Apps**: Send users to a logout confirmation page or back to your landing page
@@ -351,7 +277,8 @@ When `disconnect()` is called, users will be redirected to the keychain logout p
 
 ## Manual Session Processing
 
-For native applications (like Capacitor apps), you may need to manually process session data from redirect URLs. The `ingestSessionFromRedirect()` method allows you to handle this:
+For native applications (like Capacitor apps), you may need to manually process session data from redirect URLs.
+The `ingestSessionFromRedirect()` method allows you to handle this:
 
 ```typescript
 const provider = new SessionProvider({
@@ -399,7 +326,8 @@ When using verified session policies, the user experience is improved with enhan
 - **Enhanced Security**: Verified policies provide additional context and confidence to users during approval
 - **Consistent Experience**: All session creation flows require user approval to maintain security standards
 
-Both verified and unverified policies follow the same approval flow, with verified policies providing enhanced trust indicators and streamlined user interfaces. The session creation interface organizes permissions using expandable cards for better user comprehension.
+Both verified and unverified policies follow the same approval flow, with verified policies providing enhanced trust indicators and streamlined user interfaces.
+The session creation interface organizes permissions using expandable cards for better user comprehension.
 
 **Getting Verified**
 
@@ -450,7 +378,8 @@ const policies: SessionPolicies = {
 
 #### Token Spending Limits
 
-When defining `approve` methods in your contract policies, you can specify spending limits using the `amount` parameter. This creates a spending limit that users can see and approve during session creation.
+When defining `approve` methods in your contract policies, you can specify spending limits using the `amount` parameter.
+This creates a spending limit that users can see and approve during session creation.
 
 ```typescript
 const policies: SessionPolicies = {

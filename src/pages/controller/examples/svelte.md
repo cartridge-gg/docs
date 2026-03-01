@@ -28,7 +28,9 @@ bun add @cartridge/controller starknet
 
 :::
 
-## Setting Up the Controller
+## Setting Up the Controller SDK
+
+For basic setup and configuration details, see the [getting started guide](../getting-started).
 
 Import the `Controller` and create an instance:
 
@@ -228,4 +230,4 @@ Here's how your main `+page.svelte` might look:
 {/if}
 ```
 
-This example demonstrates how to set up the Controller, connect/disconnect a wallet, display user information, and perform transactions in a Svelte application using the Cartridge Controller.
+This example demonstrates how to set up the Cartridge Controller, connect/disconnect a wallet, display user information, and perform transactions in a Svelte application.

@@ -26,7 +26,8 @@ To create a theme, teams should commit their theme config to the `configs` folde
 
 ### Origin Configuration
 
-The `origin` field specifies which origins are authorized to use your preset. This is important for security and preventing unauthorized use of your configuration.
+The `origin` field specifies which origins are authorized to use your preset.
+This is important for security and preventing unauthorized use of your configuration.
 
 #### Web Applications
 For standard web applications, use your domain:
@@ -64,7 +65,9 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 
 ## Verified Sessions
 
-Session Policies can be provided in the preset configuration, providing a smoother experience for your users.
+Session policies can be provided in the preset configuration, providing a smoother experience for your users.
+For detailed session configuration options and requirements, see the [Sessions guide](./sessions.md).
+
 In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
 
 :::warning

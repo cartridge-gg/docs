@@ -6,7 +6,8 @@ title: Booster Packs
 
 # Booster Packs
 
-Booster packs are a reward distribution system that allows eligible users to claim various game assets, credits, and exclusive game passes. Unlike starter packs which are purchased, booster packs are claimed for free by users who meet specific eligibility criteria, often based on holding certain NFTs or participating in events.
+Booster packs are a reward distribution system that allows eligible users to claim various game assets, credits, and exclusive game passes.
+Unlike starter packs which are purchased, booster packs are claimed for free by users who meet specific eligibility criteria, often based on holding certain NFTs or participating in events.
 
 ## Overview
 
@@ -54,9 +55,9 @@ Booster packs can contain various types of rewards:
 The claiming process involves several steps:
 
 1. **Eligibility Check**: System verifies if the user's Ethereum address qualifies for rewards
-2. **Authentication**: User must be connected to their Cartridge account
+2. **Authentication**: User must be connected to their Cartridge Controller account
 3. **Merkle Proof Validation**: Claims are validated using merkle tree proofs
-4. **Asset Distribution**: Eligible rewards are distributed to the user's Cartridge account
+4. **Asset Distribution**: Eligible rewards are distributed to the user's Cartridge Controller account
 5. **Animation**: For mystery assets, an interactive reveal animation shows claimed game passes
 
 ## Technical Implementation
@@ -109,7 +110,7 @@ When users access a booster pack:
 
 1. **Loading State**: System checks asset eligibility for the provided address
 2. **Asset Preview**: Displays the eligible reward type with appropriate imagery
-3. **Connection Flow**: If not authenticated, redirects to connect their Cartridge account
+3. **Connection Flow**: If not authenticated, redirects to connect their Cartridge Controller account
 4. **Claim Button**: Single-click claiming once eligibility and authentication are confirmed
 5. **Success State**: Shows claimed status with options to use rewards
 
@@ -168,7 +169,7 @@ Asset eligibility is typically determined by:
 
 ## Differences from Starter Packs
 
-While both use Merkle Drop technology, booster packs differ from starter packs in key ways:
+While both use Merkle Drop technology, booster packs differ from [starter packs](/controller/starter-packs) in key ways:
 
 | Feature | Booster Packs | Starter Packs |
 |---------|---------------|---------------|
@@ -178,17 +179,19 @@ While both use Merkle Drop technology, booster packs differ from starter packs i
 | **UI Experience** | Claim-focused with reveals | Purchase-focused |
 | **Integration** | Event/campaign-based | Game monetization |
 
+For more details on payment integration and monetization options, see the [starter packs](/controller/starter-packs) and [Coinbase Onramp](/controller/coinbase-onramp) documentation.
+
 ## Related Documentation
 
-- [Starter Packs](/controller/starter-packs.md) - For purchasable asset bundles
-- [Sessions](/controller/sessions.md) - For gasless gaming experiences using claimed credits
+- [Starter Packs](/controller/starter-packs) - For purchasable asset bundles
+- [Sessions](/controller/sessions) - For gasless gaming experiences using claimed credits
 - [Achievements](/controller/achievements) - For other reward and progression systems
 
 ## Getting Help
 
 If you encounter issues with booster pack integration:
 - Verify eligibility criteria are met for the claiming address
-- Check that the user's Cartridge account is properly authenticated
+- Check that the user's Cartridge Controller account is properly authenticated
 - Ensure merkle proofs are valid and haven't expired
 - Review browser console for detailed error messages
 - Confirm API endpoints are accessible and responding correctly

@@ -48,11 +48,12 @@ Response Format
 }
 ```
 
-> **Note**: The API response includes an array of addresses per username to support multiple controllers/signers in the future. Currently, the helper methods assume a 1:1 relationship and use only the first address.
+> **Note**: The API response includes an array of addresses per username to support multiple controllers/signers in the future.
+> Currently, the helper methods assume a 1:1 relationship and use only the first address.
 
 ## Controller SDK Methods
 
-The Controller SDK provides dedicated methods for username lookup with enhanced functionality:
+The Cartridge Controller SDK provides dedicated methods for username lookup with enhanced functionality:
 
 ```
 npm install @cartridge/controller
@@ -60,7 +61,7 @@ npm install @cartridge/controller
 
 ### `lookupUsername(username: string)` - New in v0.13.7
 
-Check if a single username exists and get normalized signer options:
+Check if a single username exists and get normalized authentication methods:
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -138,10 +139,8 @@ console.log(addressMap.get('0x123...')); // Returns username: 'shinobi'
 
 When using the lookup methods or directly via the API, be aware of the following limitations and rate limiting measures:
 
-1. **Maximum Items**: You can fetch up to 1000 items total in a single call, combining both addresses and usernames. For example:
-   - 1000 addresses OR
-   - 1000 usernames OR
-   - Any combination (e.g., 400 addresses + 600 usernames)
+1. **Maximum Items**: You can fetch up to 1000 items total in a single call, combining both addresses and usernames.
+   For example: 1000 addresses OR 1000 usernames OR any combination (e.g., 400 addresses + 600 usernames)
 
 2. **Rate Limiting**: The API is rate-limited to 10 requests per second to prevent overloading the server.
 
@@ -154,9 +153,9 @@ When using the lookup methods or directly via the API, be aware of the following
 
 The lookup methods may throw errors in the following cases:
 
-- If you provide more than 1000 addresses in a single call.
-- If you exceed the rate limit of 10 requests per second.
-- If there are network issues or the API is unavailable.
+- If you provide more than 1000 addresses in a single call
+- If you exceed the rate limit of 10 requests per second
+- If there are network issues or the API is unavailable
 
 Always wrap your calls to lookup methods in a try-catch block to handle potential errors gracefully.
 

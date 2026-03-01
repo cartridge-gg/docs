@@ -6,6 +6,9 @@ description: Learn how to integrate the Cartridge Controller into your Rust appl
 
 # Rust
 
+This guide demonstrates how to integrate the Cartridge Controller into Rust applications for server-side or automation use cases.
+For browser-based applications, see the [getting started guide](../getting-started.mdx).
+
 ## Installation
 
 Add the `account_sdk` crate to your `Cargo.toml`:

@@ -12,7 +12,7 @@ To provide a rich user experience in Arcade, we recommend enhancing your Torii c
 
 ### ⚡️ Activity Feed
 
-Display live player activity on your Arcade edition page.
+Display live player activity on your Arcade Game Edition page.
 
 ```toml
 [indexing]
@@ -22,6 +22,7 @@ transactions = true
 ### 💄 Player Asset Indexing
 
 Index and display custom in-game assets tied to your players.
+For detailed asset indexing configuration for marketplace functionality, see [Marketplace](./marketplace.md).
 
 ```toml
 [indexing]

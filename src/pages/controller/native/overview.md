@@ -6,7 +6,7 @@ description: Choose the right connection flow for integrating Cartridge Controll
 
 # Native Integration
 
-Controller was initially developed as a web wallet for browser-based applications.
+Cartridge Controller was initially developed as a web wallet for browser-based applications.
 As the ecosystem has grown, native integration is now supported across mobile and server-side platforms.
 
 The most important decision when integrating Controller natively is **which connection flow** to use.
@@ -38,6 +38,7 @@ The session signer can then execute transactions without further user interactio
 
 Your app supplies its own signing keys rather than using the Cartridge keychain.
 No browser authentication is involved — the app directly controls a Controller account using a private key it manages.
+This differs from browser-based headless authentication as covered in the [Headless Authentication guide](/controller/headless-authentication), which uses web interfaces without user interaction.
 
 **Best for:**
 

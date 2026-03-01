@@ -7,6 +7,7 @@ description: Learn how to integrate the Cartridge Controller into your React app
 # Cartridge Controller React Integration
 
 This guide demonstrates how to integrate the Cartridge Controller with a React application.
+For comprehensive setup and configuration details, see the [Getting Started guide](/controller/getting-started).
 
 ## Installation
 
@@ -38,14 +39,11 @@ bun add -D tailwindcss vite-plugin-mkcert
 
 ### 1. Configure the Starknet Provider
 
-First, set up the Starknet provider with the Cartridge Controller connector:
+First, set up the Starknet provider with the Cartridge Controller connector.
+For detailed configuration options, see the [Configuration guide](/controller/configuration).
 
-You can customize the `ControllerConnector` by providing configuration options
-during instantiation. The `ControllerConnector` accepts an options object that
-allows you to configure various settings such as policies, RPC URLs, theme, and
-more.
-
-> ⚠️ **Important**: The `ControllerConnector` instance must be created outside of any React components. Creating it inside a component will cause the connector to be recreated on every render, which can lead to connection issues.
+> ⚠️ **Important**: The `ControllerConnector` instance must be created outside of any React components.
+> Creating it inside a component will cause the connector to be recreated on every render, which can lead to connection issues.
 
 ```typescript
 import { sepolia, mainnet } from "@starknet-react/chains";
@@ -120,8 +118,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 
 ### 2. Create a Wallet Connection Component
 
-Use the `useConnect`, `useDisconnect`, and `useAccount` hooks to manage wallet
-connections:
+Use the `useConnect`, `useDisconnect`, and `useAccount` hooks to manage wallet connections:
 
 ```typescript
 import { useEffect, useState } from 'react'
@@ -158,7 +155,7 @@ export function ConnectWallet() {
             Connect
           </Button>
           
-          {/* Dynamic authentication options for branded flows */}
+          {/* Dynamic authentication methods for branded flows */}
           <Button onClick={() => controller.connect({ signupOptions: ["phantom-evm"] })}>
             Connect with Phantom
           </Button>
@@ -177,9 +174,10 @@ export function ConnectWallet() {
 }
 ```
 
-### 3. Dynamic Authentication Options
+### 3. Dynamic Authentication Methods
 
-The ControllerConnector now supports dynamic authentication configuration per connection call. This allows you to create multiple branded authentication flows while using a single Controller instance:
+The ControllerConnector now supports dynamic authentication configuration per connection call.
+This allows you to create multiple branded authentication flows while using a single Controller instance:
 
 ```typescript
 // Direct connector method - bypasses starknet-react state management
@@ -260,7 +258,8 @@ export function MultiAuthConnectWallet() {
 
 ### 4. Headless Authentication
 
-For programmatic authentication without opening any UI, you can use headless mode in your React components:
+For programmatic authentication without opening any UI, you can use headless mode in your React components.
+For detailed headless implementation, see the [Headless Authentication guide](/controller/headless-authentication).
 
 ```tsx
 import { useCallback, useState } from 'react'
@@ -352,7 +351,8 @@ export function HeadlessLogin() {
 ```
 
 :::warning
-Headless mode requires that the user already has the specified signer (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
+Headless mode requires that the user already has the specified signer (passkey, OAuth account, EVM wallet) associated with their Cartridge username.
+For new user registration, use the regular `connect()` flow which opens the UI.
 :::
 
 ### 5. Performing Transactions
@@ -425,9 +425,10 @@ export const TransferEth = () => {
 }
 ```
 
-### 4. Username Lookup
+### 6. Username Lookup
 
-The Controller provides a `lookupUsername` method that allows you to check if a username exists and see what authentication options are available for existing accounts. This is particularly useful for headless flows where you want to determine login vs signup flows:
+The Controller provides a `lookupUsername` method that allows you to check if a username exists and see what authentication methods are available for existing accounts.
+This is particularly useful for headless flows where you want to determine login vs signup flows:
 
 ```typescript
 import { useState, useCallback } from 'react'
@@ -548,7 +549,7 @@ Available `AuthOption` values include:
 - `"rabby"` - Rabby wallet
 - `"phantom-evm"` - Phantom wallet (EVM)
 
-### 5. Add Components to Your App
+### 7. Add Components to Your App
 
 ```typescript
 import { StarknetProvider } from './context/StarknetProvider'

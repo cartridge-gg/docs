@@ -74,6 +74,8 @@ struct SessionPolicies {
 }
 ```
 
+For comprehensive session policy configuration, see the [sessions guide](/controller/sessions).
+
 ## Creating a ControllerAccount
 
 Initialize a headless ControllerAccount with your own signing key:
@@ -179,6 +181,8 @@ do {
     }
 }
 ```
+
+For comprehensive error handling patterns, see the [configuration guide](/controller/configuration).
 
 ## Utility Functions
 

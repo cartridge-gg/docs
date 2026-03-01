@@ -6,8 +6,9 @@ title: Scale your deployments
 
 # Scale your deployments
 
-Slot instances are launched with the `basic` instance by default. This instance type is only suitable for testing and
-development purposes and comes with limited CPU & memory. 3 deployments of the basic tier are free.
+Slot instances are launched with the `basic` instance by default.
+This instance type is only suitable for testing and development purposes and comes with limited CPU & memory.
+3 deployments of the basic tier are free.
 
 To prepare your deployments for production, you can set up billing and upgrade to a paid instance tier.
 
@@ -20,7 +21,9 @@ To prepare your deployments for production, you can set up billing and upgrade t
 | Epic      | 4 vCPU and 8GB RAM                | auto    | $100/month |
 | Legendary | 8 vCPU and 16GB RAM               | auto    | $200/month |
 
-Note: basic instances are scaled down automatically after a few hours of no activity. To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot. If unused without any activity for more than 30 days, it will get deleted.
+Note: basic instances are scaled down automatically after a few hours of no activity.
+To revive deployments, simply send a single request to the instance URL, and it'll be revived on the spot.
+If unused without any activity for more than 30 days, it will get deleted.
 
 ### Premium tiers
 
@@ -37,7 +40,8 @@ For torii, with premium tiers, you can choose to deploy your instances with mult
 slot d create --tier epic my-project torii --replicas 3
 ```
 
-Replicas are billed as how many replicas you have. For example, if you have 3 replicas, you will be billed 3 times the monthly cost of the tier you are using.
+Replicas are billed as how many replicas you have.
+For example, if you have 3 replicas, you will be billed 3 times the monthly cost of the tier you are using.
 
 ## Regions
 
@@ -59,11 +63,13 @@ slot d create --tier pro my-project katana --regions europe-west
 
 Katana can be only launched in a single region, while torii uses replicas and routes global users to the nearest one.
 
-Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
+Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas.
+For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
 
 ## Billing
 
-Before creating paid tier deployments, you need to set up billing for your team. See the [Billing](/slot/billing) documentation for detailed information on creating teams, funding, and managing credits.
+Before creating paid tier deployments, you need to set up billing for your team.
+See the [Billing](/slot/billing) documentation for detailed information on creating teams, funding, and managing credits.
 
 ## Create an instance with a paid tier
 

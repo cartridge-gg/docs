@@ -18,6 +18,9 @@ description: Learn how to integrate the Cartridge Controller into your Telegram 
 
 ## Setting up the Session Provider
 
+For basic setup concepts and session management, see the [Getting Started guide](/controller/getting-started).
+The following examples show Telegram-specific integration patterns.
+
 ### 1. Define your configuration:
 
 ```typescript
@@ -132,6 +135,8 @@ function GameComponent() {
 
 ### 5. Error Handling
 
+For complete error handling patterns and display modes, see the [Configuration guide](/controller/configuration).
+
 ```typescript
 function GameComponent() {
   const { connect } = useSession();
@@ -158,7 +163,8 @@ See the full example [here](https://github.com/cartridge-gg/beast-slayers).
 
 ## Next.js Configuration for WebAssembly
 
-If you're using Next.js, you'll need to configure it to properly handle WebAssembly modules used by the SessionController and SessionConnector. Create or update your `next.config.js`:
+If you're using Next.js, you'll need to configure it to properly handle WebAssembly modules used by the SessionController and SessionConnector.
+Create or update your `next.config.js`:
 
 ```javascript
 /** @type {import('next').NextConfig} */

@@ -6,7 +6,8 @@ title: Billing
 
 # Billing
 
-All billing in Slot is managed through teams. Teams are the billing entity that owns credits, which are used to pay for deployments, paymasters, RPC requests, and other Slot services.
+All billing in Slot is managed through teams.
+Teams are the billing entity that owns credits, which are used to pay for deployments, paymasters, RPC requests, and other Slot services.
 
 ## Overview
 
@@ -116,10 +117,14 @@ Credits are consumed by various Slot services:
 - **Storage**: $0.20/GB/month (auto-scaling for premium tiers)
 - Billed daily with minimum 1-day charge
 
+For detailed information about deployment tiers and scaling, see [Scale](/slot/scale).
+
 ### Paymasters
 - Transaction fees are deducted from the paymaster's budget
 - Paymaster budgets are funded from team credits
 - 1 CREDIT = $0.01 USD
+
+Learn more about paymaster configuration and policies in [Paymaster](/slot/paymaster).
 
 ### RPC Requests
 - Free tier: 1M requests/month

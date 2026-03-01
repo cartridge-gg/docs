@@ -243,6 +243,8 @@ AchievableComponent.progress(
 
 ### Controller Configuration
 
+For controller setup and namespace configuration, see the [Configuration guide](./configuration.md).
+
 Configure the controller with the required parameters:
 
 ```ts

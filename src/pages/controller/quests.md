@@ -7,6 +7,7 @@ description: Learn how to implement Cartridge's Quest system that allows games t
 # Quests
 
 The Cartridge Quest system enables games to create time-based challenges and objectives for players with built-in progress tracking, rewards, and completion mechanics.
+For games interested in broader progression systems, see the [Achievements](achievements) system which complements quest functionality.
 
 ## Key Features
 
@@ -94,7 +95,8 @@ Quest Completion events may be historical depending on whether you need to track
 
 ### Controller Configuration
 
-Configure the Controller to enable quest functionality:
+Configure the Cartridge Controller to enable quest functionality.
+For detailed configuration options, see the [Configuration](configuration) guide.
 
 ```typescript
 import { ControllerConnector } from "@cartridge/connector";
@@ -263,7 +265,7 @@ Conditional quests will remain locked until all prerequisite quests are complete
 
 ## Frontend Integration
 
-The Controller automatically provides quest UI when configured.
+The Cartridge Controller automatically provides quest UI when configured.
 
 ### Using the Hook
 

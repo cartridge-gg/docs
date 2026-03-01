@@ -10,10 +10,12 @@ Cartridge provides dedicated RPC endpoints for Starknet networks with built-in a
 
 ## Pricing
 
-Cartridge RPC is free for up to 1m requests per month. Additional requests are charged at $5/1m requests to the related slot team.
+Cartridge RPC is free for up to 1m requests per month.
+Additional requests are charged at $5/1m requests to the related slot team.
 
 :::info
-During the beta phase, Cartridge RPC is free. From November 1st 2025, pricing will be applied.
+During the beta phase, Cartridge RPC is free.
+From November 1st 2025, pricing will be applied.
 :::
 
 ## Endpoints
@@ -50,7 +52,8 @@ curl https://api.cartridge.gg/x/starknet/mainnet \
 
 ### Domain Whitelisting
 
-For browser-based applications, whitelist your domains to make direct RPC calls without exposing API tokens. Once configured, your whitelisted domains can make requests directly:
+For browser-based applications, whitelist your domains to make direct RPC calls without exposing API tokens.
+Once configured, your whitelisted domains can make requests directly:
 
 ```javascript
 const response = await fetch('https://api.cartridge.gg/x/starknet/mainnet', {

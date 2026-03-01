@@ -8,6 +8,8 @@ description: URL format, parameters, and callback metadata for the browser-based
 
 This page documents the URL format and callback metadata for the [browser-based session flow](/controller/native/overview#browser-based-sessions).
 
+For a complete reference of session configuration options, see [Sessions](/controller/sessions).
+
 ## Session URL Format
 
 The session URL follows this structure:
@@ -53,7 +55,7 @@ After successful session creation, the following metadata is available:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `address` | string | The user's Controller contract address |
+| `address` | string | The user's Cartridge Controller contract address |
 | `ownerGuid` | string | Unique identifier for the account owner |
 | `expiresAt` | number | Session expiration timestamp (Unix seconds) |
 | `username` | string? | The user's Cartridge username |

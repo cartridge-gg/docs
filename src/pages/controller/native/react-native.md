@@ -12,7 +12,7 @@ This enables session-based authentication and transaction execution in cross-pla
 :::info
 This guide uses the native Controller.c bindings to implement the [session flow](/controller/native/session-flow) directly.
 This is the native equivalent of [SessionProvider](/controller/getting-started#sessionprovider-redirect-based) — it generates a local session keypair, authenticates via browser, and executes transactions with the session key.
-It is **not** the [headless controller](/controller/native/headless) pattern, which uses application-managed owner keys without any browser authentication.
+It is **not** the [headless authentication](/controller/headless-authentication) pattern, which uses application-managed owner keys without any browser authentication.
 
 If you are wrapping an existing web app for mobile distribution, consider [Capacitor](/controller/native/capacitor) instead, which uses the JS `SessionProvider` directly.
 :::
@@ -69,6 +69,7 @@ const publicKey = Controller.controller.getPublicKey(privateKey);
 ## Session Management
 
 The `useSessionManager` hook handles the complete session lifecycle: key generation, browser-based authentication, and transaction execution.
+See [Configuration](/controller/configuration) for detailed error handling patterns.
 
 ### Key Generation and Storage
 
@@ -101,7 +102,7 @@ if (savedKey) {
 
 ### Opening Browser for Session Auth
 
-Sessions are created by opening a browser to the Cartridge keychain with the public key and requested policies.
+[Sessions](/controller/sessions) are created by opening a browser to the Cartridge keychain with the public key and requested session policies.
 
 ```typescript
 import * as WebBrowser from 'expo-web-browser';

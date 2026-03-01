@@ -10,13 +10,15 @@ Slot provides built-in observability features for your deployments, enabling you
 
 ## Overview
 
-The `--observability` flag enables monitoring capabilities for both Katana and Torii deployments. When enabled, Slot provisions:
+The `--observability` flag enables monitoring capabilities for both Katana and Torii deployments.
+When enabled, Slot provisions:
 
 - A dedicated Prometheus instance to scrape and store metrics
 - A Grafana dashboard for visualization and analysis
 - Secure access via username/password authentication
 
 **Cost**: $10/month flat rate per deployment with observability enabled.
+For complete pricing and billing details, see the [billing documentation](/slot/billing).
 
 ## Enabling Observability
 
@@ -61,5 +63,6 @@ https://<your-deployment-url>/grafana
 ```
 
 :::info
-Both Prometheus and Grafana are protected by username/password authentication. Credentials are provided when you enable observability on your deployment.
+Both Prometheus and Grafana are protected by username/password authentication.
+Credentials are provided when you enable observability on your deployment.
 :::

@@ -6,7 +6,7 @@ title: Controller Getting Started
 
 # Getting Started
 
-Controller implements a standard StarkNet account interface and can be seamlessly integrated into your application like any other wallet.
+Cartridge Controller implements a standard StarkNet account interface and can be seamlessly integrated into your application like any other wallet.
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ const account = await controller.connect();
 // You're ready to execute transactions!
 ```
 
-For more advanced use cases, you can also pass dynamic authentication options:
+For more advanced use cases, you can also pass dynamic authentication methods:
 
 ```ts
 import Controller from "@cartridge/controller";
@@ -37,7 +37,8 @@ const phantomAccount = await controller.connect(["phantom-evm"]);
 
 ### Headless Authentication
 
-For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`:
+For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`.
+For detailed implementation and examples, see the [headless authentication guide](/controller/headless-authentication.md).
 
 ```ts
 import Controller from "@cartridge/controller";
@@ -67,15 +68,17 @@ await controller.connect({ username: "alice", signer: "phantom-evm" });
 ```
 
 :::info
-Headless mode performs authentication in a hidden iframe without displaying any UI. However, if session policies need approval or verification, the UI will open automatically to request user consent.
+Headless mode performs authentication in a hidden iframe without displaying any UI.
+However, if session policies need approval or verification, the UI will open automatically to request user consent.
 :::
 
-When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
+When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality.
+As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
 For session-based applications, users will see permissions organized into clear sections: an expandable "Authorize [game]" card containing contract methods, followed by dedicated spending limit cards for token approvals, making it easy to understand what they're authorizing.
 
 :::info
-Controller will set **essential cookies** as part of the initialization.
+Cartridge Controller will set **essential cookies** as part of the initialization.
 These are necessary for the controller to function properly.
 :::
 
@@ -100,7 +103,8 @@ const controller = new Controller();
 
 :::note
 When no policies are provided, each transaction requires manual user approval through the Cartridge interface.
-This is suitable for simple applications or testing, but games typically benefit from using [session policies](#with-session-policies) for a smoother experience.
+This is suitable for simple applications or testing, but games typically benefit from using session policies for a smoother experience.
+For complete details on session configuration, see the [sessions guide](/controller/sessions.md).
 :::
 
 ### With session policies
@@ -130,7 +134,8 @@ const controller = new Controller({ policies });
 
 ### With custom configuration
 
-The Controller ships with sensible defaults for chain RPCs, but you can override them if needed.
+The Controller SDK ships with sensible defaults for chain RPCs, but you can override them if needed.
+For comprehensive configuration options and error handling, see the [configuration guide](/controller/configuration.md).
 
 ```ts
 import { constants } from "starknet";
@@ -148,7 +153,8 @@ const controller = new Controller({
 
 ### Standalone Authentication
 
-The Controller provides an `open()` method for standalone authentication, which opens the keychain in first-party context. This is useful for establishing first-party storage and enabling seamless iframe access across all games.
+The Controller SDK provides an `open()` method for standalone authentication, which opens the keychain in first-party context.
+This is useful for establishing first-party storage and enabling seamless iframe access across all games.
 
 ```ts
 import Controller from "@cartridge/controller";
@@ -178,12 +184,13 @@ The `open()` method accepts an options object with the following properties:
 - `preset?: string` - The preset theme to use for the keychain interface
 
 :::info
-When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
+When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository.
+See the [presets guide](/controller/presets.md) for more information.
 :::
 
 ## Providers
 
-Controller is initialized through a "provider."
+Cartridge Controller is initialized through a "provider."
 There are two providers, each with a different security and signing model.
 
 > "Connectors" are thin wrappers that plug providers into frameworks like `starknet-react`.
@@ -197,7 +204,7 @@ Both the owner signer and a **session key** live inside the iframe, employing a 
 
 When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`.
 The keychain first tries to sign with the session key.
-If the call matches the app's [session policies](/controller/sessions.md), it signs automatically — no user prompt.
+If the call matches the app's session policies, it signs automatically — no user prompt.
 If the call doesn't match any policy, it falls back to the **owner key** and prompts the user for approval.
 
 > The session's authorization is cached on-chain on first use, so no explicit `registerSession()` call is needed.
@@ -321,10 +328,10 @@ function MyConnectComponent() {
 
 #### Wallet Standard Integration
 
-By default, the Controller exposes the `StarknetWindowObject` interface.
-However, the Controller also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
+By default, Cartridge Controller exposes the `StarknetWindowObject` interface.
+However, Cartridge Controller also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
 
-You can use the Controller directly or through the ControllerConnector to cast to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
+You can use Cartridge Controller directly or through the ControllerConnector to cast to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
 
 ```tsx
 import Controller from "@cartridge/controller";
@@ -407,7 +414,8 @@ const account = new WalletAccount({
 
 #### Ethereum Wallet Integration Changes
 
-The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your application relied on MetaMask SDK-specific features:
+The MetaMask SDK has been removed in favor of the EIP-6963 standard.
+If your application relied on MetaMask SDK-specific features:
 
 - Wallet detection now uses EIP-6963 standard wallet detection
 - All Ethereum wallets are now handled through a shared base class
@@ -415,11 +423,12 @@ The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your app
 
 #### Lodash Removal
 
-The lodash dependency has been completely removed. If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
+The lodash dependency has been completely removed.
+If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
 
 ## Development Workflow
 
-If you're contributing to the Cartridge Controller or running the examples locally, you have two development modes available:
+If you're contributing to Cartridge Controller or running the examples locally, you have two development modes available:
 
 ### Local Development Mode
 
@@ -444,34 +453,18 @@ The `dev:live` mode connects to production APIs, so be careful with any transact
 
 ## Examples
 
-For more detailed examples of how to use Cartridge Controller in different
-environments, check out our integration guides:
+For more detailed examples of how to use Cartridge Controller in different environments, check out our integration guides.
+Each guide provides comprehensive examples and best practices for integrating Cartridge Controller in your preferred environment:
 
-1. [React](/controller/examples/react.md)
-
-   - Integration with `starknet-react`
-   - Hooks and components
-   - State management
-
-2. [Svelte](/controller/examples/svelte.md)
-
-   - Svelte stores and reactivity
-   - Component lifecycle
-   - Event handling
-
-3. [Rust](/controller/examples/rust.md)
-   - Native integration
-   - Error handling
-   - Async operations
-
-Each guide provides comprehensive examples and best practices for integrating
-Cartridge Controller in your preferred environment.
+- [React](/controller/examples/react.md) - Integration with `starknet-react`, hooks and components, state management
+- [Svelte](/controller/examples/svelte.md) - Svelte stores and reactivity, component lifecycle, event handling  
+- [Rust](/controller/examples/rust.md) - Native integration, error handling, async operations
 
 ## Next Steps
 
 - Learn about [Session Keys](/controller/sessions.md)
 - Display [Toast Notifications](/controller/toast-notifications) for user feedback
-- Set up [Multiple Signers](/controller/signer-management.md) for backup authentication
+- Set up [Multiple Authentication Methods](/controller/signer-management.md) for backup authentication
 - Integrate [Starter Packs](/controller/starter-packs.md) for game monetization
 - Customize your [Controller](/controller/presets.md)
 - Set up [Usernames](/controller/usernames.md)

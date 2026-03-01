@@ -6,11 +6,12 @@ title: Starter Packs
 
 # Starter Packs
 
-Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players. Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
+Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players.
+Cartridge Controller makes it easy to offer both paid starterpacks and free claimable packs with support for multiple payment methods across different blockchain networks.
 
 ## Overview
 
-Starter packs enable you to:
+Starterpacks enable you to:
 
 - **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and on-chain items with automatic contract execution
 - **Offer Paid Packs**: Accept payments via credit card (Stripe) or cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
@@ -22,7 +23,7 @@ Starter packs enable you to:
 
 ## Quick Start
 
-Opening a starter pack interface is straightforward:
+Opening a starterpack interface is straightforward:
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -40,7 +41,8 @@ controller.openStarterPack(42);
 
 ### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
-Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and claimed starterpacks (that can be claimed based on eligibility).
+Opens the starterpack interface for a specific starterpack bundle.
+This method works for both paid starterpacks (requiring purchase) and claimed starterpacks (that can be claimed based on eligibility).
 
 ```typescript
 controller.openStarterPack(starterpackId: string | number, options?: StarterpackOptions);
@@ -89,7 +91,8 @@ const handleOnchainStarterpack = () => {
 
 ## Starterpack Configuration
 
-Starterpacks are pre-configured on the Cartridge platform and referenced by ID. The Controller SDK provides a simple interface to open these configured packs, which can contain various game assets, tokens, and smart contract interactions.
+Starterpacks are pre-configured on the Cartridge platform and referenced by ID.
+The Controller SDK provides a simple interface to open these configured packs, which can contain various game assets, tokens, and smart contract interactions.
 
 ### Starterpack Types
 
@@ -132,7 +135,8 @@ The claiming flow automatically determines eligibility and guides users through 
 Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
 This system allows users to claim assets that were originally distributed on other networks and receive them in their Cartridge account on Starknet.
 
-**DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses. This enables seamless cross-chain reward distribution for DevConnect participants.
+**DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses.
+This enables seamless cross-chain reward distribution for DevConnect participants.
 
 **How Merkle Drop Claims Work:**
 
@@ -165,7 +169,7 @@ The purchase process follows these steps:
 4. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-   - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
+   - **Coinbase Onramp**: See [Coinbase Onramp integration](/controller/coinbase-onramp.md) for fiat-to-crypto purchase options
 5. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 6. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
 7. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
@@ -173,7 +177,8 @@ The purchase process follows these steps:
 
 ## Cross-Chain Bridging with Layerswap
 
-Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+Cartridge uses Layerswap to enable seamless cross-chain payments.
+When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
 
 ### Wallet Chain Switching Behavior
 
@@ -219,11 +224,11 @@ The claiming process follows these steps:
 
 ## Credit Purchases
 
-In addition to starter packs, Controller provides direct credit purchase functionality for topping up user accounts with credits for gasless transactions and other platform services.
+In addition to starterpacks, Controller provides direct credit purchase functionality for topping up user accounts with credits for gasless transactions and other platform services.
 
 ### openPurchaseCredits()
 
-Opens the credit purchase interface where users can buy credits using the same payment methods available for starter packs (credit card or cryptocurrency).
+Opens the credit purchase interface where users can buy credits using the same payment methods available for starterpacks (credit card or cryptocurrency).
 
 ```typescript
 controller.openPurchaseCredits();
@@ -241,7 +246,7 @@ const handleBuyCredits = () => {
 };
 ```
 
-Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and both fiat and crypto payment options.
+Credits purchased through this interface use the same unified payment flow as starterpacks, including support for multiple blockchains, automatic token bridging, and both fiat and crypto payment options.
 
 ## Getting Help
 

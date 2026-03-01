@@ -6,7 +6,10 @@ title: Paymaster Management
 
 # Paymaster Management
 
-Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold ETH / STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
+Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users.
+The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience.
+When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold ETH / STRK for gas fees.
+You can manage budgets, policies, and monitor usage through the Slot CLI.
 
 ## Availability
 
@@ -22,7 +25,11 @@ The paymaster service is available across all networks with different activation
 
 ## Integration
 
-One of the key benefits of the Cartridge Paymaster is that it requires zero additional integration work. When the paymaster is enabled for your application, it will automatically activate for all eligible transactions. No code changes or configuration are needed.
+One of the key benefits of the Cartridge Paymaster is that it requires zero additional integration work.
+When the paymaster is enabled for your application, it will automatically activate for all eligible transactions.
+No code changes or configuration are needed.
+
+For common integration patterns with RPC endpoints, see the [RPC documentation](/slot/rpc).
 
 ## Prerequisites
 
@@ -34,7 +41,8 @@ slot auth login
 
 ## Team Setup
 
-Before creating a paymaster, you need a team with sufficient credits. See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
+Before creating a paymaster, you need a team with sufficient credits.
+See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
 
 ## Creating a Paymaster
 
@@ -64,7 +72,8 @@ slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
 ```
 
 :::info
-The initial budget amount will be automatically deducted from your team's account balance. Make sure your team has sufficient credits before creating a paymaster.
+The initial budget amount will be automatically deducted from your team's account balance.
+Make sure your team has sufficient credits before creating a paymaster.
 :::
 
 ## Managing Budget
@@ -121,7 +130,8 @@ Policies define which contracts and entry points your paymaster will sponsor.
 
 ### Understanding Paymaster Predicates
 
-Paymaster policies now support **predicates** - conditional logic that determines whether a transaction should be sponsored. This enables sophisticated sponsorship rules based on game state, user eligibility, or other custom conditions.
+Paymaster policies now support **predicates** - conditional logic that determines whether a transaction should be sponsored.
+This enables sophisticated sponsorship rules based on game state, user eligibility, or other custom conditions.
 
 **How Predicates Work:**
 1. When a transaction is submitted to a paymaster with a predicate-enabled policy
@@ -136,7 +146,8 @@ Paymaster policies now support **predicates** - conditional logic that determine
 - Rate-limit sponsorship per user or per game session
 
 :::tip
-Predicates are optional. Policies without predicates will always sponsor matching transactions, while policies with predicates add conditional logic.
+Predicates are optional.
+Policies without predicates will always sponsor matching transactions, while policies with predicates add conditional logic.
 :::
 
 ### Add Policies from Preset (Recommended)
@@ -153,7 +164,8 @@ slot paymaster my-game-pm policy add-from-preset --name dope-wars
 ```
 
 :::info
-Presets contain verified contracts from games in the Dojo ecosystem. Make sure to add your contracts to the preset repository first at [https://github.com/cartridge-gg/presets/tree/main/configs](https://github.com/cartridge-gg/presets/tree/main/configs) before using this method.
+Presets contain verified contracts from games in the Dojo ecosystem.
+Make sure to add your contracts to the preset repository first at [https://github.com/cartridge-gg/presets/tree/main/configs](https://github.com/cartridge-gg/presets/tree/main/configs) before using this method.
 :::
 
 ### Add a Single Policy
@@ -191,7 +203,8 @@ slot paymaster <paymaster-name> policy add-from-json --file <path-to-json>
 ```
 
 :::info
-**Predicate Support**: You can include optional `predicate` objects in your policy JSON to add conditional logic for transaction sponsorship. The predicate must contain an `address` (contract address) and `entrypoint` (function name) that will be called to evaluate whether the transaction should be sponsored.
+**Predicate Support**: You can include optional `predicate` objects in your policy JSON to add conditional logic for transaction sponsorship.
+The predicate must contain an `address` (contract address) and `entrypoint` (function name) that will be called to evaluate whether the transaction should be sponsored.
 :::
 
 ### Remove a Policy
@@ -421,7 +434,8 @@ The query provides exhaustive analysis including:
 
 ### Time Period Options
 
-By default, queries use the paymaster's creation time. You can specify a custom time period:
+By default, queries use the paymaster's creation time.
+You can specify a custom time period:
 
 ```sh
 # Last 24 hours
@@ -477,7 +491,8 @@ The command generates a comprehensive SQL query that includes:
 - Query will include actual timestamps for immediate execution
 
 :::tip
-The query is optimized for comprehensive analysis but may timeout on very long time ranges. For historical analysis spanning months, consider breaking it into smaller time periods or using Dune's incremental refresh features.
+The query is optimized for comprehensive analysis but may timeout on very long time ranges.
+For historical analysis spanning months, consider breaking it into smaller time periods or using Dune's incremental refresh features.
 :::
 
 ### Common Use Cases

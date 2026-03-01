@@ -6,7 +6,8 @@ title: Signer Management
 
 # Signer Management
 
-Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience. This feature is now generally available and enables you to sign in using different methods while maintaining access to the same Controller account and assets.
+Cartridge Controller supports **multi-signer** functionality, allowing you to add multiple authentication methods to your account for enhanced security and convenience.
+This feature is now generally available and enables you to sign in using different methods while maintaining access to the same Controller account and assets.
 
 ## Overview
 
@@ -53,7 +54,8 @@ Passkey backup is handled differently depending on your platform or password man
 - **Non-recoverable**: Password loss means permanent account loss
 - **Minimum requirements**: 8-character minimum password length
 
-> **⚠️ Important**: Password authentication is currently marked as "Testing Only" and should not be used for production applications. Password loss results in permanent account access loss as there are no recovery mechanisms.
+> **⚠️ Important**: Password authentication is currently marked as "Testing Only" and should not be used for production applications.
+> Password loss results in permanent account access loss as there are no recovery mechanisms.
 
 ### 3. Social Login
 
@@ -62,6 +64,8 @@ Controller offers native social login options through Google, Discord, and Twitt
 - **Streamlined onboarding** for users with existing social accounts
 - **Secure integration** via Turnkey wallet infrastructure with Auth0
 - **Native implementation** using OAuth2 flows for improved security and UX
+
+For detailed technical implementation information, see our [Headless Authentication](/controller/headless-authentication) guide.
 
 > **⚠️ Native App Limitation**: OAuth-based social login flows (Google, Discord, Twitter/X) may not work correctly in native applications that use webviews.
 > Many OAuth providers block or restrict authentication attempts from embedded webviews for security reasons.
@@ -78,7 +82,6 @@ All social login providers use an intelligent authentication flow that adapts to
 
 Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, Phantom, and WalletConnect.
 
-
 ## Adding Signers
 
 ### Accessing Signer Management
@@ -88,7 +91,8 @@ Controller offers integration with popular external web3 wallets, including Braa
 3. Navigate to the **Signer(s)** section
 4. Click **Add Signer** to begin adding a new authentication method
 
-> **Note**: Signer management is available on **Mainnet only**. The "Add Signer" button will be disabled on testnet environments.
+> **Note**: Signer management is available on **Mainnet only**.
+> The "Add Signer" button will be disabled on testnet environments.
 
 ### Adding a Passkey
 
@@ -113,7 +117,8 @@ Controller offers integration with popular external web3 wallets, including Braa
    - Simply enter your password to login
    - Password must match exactly (case-sensitive)
 
-> **Security Warning**: Password accounts cannot be recovered if you lose your password. This authentication method does not provide any recovery mechanisms, making it unsuitable for production use.
+> **Security Warning**: Password accounts cannot be recovered if you lose your password.
+> This authentication method does not provide any recovery mechanisms, making it unsuitable for production use.
 
 ### Adding Social Login
 
@@ -130,7 +135,8 @@ Controller offers integration with popular external web3 wallets, including Braa
 4. The system creates a secure Turnkey wallet linked to your Google account
 5. Your Google login is now available as a Controller authentication method
 
-> **Technical Details**: The implementation uses Auth0 for OAuth management with Turnkey for secure wallet creation. OIDC tokens are validated with proper nonce verification to prevent replay attacks.
+> **Technical Details**: The implementation uses Auth0 for OAuth management with Turnkey for secure wallet creation.
+> OIDC tokens are validated with proper nonce verification to prevent replay attacks.
 
 #### Adding Discord Login
 
@@ -205,7 +211,8 @@ When connecting to your Controller:
 
 ### Account Synchronization for StarkNet Wallets
 
-Cartridge Controller automatically stays synchronized with account changes in connected StarkNet wallets (Argent and Braavos). This ensures that when users switch accounts within their external wallet, the Controller is immediately updated to reflect the new active account.
+Cartridge Controller automatically stays synchronized with account changes in connected StarkNet wallets (Argent and Braavos).
+This ensures that when users switch accounts within their external wallet, the Controller is immediately updated to reflect the new active account.
 
 **Automatic Synchronization Features:**
 - **Real-time Updates**: Controller automatically detects when users switch accounts in Argent or Braavos wallets
@@ -220,11 +227,13 @@ Cartridge Controller automatically stays synchronized with account changes in co
 4. Connected accounts list and active account are automatically synchronized
 5. On disconnect, listeners are properly cleaned up to prevent memory issues
 
-> **Note**: Account synchronization is currently available for StarkNet wallets (Argent and Braavos). Other external wallets maintain their existing connection behavior.
+> **Note**: Account synchronization is currently available for StarkNet wallets (Argent and Braavos).
+> Other external wallets maintain their existing connection behavior.
 
 ### Chain Switching for External Wallets
 
-External wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) support programmatic chain switching through the Controller interface. This allows applications to request that connected external wallets switch to a specific blockchain network.
+External wallets (MetaMask, Rabby, Base, Phantom, WalletConnect) support programmatic chain switching through the Controller interface.
+This allows applications to request that connected external wallets switch to a specific blockchain network.
 
 **Supported Functionality:**
 - **Automatic Chain Switching**: Applications can programmatically request external wallets to switch chains
@@ -297,7 +306,8 @@ interface ExternalWalletResponse {
 - **Network Errors**: RPC or blockchain connectivity issues
 - **Transaction Failures**: Transaction reverted or failed on-chain
 
-**Note:** Transaction confirmation times vary by network conditions and the specific blockchain. Ethereum transactions typically confirm faster than other networks during low congestion periods.
+**Note:** Transaction confirmation times vary by network conditions and the specific blockchain.
+Ethereum transactions typically confirm faster than other networks during low congestion periods.
 
 ## Security Considerations
 
@@ -356,7 +366,8 @@ await controller.connect();
 
 ## Social Connections (OAuth)
 
-In addition to managing authentication signers, Controller allows you to connect social media accounts for enhanced platform features. Social connections are separate from authentication signers and are used specifically for content publishing and social integrations.
+In addition to managing authentication signers, Controller allows you to connect social media accounts for enhanced platform features.
+Social connections are separate from authentication signers and are used specifically for content publishing and social integrations.
 
 ### Overview
 
@@ -366,7 +377,8 @@ Social connections enable:
 - **Profile Integration**: Display social profile information within Controller
 - **Cross-Platform Features**: Unified social identity across gaming experiences
 
-> **Note**: Social connections are currently behind a feature flag and being rolled out gradually. This feature may not be available to all users immediately.
+> **Note**: Social connections are currently behind a feature flag and being rolled out gradually.
+> This feature may not be available to all users immediately.
 
 ### Supported Social Platforms
 
@@ -537,6 +549,6 @@ const DISCONNECT_OAUTH = gql`
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions.md) for gasless gaming transactions
-- Explore [Controller Configuration](/controller/configuration.md) options
-- Set up [Usernames](/controller/usernames.md) for your account
+- Learn about [Session Keys](/controller/sessions) for gasless gaming transactions
+- Explore [Controller Configuration](/controller/configuration) options
+- Set up [Usernames](/controller/usernames) for your account

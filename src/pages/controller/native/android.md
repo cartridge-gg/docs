@@ -68,9 +68,11 @@ data class SessionPolicies(
 )
 ```
 
+For more details on session policies, see [Sessions](/controller/sessions).
+
 ### SignerType
 
-Supported signer types:
+Supported authentication methods:
 
 ```kotlin
 enum class SignerType {
@@ -112,7 +114,7 @@ val username: String = controller.username()
 Handle user signup and chain switching:
 
 ```kotlin
-// Sign up with signer type
+// Sign up with authentication method
 try {
     controller.signup(
         signerType = SignerType.STARKNET,

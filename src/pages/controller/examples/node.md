@@ -32,6 +32,8 @@ bun add @cartridge/controller starknet
 
 ## Basic Setup
 
+For comprehensive setup and configuration details, see the [Getting Started guide](../getting-started).
+
 ```typescript
 import SessionProvider, {
   ControllerError,
@@ -114,12 +116,14 @@ main().catch(console.error);
 
 ## Important Notes
 
-1. The `basePath` parameter specifies where session data will be stored. Make sure the directory is writable.
+1. The `basePath` parameter specifies where session data will be stored.
+   Make sure the directory is writable.
 
-2. When running the application for the first time, you'll need to complete the session creation in your browser. The application will provide instructions.
+2. When running the application for the first time, you'll need to complete the session creation in your browser.
+   The application will provide instructions.
 
 3. Session data is persisted between runs, so you don't need to create a new session each time.
 
-4. The example includes proper error handling for Controller-specific errors, which include additional context through the `code` and `data` fields.
+4. For detailed error handling patterns, see the [Configuration guide](../configuration#error-handling).
 
-5. Keep your RPC endpoints and contract addresses secure, preferably in environment variables. 
+5. Keep your RPC endpoints and contract addresses secure, preferably in environment variables.

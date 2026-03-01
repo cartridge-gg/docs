@@ -6,12 +6,12 @@ description: Technical overview of the Controller smart contract architecture, s
 
 # Architecture
 
-This page provides a technical overview of the Controller smart contract for developers who need to understand the on-chain mechanisms.
+This page provides a technical overview of the Cartridge Controller smart contract for developers who need to understand the on-chain mechanisms.
 For user-facing documentation, see [Sessions](/controller/sessions) and [Signer Management](/controller/signer-management).
 
 ## Account Model
 
-The Controller is a smart contract wallet with support for multiple owners and flexible signer types.
+The Cartridge Controller is a smart contract wallet with support for multiple owners and flexible signer types.
 
 ### Components
 
@@ -38,7 +38,7 @@ fn is_owner(owner_guid: felt252) -> bool
 
 ## Signer Types
 
-The Controller supports six cryptographic signature schemes:
+The Cartridge Controller supports six cryptographic signature schemes:
 
 | Type | Description | GUID Calculation |
 |------|-------------|------------------|
@@ -132,7 +132,7 @@ When you call `account.execute()` in your application, the Controller SDK determ
 
 ### Execution Paths
 
-The SDK supports two primary execution methods:
+The Controller SDK supports two primary execution methods:
 
 | Method | Description | Use Case |
 |--------|-------------|----------|
@@ -151,19 +151,19 @@ account.execute(calls)
                             └── Paymaster submits transaction on-chain
 ```
 
-The SDK:
+The Controller SDK:
 1. Validates the session is active and policies match
 2. Constructs an `OutsideExecution` message with a 10-minute validity window
 3. Signs the message with the session key
 4. Sends the signed payload to Cartridge's paymaster service
 5. The paymaster submits the transaction on-chain and pays gas fees
 
-If the paymaster is unavailable (e.g., on local Katana), the SDK falls back to regular execution where the user pays fees.
+If the paymaster is unavailable (e.g., on local Katana), the Controller SDK falls back to regular execution where the user pays fees.
 
 ### Developer Experience
 
 Game developers don't need to call `executeFromOutside` directly.
-The abstraction is handled entirely by the SDK:
+The abstraction is handled entirely by the Controller SDK:
 
 ```typescript
 // This is all you need - the SDK handles the rest
@@ -176,14 +176,14 @@ const result = await account.execute([
 ]);
 ```
 
-The SDK automatically:
+The Controller SDK automatically:
 - Uses `executeFromOutside` when paymaster is configured
 - Falls back to regular execute when paymaster isn't available
 - Opens the approval modal if the session is expired or policies don't match
 
 ### Outside Execution (SNIP-9)
 
-The Controller implements [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) for meta-transactions via `execute_from_outside_v3`.
+The Cartridge Controller implements [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) for meta-transactions via `execute_from_outside_v3`.
 
 This allows external contracts or relayers to submit transactions on behalf of the account by providing valid signatures.
 

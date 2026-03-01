@@ -21,44 +21,44 @@ description: Discover Arcade, the ultimate hub for onchain games. Register, mana
 ### 🎮 Register a Game
 
 Game studios can register a game freely, without needing permission.
-When creating a game for the first time, you’ll be asked to provide its metadata and define at least one Game Edition.
+When creating a game for the first time, you'll be asked to provide its metadata and define at least one Game Edition.
 
 :::info
 A Game Edition is a version of your game — it can be deployed on mainnet, testnet, or represent a season or special mode (e.g., Season 1, Mainnet, Playtest, etc.).
 :::
 
-When you register a game or an edition, an NFT representing its ownership is minted.
-This NFT grants you admin rights over the game or edition.
-You can update the metadata of your game or any edition at any time — including name, description, icon, image gallery, video, and more.
+When you register a game or a Game Edition, an NFT representing its ownership is minted.
+This NFT grants you admin rights over the game or Game Edition.
+You can update the metadata of your game or any Game Edition at any time — including name, description, icon, image gallery, video, and more.
 
 ![Register Game](/arcade-register-game.png)
 
 ### 🚀 Publish a Game
 
-Once your game is registered, you can publish it to request a review.
-After approval, the game will be whitelisted and made publicly visible to all users on the platform.
+Once your game is registered, you can [publish it for review](./setup.md).
+After approval, the game will be made publicly visible to all users on the platform.
 
 ![Publish Game](/arcade-publish-game.png)
 
 ### 🧩 Create and update Game Editions
 
-You can create new editions of your game at any time — each edition gets its own ownership NFT.
-As the game owner, you control which editions are visible or hidden.
-As the edition owner, you can choose to publish or hide your edition from public view.
+You can create new Game Editions of your game at any time — each Game Edition gets its own ownership NFT.
+As the game owner, you control which Game Editions are visible or hidden.
+As the Game Edition owner, you can choose to publish or hide your Game Edition from public view.
 
 :::info
-No permission is required to register an edition in an existin game, meaning anyone can register a new edition to your game such as registering a Game onto Arcade, however you get the control on their visibility.
+No permission is required to register a Game Edition in an existing game, meaning anyone can register a new Game Edition to your game such as registering a Game onto Arcade, however you get the control on their visibility.
 :::
 
 ![Update Edition](/arcade-update-edition.png)
 
-### 🚀 Publish and whitelist an Edition
+### 🚀 Publish and approve a Game Edition
 
-As the edition owner you have the ability to publish your edition once created.
-Once published, the game owner has the ability to whitelist you Edition to make it public.
+As the Game Edition owner you have the ability to publish your Game Edition once created.
+Once published, the game owner has the ability to approve your Game Edition to make it public.
 
 :::info
-Any update within the Edition will turn off both the publish and the whitelist, the process should be repeat to make it public again
+Any update within the Game Edition will turn off both the publish and the approval status, the process should be repeated to make it public again
 :::
 
 ![Publish Edition](/arcade-publish-edition.png)

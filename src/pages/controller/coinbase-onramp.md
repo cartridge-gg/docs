@@ -17,7 +17,7 @@ The Coinbase onramp integration provides:
 - **Automatic IP Detection**: Client IP detection for compliance with regional restrictions and optimal user experience
 - **Order Management**: Complete order lifecycle tracking from creation to completion
 - **Transaction Queries**: Real-time status updates and transaction monitoring
-- **Seamless Integration**: Built into the existing purchase flows for starter packs and credit purchases
+- **Seamless Integration**: Built into the existing purchase flows for starterpacks and credit purchases
 
 ## useCoinbase Hook
 
@@ -41,7 +41,7 @@ The `useCoinbase` hook includes functionality for:
 
 The Coinbase onramp is integrated into the existing purchase flows:
 
-1. **Starter Pack Purchases**: Available as a payment option in the wallet selection drawer
+1. **Starterpack Purchases**: Available as a payment option in the wallet selection drawer
 2. **Credit Purchases**: Integrated into the credit purchase interface
 3. **Automatic Flow Management**: Seamlessly handles the transition from fiat payment to crypto receipt
 
@@ -112,7 +112,9 @@ The Coinbase onramp integration maintains strict security standards:
 
 ## Error Handling
 
-The integration includes comprehensive error handling for:
+For comprehensive error handling patterns and display modes, see the [Configuration documentation](/controller/configuration).
+
+The integration includes specific error handling for:
 
 - **Service Unavailability**: Graceful degradation when Coinbase onramp is not available in user's region
 - **Order Failures**: Clear messaging and alternative payment options when orders cannot be completed
@@ -131,12 +133,14 @@ When testing Coinbase onramp integration:
 - **Cost Breakdown UI**: Test fee transparency components with various purchase amounts
 
 :::note
-Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+. The latest version v0.12.3 includes additional sandbox configuration improvements and bug fixes for enhanced reliability.
+Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage.
+Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+.
+The latest version v0.12.3 includes additional sandbox configuration improvements and bug fixes for enhanced reliability.
 :::
 
 ## Next Steps
 
-- Learn about [Starter Pack Integration](/controller/starter-packs) for complete purchase flows
+- Learn about [Starterpack Integration](/controller/starter-packs) for complete purchase flows
 - Review [Configuration Options](/controller/configuration) for customization
 - Explore [Credit Purchases](/controller/starter-packs#credit-purchases) for account top-ups
 - See [Cross-Chain Payments](/controller/starter-packs#cross-chain-bridging-with-layerswap) for alternative payment methods

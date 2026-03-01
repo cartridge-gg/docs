@@ -22,7 +22,7 @@ Capacitor is ideal when:
 - Node.js >= 18
 - Xcode (for iOS)
 - Android Studio (for Android)
-- An existing web app with Controller integration
+- An existing web app with Cartridge Controller integration
 
 ## Installation
 
@@ -60,7 +60,8 @@ export default config;
 
 For production apps, it is **strongly recommended** to set a custom hostname to prevent other Capacitor apps from potentially spoofing your origin.
 
-By default, Capacitor apps use `localhost` as the hostname (`capacitor://localhost` on iOS). While this is automatically verified by the Keychain for development convenience, custom hostnames require explicit authorization in your Controller preset configuration.
+By default, Capacitor apps use `localhost` as the hostname (`capacitor://localhost` on iOS).
+While this is automatically verified by the Keychain for development convenience, custom hostnames require explicit authorization in your Controller preset configuration.
 
 #### Setting up Custom Hostnames:
 
@@ -75,7 +76,8 @@ server: {
 }
 ```
 
-2. **Authorize the hostname in your Controller preset**. The Keychain will only verify custom Capacitor origins if the hostname is explicitly listed in your preset's allowed origins:
+2. **Authorize the hostname in your Controller preset**.
+The Keychain will only verify custom Capacitor origins if the hostname is explicitly listed in your preset's allowed origins:
 
 ```json
 {
@@ -99,7 +101,7 @@ The key difference is the `redirectUrl` parameter, which uses a custom URL schem
 import SessionProvider from "@cartridge/controller/session";
 import { constants } from "starknet";
 
-const policies = {
+const sessionPolicies = {
   contracts: {
     "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7": {
       methods: [{ name: "transfer", entrypoint: "transfer" }],
@@ -111,7 +113,7 @@ const provider = new SessionProvider({
   rpc: "https://api.cartridge.gg/x/starknet/sepolia",
   chainId: constants.StarknetChainId.SN_SEPOLIA,
   redirectUrl: "myapp://session",        // Custom URL scheme
-  policies,
+  policies: sessionPolicies,
   keychainUrl: "https://x.cartridge.gg", // Optional: customize keychain URL
 });
 ```
@@ -293,7 +295,8 @@ Install and configure these as needed for your application.
 
 ## Session Management Example
 
-A complete Capacitor session example with iOS app integration is available in the repository. This example demonstrates:
+A complete Capacitor session example with iOS app integration is available in the repository.
+This example demonstrates:
 
 - **Mobile Session Management**: Comprehensive cross-platform session handling
 - **Deep Link Integration**: Proper URL scheme handling for iOS and Android

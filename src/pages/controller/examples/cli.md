@@ -48,7 +48,7 @@ Create a `policies.json` file specifying which contracts and methods the session
 }
 ```
 
-This uses the same policy format as the [JavaScript SDK](/controller/sessions#defining-policies), with contract addresses mapping to allowed methods.
+This uses the same policy format as the [Controller SDK](/controller/sessions#defining-policies), with contract addresses mapping to allowed methods.
 
 ### 2. Authorize a session
 
@@ -66,7 +66,9 @@ controller session auth --preset loot-survivor --chain-id SN_MAIN
 
 Available presets include: `loot-survivor`, `influence`, `realms`, `pistols`, `dope-wars`, and more.
 
-This generates a new keypair, creates an authorization URL, and automatically polls until you approve in the browser. Session credentials are stored once authorized. Sessions expire after 7 days by default — use `--expires` to customize (e.g., `--expires 1day`, `--expires 1hr`).
+This generates a new keypair, creates an authorization URL, and automatically polls until you approve in the browser.
+Session credentials are stored once authorized.
+Sessions expire after 7 days by default — use `--expires` to customize (e.g., `--expires 1day`, `--expires 1hr`).
 
 ### 3. Execute transactions
 
@@ -99,7 +101,8 @@ Where `calls.json` contains:
 }
 ```
 
-Transactions are auto-subsidized via paymaster when possible. Use `--no-paymaster` to pay with user funds directly.
+Transactions are auto-subsidized via paymaster when possible.
+Use `--no-paymaster` to pay with user funds directly.
 
 ### 4. Read-only calls
 
@@ -283,7 +286,8 @@ controller balance
 controller balance eth
 ```
 
-Built-in tokens: ETH, STRK, USDC, USD.e, LORDS, SURVIVOR, WBTC. Custom tokens can be added via `config set token.<SYMBOL> <address>`.
+Built-in tokens: ETH, STRK, USDC, USD.e, LORDS, SURVIVOR, WBTC.
+Custom tokens can be added via `config set token.<SYMBOL> <address>`.
 
 ### `username`
 
@@ -295,7 +299,7 @@ controller username
 
 ### `lookup`
 
-Resolves Cartridge controller usernames to addresses or vice versa.
+Resolves Cartridge Controller usernames to addresses or vice versa.
 
 ```bash
 # Look up addresses for usernames
@@ -345,9 +349,11 @@ controller starterpack quote <ID> --chain-id SN_MAIN
 
 ### `starterpack purchase`
 
-Purchases a starterpack. Two modes are available:
+Purchases a starterpack.
+Two modes are available:
 
-**UI mode (default):** Opens the Cartridge purchase page in your browser. Supports crosschain payments and Apple Pay.
+**UI mode (default):** Opens the Cartridge purchase page in your browser.
+Supports crosschain payments and Apple Pay.
 
 ```bash
 controller starterpack purchase <ID> --chain-id SN_MAIN
@@ -355,7 +361,8 @@ controller starterpack purchase <ID> --chain-id SN_MAIN
 controller starterpack purchase <ID> --ui --chain-id SN_MAIN
 ```
 
-**Direct mode:** Executes the purchase on-chain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starterpack contract.
+**Direct mode:** Executes the purchase on-chain using the active session.
+Requires session policies that include `approve` on the payment token and `issue` on the starterpack contract.
 
 ```bash
 controller starterpack purchase <ID> --direct --chain-id SN_MAIN
@@ -385,7 +392,8 @@ controller marketplace info \
 
 ### `marketplace buy`
 
-Purchases an NFT from an active marketplace listing. Requires an active session with policies for `execute` on the marketplace contract and `approve` on the payment token.
+Purchases an NFT from an active marketplace listing.
+Requires an active session with policies for `execute` on the marketplace contract and `approve` on the payment token.
 
 ```bash
 controller marketplace buy \
@@ -420,7 +428,9 @@ All commands support:
 
 ### Multi-Account Support
 
-Use `--account` to specify which Cartridge Controller account to use. When provided, the username is prefilled in the session authorization UI. When omitted, the user can choose which account to authorize in the browser.
+Use `--account` to specify which Cartridge Controller account to use.
+When provided, the username is prefilled in the session authorization UI.
+When omitted, the user can choose which account to authorize in the browser.
 
 Each account gets its own isolated session storage, so you can manage multiple accounts on the same machine.
 
@@ -448,7 +458,8 @@ RPC URL precedence: `--chain-id` flag > config `rpc-url` > environment variable.
 
 ## Paymaster Control
 
-By default, transactions use the paymaster (free execution). If the paymaster is unavailable, the transaction **fails** rather than falling back to user-funded execution.
+By default, transactions use the paymaster (free execution).
+If the paymaster is unavailable, the transaction **fails** rather than falling back to user-funded execution.
 
 Use `--no-paymaster` to bypass the paymaster and pay with user funds:
 

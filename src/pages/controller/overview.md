@@ -21,7 +21,7 @@ title: Controller Overview
 ### Simple & Secure
 
 -   Passwordless authentication using Passkeys for one-click onboarding
--   Multi-signer support with Passkeys, password auth, social login, and external wallets
+-   Multi-authentication method support with Passkeys, password auth, social login, and external wallets
 -   Self-custodial embedded wallets that put players in control
 
 ### Designed for Fun

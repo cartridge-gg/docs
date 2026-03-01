@@ -6,7 +6,8 @@ title: Slot Getting Started
 
 # Getting Started
 
-Slot is the execution layer of Dojo, supporting rapid provisioning of low latency, dedicated, provable execution contexts, bringing horizontal scalability to the blockchain. It manages the sequencing, proving, and efficient settlement of its execution.
+Slot is the execution layer of Dojo, supporting rapid provisioning of low latency, dedicated, provable execution contexts, bringing horizontal scalability to the blockchain.
+It manages the sequencing, proving, and efficient settlement of its execution.
 
 ## Installation
 
@@ -26,7 +27,8 @@ slot auth login
 
 ## Programmatic usage
 
-First, authenticate as mentioned above. Then, run:
+First, authenticate as mentioned above.
+Then, run:
 
 ```sh
 slot auth token
@@ -35,7 +37,7 @@ slot auth token
 Follow instructions and save the output to set the SLOT_AUTH env var.
 You can set this environment variable in CI, scripts, or deployment platforms to run slot without having to login.
 
-### Create service deployments
+### Create deployment services
 
 ```sh
 slot deployments create <Project Name> katana
@@ -70,10 +72,11 @@ historical = ["namespace-EventName"]
 ```
 
 :::info
-When you create a service with a project name that didn't exist before, a new team is automatically created.
+When you create a deployment with a project name that didn't exist before, a new team is automatically created.
+For more information on team management and billing, see the [Billing documentation](/slot/billing).
 :::
 
-### Update a service
+### Update a deployment
 
 ```sh
 slot deployments update <Project Name> torii --version v1.0.0
@@ -81,19 +84,19 @@ slot deployments update <Project Name> torii --config <path/to/torii.toml>
 slot deployments update <Project Name> torii --replicas 3
 ```
 
-### Delete a service
+### Delete a deployment
 
 ```sh
 slot deployments delete <Project Name> torii
 ```
 
-### Transfer a service to another team
+### Transfer a deployment to another team
 
 ```sh
 slot d transfer <Project Name> <katana | torii> <To Team Name>
 ```
 
-### Read service logs
+### Read deployment logs
 
 ```sh
 slot deployments logs <Project Name> <katana | torii>
@@ -105,7 +108,7 @@ slot deployments logs <Project Name> <katana | torii>
 slot deployments list
 ```
 
-### View deployments configuration
+### View deployment configuration
 
 ```sh
 slot deployments describe <Project Name> <katana | torii>
@@ -117,20 +120,7 @@ slot deployments describe <Project Name> <katana | torii>
 slot deployments accounts <Project Name> katana
 ```
 
-### Manage collaborators with teams
-
-The name of the team is the same as the project name used to create a service. A team is automatically created when you create a new project.
-
-```sh
-slot teams <Team Name> list
-slot teams <Team Name> add <Account Name>
-slot teams <Team Name> remove <Account Name>
-```
-
-:::info
-The account name can also be called controller username. The one used to login on controller.
-:::
-
 ## Billing
 
-Teams need credits to run paid services and paymasters. See the [Billing](/slot/billing) documentation for information on funding teams and managing credits.
+Teams need credits to run paid deployments and paymasters.
+You can fund your team and manage collaborators through the [Billing](/slot/billing) documentation, which provides comprehensive coverage of credit management and team administration.
