@@ -199,10 +199,6 @@ export default defineConfig({
                 text: "Rust",
                 link: "/controller/examples/rust",
               },
-              {
-                text: "Telegram",
-                link: "/controller/examples/telegram",
-              },
             ],
           },
           {
