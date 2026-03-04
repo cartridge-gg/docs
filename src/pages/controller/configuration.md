@@ -19,15 +19,15 @@ export type ControllerOptions = {
     // Chain configuration
     chains?: Chain[];  // Custom RPC endpoints (takes precedence over default chains)
     defaultChainId?: string;  // Default chain to use (hex encoded). If using Starknet React, this gets overridden by the same param in StarknetConfig
-    
-    // Session options 
+
+    // Session options
     policies?: SessionPolicies;  // Optional: Session policies for pre-approved transactions
     propagateSessionErrors?: boolean;  // Propagate transaction errors back to caller instead of showing keychain UI
     errorDisplayMode?: "modal" | "notification" | "silent";  // How to display transaction/execution errors. Defaults to "modal"
-    
+
     // Performance options
     lazyload?: boolean;  // When true, defer iframe mounting until connect() is called. Reduces initial load time and resource fetching
-    
+
     // Keychain options
     url?: string;  // The URL of keychain
     origin?: string;  // The origin of keychain
@@ -37,7 +37,7 @@ export type ControllerOptions = {
     shouldOverridePresetPolicies?: boolean;  // When true, manually provided policies override preset policies. Default is false
     namespace?: string;  // The namespace to use to fetch trophies data from indexer
     tokens?: Tokens;  // The tokens to be listed on Inventory modal
-    
+
     // Customization options
     preset?: string;  // Preset name for custom themes and verified policies
     slot?: string;  // Slot project name for custom indexing
@@ -105,6 +105,59 @@ const controller = new Controller({
   chainId: constants.StarknetChainId.SN_SEPOLIA,
 });
 ```
+
+### Using Katana for Local Development
+
+When developing locally with [Katana](https://book.dojoengine.org/toolchain/katana), you need to define a custom chain and configure the RPC provider to point to your local Katana.
+
+:::warning
+If the chain configuration does not match your running Katana instance (wrong chain ID, wrong RPC URL, or mismatched network settings), Controller will not be able to execute transactions.
+:::
+
+Here is an example using `starknet-react` with a local Katana chain:
+
+```typescript
+import { Chain } from "@starknet-react/chains";
+import { jsonRpcProvider } from "@starknet-react/core";
+
+const KATANA_CHAIN_ID = "0x4b4154414e41"; // "KATANA" hex-encoded ASCII
+const KATANA_RPC_URL = "http://localhost:5050"
+
+// Define the Katana chain
+const katana: Chain = {
+  id: BigInt(KATANA_CHAIN_ID),
+  name: "Katana",
+  network: "katana",
+  testnet: true,
+  nativeCurrency: {
+    address: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d", // Katana default
+    name: "Stark",
+    symbol: "STRK",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: [KATANA_URL] },
+    public: { http: [KATANA_URL] },
+  },
+};
+
+// Configure the RPC provider
+const provider = jsonRpcProvider({
+  rpc: () => ({ nodeUrl: KATANA_URL }),
+});
+
+// Set up StarknetConfig with Katana
+```
+
+:::warning
+Controller must be instantiated with [session policies](/controller/sessions) to work correctly on Katana.
+Without policies, transactions will fail because Katana does not support the paymaster flow used for manual approvals.
+:::
+
+Common issues to check:
+- **Missing policies**: Controller requires session policies when used with Katana. See [session configuration](/controller/sessions) for details.
+- **RPC URL**: Katana defaults to `http://localhost:5050`. If you've configured a different port, update accordingly.
+- **Native currency address**: The STRK token address must match the token deployed on your Katana instance.
 
 ## Performance Optimization
 
@@ -190,7 +243,7 @@ try {
   const result = await account.execute([
     {
       contractAddress: "0x123...",
-      entrypoint: "transfer", 
+      entrypoint: "transfer",
       calldata: ["0x456...", "1000000000000000000"] // 1 ETH
     }
   ]);
@@ -201,7 +254,7 @@ try {
     // Handle the error in your application
     console.error('Transaction failed:', result.message);
     console.error('Error details:', result.error);
-    
+
     // Show custom error UI to user
     showCustomErrorMessage(result.message);
   } else if (result.code === ResponseCodes.USER_INTERACTION_REQUIRED) {
@@ -377,7 +430,7 @@ When using `errorDisplayMode: "notification"`, errors are displayed using Contro
 **Choose the Right Mode:**
 
 - **Modal**: Financial apps, critical operations, or when users need detailed error information
-- **Notification**: Games, real-time applications, or when errors shouldn't interrupt user flow  
+- **Notification**: Games, real-time applications, or when errors shouldn't interrupt user flow
 - **Silent**: Applications with custom error handling or sophisticated error management systems
 
 **Error Handling Strategy:**
@@ -486,7 +539,7 @@ Dynamic authentication options enable several powerful patterns:
 </button>
 
 <button onClick={() => controller.connect(["google"])}>
-  Continue with Google  
+  Continue with Google
 </button>
 
 <button onClick={() => controller.connect(["discord"])}>
@@ -498,7 +551,7 @@ Dynamic authentication options enable several powerful patterns:
 ```typescript
 // Mobile-optimized authentication (remove external wallets)
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-const authOptions = isMobile 
+const authOptions = isMobile
   ? ["webauthn", "google", "discord"]
   : ["webauthn", "google", "discord", "metamask", "walletconnect"];
 
@@ -519,7 +572,7 @@ await controller.connect(authOptions);
 ### Benefits
 
 - **Single Instance**: Use one Controller/Connector for multiple authentication methods
-- **Branded UI**: Create specific authentication buttons for different providers  
+- **Branded UI**: Create specific authentication buttons for different providers
 - **Flexible UX**: Adapt authentication options based on context or user preferences
 - **Override Capability**: Per-connection options override constructor defaults
 
@@ -573,8 +626,8 @@ controller.open(options?: OpenOptions);
 controller.open();
 
 // Redirect to keychain, then redirect to a specific game URL
-controller.open({ 
-  redirectUrl: "https://my-game.com/play" 
+controller.open({
+  redirectUrl: "https://my-game.com/play"
 });
 ```
 
@@ -637,8 +690,8 @@ const controller = new Controller();
 const account = await controller.probe();
 if (!account) {
   // Redirect to keychain, then to game client
-  controller.open({ 
-    redirectUrl: "https://game.example.com/play" 
+  controller.open({
+    redirectUrl: "https://game.example.com/play"
   });
   return;
 }
@@ -648,7 +701,7 @@ window.location.href = "https://game.example.com/play";
 ```
 
 ```typescript
-// In game client (game.example.com)  
+// In game client (game.example.com)
 const controller = new Controller();
 
 // Controller automatically detects return from standalone auth
@@ -754,7 +807,7 @@ The following authentication methods support branded styling:
 The branded submit button adapts its text based on the user's state:
 
 - **New users**: Displays "sign up with [Signer]" when entering a new username
-- **Existing users**: Displays "log in with [Signer]" when entering an existing username  
+- **Existing users**: Displays "log in with [Signer]" when entering an existing username
 - **Generic state**: Shows "log in" or "sign up" when username field is empty
 
 ### Extension Validation
