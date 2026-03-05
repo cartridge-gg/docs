@@ -5,7 +5,11 @@ description: Configure session keys and policies for Cartridge Controller to ena
 
 # Controller Sessions & Policies
 
-Sessions enable pre-approved, gasless transactions without user prompts for each interaction.
+Session policies define which contracts and methods your app can call.
+They are **required** for session-based transaction execution — without policies, `execute()` will fail with error code 130 ("Array length mismatch") because the Controller's on-chain session validation requires a merkle proof for each call.
+
+Without policies, Controller falls back to manual approval via the keychain modal.
+On local Katana, policies are required because new Controller accounts cannot be properly deployed without them.
 
 ## How Sessions Work
 
@@ -13,15 +17,6 @@ Sessions enable pre-approved, gasless transactions without user prompts for each
 2. User approves policies once during connection
 3. Controller creates session with approved permissions
 4. Transactions execute seamlessly via Paymaster
-
-## With vs Without Policies
-
-| Feature | With Policies | Without Policies |
-|---------|--------------|------------------|
-| Transaction approval | Pre-approved | Manual each time |
-| Gasless transactions | Yes (Paymaster) | No |
-| Error handling | Configurable display modes | Standard modal |
-| Best for | Games, frequent txs | Simple apps |
 
 ## Defining Policies
 
