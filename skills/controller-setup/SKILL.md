@@ -27,12 +27,13 @@ const account = await controller.connect();
 // Ready to execute transactions
 ```
 
-## When to Use Policies
+## Session Policies
 
-Policies are **optional**. Choose based on your needs:
+Session policies are **required** for session-based transaction execution.
+Without policies, `execute()` fails with error code 130 because the Controller's session validation needs a merkle proof per call.
 
-- **Use policies**: Games needing frequent, seamless transactions with gasless execution via Paymaster
-- **Skip policies**: Simple apps where manual approval per transaction is acceptable
+Without policies, Controller falls back to manual approval via the hosted keychain modal.
+On local Katana, policies are required because new Controller accounts cannot be properly deployed without them.
 
 ## Choosing a Connector
 
@@ -47,7 +48,7 @@ Policies are **optional**. Choose based on your needs:
 import { ControllerConnector } from "@cartridge/connector";
 
 const connector = new ControllerConnector({
-  policies,              // Optional session policies
+  policies,              // Session policies (required for session-based execution)
   signupOptions,         // Optional auth methods to show
 });
 ```
@@ -86,6 +87,35 @@ const controller = new Controller({
   defaultChainId: constants.StarknetChainId.SN_MAIN,
 });
 ```
+
+## Local Development with Katana
+
+When using Controller with a local [Katana](https://book.dojoengine.org/toolchain/katana) instance, the Katana config must deploy Controller contracts at genesis.
+Without this, transactions fail with "Requested contract address ... is not deployed".
+
+**Required `katana.toml` config:**
+
+```toml
+[dev]
+dev = true
+no_fee = true
+
+[cartridge]
+paymaster = true  # Enables paymaster AND deploys Controller contracts at genesis
+
+[server]
+http_cors_origins = "*"
+```
+
+Note: `paymaster = true` implicitly enables `controllers = true`.
+
+**Start Katana with config:**
+
+```bash
+katana --config katana.toml
+```
+
+See the [Katana configuration guide](https://book.dojoengine.org/toolchain/katana/configuration) for all TOML options.
 
 ## Performance: Lazy Loading
 

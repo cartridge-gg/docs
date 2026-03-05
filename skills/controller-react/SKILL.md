@@ -48,6 +48,32 @@ const policies: SessionPolicies = {
 // Create OUTSIDE component
 const connector = new ControllerConnector({ policies });
 
+// Katana chain definition for local development
+// Requires katana.toml with [cartridge] paymaster = true
+const KATANA_CHAIN_ID = "0x4b4154414e41"; // "KATANA" hex-encoded ASCII
+const KATANA_URL = "http://localhost:5050";
+
+const katana: Chain = {
+  id: BigInt(KATANA_CHAIN_ID),
+  name: "Katana",
+  network: "katana",
+  testnet: true,
+  nativeCurrency: {
+    address: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+    name: "Stark",
+    symbol: "STRK",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: [KATANA_URL] },
+    public: { http: [KATANA_URL] },
+  },
+  // Required for Controller account auto-deployment on Katana
+  paymasterRpcUrls: {
+    avnu: { http: [KATANA_URL] },
+  },
+};
+
 const provider = jsonRpcProvider({
   rpc: (chain: Chain) => {
     switch (chain) {
@@ -55,6 +81,8 @@ const provider = jsonRpcProvider({
         return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
       case sepolia:
         return { nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia" };
+      default:
+        return { nodeUrl: KATANA_URL };
     }
   },
 });
@@ -63,8 +91,8 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
   return (
     <StarknetConfig
       autoConnect
-      defaultChainId={mainnet.id}
-      chains={[mainnet, sepolia]}
+      defaultChainId={katana.id}
+      chains={[katana, mainnet, sepolia]}
       provider={provider}
       connectors={[connector]}
       explorer={cartridge}
