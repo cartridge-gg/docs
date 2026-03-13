@@ -7,7 +7,7 @@ description: Using user-supplied signing keys with Controller for server-side an
 # Native Headless Controller
 
 :::info
-This guide covers **native headless mode** using C++ bindings for server-side applications. For **web-based headless authentication** in browser applications, see the [Headless Authentication](/controller/headless-authentication) guide.
+This guide covers **native headless mode** using C++ bindings for server-side applications.
 :::
 
 ## Setup

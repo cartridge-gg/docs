@@ -21,54 +21,17 @@ const account = await controller.connect();
 // You're ready to execute transactions!
 ```
 
-For more advanced use cases, you can also pass dynamic authentication options:
+To restrict the authentication options shown to users, pass `signupOptions` to the constructor:
 
 ```ts
 import Controller from "@cartridge/controller";
 
-const controller = new Controller({});
-
-// Use default signupOptions from constructor
+// Only show Phantom EVM as an authentication option
+const controller = new Controller({
+  signupOptions: ["phantom-evm"],
+});
 const account = await controller.connect();
-
-// Or override with specific options for this connection
-const phantomAccount = await controller.connect(["phantom-evm"]);
 ```
-
-### Headless Authentication
-
-For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`:
-
-```ts
-import Controller from "@cartridge/controller";
-
-const controller = new Controller({});
-
-// Headless authentication with WebAuthn/Passkey
-const account = await controller.connect({
-  username: "alice",
-  signer: "webauthn",
-});
-
-// Headless authentication with password
-const account = await controller.connect({
-  username: "alice",
-  signer: "password",
-  password: "your-secure-password",
-});
-
-// Headless authentication with OAuth providers
-await controller.connect({ username: "alice", signer: "google" });
-await controller.connect({ username: "alice", signer: "discord" });
-
-// Headless authentication with EVM wallets
-await controller.connect({ username: "alice", signer: "metamask" });
-await controller.connect({ username: "alice", signer: "phantom-evm" });
-```
-
-:::info
-Headless mode performs authentication in a hidden iframe without displaying any UI. However, if session policies need approval or verification, the UI will open automatically to request user consent.
-:::
 
 When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
@@ -163,10 +126,12 @@ controller.open({
   redirectUrl: "https://mygame.com/dashboard",
 });
 
-// With preset theme and redirect
+// With custom redirect URL and preset theme
+const controller = new Controller({
+  preset: "mygame",
+});
 controller.open({
   redirectUrl: "https://mygame.com/play",
-  preset: "mygame",
 });
 ```
 
@@ -175,10 +140,11 @@ controller.open({
 The `open()` method accepts an options object with the following properties:
 
 - `redirectUrl?: string` - The URL to redirect to after authentication (defaults to current page)
-- `preset?: string` - The preset theme to use for the keychain interface
 
 :::info
-When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
+The `preset` theme is configured at construction time via the `Controller` constructor, not per-call.
+When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository.
+See the [presets guide](/controller/presets.md) for more information.
 :::
 
 ## Providers
@@ -283,40 +249,15 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-#### Dynamic Authentication Options
+#### Authentication Options
 
-The ControllerConnector supports dynamic authentication configuration per connection, enabling multiple branded authentication flows:
+To restrict the authentication methods shown to users, pass `signupOptions` to the `ControllerConnector` constructor:
 
 ```tsx
-import { useConnect } from "@starknet-react/core";
-import { ControllerConnector } from "@cartridge/connector";
-
-function MyConnectComponent() {
-  const { connect } = useConnect();
-  const connector = ControllerConnector.fromConnectors(connectors);
-
-  return (
-    <div>
-      {/* Use default signupOptions from constructor */}
-      <button onClick={() => connect({ connector })}>
-        Connect
-      </button>
-
-      {/* Override with specific options for branded auth flows */}
-      <button onClick={() => connector.connect({ signupOptions: ["phantom-evm"] })}>
-        Connect with Phantom
-      </button>
-
-      <button onClick={() => connector.connect({ signupOptions: ["google"] })}>
-        Connect with Google
-      </button>
-
-      <button onClick={() => connector.connect({ signupOptions: ["discord"] })}>
-        Connect with Discord
-      </button>
-    </div>
-  );
-}
+const controller = new ControllerConnector({
+  policies,
+  signupOptions: ["phantom-evm"],
+});
 ```
 
 #### Wallet Standard Integration
@@ -324,22 +265,12 @@ function MyConnectComponent() {
 By default, the Controller exposes the `StarknetWindowObject` interface.
 However, the Controller also supports the [get-starknet wallet standard](https://get-starknet.vercel.app/), enabling integration with libraries like `starknet-react` and `solid.js`.
 
-You can use the Controller directly or through the ControllerConnector to cast to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
-
-```tsx
-import Controller from "@cartridge/controller";
-import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
-
-// Direct usage without starknet-react
-const controller = new Controller({ /* options */ });
-const walletStandard: WalletWithStarknetFeatures = controller.asWalletStandard();
-```
+You can use the `ControllerConnector` to cast to the wallet-standard compatible `WalletWithStarknetFeatures` interface:
 
 ```tsx
 import { ControllerConnector } from "@cartridge/connector";
 import type { WalletWithStarknetFeatures } from "@starknet-io/get-starknet-wallet-standard/features";
 
-// Using ControllerConnector (delegates to the controller's implementation)
 const connector = new ControllerConnector();
 const walletStandard: WalletWithStarknetFeatures = connector.asWalletStandard();
 ```
@@ -386,36 +317,6 @@ const sessionConnector = new SessionConnector({
 });
 ```
 
-
-### Migration Notes for v0.10.0
-
-#### StarkNet v8 Breaking Changes
-
-If you're using `WalletAccount` directly in your application, you'll need to update the constructor call:
-
-```ts
-// Before (v0.9.x)
-const account = new WalletAccount(provider, address, signer);
-
-// After (v0.10.0)
-const account = new WalletAccount({
-  nodeUrl: provider,
-  address: address,
-  signer: signer
-});
-```
-
-#### Ethereum Wallet Integration Changes
-
-The MetaMask SDK has been removed in favor of the EIP-6963 standard. If your application relied on MetaMask SDK-specific features:
-
-- Wallet detection now uses EIP-6963 standard wallet detection
-- All Ethereum wallets are now handled through a shared base class
-- This change improves bundle size and wallet compatibility
-
-#### Lodash Removal
-
-The lodash dependency has been completely removed. If you were importing lodash utilities from this package, you'll need to replace them with custom utilities or install lodash separately in your application.
 
 ## Development Workflow
 
