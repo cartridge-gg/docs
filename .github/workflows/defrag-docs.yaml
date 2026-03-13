@@ -75,7 +75,33 @@ jobs:
                   fi
 
             # ---------------------------------------------------------------
-            # Verify build
+            # Build (required for phase 3 link validation)
+            # ---------------------------------------------------------------
+            - name: Build site
+              run: pnpm run build
+
+            # ---------------------------------------------------------------
+            # Phase 3: Link repair (validated against build output)
+            # ---------------------------------------------------------------
+            - name: "Phase 3: Fix links"
+              run: node scripts/fix-links.mjs 2>&1 | tee links-output.txt
+
+            - name: Commit link fixes
+              run: |
+                  if [ -n "$(git status --porcelain src/pages/)" ]; then
+                    git add src/pages/
+                    git commit -m "chore(defrag): phase 3 — link repair
+
+                  Auto-fixed broken internal links validated against build output.
+                  Extension removals, path corrections, broken anchor cleanup.
+
+                  $(tail -15 links-output.txt)"
+                  else
+                    echo "No link fixes needed"
+                  fi
+
+            # ---------------------------------------------------------------
+            # Verify build after link fixes
             # ---------------------------------------------------------------
             - name: Verify build
               run: pnpm run build
@@ -98,6 +124,7 @@ jobs:
 
                   FORMAT_SUMMARY=$(sed -n '/=== Summary ===/,$ p' format-output.txt 2>/dev/null || echo "No formatting output")
                   DEFRAG_SUMMARY=$(sed -n '/=== Summary ===/,$ p' defrag-output.txt 2>/dev/null || echo "No defrag output")
+                  LINKS_SUMMARY=$(sed -n '/=== Summary ===/,$ p' links-output.txt 2>/dev/null || echo "No link repair output")
 
                   gh pr create \
                     --title "chore: monthly docs defragmentation" \
@@ -115,14 +142,20 @@ jobs:
                   Terminology normalization per STYLE_GUIDE.md, deduplication (capped at 10 lines removed per file), cross-reference suggestions.
                   **Review this commit carefully.**
 
+                  ### Phase 3: Link repair (build-verified)
+                  Auto-fixes broken internal links by validating against the built HTML output.
+                  Fixes extension removal (.md/.mdx), path corrections, and broken anchors.
+                  **Reviewers can skim this commit.**
+
                   ### Skipped changes
                   Files where the LLM suggested removing >10 lines are listed in the workflow output.
                   These need manual review and may warrant separate issues.
 
                   ### Review notes
-                  - The build has been verified to pass
+                  - The build has been verified to pass after all phases
                   - Check for `[TODO: link to X]` markers that need resolution
                   - Check for `<!-- TODO: deduplicate -->` comments flagging large removals
+                  - Check workflow output for unfixable links that need manual attention
 
                   ---
                   *This PR was automatically created by the monthly defragmentation workflow.*
