@@ -24,64 +24,105 @@ jobs:
             - name: Install dependencies
               run: pnpm install
 
-            - name: Run defragmentation
+            - name: Configure git
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  BRANCH="defrag-docs-$(date +%Y%m%d)"
+                  git checkout -b "$BRANCH"
+                  echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
+
+            # ---------------------------------------------------------------
+            # Phase 1: Formatting (deterministic, no LLM)
+            # ---------------------------------------------------------------
+            - name: "Phase 1: Format docs"
+              run: node scripts/format-docs.mjs 2>&1 | tee format-output.txt
+
+            - name: Commit formatting changes
+              run: |
+                  if [ -n "$(git status --porcelain src/pages/)" ]; then
+                    git add src/pages/
+                    git commit -m "chore(defrag): phase 1 — formatting
+
+                  Mechanical fixes: trailing newlines, smart quotes,
+                  trailing whitespace, code block language tags.
+
+                  $(tail -10 format-output.txt)"
+                  else
+                    echo "No formatting changes"
+                  fi
+
+            # ---------------------------------------------------------------
+            # Phase 2: Content (LLM-powered, style-guided, size-limited)
+            # ---------------------------------------------------------------
+            - name: "Phase 2: Content defragmentation"
               env:
                   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
               run: node scripts/defrag-docs.mjs 2>&1 | tee defrag-output.txt
 
+            - name: Commit content changes
+              run: |
+                  if [ -n "$(git status --porcelain src/pages/)" ]; then
+                    git add src/pages/
+                    git commit -m "chore(defrag): phase 2 — content
+
+                  Terminology normalization, deduplication, cross-reference
+                  suggestions. Changes capped at 10 net removed lines per file.
+
+                  $(tail -20 defrag-output.txt)"
+                  else
+                    echo "No content changes"
+                  fi
+
+            # ---------------------------------------------------------------
+            # Verify build
+            # ---------------------------------------------------------------
             - name: Verify build
               run: pnpm run build
 
+            # ---------------------------------------------------------------
+            # Create PR
+            # ---------------------------------------------------------------
             - name: Create PR if changes exist
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  if [ -z "$(git status --porcelain src/pages/)" ]; then
-                    echo "No documentation changes to commit"
+                  # Check if we have any commits beyond the initial checkout
+                  COMMIT_COUNT=$(git rev-list --count origin/main..HEAD)
+                  if [ "$COMMIT_COUNT" -eq 0 ]; then
+                    echo "No changes to submit"
                     exit 0
                   fi
 
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-
-                  BRANCH="defrag-docs-$(date +%Y%m%d)"
-                  git checkout -b "$BRANCH"
-
-                  git add src/pages/
-                  git commit -m "chore: monthly docs defragmentation
-
-                  Automated cleanup of documentation:
-                  - Removed redundant content across pages
-                  - Fixed terminology inconsistencies
-                  - Enforced one-sentence-per-line formatting
-                  - Added missing cross-references
-
-                  $(tail -20 defrag-output.txt)"
-
                   git push origin "$BRANCH"
 
-                  # Build PR body from script output
-                  SUMMARY=$(sed -n '/=== Summary ===/,$ p' defrag-output.txt)
+                  FORMAT_SUMMARY=$(sed -n '/=== Summary ===/,$ p' format-output.txt 2>/dev/null || echo "No formatting output")
+                  DEFRAG_SUMMARY=$(sed -n '/=== Summary ===/,$ p' defrag-output.txt 2>/dev/null || echo "No defrag output")
 
                   gh pr create \
                     --title "chore: monthly docs defragmentation" \
-                    --body "$(cat <<EOF
+                    --body "$(cat <<'EOF'
                   ## Monthly docs defragmentation
 
-                  Automated review and cleanup of documentation pages using Claude.
+                  Automated review and cleanup of documentation pages.
+                  Each phase is a separate commit for easier review.
 
-                  ### What this does
-                  - **Cross-page analysis**: Finds duplicated explanations, inconsistent terminology, and missing cross-references within each doc section
-                  - **Per-page cleanup**: Fixes one-sentence-per-line violations, formatting inconsistencies, and redundant prose
+                  ### Phase 1: Formatting (mechanical)
+                  Trailing newlines, smart quotes, whitespace, code block language tags.
+                  **Reviewers can skim this commit.**
 
-                  ### Run output
-                  \`\`\`
-                  ${SUMMARY}
-                  \`\`\`
+                  ### Phase 2: Content (LLM-generated)
+                  Terminology normalization per STYLE_GUIDE.md, deduplication (capped at 10 lines removed per file), cross-reference suggestions.
+                  **Review this commit carefully.**
+
+                  ### Skipped changes
+                  Files where the LLM suggested removing >10 lines are listed in the workflow output.
+                  These need manual review and may warrant separate issues.
 
                   ### Review notes
-                  Please review the diff carefully — all changes are LLM-generated editorial fixes.
-                  The build has been verified to pass.
+                  - The build has been verified to pass
+                  - Check for `[TODO: link to X]` markers that need resolution
+                  - Check for `<!-- TODO: deduplicate -->` comments flagging large removals
 
                   ---
                   *This PR was automatically created by the monthly defragmentation workflow.*
