@@ -127,7 +127,6 @@ connections:
 import { useEffect, useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { ControllerConnector } from '@cartridge/connector'
-import { Button } from '@cartridge/ui'
 
 export function ConnectWallet() {
   const { connect, connectors } = useConnect()
@@ -150,212 +149,18 @@ export function ConnectWallet() {
         </>
       )}
       {address ? (
-        <Button onClick={() => disconnect()}>Disconnect</Button>
+        <button onClick={() => disconnect()}>Disconnect</button>
       ) : (
-        <div className="space-y-2">
-          {/* Standard connection using default signupOptions */}
-          <Button onClick={() => connect({ connector: controller })}>
-            Connect
-          </Button>
-          
-          {/* Dynamic authentication options for branded flows */}
-          <Button onClick={() => controller.connect({ signupOptions: ["phantom-evm"] })}>
-            Connect with Phantom
-          </Button>
-          
-          <Button onClick={() => controller.connect({ signupOptions: ["google"] })}>
-            Connect with Google
-          </Button>
-          
-          <Button onClick={() => controller.connect({ signupOptions: ["discord"] })}>
-            Connect with Discord
-          </Button>
-        </div>
+        <button onClick={() => connect({ connector: controller })}>
+          Connect
+        </button>
       )}
     </div>
   )
 }
 ```
 
-### 3. Dynamic Authentication Options
-
-The ControllerConnector now supports dynamic authentication configuration per connection call. This allows you to create multiple branded authentication flows while using a single Controller instance:
-
-```typescript
-// Direct connector method - bypasses starknet-react state management
-controller.connect({ signupOptions: ["phantom-evm"] })
-
-// For starknet-react integration, use the standard connect method
-connect({ connector: controller })
-```
-
-#### Key Points:
-
-- **Per-call Override**: `signupOptions` passed to `connect()` override the constructor defaults
-- **Branded Flows**: Create specific authentication buttons like "Login with Phantom", "Login with Google"
-- **Single Instance**: Use one Controller instance for multiple authentication methods
-- **React Integration**: Note that direct `controller.connect()` calls bypass starknet-react's state management
-
-#### Complete Example with Multiple Auth Options:
-
-```tsx
-import { useConnect, useAccount } from '@starknet-react/core'
-import { ControllerConnector } from '@cartridge/connector'
-
-export function MultiAuthConnectWallet() {
-  const { connect, connectors } = useConnect()
-  const { address } = useAccount()
-  const controller = connectors[0] as ControllerConnector
-
-  const handleSpecificAuth = async (signupOptions: string[]) => {
-    try {
-      // Direct controller connection for specific auth options
-      await controller.connect({ signupOptions })
-      
-      // Manually trigger starknet-react state update
-      connect({ connector: controller })
-    } catch (error) {
-      console.error('Connection failed:', error)
-    }
-  }
-
-  if (address) {
-    return <div>Connected: {address}</div>
-  }
-
-  return (
-    <div className="grid gap-2">
-      <h3>Choose your authentication method:</h3>
-      
-      {/* Standard multi-option flow */}
-      <button onClick={() => connect({ connector: controller })}>
-        Connect Wallet
-      </button>
-      
-      {/* Branded single-option flows */}
-      <button 
-        onClick={() => handleSpecificAuth(["phantom-evm"])}
-        className="phantom-branded-button"
-      >
-        Continue with Phantom
-      </button>
-      
-      <button 
-        onClick={() => handleSpecificAuth(["google"])}
-        className="google-branded-button"
-      >
-        Continue with Google
-      </button>
-      
-      <button 
-        onClick={() => handleSpecificAuth(["discord"])}
-        className="discord-branded-button"
-      >
-        Continue with Discord
-      </button>
-    </div>
-  )
-}
-```
-
-### 4. Headless Authentication
-
-For programmatic authentication without opening any UI, you can use headless mode in your React components:
-
-```tsx
-import { useCallback, useState } from 'react'
-import { useConnect } from '@starknet-react/core'
-import { ControllerConnector } from '@cartridge/connector'
-
-export function HeadlessLogin() {
-  const { connectAsync, connectors } = useConnect()
-  const [username, setUsername] = useState('')
-  const [loading, setLoading] = useState(false)
-  const controller = connectors[0] as ControllerConnector
-
-  const handleHeadlessLogin = useCallback(async (signer: string) => {
-    if (!username) {
-      alert('Please enter a username')
-      return
-    }
-
-    setLoading(true)
-    try {
-      // Ensure we start fresh
-      if (controller.account) {
-        await controller.disconnect()
-      }
-
-      // Headless authentication
-      const account = await controller.connect({
-        username,
-        signer,
-      })
-
-      if (!account) {
-        throw new Error('Failed to authenticate')
-      }
-
-      // Sync with starknet-react state
-      await connectAsync({ connector: controller })
-      
-      alert(`Successfully authenticated as ${username}!`)
-    } catch (error) {
-      console.error('Headless authentication failed:', error)
-      alert('Authentication failed: ' + (error as Error).message)
-    } finally {
-      setLoading(false)
-    }
-  }, [username, controller, connectAsync])
-
-  return (
-    <div className="space-y-4">
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter your username"
-          disabled={loading}
-        />
-      </div>
-      
-      <div className="grid gap-2">
-        <button 
-          onClick={() => handleHeadlessLogin('webauthn')}
-          disabled={loading || !username}
-        >
-          Login with Passkey
-        </button>
-        
-        <button 
-          onClick={() => handleHeadlessLogin('metamask')}
-          disabled={loading || !username}
-        >
-          Login with MetaMask
-        </button>
-        
-        <button 
-          onClick={() => handleHeadlessLogin('google')}
-          disabled={loading || !username}
-        >
-          Login with Google
-        </button>
-      </div>
-      
-      {loading && <p>Authenticating...</p>}
-    </div>
-  )
-}
-```
-
-:::warning
-Headless mode requires that the user already has the specified signer (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
-:::
-
-### 5. Performing Transactions
+### 3. Performing Transactions
 
 Execute transactions using the `account` object from `useAccount` hook:
 
@@ -425,142 +230,17 @@ export const TransferEth = () => {
 }
 ```
 
-### 4. Username Lookup
-
-The Controller provides a `lookupUsername` method that allows you to check if a username exists and see what authentication options are available for existing accounts. This is particularly useful for headless flows where you want to determine login vs signup flows:
-
-```typescript
-import { useState, useCallback } from 'react'
-import { useConnect } from '@starknet-react/core'
-import { ControllerConnector } from '@cartridge/connector'
-
-export function UsernameLookup() {
-  const { connectors } = useConnect()
-  const controller = connectors[0] as ControllerConnector
-  const [username, setUsername] = useState<string>('')
-  const [lookupResult, setLookupResult] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const handleLookup = useCallback(async () => {
-    if (!username.trim()) return
-    
-    setIsLoading(true)
-    try {
-      const result = await controller.lookupUsername(username.trim())
-      setLookupResult(result)
-    } catch (error) {
-      console.error('Lookup failed:', error)
-      setLookupResult(null)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [controller, username])
-
-  const handleHeadlessConnect = useCallback(async (signer: string) => {
-    try {
-      await controller.connect({
-        username: username.trim(),
-        signer: signer as any,
-      })
-    } catch (error) {
-      console.error('Connection failed:', error)
-    }
-  }, [controller, username])
-
-  return (
-    <div className="space-y-4">
-      <div>
-        <input
-          type="text"
-          placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="border p-2 rounded"
-        />
-        <button 
-          onClick={handleLookup}
-          disabled={isLoading || !username.trim()}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-        >
-          {isLoading ? 'Looking up...' : 'Lookup Username'}
-        </button>
-      </div>
-
-      {lookupResult && (
-        <div className="border p-4 rounded">
-          <h3 className="font-semibold">Username: {lookupResult.username}</h3>
-          <p>Exists: {lookupResult.exists ? 'Yes' : 'No'}</p>
-          
-          {lookupResult.exists && lookupResult.signers.length > 0 && (
-            <div className="mt-2">
-              <p>Available authentication methods:</p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {lookupResult.signers.map((signer: string) => (
-                  <button
-                    key={signer}
-                    onClick={() => handleHeadlessConnect(signer)}
-                    className="px-3 py-1 bg-green-500 text-white rounded text-sm"
-                  >
-                    Login with {signer}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {!lookupResult.exists && (
-            <div className="mt-2">
-              <p className="text-gray-600">Username is available for signup</p>
-              <button
-                onClick={() => handleHeadlessConnect('webauthn')}
-                className="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm"
-              >
-                Sign up with WebAuthn
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
-```
-
-#### Lookup Response Format
-
-The `lookupUsername` method returns an object with the following structure:
-
-```typescript
-interface HeadlessUsernameLookupResult {
-  username: string;        // The username that was looked up
-  exists: boolean;         // Whether the username exists
-  signers: AuthOption[];   // Available authentication methods, e.g. ["webauthn", "google", "password"]
-}
-```
-
-Available `AuthOption` values include:
-- `"webauthn"` - Passkey/WebAuthn authentication
-- `"password"` - Password-based authentication  
-- `"google"` - Google OAuth
-- `"discord"` - Discord OAuth
-- `"walletconnect"` - WalletConnect
-- `"metamask"` - MetaMask wallet
-- `"rabby"` - Rabby wallet
-- `"phantom-evm"` - Phantom wallet (EVM)
-
-### 5. Add Components to Your App
+### 4. Add Components to Your App
 
 ```typescript
 import { StarknetProvider } from './context/StarknetProvider'
 import { ConnectWallet } from './components/ConnectWallet'
 import { TransferEth } from './components/TransferEth'
-import { UsernameLookup } from './components/UsernameLookup'
 
 function App() {
   return (
     <StarknetProvider>
       <ConnectWallet />
-      <UsernameLookup />
       <TransferEth />
     </StarknetProvider>
   )
@@ -596,82 +276,3 @@ export default defineConfig({
 })
 ```
 
-## External Wallet Integration
-
-If you're using external wallets (MetaMask, Rabby, etc.) with Cartridge Controller, you can wait for transaction confirmations using the `externalWaitForTransaction` method:
-
-```typescript
-import { useState, useCallback } from 'react'
-import { ControllerConnector } from '@cartridge/connector'
-import { useConnect } from '@starknet-react/core'
-
-export const ExternalWalletTransaction = () => {
-  const { connectors } = useConnect()
-  const controller = connectors[0] as ControllerConnector
-  const [txHash, setTxHash] = useState<string>()
-  const [isWaiting, setIsWaiting] = useState<boolean>(false)
-  const [receipt, setReceipt] = useState<any>()
-
-  const waitForTransaction = useCallback(async () => {
-    if (!txHash || !controller) return
-
-    setIsWaiting(true)
-    try {
-      // Wait for transaction confirmation with 30-second timeout
-      const response = await controller.externalWaitForTransaction(
-        'metamask', // or 'rabby', 'phantom', etc.
-        txHash,
-        30000 // 30 seconds
-      )
-
-      if (response.success) {
-        setReceipt(response.result)
-        console.log('Transaction confirmed:', response.result)
-      } else {
-        console.error('Transaction failed:', response.error)
-      }
-    } catch (error) {
-      console.error('Error waiting for transaction:', error)
-    } finally {
-      setIsWaiting(false)
-    }
-  }, [txHash, controller])
-
-  return (
-    <div>
-      <h2>External Wallet Transaction Monitor</h2>
-
-      <input
-        type="text"
-        placeholder="Enter transaction hash"
-        value={txHash || ''}
-        onChange={(e) => setTxHash(e.target.value)}
-      />
-
-      <button
-        onClick={waitForTransaction}
-        disabled={!txHash || isWaiting}
-      >
-        {isWaiting ? 'Waiting for confirmation...' : 'Wait for Transaction'}
-      </button>
-
-      {receipt && (
-        <div>
-          <h3>Transaction Receipt:</h3>
-          <pre>{JSON.stringify(receipt, null, 2)}</pre>
-        </div>
-      )}
-    </div>
-  )
-}
-```
-
-### External Wallet Methods
-
-The Controller provides several methods for interacting with external wallets:
-
-- `externalSwitchChain(walletType, chainId)` - Switch the connected wallet to a different chain
-- `externalWaitForTransaction(walletType, txHash, timeoutMs?)` - Wait for transaction confirmation
-- `externalSendTransaction(walletType, transaction)` - Send a transaction through the external wallet
-
-These methods work with all supported external wallet types: `metamask`, `rabby`, `phantom`, `argent`, and `walletconnect`.
