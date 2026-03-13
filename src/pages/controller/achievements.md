@@ -37,15 +37,16 @@ Add the Cartridge `achievement` package as a dependency in your Scarb.toml:
 
 ```rust
 [dependencies]
-starknet = "2.8.4"
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.5.1" }
-achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.5.1" } // [!code focus]
+starknet = "2.10.1"
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v1.6.1" }
+achievement = { git = "https://github.com/cartridge-gg/arcade", tag = "v1.6.1" } // [!code focus]
 
 [[target.starknet-contract]]
 build-external-contracts = [
     "dojo::world::world_contract::world",
     "achievement::events::index::e_TrophyCreation", // [!code focus]
     "achievement::events::index::e_TrophyProgression", // [!code focus]
+    "achievement::events::index::e_TrophyPinning", // [!code focus]
 ]
 ```
 
@@ -108,7 +109,7 @@ pub mod Actions {
         // [Event] Emit all Achievement creation events
         let world = self.world("<YOUR-NAMESPACE>");
         let task_id = 'TASK_IDENTIFIER';
-        let task_target = 100;
+        let task_target: u128 = 100;
         let task = TaskTrait::new(task_id, task_target, "Do something 100 times");
         let tasks: Span<Task> = array![task].span();
 
@@ -176,7 +177,7 @@ See also [AchievableComponent](https://github.com/cartridge-gg/arcade/blob/main/
 ```rust
 pub struct Task {
     id: felt252,
-    total: u32,
+    total: u128,
     description: ByteArray,
 }
 ```
@@ -187,7 +188,7 @@ pub struct Task {
 | `total` | Target count for task completion |
 | `description` | Task description |
 
-See also [Task](https://github.com/cartridge-gg/arcade/blob/main/packages/trophy/src/types/task.cairo)
+See also [Task](https://github.com/cartridge-gg/arcade/blob/main/packages/achievement/src/types/task.cairo)
 
 ## Tracking Progression
 
@@ -207,7 +208,7 @@ pub mod Actions {
                 let store = StoreTrait::new(world);
                 let player_id = starknet::get_caller_address();
                 let task_id = 'TASK_IDENTIFIER';
-                let count = 1;
+                let count: u128 = 1;
                 let time = starknet::get_block_timestamp();
                 store.progress(player_id.into(), task_id, count, time);
             }
@@ -229,7 +230,7 @@ AchievableComponent.progress(
     world: WorldStorage,
     player_id: felt252,
     task_id: felt252,
-    count: u32,
+    count: u128,
 )
 ```
 
@@ -285,6 +286,7 @@ fn namespace_def() -> NamespaceDef {
             // ...
             TestResource::Event(achievement::events::index::e_TrophyCreation::TEST_CLASS_HASH),
             TestResource::Event(achievement::events::index::e_TrophyProgression::TEST_CLASS_HASH),
+            TestResource::Event(achievement::events::index::e_TrophyPinning::TEST_CLASS_HASH),
             TestResource::Contract(Actions::TEST_CLASS_HASH),
         ].span()
     };
