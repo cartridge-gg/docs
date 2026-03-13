@@ -225,6 +225,45 @@ function suggestFix(result, url, pages) {
 }
 
 // ---------------------------------------------------------------------------
+// Resolve TODO markers: [TODO: link to X] → [X](/matched/page)
+// ---------------------------------------------------------------------------
+
+function resolveTodo(todoTarget, pages) {
+    // Normalize: lowercase, strip trailing punctuation, collapse whitespace
+    const normalized = todoTarget.toLowerCase().replace(/[.,;:!?]+$/, "").trim();
+
+    // Strategy 1: exact segment match (e.g. "sessions" → "/controller/sessions")
+    const candidates = [];
+    for (const [pagePath] of pages) {
+        const lastSegment = pagePath.split("/").pop();
+        if (lastSegment === normalized.replace(/\s+/g, "-")) {
+            candidates.push(pagePath);
+        }
+    }
+    if (candidates.length === 1) return candidates[0];
+
+    // Strategy 2: path-tail match (e.g. "controller sessions" → "/controller/sessions")
+    const asPath = "/" + normalized.replace(/\s+/g, "/");
+    for (const [pagePath] of pages) {
+        if (pagePath === asPath || pagePath.endsWith(asPath)) {
+            return pagePath;
+        }
+    }
+
+    // Strategy 3: substring match on path (e.g. "paymaster" matches "/slot/paymaster")
+    const substringMatches = [];
+    const keywords = normalized.split(/\s+/);
+    for (const [pagePath] of pages) {
+        if (keywords.every((kw) => pagePath.includes(kw))) {
+            substringMatches.push(pagePath);
+        }
+    }
+    if (substringMatches.length === 1) return substringMatches[0];
+
+    return null;
+}
+
+// ---------------------------------------------------------------------------
 // Apply fixes to a file
 // ---------------------------------------------------------------------------
 
@@ -276,7 +315,22 @@ function main() {
         for (const link of links) {
             if (link.isTodo) {
                 totalTodos++;
-                console.log(`  ${file.rel}:${link.line} — TODO: ${link.todoTarget}`);
+                const resolved = resolveTodo(link.todoTarget, pages);
+                if (resolved) {
+                    // Build a proper markdown link: [TODO: link to X] → [X](/resolved/path)
+                    const linkText = link.todoTarget;
+                    fixes.push({
+                        original: link.full,
+                        replacement: `[${linkText}](${resolved})`,
+                        line: link.line,
+                    });
+                    totalFixed++;
+                    console.log(
+                        `  ${file.rel}:${link.line} — TODO resolved: ${link.todoTarget} → ${resolved}`
+                    );
+                } else {
+                    console.log(`  ${file.rel}:${link.line} — TODO unresolved: ${link.todoTarget}`);
+                }
                 continue;
             }
 

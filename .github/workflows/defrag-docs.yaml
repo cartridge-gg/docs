@@ -128,7 +128,7 @@ jobs:
 
                   gh pr create \
                     --title "chore: monthly docs defragmentation" \
-                    --body "$(cat <<'EOF'
+                    --body "$(cat <<EOF
                   ## Monthly docs defragmentation
 
                   Automated review and cleanup of documentation pages.
@@ -138,14 +138,35 @@ jobs:
                   Trailing newlines, smart quotes, whitespace, code block language tags.
                   **Reviewers can skim this commit.**
 
+                  <details><summary>Phase 1 summary</summary>
+
+                  \`\`\`
+                  ${FORMAT_SUMMARY}
+                  \`\`\`
+                  </details>
+
                   ### Phase 2: Content (LLM-generated)
                   Terminology normalization per STYLE_GUIDE.md, deduplication (capped at 10 lines removed per file), cross-reference suggestions.
                   **Review this commit carefully.**
+
+                  <details><summary>Phase 2 summary</summary>
+
+                  \`\`\`
+                  ${DEFRAG_SUMMARY}
+                  \`\`\`
+                  </details>
 
                   ### Phase 3: Link repair (build-verified)
                   Auto-fixes broken internal links by validating against the built HTML output.
                   Fixes extension removal (.md/.mdx), path corrections, and broken anchors.
                   **Reviewers can skim this commit.**
+
+                  <details><summary>Phase 3 summary</summary>
+
+                  \`\`\`
+                  ${LINKS_SUMMARY}
+                  \`\`\`
+                  </details>
 
                   ### Skipped changes
                   Files where the LLM suggested removing >10 lines are listed in the workflow output.
@@ -153,8 +174,8 @@ jobs:
 
                   ### Review notes
                   - The build has been verified to pass after all phases
-                  - Check for `[TODO: link to X]` markers that need resolution
-                  - Check for `<!-- TODO: deduplicate -->` comments flagging large removals
+                  - Check for \`[TODO: link to X]\` markers that need resolution
+                  - Check for \`<!-- TODO: deduplicate -->\` comments flagging large removals
                   - Check workflow output for unfixable links that need manual attention
 
                   ---
