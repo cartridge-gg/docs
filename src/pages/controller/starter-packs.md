@@ -166,10 +166,11 @@ The purchase process follows these steps:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
    - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
-5. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-6. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-7. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-8. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+5. **Identity Verification** (Stripe only): First-time Stripe users must verify their identity by providing first name, last name, and phone number. Verified users skip directly to payment.
+6. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
+7. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+8. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+9. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 
