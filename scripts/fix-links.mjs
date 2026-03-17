@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * Phase 3: Link repair with build verification.
+ * Phase 3: Link repair.
  *
  * 1. Scan all markdown/mdx source files for internal links
- * 2. Validate each link against the build output (src/dist/)
+ * 2. Validate each link against known pages
  * 3. For broken links, attempt to find the correct target
  * 4. Also resolve [TODO: link to X] markers left by phase 2
  *
- * Requires a build to have been run first (pnpm build).
+ * Supports two modes:
+ * - With build output (src/dist/): validates pages and anchors
+ * - Without build output: validates pages from source files (skips anchor checks)
  *
  * Usage:
  *   node scripts/fix-links.mjs
@@ -87,6 +89,24 @@ function buildSourcePageMap(files) {
         map.set(pagePath, f);
     }
     return map;
+}
+
+function buildPagesFromSource(files) {
+    const pages = new Map();
+    for (const f of files) {
+        const pagePath = "/" + f.rel.replace(/\.(md|mdx)$/, "").replace(/\/index$/, "");
+        // Extract heading anchors from markdown (## Heading → "heading")
+        const content = readFileSync(f.path, "utf-8");
+        const anchors = new Set();
+        for (const line of content.split("\n")) {
+            const m = line.match(/^#{1,6}\s+(.+)/);
+            if (m) {
+                anchors.add(m[1].toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""));
+            }
+        }
+        pages.set(pagePath, anchors);
+    }
+    return pages;
 }
 
 // ---------------------------------------------------------------------------
@@ -285,19 +305,20 @@ function main() {
     console.log(`Mode: ${DRY_RUN ? "DRY RUN" : "LIVE"}`);
     console.log();
 
-    // Check build output exists
-    if (!existsSync(DIST_DIR)) {
-        console.error("Error: Build output not found at src/dist/. Run 'pnpm build' first.");
-        process.exit(1);
-    }
-
-    // Collect valid pages from build
-    const pages = collectDistPages(DIST_DIR);
-    console.log(`Found ${pages.size} pages in build output`);
-
     // Collect source files
     const sourceFiles = collectDocFiles(DOCS_DIR);
     console.log(`Found ${sourceFiles.length} source files`);
+
+    // Use build output if available, otherwise fall back to source files
+    let pages;
+    if (existsSync(DIST_DIR)) {
+        pages = collectDistPages(DIST_DIR);
+        console.log(`Found ${pages.size} pages in build output`);
+    } else {
+        console.log("No build output found — validating against source files (anchor checks may be approximate)");
+        pages = buildPagesFromSource(sourceFiles);
+        console.log(`Found ${pages.size} pages from source files`);
+    }
     console.log();
 
     let totalBroken = 0;

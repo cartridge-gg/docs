@@ -75,13 +75,7 @@ jobs:
                   fi
 
             # ---------------------------------------------------------------
-            # Build (required for phase 3 link validation)
-            # ---------------------------------------------------------------
-            - name: Build site
-              run: pnpm run build
-
-            # ---------------------------------------------------------------
-            # Phase 3: Link repair (validated against build output)
+            # Phase 3: Link repair (source-validated, no build needed)
             # ---------------------------------------------------------------
             - name: "Phase 3: Fix links"
               run: node scripts/fix-links.mjs 2>&1 | tee links-output.txt
@@ -92,7 +86,7 @@ jobs:
                     git add src/pages/
                     git commit -m "chore(defrag): phase 3 — link repair
 
-                  Auto-fixed broken internal links validated against build output.
+                  Auto-fixed broken internal links validated against source files.
                   Extension removals, path corrections, broken anchor cleanup.
 
                   $(tail -15 links-output.txt)"
@@ -101,9 +95,9 @@ jobs:
                   fi
 
             # ---------------------------------------------------------------
-            # Verify build after link fixes
+            # Verify build after all phases
             # ---------------------------------------------------------------
-            - name: Verify build
+            - name: Build site
               run: pnpm run build
 
             # ---------------------------------------------------------------
@@ -156,9 +150,9 @@ jobs:
                   \`\`\`
                   </details>
 
-                  ### Phase 3: Link repair (build-verified)
-                  Auto-fixes broken internal links by validating against the built HTML output.
-                  Fixes extension removal (.md/.mdx), path corrections, and broken anchors.
+                  ### Phase 3: Link repair (source-validated)
+                  Auto-fixes broken internal links by validating against source files.
+                  Fixes extension removal (.md/.mdx), path corrections, and broken relative links.
                   **Reviewers can skim this commit.**
 
                   <details><summary>Phase 3 summary</summary>
