@@ -26,12 +26,13 @@ Note: basic instances are scaled down automatically after a few hours of no acti
 
 Pro and higher tiers are never scaled down or deleted as long as there are enough credits on the related team.
 They also come with auto storage scaling, which means your deployment can never run out of disk space.
+Premium tiers also include advanced [observability features](/slot/observability) for monitoring and debugging your deployments.
 
 Storage is billed at $0.20/GB/month.
 
 ## Replicas
 
-For torii, with premium tiers, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
+For Torii, with premium tiers, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
 
 ```bash
 slot d create --tier epic my-project torii --replicas 3
@@ -48,7 +49,7 @@ The default for all regions is us-east, but you can choose to deploy your instan
 | `us-east`         |
 | `europe-west`     |
 
-To deploy a slot service in multiple regions, you can use the `--regions` flag.
+To deploy a Slot service in multiple regions, you can use the `--regions` flag.
 
 ```bash
 # torii supports multiple versions - billed per replica per region
@@ -57,7 +58,7 @@ slot d create --tier pro my-project torii --regions us-east,europe-west
 slot d create --tier pro my-project katana --regions europe-west
 ```
 
-Katana can be only launched in a single region, while torii uses replicas and routes global users to the nearest one.
+Katana can be only launched in a single region, while Torii uses replicas and routes global users to the nearest one.
 
 Multi-region deployments are billed based on the number of regions you choose and the tier you are using by multiplying the monthly cost of the tier by the number of regions times replicas. For example, if you have two replicas in three regions, you will be billed six times the monthly cost of the tier you are using.
 

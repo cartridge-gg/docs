@@ -161,9 +161,11 @@ Headless mode supports all implemented authentication methods:
 - `phantom-evm` - Phantom EVM wallet
 - `walletconnect` - WalletConnect protocol
 
+For complete details on available authentication methods, see [Signer Management](./signer-management).
+
 ## Session Approval Flow
 
-If your application uses [session policies](/controller/sessions) that haven't been verified or include spending limits that require approval, the keychain will automatically open the approval UI after successful authentication:
+If your application uses [session policies](./sessions) that haven't been verified or include spending limits that require approval, the keychain will automatically open the approval UI after successful authentication:
 
 ```typescript
 const controller = new Controller({
@@ -274,7 +276,7 @@ try {
 ```
 
 :::note
-Auto-signup maintains strict signer matching for existing accounts. If an account exists but the specified signer is not associated with it, authentication will fail rather than creating a duplicate account.
+Auto-signup maintains strict signer matching for existing accounts. If an account exists but the specified `signer` is not associated with it, authentication will fail rather than creating a duplicate account.
 :::
 
 ## Integration Patterns
@@ -430,7 +432,7 @@ This web-based headless authentication is different from the [native headless Co
 1. **"User not found"**: Username doesn't exist in the system
    - *Solution*: Use `lookupUsername()` to check existence before attempting to connect
    - *Auto-signup*: Consider enabling auto-signup for new users
-2. **"Signer not found"**: The specified signer isn't associated with the username
+2. **"Signer not found"**: The specified `signer` isn't associated with the username
    - *Solution*: Use `lookupUsername()` to get available signers for the username
    - *Fallback*: Implement signer selection UI based on available options
 3. **"Not ready to connect"**: Controller initialization is still in progress
@@ -472,7 +474,7 @@ function validateHeadlessOptions(username: string, signer: string) {
 
 ## Next Steps
 
-- Learn about [Session Policies](/controller/sessions) for fine-grained transaction control
-- Explore [React integration patterns](/controller/examples/react) for web applications
+- Learn about [Sessions](./sessions) for fine-grained transaction control
+- Explore [React integration patterns](./examples/react) for web applications
 - Consider [native headless mode](/controller/native/headless) for backend services
-- Set up [error handling and logging](/controller/configuration) for production use
+- Set up [error handling and logging](./configuration) for production use

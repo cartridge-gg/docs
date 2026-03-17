@@ -31,6 +31,8 @@ When you register a game or an edition, an NFT representing its ownership is min
 This NFT grants you admin rights over the game or edition.
 You can update the metadata of your game or any edition at any time --- including name, description, icon, image gallery, video, and more.
 
+For technical setup and configuration details, see [Arcade Setup](./setup).
+
 ![Register Game](/arcade-register-game.png)
 
 ### 🚀 Publish a Game

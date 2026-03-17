@@ -33,7 +33,7 @@ use starknet::{
 
 ### Setting Up the Controller
 
-Initialize the controller with necessary parameters:
+Initialize the Controller with necessary parameters:
 
 ```rust
 #[tokio::main]
@@ -81,7 +81,7 @@ fn your_function_call() -> starknet::core::types::FunctionCall {
 }
 ```
 
-Execute the function call using the controller:
+Execute the function call using the Controller:
 
 ```rust
 controller.execute(vec![your_function_call()], None).await.unwrap();

@@ -14,7 +14,7 @@ Cartridge Controller supports session-based authorization and policy-based trans
 2. **User Approval**: Users approve these policies once during initial connection
 3. **Session Creation**: Controller creates a session with approved transaction permissions
 4. **Gasless Execution**: Games can execute approved transactions without user prompts
-5. **Paymaster Integration**: Transactions can be sponsored through Cartridge Paymaster
+5. **Paymaster Integration**: Transactions can be sponsored through Cartridge paymaster
 
 ## Transactions Without Policies
 
@@ -45,7 +45,7 @@ const tx = await account.execute([
 
 ```typescript
 const policies = {
-  // Define your polices here
+  // Define your policies here
 }
 
 // Using the controller directly
@@ -71,12 +71,11 @@ Full integration examples [are available here](https://github.com/cartridge-gg/c
 
 | Feature | With Policies (Sessions) | Without Policies (Manual) |
 |---------|--------------------------|---------------------------|
-| Transaction Approval | Pre-approved via policies | Manual approval each time |
+| Transaction Approval | Pre-approved via session policies | Manual approval each time |
 | User Experience | Seamless gameplay | Confirmation prompts |
-| Gasless Transactions | Yes (via Paymaster) | No |
-| Error Handling | Configurable (see [error propagation](/controller/configuration.md#propagate-session-errors)) | Always shows keychain UI |
+| Gasless Transactions | Yes (via paymaster) | No |
+| Error Handling | Configurable (see [Configuration](/controller/configuration#propagate-session-errors)) | Always shows keychain UI |
 | Setup Complexity | Higher (policy definition) | Lower (basic setup) |
-| Error Handling | Configurable display modes | Standard modal display |
 | Best For | Games, frequent transactions | Simple apps, occasional transactions |
 
 ## Session Options
@@ -161,7 +160,7 @@ The `signupOptions` parameter allows you to customize which authentication metho
 ```typescript
 type AuthOptions = (
   | "google"        // Google OAuth
-  | "webauthn"      // WebAuthn/Passkeys
+  | "webauthn"      // WebAuthn/passkeys
   | "discord"       // Discord OAuth
   | "twitter"       // Twitter/X OAuth
   | "walletconnect" // WalletConnect

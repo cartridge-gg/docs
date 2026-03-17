@@ -26,7 +26,7 @@ One of the key benefits of the Cartridge Paymaster is that it requires zero addi
 
 ## Prerequisites
 
-Make sure you are authenticated with Slot:
+Make sure you are authenticated with Slot. For complete authentication setup, see [Getting Started](/slot/getting-started):
 
 ```bash
 slot auth login
@@ -138,6 +138,10 @@ Paymaster policies now support **predicates** - conditional logic that determine
 :::tip
 Predicates are optional. Policies without predicates will always sponsor matching transactions, while policies with predicates add conditional logic.
 :::
+
+### vRNG Integration
+
+Paymasters can sponsor vRNG operations, providing gasless random number generation for your games. When configuring policies for vRNG-enabled contracts, the paymaster will automatically handle both the initial request and callback transactions. For detailed vRNG setup and usage, see [vRNG](/slot/vrng).
 
 ### Add Policies from Preset (Recommended)
 
@@ -415,8 +419,8 @@ slot paymaster my-game-pm dune
 
 The query provides exhaustive analysis including:
 - Finds all execute_from_outside_v3 selectors in transaction calldata
-- Handles both normal calls and multi-call VRF helpers
-- Matches all patterns including nested VRF calls
+- Handles both normal calls and multi-call vRNG helpers
+- Matches all patterns including nested vRNG calls
 - Comprehensive metrics with daily, weekly, and monthly breakdowns
 
 ### Time Period Options

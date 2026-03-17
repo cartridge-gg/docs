@@ -6,7 +6,7 @@ title: Toast Notifications
 
 # Toast Notifications
 
-The Cartridge Controller SDK provides a built-in toast notification API that enables you to display contextual, user-friendly notifications directly within the controller interface. This API supports various notification types including transaction updates, achievements, network changes, and marketplace activities.
+The Controller SDK provides a built-in toast notification API that enables you to display contextual, user-friendly notifications directly within the Controller interface. This API supports various notification types including transaction updates, achievements, network changes, and marketplace activities.
 
 ## Overview
 
@@ -325,7 +325,7 @@ function runToastDemo() {
 
 ### Error Notification Integration
 
-The toast API integrates with the Controller's error display system when `errorDisplayMode: "notification"` is configured:
+The toast API integrates with the Controller's error display system. See [Configuration](/controller/configuration) for details on `errorDisplayMode` settings.
 
 ```typescript
 import { Controller } from "@cartridge/controller";
@@ -406,6 +406,6 @@ The toast API is built into the Controller SDK and works across all browsers tha
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions) for seamless transaction flows
-- Explore [Controller Configuration](/controller/configuration) options
+- Learn about [Sessions](/controller/sessions) for seamless transaction flows
+- Explore [Configuration](/controller/configuration) options
 - Set up [External Wallet Integration](/controller/signer-management)

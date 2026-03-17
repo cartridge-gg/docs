@@ -128,7 +128,7 @@ slot teams <Team Name> remove <Account Name>
 ```
 
 :::info
-The account name can also be called controller username. The one used to login on controller.
+The account name can also be called Cartridge Controller username. The one used to login on controller.
 :::
 
 ## Billing

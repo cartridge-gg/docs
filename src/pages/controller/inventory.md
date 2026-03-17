@@ -6,7 +6,7 @@ title: Controller Inventory Management
 
 # Inventory
 
-Cartridge Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
+Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721`) with integrated marketplace functionality for buying and selling digital assets.
 
 ## Configure tokens
 
@@ -32,7 +32,7 @@ slot d create <project> torii --config <path/to/torii-config.toml>
 
 ### Configure Controller
 
-Provide Slot project name to `ControllerOptions`.
+Provide Slot project name to `ControllerOptions`. For detailed configuration options, see [configuration](./configuration).
 
 ```typescript
 const controller = new Controller({

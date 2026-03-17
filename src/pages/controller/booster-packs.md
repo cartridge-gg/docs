@@ -6,7 +6,8 @@ title: Booster Packs
 
 # Booster Packs
 
-Booster packs are a reward distribution system that allows eligible users to claim various game assets, credits, and exclusive game passes. Unlike starter packs which are purchased, booster packs are claimed for free by users who meet specific eligibility criteria, often based on holding certain NFTs or participating in events.
+Booster packs are a reward distribution system that allows eligible users to claim various game assets, credits, and exclusive game passes.
+Unlike starter packs which are purchased, booster packs are claimed for free by users who meet specific eligibility criteria, often based on holding certain NFTs or participating in events.
 
 ## Overview
 
@@ -180,9 +181,9 @@ While both use Merkle Drop technology, booster packs differ from starter packs i
 
 ## Related Documentation
 
-- [Starter Packs](/controller/starter-packs) - For purchasable asset bundles
-- [Sessions](/controller/sessions) - For gasless gaming experiences using claimed credits
-- [Achievements](/controller/achievements) - For other reward and progression systems
+- [Starter Packs](./starter-packs) - For purchasable asset bundles
+- [Sessions](./sessions) - For gasless gaming experiences using claimed credits
+- [Achievements](./achievements) - For other reward and progression systems
 
 ## Getting Help
 

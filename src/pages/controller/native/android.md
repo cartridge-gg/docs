@@ -70,7 +70,7 @@ data class SessionPolicies(
 
 ### SignerType
 
-Supported signer types:
+Supported authentication methods:
 
 ```kotlin
 enum class SignerType {

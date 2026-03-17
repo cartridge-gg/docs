@@ -243,7 +243,7 @@ AchievableComponent.progress(
 
 ### Controller Configuration
 
-Configure the controller with the required parameters:
+For policy configuration details, see [Sessions](./sessions).
 
 ```typescript
 new ControllerConnector({

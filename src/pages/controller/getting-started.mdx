@@ -6,11 +6,11 @@ title: Controller Getting Started
 
 # Getting Started
 
-Controller implements a standard StarkNet account interface and can be seamlessly integrated into your application like any other wallet.
+Cartridge Controller implements a standard StarkNet account interface and can be seamlessly integrated into your application like any other wallet.
 
 ## Quick Start
 
-The fastest way to get started is to install the controller package and connect to Cartridge:
+The fastest way to get started is to install the Controller SDK and connect to Cartridge:
 
 ```typescript twoslash
 import Controller from "@cartridge/controller";
@@ -37,7 +37,7 @@ const phantomAccount = await controller.connect(["phantom-evm"]);
 
 ### Headless Authentication
 
-For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`:
+For programmatic authentication without opening any UI, you can use [headless mode](/controller/headless-authentication) by providing a `username` and `signer`:
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -70,13 +70,13 @@ await controller.connect({ username: "alice", signer: "phantom-evm" });
 Headless mode performs authentication in a hidden iframe without displaying any UI. However, if session policies need approval or verification, the UI will open automatically to request user consent.
 :::
 
-When `connect()` is called, users will see an improved controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
+When `connect()` is called, users will see an improved Controller creation interface with username autocomplete functionality. As users type their username, they'll see matching existing accounts with user profiles, making it easier to connect to existing controllers or choose unique usernames for new accounts.
 
 For session-based applications, users will see permissions organized into clear sections: an expandable "Authorize [game]" card containing contract methods, followed by dedicated spending limit cards for token approvals, making it easy to understand what they're authorizing.
 
 :::info
 Controller will set **essential cookies** as part of the initialization.
-These are necessary for the controller to function properly.
+These are necessary for the Controller to function properly.
 :::
 
 ## Installation
@@ -87,7 +87,7 @@ npm install @cartridge/controller starknet
 
 ## Basic Usage
 
-Here's a simple example of how to initialize and use the controller:
+Here's a simple example of how to initialize and use the Controller:
 
 ### Without session policies
 
@@ -99,13 +99,13 @@ const controller = new Controller();
 ```
 
 :::note
-When no policies are provided, each transaction requires manual user approval through the Cartridge interface.
-This is suitable for simple applications or testing, but games typically benefit from using [session policies](#with-session-policies) for a smoother experience.
+When no session policies are provided, each transaction requires manual user approval through the Cartridge interface.
+This is suitable for simple applications or testing, but games typically benefit from using [session policies](/controller/sessions) for a smoother experience.
 :::
 
 ### With session policies
 
-Pass session policies to the Controller constructor to enable gasless transactions and pre-approved transactions.
+Pass session policies to the Controller constructor to enable gasless transactions and pre-approved transactions. For detailed information about configuring session policies, see [Sessions](/controller/sessions).
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -200,7 +200,7 @@ The keychain first tries to sign with the session key.
 If the call matches the app's [session policies](/controller/sessions), it signs automatically --- no user prompt.
 If the call doesn't match any policy, it falls back to the **owner key** and prompts the user for approval.
 
-> The session's authorization is cached on-chain on first use, so no explicit `registerSession()` call is needed.
+> The session's authorization is cached onchain on first use, so no explicit `registerSession()` call is needed.
 
 ### SessionProvider (redirect-based)
 
@@ -211,11 +211,11 @@ The `SessionProvider` is designed for environments where an iframe cannot be use
 Instead of embedding the owner key in an iframe, it:
 1. Opens a browser to the Cartridge keychain for one-time user authentication
 2. Generates an ephemeral session keypair locally
-3. **Registers the session key on-chain** with the approved policies compiled into a merkle root
+3. **Registers the session key onchain** with the approved policies compiled into a merkle root
 4. Stores the session private key locally (in `localStorage` or on the filesystem)
 
 After registration, transactions are signed with the session key and executed via `executeFromOutside()` --- no further UI is needed.
-Because the session key is not the owner key, **policies are enforced on-chain** --- every transaction must include a merkle proof showing the call matches the registered policies.
+Because the session key is not the owner key, **policies are enforced onchain** --- every transaction must include a merkle proof showing the call matches the registered policies.
 The owner key is never exposed through this provider, so there is no fallback for calls outside the approved policies.
 
 > For a visual comparison of how each provider authenticates and signs, see the [Architecture](/controller/architecture#auth-flows) page.
@@ -226,7 +226,7 @@ The owner key is never exposed through this provider, so there is no fallback fo
 |---|---|---|
 | **Environment** | Web browsers | Native apps, Node.js, or environments without iframe support |
 | **Signing** | Session key in iframe (owner key fallback) | Ephemeral session key stored locally |
-| **Policy enforcement** | Keychain (wallet-level) | On-chain (merkle proofs) |
+| **Policy enforcement** | Keychain (wallet-level) | Onchain (merkle proofs) |
 | **Non-policy calls** | Prompts user, signs with owner key | Not supported |
 | **Auth UX** | Embedded keychain modal | Browser redirect + deep link back |
 | **After auth** | Iframe signs each transaction | Transactions execute without UI |
@@ -427,7 +427,7 @@ If you're contributing to the Cartridge Controller or running the examples local
 pnpm dev
 ```
 
-This runs all services locally with local API endpoints, perfect for offline development and testing changes to the controller itself.
+This runs all services locally with local API endpoints, perfect for offline development and testing changes to the Controller itself.
 
 ### Production API Testing Mode
 
@@ -469,10 +469,10 @@ Cartridge Controller in your preferred environment.
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions)
-- Display [Toast Notifications](/controller/toast-notifications) for user feedback
-- Set up [Multiple Signers](/controller/signer-management) for backup authentication
-- Integrate [Starter Packs](/controller/starter-packs) for game monetization
+- Learn about [session policies](/controller/sessions)
+- Display [toast notifications](/controller/toast-notifications) for user feedback
+- Set up [multiple signers](/controller/signer-management) for backup authentication
+- Integrate [starter packs](/controller/starter-packs) for game monetization
 - Customize your [Controller](/controller/presets)
-- Set up [Usernames](/controller/usernames)
-- Configure [Paymaster](/controller/configuration)
+- Set up [usernames](/controller/usernames)
+- Configure [paymaster](/controller/configuration)

@@ -29,10 +29,10 @@ import Controller from "@cartridge/controller";
 
 const controller = new Controller();
 
-// Open an existing starterpack by ID (works for both paid and claimed packs)
+// Open an existing starter pack by ID (works for both paid and claimed packs)
 controller.openStarterPack("starterpack-id-123");
 
-// Numeric IDs are also supported for onchain starterpacks
+// Numeric IDs are also supported for onchain starter packs
 controller.openStarterPack(42);
 ```
 
@@ -40,65 +40,65 @@ controller.openStarterPack(42);
 
 ### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
-Opens the starterpack interface for a specific starterpack bundle. This method works for both paid starterpacks (requiring purchase) and claimed starterpacks (that can be claimed based on eligibility).
+Opens the starter pack interface for a specific starter pack bundle. This method works for both paid starter packs (requiring purchase) and claimed starter packs (that can be claimed based on eligibility).
 
 ```typescript
 controller.openStarterPack(starterpackId: string | number, options?: StarterpackOptions);
 ```
 
 **Parameters:**
-- `starterpackId` (string | number): The starterpack ID. String IDs are used for claimed packs, numeric IDs for onchain packs
-- `options` (StarterpackOptions, optional): Configuration options for the starterpack
+- `starterpackId` (string | number): The starter pack ID. String IDs are used for claimed packs, numeric IDs for onchain packs
+- `options` (StarterpackOptions, optional): Configuration options for the starter pack
 
 **StarterpackOptions:**
-- `preimage` (string, optional): The preimage to use for claimed starterpacks
-- `onPurchaseComplete` (function, optional): Callback fired after the Play button closes the starterpack modal
+- `preimage` (string, optional): The preimage to use for claimed starter packs
+- `onPurchaseComplete` (function, optional): Callback fired after the Play button closes the starter pack modal
 
 **Returns:** `void`
 
 **Usage Examples:**
 
 ```typescript
-// Open a paid starterpack for purchase
+// Open a paid starter pack for purchase
 const handleBuyStarterpack = () => {
   controller.openStarterPack("beginner-pack-2024");
 };
 
-// Open a starterpack with play callback
+// Open a starter pack with play callback
 const handleBuyWithCallback = () => {
   controller.openStarterPack("beginner-pack-2024", {
     onPurchaseComplete: () => {
-      console.log("Starterpack purchase completed!");
+      console.log("Starter pack purchase completed!");
       // Redirect to game or refresh inventory
     }
   });
 };
 
-// Open a free claimable starterpack with preimage
+// Open a free claimable starter pack with preimage
 const handleClaimStarterpack = () => {
   controller.openStarterPack("free-welcome-pack-2024", {
     preimage: "claim-preimage-data"
   });
 };
 
-// Open an onchain starterpack using numeric ID
+// Open an onchain starter pack using numeric ID
 const handleOnchainStarterpack = () => {
   controller.openStarterPack(42); // Numeric ID for onchain pack
 };
 ```
 
-## Starterpack Configuration
+## Starter Pack Configuration
 
-Starterpacks are pre-configured on the Cartridge platform and referenced by ID. The Controller SDK provides a simple interface to open these configured packs, which can contain various game assets, tokens, and smart contract interactions.
+Starter packs are pre-configured on the Cartridge platform and referenced by ID. The Controller SDK provides a simple interface to open these configured packs, which can contain various game assets, tokens, and smart contract interactions.
 
-### Starterpack Types
+### Starter Pack Types
 
-**Claimed Starterpacks (String IDs):**
+**Claimed Starter Packs (String IDs):**
 - Use UUID-like string identifiers (e.g., "free-welcome-pack-2024")
 - Typically free packs distributed via merkle drops
 - Support cross-chain claiming from various networks
 
-**Onchain Starterpacks (Numeric IDs):**
+**Onchain Starter Packs (Numeric IDs):**
 - Use numeric identifiers (e.g., 42)
 - Paid packs with smart contract execution
 - Support multiple payment methods and automatic contract calls
@@ -110,15 +110,15 @@ Starterpacks are pre-configured on the Cartridge platform and referenced by ID. 
 - **Smart Contract Integration**: Automatic execution of associated contract calls after payment
 - **Unified Interface**: Single method works for both paid and claimed packs
 - **Platform Managed**: No need to define complex item structures in your code
-- **Additional Payment Tokens**: Support for custom payment options beyond default ETH, STRK, and USDC through starterpack metadata configuration
+- **Additional Payment Tokens**: Support for custom payment options beyond default ETH, STRK, and USDC through starter pack metadata configuration
 
-### Paid Starterpacks
-Paid starterpacks require purchase and support multiple payment methods (credit card or cryptocurrency).
+### Paid Starter Packs
+Paid starter packs require purchase and support multiple payment methods (credit card or cryptocurrency).
 These typically include premium game assets, larger credit bundles, and exclusive items.
 Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
 
-### Claimed Starterpacks
-Free starterpacks that users can claim based on eligibility criteria. These starterpacks:
+### Claimed Starter Packs
+Free starter packs that users can claim based on eligibility criteria. These starter packs:
 - **No payment required**: Users can claim them for free
 - **Eligibility checking**: System verifies if user meets claim requirements
 - **Collection showcase**: Display supported game collections with platform indicators
@@ -129,14 +129,14 @@ The claiming flow automatically determines eligibility and guides users through 
 
 #### Merkle Drop Claims
 
-Claimable starterpacks use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
+Claimable starter packs use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
 This system allows users to claim assets that were originally distributed on other networks and receive them in their Cartridge account on Starknet.
 
 **DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses. This enables seamless cross-chain reward distribution for DevConnect participants.
 
 **How Merkle Drop Claims Work:**
 
-1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starterpack
+1. **Eligibility Verification**: The system checks if the user's external wallet address is included in the merkle tree for the starter pack
 2. **Cryptographic Proof**: Claims are validated using merkle proofs that mathematically prove eligibility without revealing the entire distribution list
 3. **Cross-chain Signature**: For EVM-based claims, users must sign a message with their external wallet to prove ownership
 4. **Forwarder Contract**: Claims are processed through a forwarder contract on Starknet that verifies the proof and signature before distributing assets
@@ -155,12 +155,12 @@ Solana payment functionality is currently disabled and will be re-enabled in a f
 
 ## Purchase and Claim Flows
 
-### Purchase Flow (Paid Starterpacks)
+### Purchase Flow (Paid Starter Packs)
 
 The purchase process follows these steps:
 
-1. **Item Selection**: User selects starterpack or credit amount
-2. **Streamlined Checkout**: Improved onchain starterpack purchase flow with direct navigation, removing intermediate screens and defaulting to controller wallet for faster transactions
+1. **Item Selection**: User selects starter pack or credit amount
+2. **Streamlined Checkout**: Improved onchain starter pack purchase flow with direct navigation, removing intermediate screens and defaulting to controller wallet for faster transactions
 3. **Wallet Selection Drawer**: Enhanced onchain checkout with inline slide-up drawer for wallet selection, replacing navigation-based flow for more seamless UX
 4. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
    - **Credit Card**: Direct fiat payment via Stripe
@@ -189,7 +189,7 @@ If a wallet doesn't support chain switching, users can manually switch chains wi
 
 Cryptocurrency payments include several fee components:
 
-- **Base Cost**: The actual purchase amount (starterpack or credit value)
+- **Base Cost**: The actual purchase amount (starter pack or credit value)
 - **Layerswap Bridging Fee**: Variable fee based on source network and token (typically 0.1-0.5%)
 - **Network Gas Fees**: Standard blockchain transaction fees (paid separately by user)
 
@@ -205,11 +205,11 @@ For ERC721 and ERC1155 marketplace transactions, additional fees apply:
 
 These fees are transparently displayed in the purchase interface before transaction confirmation, including percentage breakdowns and total amounts.
 
-### Claim Flow (Free Starterpacks)
+### Claim Flow (Free Starter Packs)
 
 The claiming process follows these steps:
 
-1. **Starterpack Selection**: User opens a claimable starterpack
+1. **Starter Pack Selection**: User opens a claimable starter pack
 2. **Eligibility Check**: System automatically verifies claim eligibility and mint limits
 3. **Collection Preview**: View supported game collections and platform compatibility
 4. **Network & Wallet Selection**: Choose the blockchain network where your claim originated and connect the corresponding wallet
@@ -217,6 +217,11 @@ The claiming process follows these steps:
 6. **Merkle Proof Validation**: System validates your claim using cryptographic merkle proofs
 7. **Claim Processing**: Complete the free claim transaction via the forwarder contract on Starknet
 8. **Confirmation**: Receive claim confirmation and assets in your Cartridge account
+
+## Gasless Transactions
+
+Starter packs enable gasless gaming experiences through integration with [session policies](/controller/sessions).
+When properly configured, users can receive and interact with their starter pack assets without paying gas fees for each transaction.
 
 ## Credit Purchases
 
@@ -254,7 +259,7 @@ If you encounter issues with purchase integration:
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions) for gasless gaming experiences
+- Learn about [Sessions](/controller/sessions) for gasless gaming experiences
 - Explore [Controller Configuration](/controller/configuration) options
 - Set up [External Wallet Integration](/controller/signer-management)
 - Review [Paymaster Configuration](/slot/paymaster) for gasless transactions

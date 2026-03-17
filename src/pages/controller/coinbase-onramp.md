@@ -6,7 +6,7 @@ title: Coinbase Onramp Integration
 
 # Coinbase Onramp Integration
 
-Cartridge Controller v0.12.0 introduces integrated Coinbase onramp functionality, enabling users to purchase cryptocurrency directly within the keychain interface using fiat payment methods.
+Controller v0.12.0 introduces integrated Coinbase onramp functionality, enabling users to purchase cryptocurrency directly within the keychain interface using fiat payment methods.
 This streamlines the user experience by eliminating the need to exit your application to acquire crypto for gaming transactions.
 
 ## Overview
@@ -61,7 +61,7 @@ The enhanced cost breakdown shows:
 - **Base Price**: The core cost of the items being purchased
 - **Protocol Fee**: Platform service fees
 - **Coinbase Fee**: Service fees charged by Coinbase for fiat-to-crypto conversion
-- **Bridge Fee**: Layerswap fees for cross-chain bridging to StarkNet
+- **Bridge Fee**: Layerswap fees for cross-chain bridging to Starknet
 - **Final Total**: The complete amount charged to the user's payment method
 
 ## User Experience Flow
@@ -71,7 +71,7 @@ When users select Coinbase onramp as their payment method:
 1. **Selection**: User chooses Coinbase onramp from available payment options
 2. **Compliance Check**: Automatic verification of regional availability and user eligibility
 3. **Cost Breakdown**: Comprehensive cost breakdown display showing detailed fee structure including Coinbase fees and bridge fees with real-time pricing from Coinbase Onramp API
-4. **Apple Pay Integration**: Streamlined starterpack Apple Pay checkout functionality for mobile payments (iOS)
+4. **Apple Pay Integration**: Streamlined starter pack Apple Pay checkout functionality for mobile payments (iOS)
 5. **Order Creation**: Enhanced Coinbase order creation with `createCoinbaseLayerswapOrder` for improved processing
 6. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
 7. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery with order fetching by IDs
@@ -131,7 +131,7 @@ When testing Coinbase onramp integration:
 - **Cost Breakdown UI**: Test fee transparency components with various purchase amounts
 
 :::note
-Coinbase onramp integration is automatically included in Cartridge Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+. The latest version v0.12.3 includes additional sandbox configuration improvements and bug fixes for enhanced reliability.
+Coinbase onramp integration is automatically included in Controller v0.12.0+ and does not require additional configuration for basic usage. Enhanced features including Apple Pay checkout, comprehensive cost breakdown, and improved order management are available in v0.12.2+. The latest version v0.12.3 includes additional sandbox configuration improvements and bug fixes for enhanced reliability.
 :::
 
 ## Next Steps
