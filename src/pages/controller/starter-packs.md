@@ -248,13 +248,13 @@ Credits purchased through this interface use the same unified payment flow as st
 
 If you encounter issues with purchase integration:
 - Check the browser console for detailed error messages
-- Verify your Controller setup matches the [getting started guide](/controller/getting-started.mdx)
+- Verify your Controller setup matches the [getting started guide](/controller/getting-started)
 - Ensure you're using the latest version of the Controller SDK
-- Review [external wallet setup](/controller/signer-management.md) for wallet-related issues
+- Review [external wallet setup](/controller/signer-management) for wallet-related issues
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions.md) for gasless gaming experiences
-- Explore [Controller Configuration](/controller/configuration.md) options
-- Set up [External Wallet Integration](/controller/signer-management.md)
-- Review [Paymaster Configuration](/slot/paymaster.md) for gasless transactions
+- Learn about [Session Keys](/controller/sessions) for gasless gaming experiences
+- Explore [Controller Configuration](/controller/configuration) options
+- Set up [External Wallet Integration](/controller/signer-management)
+- Review [Paymaster Configuration](/slot/paymaster) for gasless transactions
