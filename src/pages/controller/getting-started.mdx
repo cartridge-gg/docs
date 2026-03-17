@@ -12,7 +12,7 @@ Controller implements a standard StarkNet account interface and can be seamlessl
 
 The fastest way to get started is to install the controller package and connect to Cartridge:
 
-```ts twoslash
+```typescript twoslash
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
@@ -23,7 +23,7 @@ const account = await controller.connect();
 
 For more advanced use cases, you can also pass dynamic authentication options:
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
@@ -39,7 +39,7 @@ const phantomAccount = await controller.connect(["phantom-evm"]);
 
 For programmatic authentication without opening any UI, you can use headless mode by providing a `username` and `signer`:
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
@@ -91,7 +91,7 @@ Here's a simple example of how to initialize and use the controller:
 
 ### Without session policies
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 // All transactions will require manual approval
@@ -107,7 +107,7 @@ This is suitable for simple applications or testing, but games typically benefit
 
 Pass session policies to the Controller constructor to enable gasless transactions and pre-approved transactions.
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 import { SessionPolicies } from "@cartridge/controller";
 
@@ -132,7 +132,7 @@ const controller = new Controller({ policies });
 
 The Controller ships with sensible defaults for chain RPCs, but you can override them if needed.
 
-```ts
+```typescript
 import { constants } from "starknet";
 import Controller from "@cartridge/controller";
 
@@ -150,7 +150,7 @@ const controller = new Controller({
 
 The Controller provides an `open()` method for standalone authentication, which opens the keychain in first-party context. This is useful for establishing first-party storage and enabling seamless iframe access across all games.
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller();
@@ -197,7 +197,7 @@ Both the owner signer and a **session key** live inside the iframe, employing a 
 
 When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`.
 The keychain first tries to sign with the session key.
-If the call matches the app's [session policies](/controller/sessions.md), it signs automatically — no user prompt.
+If the call matches the app's [session policies](/controller/sessions.md), it signs automatically --- no user prompt.
 If the call doesn't match any policy, it falls back to the **owner key** and prompts the user for approval.
 
 > The session's authorization is cached on-chain on first use, so no explicit `registerSession()` call is needed.
@@ -214,8 +214,8 @@ Instead of embedding the owner key in an iframe, it:
 3. **Registers the session key on-chain** with the approved policies compiled into a merkle root
 4. Stores the session private key locally (in `localStorage` or on the filesystem)
 
-After registration, transactions are signed with the session key and executed via `executeFromOutside()` — no further UI is needed.
-Because the session key is not the owner key, **policies are enforced on-chain** — every transaction must include a merkle proof showing the call matches the registered policies.
+After registration, transactions are signed with the session key and executed via `executeFromOutside()` --- no further UI is needed.
+Because the session key is not the owner key, **policies are enforced on-chain** --- every transaction must include a merkle proof showing the call matches the registered policies.
 The owner key is never exposed through this provider, so there is no fallback for calls outside the approved policies.
 
 > For a visual comparison of how each provider authenticates and signs, see the [Architecture](/controller/architecture#auth-flows) page.
@@ -393,7 +393,7 @@ const sessionConnector = new SessionConnector({
 
 If you're using `WalletAccount` directly in your application, you'll need to update the constructor call:
 
-```ts
+```typescript
 // Before (v0.9.x)
 const account = new WalletAccount(provider, address, signer);
 

@@ -38,7 +38,7 @@ Booster packs can contain various types of rewards:
 **Fungible Tokens:**
 - `CREDITS`: Platform credits for gasless transactions (typically 150)
 - `LORDS`: Realms ecosystem token (75 tokens)
-- `NUMS`: NUMS game token (2000 tokens)  
+- `NUMS`: NUMS game token (2000 tokens)
 - `PAPER`: Dope Wars token (3000 tokens)
 - `SURVIVOR`: Loot Survivor token (10 tokens)
 
@@ -155,7 +155,7 @@ try {
 
 Asset eligibility is typically determined by:
 - **NFT Holdings**: Owning specific NFTs or collections
-- **Event Participation**: Participating in airdrops, campaigns, or events  
+- **Event Participation**: Participating in airdrops, campaigns, or events
 - **Whitelist Inclusion**: Being included in predetermined distribution lists
 - **Time-Based Claims**: Meeting criteria during specific time windows
 

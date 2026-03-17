@@ -33,7 +33,7 @@ Storage is billed at $0.20/GB/month.
 
 For torii, with premium tiers, you can choose to deploy your instances with multiple replicas using the `--replicas <n>` flag.
 
-```shell
+```bash
 slot d create --tier epic my-project torii --replicas 3
 ```
 
@@ -50,7 +50,7 @@ The default for all regions is us-east, but you can choose to deploy your instan
 
 To deploy a slot service in multiple regions, you can use the `--regions` flag.
 
-```shell
+```bash
 # torii supports multiple versions - billed per replica per region
 slot d create --tier pro my-project torii --regions us-east,europe-west
 # or
@@ -69,7 +69,7 @@ Before creating paid tier deployments, you need to set up billing for your team.
 
 Make sure to use the team flag of the team you previously transferred credits to.
 
-```shell
+```bash
 slot d create --tier epic --team my-team my-instance torii
 ```
 
@@ -79,6 +79,6 @@ Note that you can only upgrade tiers; downgrading to a lower tier is not possibl
 
 Make sure that you created this instance with the team flag of the team you previously transferred credits to, or make sure the team it belongs to has credits available.
 
-```shell
+```bash
 slot d update --tier epic my-instance torii
 ```

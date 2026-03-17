@@ -122,7 +122,7 @@ Controller offers integration with popular external web3 wallets, including Braa
 1. Select **Google** from the signer options
 2. The system uses an intelligent OAuth flow:
    - **In iframe environments**: Opens Google OAuth in a popup window for seamless UX
-   - **Standard environments**: Uses redirect flow for better compatibility 
+   - **Standard environments**: Uses redirect flow for better compatibility
    - **Fallback handling**: Automatically switches to redirect if popup is blocked
 3. Complete the Google OAuth authorization:
    - Sign in to your Google account if not already logged in

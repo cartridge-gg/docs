@@ -54,7 +54,7 @@ For Capacitor mobile apps using custom hostnames, include the custom hostname in
 ```
 
 This authorizes both your web app and your Capacitor app with the custom hostname:
-- **Web**: `https://yourdomain.com` 
+- **Web**: `https://yourdomain.com`
 - **iOS Capacitor**: `capacitor://my-custom-app`
 - **Android Capacitor**: `https://my-custom-app`
 

@@ -39,7 +39,7 @@ See the [Torii docs](https://book.dojoengine.org/toolchain/torii/configuration#i
 Once Torii is indexing your asset, pass the URL to your game's Controller.
 The URL of your Torii instance should be passed as the `slot` option:
 
-```ts
+```typescript
 import { Controller } from '@cartridge/controller'
 
 controller = new Controller({

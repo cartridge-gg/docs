@@ -106,7 +106,7 @@ Starterpacks are pre-configured on the Cartridge platform and referenced by ID. 
 ### Key Features
 
 - **Pre-configured**: Packs are set up through the Cartridge platform with predefined items and pricing
-- **Cross-chain Support**: Automatic token bridging and multi-network compatibility  
+- **Cross-chain Support**: Automatic token bridging and multi-network compatibility
 - **Smart Contract Integration**: Automatic execution of associated contract calls after payment
 - **Unified Interface**: Single method works for both paid and claimed packs
 - **Platform Managed**: No need to define complex item structures in your code

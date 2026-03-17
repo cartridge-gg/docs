@@ -12,7 +12,7 @@ Slot is the execution layer of Dojo, supporting rapid provisioning of low latenc
 
 Install slotup to manage slot installations and follow the outputted directions.
 
-```sh
+```bash
 curl -L https://slot.cartridge.sh | bash
 ```
 
@@ -20,7 +20,7 @@ curl -L https://slot.cartridge.sh | bash
 
 Authenticate with Cartridge
 
-```sh
+```bash
 slot auth login
 ```
 
@@ -28,7 +28,7 @@ slot auth login
 
 First, authenticate as mentioned above. Then, run:
 
-```sh
+```bash
 slot auth token
 ```
 
@@ -37,7 +37,7 @@ You can set this environment variable in CI, scripts, or deployment platforms to
 
 ### Create service deployments
 
-```sh
+```bash
 slot deployments create <Project Name> katana
 slot deployments create <Project Name> torii --config <path/to/torii.toml>
 ```
@@ -75,7 +75,7 @@ When you create a service with a project name that didn't exist before, a new te
 
 ### Update a service
 
-```sh
+```bash
 slot deployments update <Project Name> torii --version v1.0.0
 slot deployments update <Project Name> torii --config <path/to/torii.toml>
 slot deployments update <Project Name> torii --replicas 3
@@ -83,37 +83,37 @@ slot deployments update <Project Name> torii --replicas 3
 
 ### Delete a service
 
-```sh
+```bash
 slot deployments delete <Project Name> torii
 ```
 
 ### Transfer a service to another team
 
-```sh
+```bash
 slot d transfer <Project Name> <katana | torii> <To Team Name>
 ```
 
 ### Read service logs
 
-```sh
+```bash
 slot deployments logs <Project Name> <katana | torii>
 ```
 
 ### List all deployments
 
-```sh
+```bash
 slot deployments list
 ```
 
 ### View deployments configuration
 
-```sh
+```bash
 slot deployments describe <Project Name> <katana | torii>
 ```
 
 ### View predeployed accounts
 
-```sh
+```bash
 slot deployments accounts <Project Name> katana
 ```
 
@@ -121,7 +121,7 @@ slot deployments accounts <Project Name> katana
 
 The name of the team is the same as the project name used to create a service. A team is automatically created when you create a new project.
 
-```sh
+```bash
 slot teams <Team Name> list
 slot teams <Team Name> add <Account Name>
 slot teams <Team Name> remove <Account Name>

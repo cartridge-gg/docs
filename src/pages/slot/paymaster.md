@@ -28,7 +28,7 @@ One of the key benefits of the Cartridge Paymaster is that it requires zero addi
 
 Make sure you are authenticated with Slot:
 
-```sh
+```bash
 slot auth login
 ```
 
@@ -40,13 +40,13 @@ Before creating a paymaster, you need a team with sufficient credits. See the [B
 
 Create a new paymaster with an initial budget:
 
-```sh
+```bash
 slot paymaster <paymaster-name> create --team <team-name> --budget <amount> --unit CREDIT
 ```
 
 ### Example
 
-```sh
+```bash
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
 ```
 
@@ -73,7 +73,7 @@ The initial budget amount will be automatically deducted from your team's accoun
 
 Add funds to your paymaster:
 
-```sh
+```bash
 slot paymaster <paymaster-name> budget increase --amount <amount> --unit CREDIT
 ```
 
@@ -96,7 +96,7 @@ slot paymaster <paymaster-name> budget increase --amount <amount> --unit CREDIT
 
 Remove funds from your paymaster:
 
-```sh
+```bash
 slot paymaster <paymaster-name> budget decrease --amount <amount> --unit CREDIT
 ```
 
@@ -143,12 +143,12 @@ Predicates are optional. Policies without predicates will always sponsor matchin
 
 The preferred way to add policies is using verified contract presets for your games:
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy add-from-preset --name <preset-name>
 ```
 
 **Example:**
-```sh
+```bash
 slot paymaster my-game-pm policy add-from-preset --name dope-wars
 ```
 
@@ -160,7 +160,7 @@ Presets contain verified contracts from games in the Dojo ecosystem. Make sure t
 
 For individual contract policies or custom contracts not yet in presets:
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy add --contract <contract-address> --entrypoint <entry-point>
 ```
 
@@ -168,7 +168,7 @@ slot paymaster <paymaster-name> policy add --contract <contract-address> --entry
 
 For bulk adding multiple custom policies:
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy add-from-json --file <path-to-json>
 ```
 
@@ -196,7 +196,7 @@ slot paymaster <paymaster-name> policy add-from-json --file <path-to-json>
 
 ### Remove a Policy
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy remove --contract <contract-address> --entrypoint <entry-point>
 ```
 
@@ -207,7 +207,7 @@ Successfully removed policy: PolicyArgs { contract: "0x1234...abcd", entrypoint:
 
 ### Remove All Policies
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy remove-all
 ```
 
@@ -217,7 +217,7 @@ This action requires confirmation and cannot be undone.
 
 ### List Policies
 
-```sh
+```bash
 slot paymaster <paymaster-name> policy list
 ```
 
@@ -225,7 +225,7 @@ slot paymaster <paymaster-name> policy list
 
 Get comprehensive information about your paymaster:
 
-```sh
+```bash
 slot paymaster <paymaster-name> info
 ```
 
@@ -250,13 +250,13 @@ slot paymaster <paymaster-name> info
 
 Update your paymaster's basic configuration settings:
 
-```sh
+```bash
 slot paymaster <current-name> update [OPTIONS]
 ```
 
 ### Update Paymaster Name
 
-```sh
+```bash
 slot paymaster my-game-pm update --name new-game-pm
 ```
 
@@ -264,7 +264,7 @@ slot paymaster my-game-pm update --name new-game-pm
 
 Transfer the paymaster to a different team:
 
-```sh
+```bash
 slot paymaster my-game-pm update --team new-team
 ```
 
@@ -272,7 +272,7 @@ slot paymaster my-game-pm update --team new-team
 
 Toggle the active state of your paymaster:
 
-```sh
+```bash
 # Disable paymaster (stops sponsoring transactions)
 slot paymaster my-game-pm update --active false
 
@@ -290,12 +290,12 @@ slot paymaster my-game-pm update --active true
 
 View usage statistics for your paymaster:
 
-```sh
+```bash
 slot paymaster <paymaster-name> stats --last <time-period>
 ```
 
 **Example:**
-```sh
+```bash
 slot paymaster my-game-pm stats --last 24hr
 ```
 
@@ -328,7 +328,7 @@ slot paymaster my-game-pm stats --last 24hr
 
 View detailed transaction history for your paymaster with filtering and sorting options:
 
-```sh
+```bash
 slot paymaster <paymaster-name> transactions [OPTIONS]
 ```
 
@@ -336,7 +336,7 @@ slot paymaster <paymaster-name> transactions [OPTIONS]
 
 View recent transactions:
 
-```sh
+```bash
 slot paymaster my-game-pm transactions
 ```
 
@@ -356,7 +356,7 @@ Transaction Hash                                                   Executed     
 ### Filtering Options
 
 **Filter by Status:**
-```sh
+```bash
 # Show only successful transactions
 slot paymaster my-game-pm transactions --filter SUCCESS
 
@@ -368,13 +368,13 @@ slot paymaster my-game-pm transactions --filter ALL
 ```
 
 **Time Period:**
-```sh
+```bash
 # Last hour
 slot paymaster my-game-pm transactions --last 1hr
 ```
 
 **Sorting:**
-```sh
+```bash
 # Sort by fees (ascending)
 slot paymaster my-game-pm transactions --order-by FEES_ASC
 
@@ -389,7 +389,7 @@ slot paymaster my-game-pm transactions --order-by EXECUTED_AT_ASC
 ```
 
 **Limit Results:**
-```sh
+```bash
 # Show up to 50 transactions (max 1000)
 slot paymaster my-game-pm transactions --limit 50
 ```
@@ -398,7 +398,7 @@ slot paymaster my-game-pm transactions --limit 50
 
 Generate Dune Analytics queries to analyze your paymaster's transaction data:
 
-```sh
+```bash
 slot paymaster <paymaster-name> dune [OPTIONS]
 ```
 
@@ -409,7 +409,7 @@ See a live example of paymaster analytics at [Blob Arena Stats](https://dune.com
 
 Generate a comprehensive SQL query for your paymaster:
 
-```sh
+```bash
 slot paymaster my-game-pm dune
 ```
 
@@ -423,7 +423,7 @@ The query provides exhaustive analysis including:
 
 By default, queries use the paymaster's creation time. You can specify a custom time period:
 
-```sh
+```bash
 # Last 24 hours
 slot paymaster my-game-pm dune --last 24hr
 
@@ -440,7 +440,7 @@ slot paymaster my-game-pm dune --last 1week
 
 For dynamic queries in Dune dashboards, use template parameters:
 
-```sh
+```bash
 slot paymaster my-game-pm dune --dune-params
 ```
 
@@ -483,34 +483,34 @@ The query is optimized for comprehensive analysis but may timeout on very long t
 ### Common Use Cases
 
 **Growth Analysis:**
-```sh
+```bash
 slot paymaster my-game-pm dune --last 1week
 ```
 Analyze weekly growth trends, user acquisition, and engagement patterns.
 
 **Daily Monitoring:**
-```sh  
+```bash  
 slot paymaster my-game-pm dune --last 24hr
 ```
 Monitor recent activity, transaction success rates, and costs.
 
 **Dashboard Setup:**
-```sh
+```bash
 slot paymaster my-game-pm dune --dune-params
 ```
-Create flexible dashboards with configurable time ranges. 
+Create flexible dashboards with configurable time ranges.
 
 ### Quick Debugging Use Cases
 
 The transaction history is useful for identifying issues:
 
 **View expensive transactions that might indicate inefficient contract calls:**
-```sh
+```bash
 slot paymaster my-game-pm transactions --order-by FEES_DESC --limit 10
 ```
 
 **Investigate failed transactions to debug contract issues:**
-```sh
+```bash
 slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 ```
 
@@ -535,7 +535,7 @@ slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 ## Common Workflows
 
 ### Setting up a new game paymaster
-```sh
+```bash
 # Set up billing first (see /slot/billing for details)
 # Then create paymaster
 slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
@@ -550,7 +550,7 @@ slot paymaster my-game-pm info
 ```
 
 ### Monitoring and maintenance
-```sh
+```bash
 # Check daily stats
 slot paymaster my-game-pm stats --last 24hr
 

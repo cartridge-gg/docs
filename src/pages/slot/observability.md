@@ -24,7 +24,7 @@ The `--observability` flag enables monitoring capabilities for both Katana and T
 
 Enable observability when creating a new deployment:
 
-```sh
+```bash
 # For Katana
 slot deployments create <Project Name> --observability katana
 
@@ -36,7 +36,7 @@ slot deployments create <Project Name> --observability torii --world 0x3fa481f41
 
 Add observability to an existing deployment:
 
-```sh
+```bash
 # For Katana
 slot deployments update <Project Name> --observability katana
 

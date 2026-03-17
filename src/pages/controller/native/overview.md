@@ -37,7 +37,7 @@ The session signer can then execute transactions without further user interactio
 ### Headless (App-Managed Keys)
 
 Your app supplies its own signing keys rather than using the Cartridge keychain.
-No browser authentication is involved — the app directly controls a Controller account using a private key it manages.
+No browser authentication is involved --- the app directly controls a Controller account using a private key it manages.
 
 **Best for:**
 
@@ -53,7 +53,7 @@ No browser authentication is involved — the app directly controls a Controller
 If you already have a web app using Controller, you can wrap it in a native shell for app store distribution.
 Your app uses the web `SessionProvider` directly, with deep link redirects handling the browser-to-app callback.
 
-This is not a different authentication flow — it uses the same browser-based session flow as the web SDK.
+This is not a different authentication flow --- it uses the same browser-based session flow as the web SDK.
 The difference is in the integration approach: you're packaging a web app rather than building a native one.
 
 **Best for:** Existing web apps, faster time-to-market, teams stronger in web than native development.

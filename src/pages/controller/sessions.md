@@ -43,7 +43,7 @@ const tx = await account.execute([
 
 ## Transactions With Policies
 
-```ts
+```typescript
 const policies = {
   // Define your polices here
 }
@@ -380,7 +380,7 @@ const handleDeepLink = async (url: string) => {
 
 This is particularly useful for:
 - **Capacitor apps**: Processing deep links from authentication flows
-- **Native mobile apps**: Handling custom URL scheme redirects  
+- **Native mobile apps**: Handling custom URL scheme redirects
 - **Manual session handling**: When you need custom control over session processing
 
 The method automatically decodes the session payload and stores it in localStorage for future use.
@@ -497,7 +497,7 @@ When users connect with spending limits configured, the session creation interfa
 2. **Token Consent**: A consent notice explains the spending permissions
 3. **Spending Limit Card**: Contracts with approve methods are displayed separately in a dedicated spending limit section showing:
    - Each token and its approved amount
-   - USD values alongside token amounts when price data is available  
+   - USD values alongside token amounts when price data is available
    - Unlimited spending limits clearly labeled as "Unlimited"
 
 This organization separates general contract permissions from token spending approvals, making it easier for users to understand what they're authorizing.

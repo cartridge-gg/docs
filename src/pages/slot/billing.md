@@ -22,12 +22,12 @@ Slot uses a prepaid credit system where:
 
 First, create a team with an email address for billing notifications:
 
-```sh
+```bash
 slot teams <team-name> create --email <your-email@example.com> [--address "your address"] [--tax-id "abc123"]
 ```
 
 **Example:**
-```sh
+```bash
 slot teams my-game create --email developer@mygame.com --address "123 Main St, City, Country" --tax-id "TAX123456"
 ```
 
@@ -39,7 +39,7 @@ If you create a deployment before creating a team explicitly, a team with the sa
 
 To add credits to your team, use the `slot auth fund` command which opens a browser interface:
 
-```sh
+```bash
 slot auth fund
 ```
 
@@ -59,7 +59,7 @@ You can also navigate directly to `https://x.cartridge.gg/slot/fund` to fund tea
 
 Update the billing email, address, or tax ID for an existing team:
 
-```sh
+```bash
 slot teams <team-name> update [--email <new-email@example.com>] [--address "your address"] [--tax-id "abc123"]
 ```
 
@@ -67,7 +67,7 @@ slot teams <team-name> update [--email <new-email@example.com>] [--address "your
 
 View your team's current credit balance and information:
 
-```sh
+```bash
 slot teams <team-name> info
 ```
 
@@ -75,7 +75,7 @@ slot teams <team-name> info
 
 Check billing history and invoices for your team:
 
-```sh
+```bash
 slot teams <team-name> invoices
 ```
 
@@ -89,7 +89,7 @@ This command displays:
 
 Add or remove team members who can manage the team's resources:
 
-```sh
+```bash
 # List current team members
 slot teams <team-name> list
 
@@ -161,7 +161,7 @@ Slot uses a **daily billing model**:
 
 If you encounter insufficient credits when creating services:
 
-```sh
+```bash
 # Check your team's current balance
 slot teams <team-name> info
 

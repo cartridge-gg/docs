@@ -122,4 +122,4 @@ main().catch(console.error);
 
 4. The example includes proper error handling for Controller-specific errors, which include additional context through the `code` and `data` fields.
 
-5. Keep your RPC endpoints and contract addresses secure, preferably in environment variables. 
+5. Keep your RPC endpoints and contract addresses secure, preferably in environment variables.
