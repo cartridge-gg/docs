@@ -216,7 +216,7 @@ function resolveRelative(base, rel) {
 function suggestFix(result, url, pages) {
     if (result.reason === "has extension") {
         // Just strip the extension
-        return url.replace(/\.(md|mdx)/, "");
+        return url.replace(/\.(mdx|md)$/, "");
     }
 
     if (result.reason === "anchor not found" && result.path) {
