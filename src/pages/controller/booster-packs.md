@@ -180,8 +180,8 @@ While both use Merkle Drop technology, booster packs differ from starter packs i
 
 ## Related Documentation
 
-- [Starter Packs](/controller/starter-packs.md) - For purchasable asset bundles
-- [Sessions](/controller/sessions.md) - For gasless gaming experiences using claimed credits
+- [Starter Packs](/controller/starter-packs) - For purchasable asset bundles
+- [Sessions](/controller/sessions) - For gasless gaming experiences using claimed credits
 - [Achievements](/controller/achievements) - For other reward and progression systems
 
 ## Getting Help

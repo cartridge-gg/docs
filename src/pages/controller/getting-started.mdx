@@ -178,7 +178,7 @@ The `open()` method accepts an options object with the following properties:
 - `preset?: string` - The preset theme to use for the keychain interface
 
 :::info
-When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets.md) for more information.
+When using presets, make sure your preset is configured in the [@cartridge/presets](https://github.com/cartridge-gg/presets) repository. See the [presets guide](/controller/presets) for more information.
 :::
 
 ## Providers
@@ -197,7 +197,7 @@ Both the owner signer and a **session key** live inside the iframe, employing a 
 
 When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`.
 The keychain first tries to sign with the session key.
-If the call matches the app's [session policies](/controller/sessions.md), it signs automatically --- no user prompt.
+If the call matches the app's [session policies](/controller/sessions), it signs automatically --- no user prompt.
 If the call doesn't match any policy, it falls back to the **owner key** and prompts the user for approval.
 
 > The session's authorization is cached on-chain on first use, so no explicit `registerSession()` call is needed.
@@ -447,19 +447,19 @@ The `dev:live` mode connects to production APIs, so be careful with any transact
 For more detailed examples of how to use Cartridge Controller in different
 environments, check out our integration guides:
 
-1. [React](/controller/examples/react.md)
+1. [React](/controller/examples/react)
 
    - Integration with `starknet-react`
    - Hooks and components
    - State management
 
-2. [Svelte](/controller/examples/svelte.md)
+2. [Svelte](/controller/examples/svelte)
 
    - Svelte stores and reactivity
    - Component lifecycle
    - Event handling
 
-3. [Rust](/controller/examples/rust.md)
+3. [Rust](/controller/examples/rust)
    - Native integration
    - Error handling
    - Async operations
@@ -469,10 +469,10 @@ Cartridge Controller in your preferred environment.
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions.md)
+- Learn about [Session Keys](/controller/sessions)
 - Display [Toast Notifications](/controller/toast-notifications) for user feedback
-- Set up [Multiple Signers](/controller/signer-management.md) for backup authentication
-- Integrate [Starter Packs](/controller/starter-packs.md) for game monetization
-- Customize your [Controller](/controller/presets.md)
-- Set up [Usernames](/controller/usernames.md)
-- Configure [Paymaster](/controller/configuration.md)
+- Set up [Multiple Signers](/controller/signer-management) for backup authentication
+- Integrate [Starter Packs](/controller/starter-packs) for game monetization
+- Customize your [Controller](/controller/presets)
+- Set up [Usernames](/controller/usernames)
+- Configure [Paymaster](/controller/configuration)

@@ -406,6 +406,6 @@ The toast API is built into the Controller SDK and works across all browsers tha
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions.md) for seamless transaction flows
-- Explore [Controller Configuration](/controller/configuration.md) options
-- Set up [External Wallet Integration](/controller/signer-management.md)
+- Learn about [Session Keys](/controller/sessions) for seamless transaction flows
+- Explore [Controller Configuration](/controller/configuration) options
+- Set up [External Wallet Integration](/controller/signer-management)

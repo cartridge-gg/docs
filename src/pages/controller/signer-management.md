@@ -537,6 +537,6 @@ const DISCONNECT_OAUTH = gql`
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions.md) for gasless gaming transactions
-- Explore [Controller Configuration](/controller/configuration.md) options
-- Set up [Usernames](/controller/usernames.md) for your account
+- Learn about [Session Keys](/controller/sessions) for gasless gaming transactions
+- Explore [Controller Configuration](/controller/configuration) options
+- Set up [Usernames](/controller/usernames) for your account
