@@ -301,10 +301,10 @@ When `propagateSessionErrors` is enabled, error responses include:
 The configuration options are organized into several categories:
 
 -   **Chain Options**: Core network configuration and chain settings
--   [**Session Options**](/controller/sessions.md): Session policies, transaction-related settings, and error handling
+-   [**Session Options**](/controller/sessions): Session policies, transaction-related settings, and error handling
 -   **Performance Options**: Lazy loading and other performance optimizations
 -   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
--   **Customization Options**: [Presets](/controller/presets.md) for themes and verified policies, [Slot](/controller/inventory.md) for custom indexing
+-   **Customization Options**: [Presets](/controller/presets) for themes and verified policies, [Slot](/controller/inventory) for custom indexing
 
 ## Error Display Modes
 
@@ -601,7 +601,7 @@ Both methods support:
 - Cryptocurrency payments across multiple networks (Starknet, Base, Arbitrum, Optimism)
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
 
-For detailed integration guidance, see the [Starter Packs](/controller/starter-packs.md) guide.
+For detailed integration guidance, see the [Starter Packs](/controller/starter-packs) guide.
 
 ## Standalone Authentication
 

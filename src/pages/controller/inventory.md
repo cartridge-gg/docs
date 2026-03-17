@@ -26,7 +26,7 @@ contracts = [
 
 ### Create or update Torii instance on Slot
 
-```sh
+```bash
 slot d create <project> torii --config <path/to/torii-config.toml>
 ```
 

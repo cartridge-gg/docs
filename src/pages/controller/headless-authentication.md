@@ -26,7 +26,7 @@ Controller SDK → Hidden Keychain iframe → Backend API → Authenticated Acco
 
 The recommended pattern for headless authentication checks for account existence and available signers before attempting to connect:
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
@@ -62,7 +62,7 @@ try {
 
 The most secure option for headless authentication uses WebAuthn (passkeys):
 
-```ts
+```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
@@ -83,7 +83,7 @@ try {
 
 For scenarios where WebAuthn isn't available:
 
-```ts
+```typescript
 const account = await controller.connect({
   username: "alice",
   signer: "password",
@@ -99,7 +99,7 @@ Never hardcode passwords in your source code. Use environment variables, secure 
 
 Authenticate using social login providers:
 
-```ts
+```typescript
 // Google OAuth
 await controller.connect({ 
   username: "alice", 
@@ -117,7 +117,7 @@ await controller.connect({
 
 Connect using Ethereum wallets via EIP-191 signing:
 
-```ts
+```typescript
 // MetaMask
 await controller.connect({ 
   username: "alice", 
@@ -141,7 +141,7 @@ await controller.connect({
 
 For mobile wallet connections:
 
-```ts
+```typescript
 await controller.connect({ 
   username: "alice", 
   signer: "walletconnect" 
@@ -165,7 +165,7 @@ Headless mode supports all implemented authentication methods:
 
 If your application uses [session policies](/controller/sessions) that haven't been verified or include spending limits that require approval, the keychain will automatically open the approval UI after successful authentication:
 
-```ts
+```typescript
 const controller = new Controller({
   policies: {
     contracts: {
@@ -191,7 +191,7 @@ await account.execute(/* your transaction */);
 
 Headless authentication provides specific error handling:
 
-```ts
+```typescript
 import { HeadlessAuthenticationError } from "@cartridge/controller";
 
 try {
@@ -222,7 +222,7 @@ try {
 
 The `lookupUsername` method allows you to check if a username exists and what authentication methods are available:
 
-```ts
+```typescript
 const lookupResult = await controller.lookupUsername("alice");
 
 console.log(lookupResult.exists);    // true/false
@@ -230,7 +230,7 @@ console.log(lookupResult.signers);   // ["webauthn", "google", "discord"]
 ```
 
 **Return Type:**
-```ts
+```typescript
 interface UsernameLookupResult {
   exists: boolean;
   signers: string[];  // Available authentication methods
@@ -247,7 +247,7 @@ This method is particularly useful for:
 
 Version 0.13.7 adds auto-signup functionality for headless flows. When a username doesn't exist, you can automatically create an account:
 
-```ts
+```typescript
 try {
   const lookupResult = await controller.lookupUsername("newuser");
   
@@ -367,7 +367,7 @@ if (lookupResult.exists) {
 
 For server-side applications, use the SessionProvider:
 
-```ts
+```typescript
 import { SessionProvider } from "@cartridge/connector";
 
 const sessionProvider = new SessionProvider({
@@ -400,7 +400,7 @@ Server-side headless authentication is currently only available through the brow
 
 ### Session Management
 
-```ts
+```typescript
 // Always handle session lifecycle properly
 const account = await controller.connect({ username, signer });
 
@@ -440,7 +440,7 @@ This web-based headless authentication is different from the [native headless Co
 
 Enable debug logging to troubleshoot issues:
 
-```ts
+```typescript
 // Enable debug mode in development
 const controller = new Controller({
   // Add debug configuration if available
@@ -453,7 +453,7 @@ const controller = new Controller({
 
 Validate inputs before attempting authentication:
 
-```ts
+```typescript
 function validateHeadlessOptions(username: string, signer: string) {
   if (!username || username.trim().length === 0) {
     throw new Error("Username is required");

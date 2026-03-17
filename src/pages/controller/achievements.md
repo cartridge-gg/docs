@@ -76,7 +76,7 @@ historical = ["<YOUR-NAMESPACE>-TrophyProgression"] // [!code focus]
 
 :::info
 The `TrophyCreation` event doesn't need to be historical since it should only be emitted once at trophy creation.
-If a new `TrophyCreation` event is emitted with the same keys as an existing one, it will replace it—useful for updating trophy metadata.
+If a new `TrophyCreation` event is emitted with the same keys as an existing one, it will replace it---useful for updating trophy metadata.
 :::
 
 ## Creating Achievements
@@ -245,7 +245,7 @@ AchievableComponent.progress(
 
 Configure the controller with the required parameters:
 
-```ts
+```typescript
 new ControllerConnector({
   url,
   rpc,
@@ -262,7 +262,7 @@ new ControllerConnector({
 
 Add a button to open the achievements page in your game client:
 
-```ts
+```typescript
 const { connector } = useAccount();
 
 const handleClick = useCallback(() => {

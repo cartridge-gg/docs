@@ -106,7 +106,7 @@ fn roll_dice(ref self: ContractState) {
 
 In order to execute a transaction that includes a `consume_random` call, you need to include a `request_random` transaction as the first transaction in the multicall. The `request_random` call allows our server to efficiently parse transactions that include a `consume_random` call internally.
 
-```js
+```javascript
 const call = await account.execute([
   // Prefix the multicall with the request_random call
   {

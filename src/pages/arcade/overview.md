@@ -1,7 +1,7 @@
 ---
 showOutline: 1
 title: Arcade Overview
-description: Discover Arcade, the ultimate hub for onchain games. Register, manage, and publish your games with ease — no permission required.
+description: Discover Arcade, the ultimate hub for onchain games. Register, manage, and publish your games with ease --- no permission required.
 ---
 
 # Overview
@@ -21,15 +21,15 @@ description: Discover Arcade, the ultimate hub for onchain games. Register, mana
 ### 🎮 Register a Game
 
 Game studios can register a game freely, without needing permission.
-When creating a game for the first time, you’ll be asked to provide its metadata and define at least one Game Edition.
+When creating a game for the first time, you'll be asked to provide its metadata and define at least one Game Edition.
 
 :::info
-A Game Edition is a version of your game — it can be deployed on mainnet, testnet, or represent a season or special mode (e.g., Season 1, Mainnet, Playtest, etc.).
+A Game Edition is a version of your game --- it can be deployed on mainnet, testnet, or represent a season or special mode (e.g., Season 1, Mainnet, Playtest, etc.).
 :::
 
 When you register a game or an edition, an NFT representing its ownership is minted.
 This NFT grants you admin rights over the game or edition.
-You can update the metadata of your game or any edition at any time — including name, description, icon, image gallery, video, and more.
+You can update the metadata of your game or any edition at any time --- including name, description, icon, image gallery, video, and more.
 
 ![Register Game](/arcade-register-game.png)
 
@@ -42,7 +42,7 @@ After approval, the game will be whitelisted and made publicly visible to all us
 
 ### 🧩 Create and update Game Editions
 
-You can create new editions of your game at any time — each edition gets its own ownership NFT.
+You can create new editions of your game at any time --- each edition gets its own ownership NFT.
 As the game owner, you control which editions are visible or hidden.
 As the edition owner, you can choose to publish or hide your edition from public view.
 
