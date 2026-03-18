@@ -179,7 +179,8 @@ ${styleGuide ? `## Style guide\n\n${styleGuide}\n\n` : ""}## Rules
 - When the report says to replace duplicated content with a cross-reference, use a brief mention with a markdown link to the canonical page. Use [TODO: link to X] if you cannot verify the target.
 - Do not add or change links unless the report specifically recommends it and you can verify the target path exists in the file listing. When uncertain, use [TODO: link to X].
 - If the file needs no changes, return it exactly as-is.
-- Preserve the original voice and technical accuracy.`;
+- Preserve the original voice and technical accuracy.
+- Use single asterisks for italics and double asterisks for bold. Do not use underscores for emphasis.`;
 
 function buildEditPrompt(report, file, allFiles) {
     const content = loadTextFile(file.path);
