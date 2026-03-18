@@ -12,7 +12,7 @@ This approach uses Controller's SessionProvider for session-based authentication
 ## When to Use Capacitor
 
 Capacitor is ideal when:
-- You have an existing web app using Controller
+- You have an existing web app using the Controller
 - You want to distribute through the App Store and Play Store
 - You need access to native features (push notifications, in-app purchases, haptics)
 - Your team is more comfortable with web technologies than native development
@@ -22,7 +22,7 @@ Capacitor is ideal when:
 - Node.js >= 18
 - Xcode (for iOS)
 - Android Studio (for Android)
-- An existing web app with Controller integration
+- An existing web app with the Controller integration
 
 ## Installation
 

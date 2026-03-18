@@ -7,7 +7,7 @@ title: Username Lookup
 # Looking up Usernames / Addresses
 
 A service for looking up usernames and addresses in the Cartridge ecosystem.
-You can use either the helper methods from the SDK or query the endpoint directly.
+You can use either the helper methods from the Controller SDK or query the endpoint directly.
 
 ## Direct API Access
 
@@ -168,4 +168,4 @@ To optimize performance when fetching usernames:
 2. Utilize the built-in caching of the helper methods: Previously fetched usernames are cached, so subsequent requests for the same addresses will be faster.
 3. Be mindful of the rate limit: If you need to fetch usernames for more than 1000 addresses, implement your own throttling mechanism.
 
-By following these guidelines, you can efficiently fetch and display usernames for controller addresses in your Cartridge-powered application.
+By following these guidelines, you can efficiently fetch and display usernames for Controller addresses in your Cartridge-powered application.

@@ -64,8 +64,10 @@ See an example pull request [`here`](https://github.com/cartridge-gg/presets/pul
 
 ## Verified Sessions
 
-Session Policies can be provided in the preset configuration, providing a smoother experience for your users.
+Session policies can be provided in the preset configuration, providing a smoother experience for your users.
 In order to submit verified policies, create a commit with them to your applications `config.json` in [`@cartridge/presets`](https://github.com/cartridge-gg/presets/tree/main/configs).
+
+For detailed information about session policies, see [Sessions](./sessions).
 
 :::warning
 **Policy Precedence Rules:**

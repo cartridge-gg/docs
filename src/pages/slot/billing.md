@@ -101,7 +101,7 @@ slot teams <team-name> remove <username>
 ```
 
 :::info
-The username is the Cartridge Controller username used to login.
+The username is the Cartridge Controller username used to login. Before managing team resources, you'll need to authenticate with [getting-started.md](./getting-started).
 :::
 
 ## What Uses Credits?

@@ -29,7 +29,8 @@ cargo install --git https://github.com/cartridge-gg/controller-cli
 
 ### 1. Define policies
 
-Create a `policies.json` file specifying which contracts and methods the session can call:
+Create a `policies.json` file specifying which contracts and methods the session can call.
+See [Sessions](/controller/sessions) for detailed policy configuration and examples.
 
 ```json
 {
@@ -47,8 +48,6 @@ Create a `policies.json` file specifying which contracts and methods the session
   }
 }
 ```
-
-This uses the same policy format as the [JavaScript SDK](/controller/sessions#defining-policies), with contract addresses mapping to allowed methods.
 
 ### 2. Authorize a session
 
@@ -112,10 +111,10 @@ controller call \
 
 Use `--block-id` to query at a specific block (`latest`, `pending`, a block number, or block hash).
 
-### 5. Starterpacks
+### 5. Starter packs
 
 ```bash
-# Check what's in a starterpack
+# Check what's in a starter pack
 controller starterpack info <ID> --chain-id SN_MAIN
 
 # Get the price
@@ -329,7 +328,7 @@ Valid keys: `rpc-url`, `keychain-url`, `api-url`, `storage-path`, `json-output`,
 
 ### `starterpack info`
 
-Fetches metadata for a starterpack (name, description, image, included items).
+Fetches metadata for a starter pack (name, description, image, included items).
 
 ```bash
 controller starterpack info <ID> --chain-id SN_MAIN
@@ -345,7 +344,7 @@ controller starterpack quote <ID> --chain-id SN_MAIN
 
 ### `starterpack purchase`
 
-Purchases a starterpack. Two modes are available:
+Purchases a starter pack. Two modes are available:
 
 **UI mode (default):** Opens the Cartridge purchase page in your browser. Supports crosschain payments and Apple Pay.
 
@@ -355,7 +354,7 @@ controller starterpack purchase <ID> --chain-id SN_MAIN
 controller starterpack purchase <ID> --ui --chain-id SN_MAIN
 ```
 
-**Direct mode:** Executes the purchase on-chain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starterpack contract.
+**Direct mode:** Executes the purchase on-chain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starter pack contract.
 
 ```bash
 controller starterpack purchase <ID> --direct --chain-id SN_MAIN

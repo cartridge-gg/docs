@@ -75,11 +75,7 @@ Requests from whitelisted domains without an API token are rate limited per IP a
 
 ### Prerequisites
 
-Authenticate with Cartridge:
-
-```bash
-slot auth login
-```
+For authentication setup and team management, see [Getting Started](./getting-started).
 
 ### Managing API Tokens
 

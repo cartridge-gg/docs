@@ -94,7 +94,7 @@ Quest Completion events may be historical depending on whether you need to track
 
 ### Controller Configuration
 
-Configure the Controller to enable quest functionality:
+Configure the Cartridge Controller to enable quest functionality. For detailed configuration options, see [Configuration](./configuration):
 
 ```typescript
 import { ControllerConnector } from "@cartridge/connector";

@@ -6,7 +6,7 @@ description: Integrate Cartridge Controller into React Native applications using
 
 # React Native
 
-Controller can be integrated into React Native applications using TurboModules and the Controller.c FFI bindings.
+The Controller SDK can be integrated into React Native applications using TurboModules and the Controller.c FFI bindings.
 This enables session-based authentication and transaction execution in cross-platform mobile apps.
 
 :::info
@@ -56,7 +56,7 @@ pnpm run android
 
 ## Module Setup
 
-The Controller native module is available through the generated bindings from `uniffi-bindgen-react-native`.
+The Controller SDK native module is available through the generated bindings from `uniffi-bindgen-react-native`.
 Import the module to access Controller functionality:
 
 ```typescript
@@ -101,7 +101,7 @@ if (savedKey) {
 
 ### Opening Browser for Session Auth
 
-Sessions are created by opening a browser to the Cartridge keychain with the public key and requested policies.
+Sessions are created by opening a browser to the Cartridge keychain with the public key and requested session policies.
 
 ```typescript
 import * as WebBrowser from 'expo-web-browser';

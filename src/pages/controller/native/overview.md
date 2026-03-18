@@ -71,7 +71,7 @@ The difference is in the integration approach: you're packaging a web app rather
 
 ## Passkey Authentication on Native
 
-To enable Passkey sign-in on native applications, you must configure your preset with Apple App Site Association (AASA).
+To enable passkey sign-in on native applications, you must configure your preset with Apple App Site Association (AASA).
 This allows the operating system to recognize your app as authorized for WebAuthn credentials associated with your domain.
 
 See the [Presets documentation](/controller/presets#apple-app-site-association) for configuration details.

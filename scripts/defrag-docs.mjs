@@ -255,14 +255,17 @@ async function main() {
                     Math.max(16000, Math.ceil(original.length / 3))
                 );
 
-                if (corrected.trim() === original.trim()) {
+                // Normalize trailing newline before comparing
+                const normalizedCorrected = corrected.replace(/\n*$/, "\n");
+
+                if (normalizedCorrected === original) {
                     console.log(`    No changes.`);
                     filesUnchanged++;
                     continue;
                 }
 
                 // Size guard: reject large removals
-                const netRemoved = countNetRemovedLines(original, corrected);
+                const netRemoved = countNetRemovedLines(original, normalizedCorrected);
                 if (netRemoved > MAX_REMOVED_LINES) {
                     console.log(
                         `    SKIPPED: ${netRemoved} net lines removed (limit: ${MAX_REMOVED_LINES})`
@@ -276,7 +279,7 @@ async function main() {
                 }
 
                 if (!DRY_RUN) {
-                    writeFileSync(file.path, corrected, "utf-8");
+                    writeFileSync(file.path, normalizedCorrected, "utf-8");
                 }
                 filesChanged++;
                 changeLog.push(file.rel);

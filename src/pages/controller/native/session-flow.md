@@ -6,7 +6,7 @@ description: URL format, parameters, and callback metadata for the browser-based
 
 # Session URL Reference
 
-This page documents the URL format and callback metadata for the [browser-based session flow](/controller/native/overview#browser-based-sessions).
+This page documents the URL format and callback metadata for the [browser-based session flow](./overview#browser-based-sessions).
 
 ## Session URL Format
 
@@ -46,6 +46,8 @@ Each policy object defines which contract methods the session key is authorized 
 ```
 
 The `policies` parameter should be a JSON array of these objects.
+
+For more details on session policies configuration, see [Sessions](/controller/sessions).
 
 ## Session Metadata
 

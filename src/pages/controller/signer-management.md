@@ -32,7 +32,7 @@ You can use them with:
 - Device authenticators directly
 - Mobile device pairing via QR code flow
 
-If your device does not natively support them, several password managers support Passkey creation and management:
+If your device does not natively support them, several password managers support passkey creation and management:
 - [Bitwarden (free)](https://bitwarden.com/help/storing-passkeys/)
 - [1Password](https://1password.com/)
 - [Dashlane](https://www.dashlane.com/)
@@ -65,7 +65,7 @@ Controller offers native social login options through Google, Discord, and Twitt
 
 > **⚠️ Native App Limitation**: OAuth-based social login flows (Google, Discord, Twitter/X) may not work correctly in native applications that use webviews.
 > Many OAuth providers block or restrict authentication attempts from embedded webviews for security reasons.
-> For native integrations, consider using Passkey authentication or see the [Native Integration](/controller/native/overview) documentation for recommended approaches.
+> For native integrations, consider using passkey authentication or see the [Native Integration](./native/overview) documentation for recommended approaches.
 
 All social login providers use an intelligent authentication flow that adapts to browser restrictions:
 
@@ -93,12 +93,12 @@ Controller offers integration with popular external web3 wallets, including Braa
 ### Adding a Passkey
 
 1. In the Add Signer interface, select **Passkey**
-2. Your browser will prompt you to create a new Passkey using:
+2. Your browser will prompt you to create a new passkey using:
    - Device biometrics (Face ID, Touch ID, Windows Hello)
    - Hardware security key (USB, NFC, or Bluetooth)
-   - Password manager (if configured for Passkey storage)
+   - Password manager (if configured for passkey storage)
 3. Follow your device's authentication flow
-4. Once created, the Passkey will be added to your account
+4. Once created, the passkey will be added to your account
 
 ### Adding Password Authentication
 
@@ -166,8 +166,8 @@ Controller offers integration with popular external web3 wallets, including Braa
 
 1. Select **Wallet** to see external wallet options
 2. Choose from the supported wallet types:
-   - **Argent**: StarkNet-native wallet with advanced security features and account management
-   - **Braavos**: StarkNet-native wallet with built-in security features
+   - **Argent**: Starknet-native wallet with advanced security features and account management
+   - **Braavos**: Starknet-native wallet with built-in security features
    - **MetaMask**: Popular browser extension wallet (desktop only)
    - **Phantom**: Multi-chain wallet supporting Solana, Ethereum, and other networks (desktop only)
    - **Rabby**: Security-focused multi-chain wallet (desktop only)
@@ -179,13 +179,15 @@ Controller offers integration with popular external web3 wallets, including Braa
 
 > **Mobile Limitation**: Ethereum-based wallets (MetaMask, Phantom, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
 
+For information about programmatic authentication with external wallets, see [Headless Authentication](./headless-authentication).
+
 ## Managing Existing Signers
 
 ### Viewing Your Signers
 
 The Signer(s) section displays all authentication methods associated with your account:
 
-- **Signer type** with recognizable icons (fingerprint for Passkey, Discord logo, wallet icons)
+- **Signer type** with recognizable icons (fingerprint for passkey, Discord logo, wallet icons)
 - **Current status** indicating which signer you're currently using
 - **Identifying information** such as wallet addresses (partially masked for privacy)
 
@@ -203,9 +205,9 @@ When connecting to your Controller:
 - Select any of your registered signers to authenticate
 - Your account and assets remain the same regardless of which signer you use
 
-### Account Synchronization for StarkNet Wallets
+### Account Synchronization for Starknet Wallets
 
-Cartridge Controller automatically stays synchronized with account changes in connected StarkNet wallets (Argent and Braavos). This ensures that when users switch accounts within their external wallet, the Controller is immediately updated to reflect the new active account.
+Cartridge Controller automatically stays synchronized with account changes in connected Starknet wallets (Argent and Braavos). This ensures that when users switch accounts within their external wallet, the Controller is immediately updated to reflect the new active account.
 
 **Automatic Synchronization Features:**
 - **Real-time Updates**: Controller automatically detects when users switch accounts in Argent or Braavos wallets
@@ -220,7 +222,7 @@ Cartridge Controller automatically stays synchronized with account changes in co
 4. Connected accounts list and active account are automatically synchronized
 5. On disconnect, listeners are properly cleaned up to prevent memory issues
 
-> **Note**: Account synchronization is currently available for StarkNet wallets (Argent and Braavos). Other external wallets maintain their existing connection behavior.
+> **Note**: Account synchronization is currently available for Starknet wallets (Argent and Braavos). Other external wallets maintain their existing connection behavior.
 
 ### Chain Switching for External Wallets
 
@@ -304,7 +306,7 @@ interface ExternalWalletResponse {
 ### Best Practices
 
 - **Multiple Backups**: Add at least 2-3 different signer types to ensure account recovery
-- **Secure Storage**: For Passkeys, ensure your device backup (iCloud, Google) is secure
+- **Secure Storage**: For passkeys, ensure your device backup (iCloud, Google) is secure
 - **Regular Access**: Periodically test each authentication method to ensure they work
 
 ### Account Recovery
@@ -332,7 +334,7 @@ You can now remove signers from your account for security or convenience:
 ### Getting Help
 
 If you encounter issues with signer management:
-- Review the Passkey section above for WebAuthn-specific help
+- Review the passkey section above for WebAuthn-specific help
 - Verify your wallet setup in the respective wallet's documentation
 - Ensure you're using a supported browser and have the latest wallet extensions installed
 
@@ -537,6 +539,6 @@ const DISCONNECT_OAUTH = gql`
 
 ## Next Steps
 
-- Learn about [Session Keys](/controller/sessions) for gasless gaming transactions
-- Explore [Controller Configuration](/controller/configuration) options
-- Set up [Usernames](/controller/usernames) for your account
+- Learn about [Session Keys](./sessions) for gasless gaming transactions
+- Explore [Controller Configuration](./configuration) options
+- Set up [Usernames](./usernames) for your account

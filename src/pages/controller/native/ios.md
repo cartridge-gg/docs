@@ -100,7 +100,8 @@ let username = try controller.username()
 
 ## Creating a SessionAccount
 
-Generate a keypair and create a session via browser authorization:
+Generate a keypair and create a session via browser authorization.
+For more details on session-based authentication, see [Session Flow](./session-flow).
 
 ```swift
 // Generate random private key
