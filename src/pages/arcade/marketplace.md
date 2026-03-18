@@ -18,7 +18,7 @@ First, configure your game's Torii instances to index the asset, and then config
 #### Configure your Torii
 
 Every digital asset on the Marketplace must be indexed by Torii.
-[TODO: link to Arcade setup for comprehensive Torii configuration] provides detailed information about configuring Torii for various use cases including marketplace assets.
+The [Arcade Setup](./setup#torii-configuration) page provides detailed information about configuring Torii for various use cases including marketplace assets.
 
 For basic marketplace asset indexing, add the token address to the configuration file:
 
