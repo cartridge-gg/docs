@@ -33,7 +33,7 @@ title: Controller Overview
 ### Customizable
 
 -   Full theme customization to match your game's branding
--   Dynamic UI components for displaying game assets, quests and achievements
+-   Dynamic UI components for displaying game assets and achievements
 -   Extensible plugin system for adding custom functionality
 
 ### Identity and Reputation

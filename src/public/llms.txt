@@ -33,7 +33,6 @@ For example, the Controller overview at `/controller/overview` has its source at
 - [Coinbase Onramp](https://docs.cartridge.gg/controller/coinbase-onramp): Fiat-to-crypto purchase integration for gaming applications.
 - [Usernames](https://docs.cartridge.gg/controller/usernames): Username and address lookup service with API access and helper methods.
 - [Achievements](https://docs.cartridge.gg/controller/achievements): Achievement system for rewarding players and tracking in-game progress.
-- [Quests](https://docs.cartridge.gg/controller/quests): Time-based challenges with rewards and progress tracking.
 - [Toast Notifications](https://docs.cartridge.gg/controller/toast-notifications): Display contextual notifications for transactions, achievements, and marketplace activities.
 - [Architecture](https://docs.cartridge.gg/controller/architecture): Technical overview of the Controller smart contract architecture and security model.
 
