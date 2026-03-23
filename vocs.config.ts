@@ -223,6 +223,10 @@ export default defineConfig({
             link: "/arcade/setup",
           },
           {
+            text: "Starter Packs",
+            link: "/arcade/starter-packs",
+          },
+          {
             text: "Marketplace",
             link: "/arcade/marketplace",
           },
