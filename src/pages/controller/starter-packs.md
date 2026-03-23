@@ -89,7 +89,9 @@ const handleOnchainStarterpack = () => {
 
 ## Starter Pack Configuration
 
-Starter packs are pre-configured on the Cartridge platform and referenced by ID. The Controller SDK provides a simple interface to open these configured packs, which can contain various game assets, tokens, and smart contract interactions.
+Starter packs are registered onchain through the [Arcade starter pack registry](/arcade/starter-packs) and referenced by numeric ID.
+The Controller SDK provides a simple interface to open these registered packs.
+To create your own starter pack, see [Creating Starter Packs](/arcade/starter-packs).
 
 ### Starter Pack Types
 
