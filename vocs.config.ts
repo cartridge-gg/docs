@@ -125,10 +125,6 @@ export default defineConfig({
                 link: "/controller/achievements",
               },
               {
-                text: "Quests",
-                link: "/controller/quests",
-              },
-              {
                 text: "Toast Notifications",
                 link: "/controller/toast-notifications",
               },
