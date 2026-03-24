@@ -148,6 +148,21 @@ await controller.connect({
 });
 ```
 
+### SMS Authentication
+
+Authenticate using SMS-based one-time passcodes:
+
+```typescript
+await controller.connect({ 
+  username: "alice", 
+  signer: "sms" 
+});
+```
+
+:::note
+SMS authentication requires a phone number and uses one-time passcode (OTP) verification. The SMS signer is registered as EIP-191 with provider `"sms"`.
+:::
+
 ## Supported Signer Options
 
 Headless mode supports all implemented authentication methods:
@@ -160,6 +175,7 @@ Headless mode supports all implemented authentication methods:
 - `rabby` - Rabby wallet
 - `phantom-evm` - Phantom EVM wallet
 - `walletconnect` - WalletConnect protocol
+- `sms` - SMS one-time passcode authentication
 
 For complete details on available authentication methods, see [Signer Management](./signer-management).
 
@@ -463,7 +479,7 @@ function validateHeadlessOptions(username: string, signer: string) {
   
   const validSigners = [
     "webauthn", "password", "google", "discord",
-    "metamask", "rabby", "phantom-evm", "walletconnect"
+    "metamask", "rabby", "phantom-evm", "walletconnect", "sms"
   ];
   
   if (!validSigners.includes(signer)) {
