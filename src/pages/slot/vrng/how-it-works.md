@@ -17,23 +17,44 @@ Common workarounds and their weaknesses:
 | --- | --- |
 | Block hash / timestamp | Miners/sequencers can influence or predict these values |
 | Commit-reveal schemes | Require multiple transactions across multiple blocks, adding latency and cost |
+| Hash of onchain state | Anyone can compute the same hash and predict the outcome before submitting |
 | External oracles (e.g. Chainlink VRF) | Randomness arrives in a *separate* transaction, breaking atomicity — your game action resolves in one tx, but the random outcome arrives later |
 
 For onchain games, these tradeoffs are unacceptable.
 A dice roll that takes two transactions and 30 seconds breaks the gameplay loop.
 A sequencer that can predict outcomes breaks the game's integrity.
 
-## The vRNG Solution: EC-VRF on the Stark Curve
+## The Core Idea
 
-Cartridge's vRNG solves this using an **Elliptic Curve Verifiable Random Function (EC-VRF)** built on the Stark curve — the native curve of Starknet.
+The [Cartridge Paymaster](/slot/paymaster) already acts as an offchain executor — it wraps player transactions for gas sponsorship and submits them onchain via Starknet's [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) `execute_from_outside` protocol.
 
-A VRF is a cryptographic primitive with a key property: given a secret key and an input (seed), it produces an output that is:
+The vRNG extends this existing role.
+In addition to sponsoring gas, the paymaster holds a **secret key** and uses it to generate a verifiable random number as part of the same execution flow.
+The random value and its cryptographic proof are injected into the transaction *before* the player's game action executes, so the game contract can consume verified randomness atomically — no extra transactions, no waiting.
 
-1. **Deterministic** — the same seed always produces the same output
-2. **Unpredictable** — without the secret key, the output is computationally indistinguishable from random
-3. **Verifiable** — the output comes with a proof that anyone can check using only the public key
+This works because the paymaster is already in the transaction path.
+The vRNG is not a separate oracle service; it's a natural extension of the execution infrastructure that's already there.
 
-This is exactly what onchain randomness needs: a trusted party generates the random value off-chain, but the contract can *prove* the value wasn't manipulated.
+## Why Not Just Hash?
+
+A hash function like `hash(seed)` is deterministic and publicly computable — anyone with the seed can compute the output.
+Since seeds are derived from onchain state, a player could predict the outcome before submitting their transaction.
+
+A **Verifiable Random Function (VRF)** adds a secret key to the computation: `VRF(secret_key, seed) → (output, proof)`.
+Only the key holder can compute the output, but anyone can *verify* it was computed correctly using the public key.
+
+| | Hash | VRF |
+| --- | --- | --- |
+| **Who can compute** | Anyone with the input | Only the secret key holder |
+| **Predictable?** | Yes — inputs are public | No — requires the secret key |
+| **Verifiable?** | Trivially (recompute it) | Yes — via cryptographic proof |
+| **Manipulable?** | No (but predictable = exploitable) | No — deterministic for a given seed and key |
+
+The "verifiable" part is what distinguishes a VRF from simple encryption — the proof ensures the key holder can't lie about what the output should be for a given input.
+
+## Cryptographic Details
+
+Cartridge's vRNG uses an **Elliptic Curve VRF (EC-VRF)** built on the Stark curve — the native curve of Starknet, which enables efficient onchain verification via Poseidon hashing.
 
 ### Proof Structure
 
@@ -57,22 +78,22 @@ The seed is computed deterministically using a Poseidon hash of context-specific
 Including the consumer contract address and chain ID prevents cross-contract and cross-chain replay.
 The `Nonce` source auto-increments, guaranteeing a unique seed per request without the caller needing to manage entropy.
 
-## Transaction Flow: Nested Outside Execution
+## Transaction Flow
 
-The key innovation is how vRNG delivers randomness **atomically** — proof generation, verification, and consumption all happen in a single transaction.
-This is achieved through a nested [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) `execute_from_outside_v2` pattern:
+The player signs their game action as normal.
+The paymaster intercepts it, generates the VRF proof, and wraps everything into a nested SNIP-9 `execute_from_outside_v2` structure:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  Paymaster / Forwarder                                      │
+│  Paymaster                                                  │
 │  calls execute_from_outside_v2 on VRF Account               │
 │                                                             │
 │  ┌────────────────────────────────────────────────────────┐ │
-│  │  VRF Account (outer execution, signed by VRF key)      │ │
+│  │  VRF Account (outer execution, signed by provider key) │ │
 │  │                                                        │ │
 │  │  1. submit_random(seed, proof)                         │ │
-│  │     → verifies proof against public key                │ │
-│  │     → stores random value in transient storage         │ │
+│  │     → verifies proof against stored public key         │ │
+│  │     → stores random value for this transaction         │ │
 │  │                                                        │ │
 │  │  2. execute_from_outside_v2 on Player Account          │ │
 │  │     ┌───────────────────────────────────────────────┐  │ │
@@ -90,7 +111,7 @@ This is achieved through a nested [SNIP-9](https://github.com/starknet-io/SNIPs/
 │  │                                                        │ │
 │  │  3. assert_consumed()                                  │ │
 │  │     → ensures random value was used                    │ │
-│  │     → clears transient storage                         │ │
+│  │     → clears storage                                   │ │
 │  └────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -100,12 +121,12 @@ This is achieved through a nested [SNIP-9](https://github.com/starknet-io/SNIPs/
 1. **Player signs their game action** — the player's wallet signs a multicall containing `request_random` + the game call (e.g. `roll_dice`).
 This is the inner SNIP-9 outside execution.
 
-2. **Cartridge's vRNG server intercepts the request** — the server sees the `request_random` call, computes the seed from the source parameters, and generates the VRF proof using its secret key.
+2. **Paymaster intercepts** — the paymaster sees the `request_random` call, computes the seed from the source parameters, and generates the VRF proof using its secret key.
 
-3. **Server wraps with proof injection** — the server constructs an outer SNIP-9 execution signed by the VRF Account that prepends `submit_random(seed, proof)` before executing the player's calls.
+3. **Paymaster wraps with proof injection** — the paymaster constructs an outer SNIP-9 execution signed by the VRF Account that prepends `submit_random(seed, proof)` before executing the player's calls.
 
 4. **Onchain verification** — `submit_random` verifies the EC-VRF proof against the VRF Account's stored public key.
-If valid, the derived random value is stored in transient storage for this transaction.
+If valid, the derived random value is stored for this transaction.
 
 5. **Game consumes randomness** — when the game contract calls `consume_random(source)`, it reads the verified value from the VRF provider's storage.
 
@@ -116,7 +137,7 @@ If valid, the derived random value is stored in transient storage for this trans
 The nesting serves two purposes:
 
 - **Proof injection without player awareness** — the player only signs their game action.
-The VRF proof is added by the server in the outer layer, invisible to the player.
+The VRF proof is added by the paymaster in the outer layer, invisible to the player.
 - **Atomic execution** — proof verification and consumption happen in the same transaction.
 There is no window where the random value exists but hasn't been used, and no second transaction to wait for.
 
@@ -124,7 +145,7 @@ There is no window where the random value exists but hasn't been used, and no se
 
 ### Current (Phase 0)
 
-The security assumption is that the **VRF provider has not revealed its secret key** and does not collude with players.
+The security assumption is that the **paymaster has not revealed its VRF secret key** and does not collude with players.
 
 Given this assumption:
 - The provider cannot choose a favorable random value — the VRF is deterministic for a given seed, and the seed is derived from onchain state the provider doesn't control.
