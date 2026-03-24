@@ -253,6 +253,7 @@ export default defineConfig({
           },
           {
             text: "vRNG",
+            collapsed: true,
             items: [
               {
                 text: "Overview",
