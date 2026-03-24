@@ -253,7 +253,16 @@ export default defineConfig({
           },
           {
             text: "vRNG",
-            link: "/slot/vrng",
+            items: [
+              {
+                text: "Overview",
+                link: "/slot/vrng",
+              },
+              {
+                text: "How It Works",
+                link: "/slot/vrng/how-it-works",
+              },
+            ],
           },
           {
             text: "RPC",
