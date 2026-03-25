@@ -22,7 +22,7 @@ Starter packs enable you to:
 
 ## Quick Start
 
-Opening a starter pack interface is straightforward:
+Opening a starter pack or bundle interface is straightforward:
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -34,9 +34,66 @@ controller.openStarterPack("starterpack-id-123");
 
 // Numeric IDs are also supported for onchain starter packs
 controller.openStarterPack(42);
+
+// Open a bundle with social claim support (new in v2)
+await controller.openBundle(0, "0x1c53584fdbebd996c163fa2d5d5ad37f4b2f06643ea2bb897c5bee578a2e715");
 ```
 
 ## API Reference
+
+### openBundle(bundleId: number, registryAddress: string, options?: BundleOptions)
+
+Opens the bundle interface for a specific starter pack bundle with advanced features including conditional claiming. Bundles support social claim flows where users can claim packs by completing social actions (e.g., following and sharing on X/Twitter).
+
+```typescript
+controller.openBundle(bundleId: number, registryAddress: string, options?: BundleOptions);
+```
+
+**Parameters:**
+- `bundleId` (number): The bundle ID registered in the onchain registry
+- `registryAddress` (string): The contract address of the bundle registry
+- `options` (BundleOptions, optional): Configuration options for the bundle
+
+**BundleOptions:**
+- `onPurchaseComplete` (function, optional): Callback fired after the Play button closes the bundle modal
+- `socialClaimOptions` (object, optional): Options for social claim conditional bundles
+  - `shareMessage` (string): Custom message to share on social media
+
+**Returns:** `Promise<void>`
+
+**Usage Examples:**
+
+```typescript
+// Open a bundle with social claim flow
+const handleSocialBundle = async () => {
+  const username = await controller.username();
+  await controller.openBundle(
+    0, // bundleId
+    "0x1c53584fdbebd996c163fa2d5d5ad37f4b2f06643ea2bb897c5bee578a2e715", // registry address
+    {
+      onPurchaseComplete: () => {
+        console.log("Bundle claimed!");
+      },
+      socialClaimOptions: {
+        shareMessage: `Check out this game!\nhttps://game.example.com/?ref=${username}`
+      }
+    }
+  );
+};
+
+// Open a bundle without social claim
+const handleBundle = async () => {
+  await controller.openBundle(
+    42, // bundleId
+    "0x1c53584fdbebd996c163fa2d5d5ad37f4b2f06643ea2bb897c5bee578a2e715",
+    {
+      onPurchaseComplete: () => {
+        console.log("Bundle purchase completed!");
+      }
+    }
+  );
+};
+```
 
 ### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
@@ -128,6 +185,15 @@ Free starter packs that users can claim based on eligibility criteria. These sta
 - **Cross-chain Claims**: Claims can originate from multiple blockchain networks and be delivered to Starknet
 
 The claiming flow automatically determines eligibility and guides users through the appropriate network selection for receiving their assets.
+
+### Social Claim Bundles
+Bundles can include conditional claiming flows that require users to complete social actions before claiming. The social claim flow:
+- **Social Connection**: Users connect their social media account (e.g., X/Twitter)
+- **Follow Action**: Users follow a specified account
+- **Share Action**: Users share a custom message with their network
+- **Automatic Verification**: System verifies completion of all steps before allowing claim
+
+Use `controller.openBundle()` with `socialClaimOptions` to enable social claim flows. See the API Reference section for usage examples.
 
 #### Merkle Drop Claims
 
