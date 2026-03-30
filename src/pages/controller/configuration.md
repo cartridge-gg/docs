@@ -603,6 +603,37 @@ Both methods support:
 
 For detailed integration guidance, see the [Starter Packs](/controller/starter-packs) guide.
 
+### openLocationPrompt(options?: LocationPromptOptions)
+
+Opens the location verification interface, requesting user consent to access their geolocation. Returns coordinates for location-based verification.
+
+```typescript
+type LocationPromptOptions = {
+  returnTo?: string; // Optional path to navigate to after completion (standalone mode)
+};
+
+type LocationPromptReply = {
+  code: ResponseCodes.SUCCESS;
+  location: {
+    latitude: number;
+    longitude: number;
+    accuracy: number;
+    altitude?: number | null;
+    altitudeAccuracy?: number | null;
+    heading?: number | null;
+    speed?: number | null;
+    timestamp: number;
+  };
+};
+
+const response = await controller.openLocationPrompt();
+if (response?.code === ResponseCodes.SUCCESS) {
+  console.log('Location:', response.location.latitude, response.location.longitude);
+}
+```
+
+This method is useful for geo-gating or location-based verification in applications.
+
 ## Standalone Authentication
 
 Controller supports **standalone authentication flows** that establish first-party storage access for seamless cross-domain gameplay. This is particularly useful for games that redirect users between different domains (e.g., from game launcher to game client).
