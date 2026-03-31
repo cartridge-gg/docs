@@ -234,7 +234,7 @@ The purchase process follows these steps:
    - **Credit Card**: Direct fiat payment via Stripe
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
    - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
-5. **Identity Verification** (Stripe only): First-time Stripe users must verify their identity by providing first name, last name, and phone number. Verified users skip directly to payment.
+5. **Identity Verification** (US users only): First-time US-based Stripe users must verify their identity by providing first name, last name, and phone number. Non-US users and verified users skip directly to payment. User location is determined via IP geolocation.
 6. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 7. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
 8. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
