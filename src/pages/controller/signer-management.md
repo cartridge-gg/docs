@@ -326,6 +326,18 @@ You can now remove signers from your account for security or convenience:
 
 > **Important**: Ensure you have at least one other working authentication method before removing a signer to avoid losing access to your account.
 
+### Deleting Your Account
+
+You can permanently delete your Controller account from the Settings panel:
+
+1. Navigate to **Settings** in the Controller interface
+2. Scroll to the bottom to find the **Delete Account** section
+3. Click **Delete Account** to open the confirmation sheet
+4. Type your exact username to confirm deletion
+5. Click **DELETE** to permanently remove your account
+
+> **Warning**: Account deletion is permanent and irreversible. This action will delete all controllers, sessions, and associated data. Ensure you have withdrawn any assets before deleting your account.
+
 ### Current Limitations
 
 - **Mainnet Only**: Signer management is currently restricted to Mainnet
