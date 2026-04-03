@@ -26,6 +26,12 @@ When no policies are provided:
 - No gasless transactions or paymaster integration
 - Suitable for simple applications that don't need session-based authorization
 
+:::warning
+Running without policies **does not work on local Katana**.
+The paymaster requires policies to deploy the controller before the first transaction.
+See [Using Katana for Local Development](/controller/configuration#using-katana-for-local-development) for setup details.
+:::
+
 ```typescript
 // Controller without policies - requires manual approval for each transaction
 const controller = new Controller();
@@ -180,7 +186,7 @@ type AuthOptions = (
 ```typescript
 const signupOptions: AuthOptions = [
   "google",
-  "webauthn", 
+  "webauthn",
   "discord",
   "twitter",
   "walletconnect",
@@ -197,7 +203,7 @@ const controller = new ControllerConnector({
 const session = new SessionConnector({
   preset: "my-game",     // Same preset for consistency
   rpc: "https://starknet-mainnet.public.blastapi.io/rpc/v0.7",
-  chainId: "SN_MAIN", 
+  chainId: "SN_MAIN",
   redirectUrl: "https://myapp.com/",
   signupOptions, // Same authentication options
 });
@@ -364,7 +370,7 @@ const provider = new SessionProvider({
 const handleDeepLink = async (url: string) => {
   const parsed = new URL(url);
   const sessionData = parsed.searchParams.get("startapp");
-  
+
   if (sessionData) {
     // Process the encoded session payload
     const session = provider.ingestSessionFromRedirect(sessionData);
