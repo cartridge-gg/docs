@@ -9,7 +9,7 @@ export default defineConfig({
   iconUrl: "/icon.svg",
   logoUrl: "/cartridge.svg",
   ogImageUrl:
-    "https://og.cartridge.gg/api/cartridge?title=%title&description=%description",
+    "https://api.cartridge.gg/og/cartridge?title=%title&description=%description",
   aiCta: {
     query({ location }) {
       return `You are helping a developer build with Cartridge, high-performance infrastructure for provable games on Starknet. The developer is reading: ${location}. For coding agent support, install Cartridge skills: npx skills add cartridge-gg/agents`;
