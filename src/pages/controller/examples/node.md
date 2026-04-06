@@ -32,6 +32,59 @@ bun add @cartridge/controller starknet
 
 ## Basic Setup
 
+### Using Presets
+
+```typescript
+import SessionProvider, {
+  ControllerError,
+} from "@cartridge/controller/session/node";
+import { constants } from "starknet";
+import path from "path";
+
+async function main() {
+  const storagePath =
+    process.env.CARTRIDGE_STORAGE_PATH ||
+    path.join(process.cwd(), ".cartridge");
+
+  // Create a session provider using a verified preset
+  const provider = new SessionProvider({
+    rpc: "https://api.cartridge.gg/x/starknet/sepolia",
+    chainId: constants.StarknetChainId.SN_SEPOLIA,
+    preset: "my-game", // Load verified policies from preset
+    basePath: storagePath,
+  });
+
+  console.log("Registering a session...");
+  console.log("Open the URL printed below to authorize the session.");
+
+  try {
+    const account = await provider.connect();
+    if (!account) {
+      console.log("Session not ready yet. Complete the browser flow and rerun.");
+      return;
+    }
+
+    console.log("Session ready!");
+    console.log("Account address:", account.address);
+  } catch (error: unknown) {
+    const controllerError = error as ControllerError;
+    if (controllerError?.code) {
+      console.error("Error:", {
+        code: controllerError.code,
+        message: controllerError.message,
+        data: controllerError.data,
+      });
+    } else {
+      console.error("Error:", error);
+    }
+  }
+}
+
+main().catch(console.error);
+```
+
+### Using Manual Policies
+
 ```typescript
 import SessionProvider, {
   ControllerError,
@@ -43,12 +96,11 @@ export const STRK_CONTRACT_ADDRESS =
   "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 
 async function main() {
-  // Path to store session
   const storagePath =
     process.env.CARTRIDGE_STORAGE_PATH ||
     path.join(process.cwd(), ".cartridge");
 
-  // Create a session provider
+  // Create a session provider with manual policies
   const provider = new SessionProvider({
     rpc: "https://api.cartridge.gg/x/starknet/sepolia",
     chainId: constants.StarknetChainId.SN_SEPOLIA,
@@ -72,7 +124,6 @@ async function main() {
   console.log("Open the URL printed below to authorize the session.");
 
   try {
-    // Connect and create session
     const account = await provider.connect();
     if (!account) {
       console.log("Session not ready yet. Complete the browser flow and rerun.");
