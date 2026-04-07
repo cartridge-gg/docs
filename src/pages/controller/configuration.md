@@ -597,9 +597,9 @@ controller.openStarterPack("starterpack-id-123");
 ```
 
 Both methods support:
-- Credit card payments via Stripe
 - Cryptocurrency payments across multiple networks (Starknet, Base, Arbitrum, Optimism)
 - Integration with popular wallets (Argent, Braavos, MetaMask, Rabby)
+- Coinbase onramp for fiat-to-crypto purchases
 
 For detailed integration guidance, see the [Starter Packs](/controller/starter-packs) guide.
 

@@ -13,7 +13,7 @@ Starter packs are pre-configured bundles of game assets, NFTs, and in-game curre
 Starter packs enable you to:
 
 - **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and on-chain items with automatic contract execution
-- **Offer Paid Packs**: Accept payments via credit card (Stripe) or cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
+- **Offer Paid Packs**: Accept payments via cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
 - **Enable Free Claims**: Distribute free packs using Merkle Drop technology with cross-chain eligibility verification
 - **Flexible Configuration**: Build packs programmatically or reference pre-configured packs by ID
 - **Multichain Payment Support**: Unified payment interface with automatic token bridging via Layerswap
@@ -172,9 +172,13 @@ To create your own starter pack, see [Creating Starter Packs](/arcade/starter-pa
 - **Additional Payment Tokens**: Support for custom payment options beyond default ETH, STRK, and USDC through starter pack metadata configuration
 
 ### Paid Starter Packs
-Paid starter packs require purchase and support multiple payment methods (credit card or cryptocurrency).
+Paid starter packs require purchase and support cryptocurrency payments.
 These typically include premium game assets, larger credit bundles, and exclusive items.
-Cross-chain crypto payments are powered by Layerswap, and credit card payments are powered by Stripe.
+Cross-chain crypto payments are powered by Layerswap.
+
+:::note
+Credit card payments via Stripe are currently disabled for starter packs and will be re-enabled in a future update.
+:::
 
 ### Claimed Starter Packs
 Free starter packs that users can claim based on eligibility criteria. These starter packs:
@@ -230,15 +234,13 @@ The purchase process follows these steps:
 1. **Item Selection**: User selects starter pack or credit amount
 2. **Streamlined Checkout**: Improved onchain starter pack purchase flow with direct navigation, removing intermediate screens and defaulting to controller wallet for faster transactions
 3. **Wallet Selection Drawer**: Enhanced onchain checkout with inline slide-up drawer for wallet selection, replacing navigation-based flow for more seamless UX
-4. **Payment Method & Network Selection**: Choose from all available options on a unified screen:
-   - **Credit Card**: Direct fiat payment via Stripe
+4. **Payment Method & Network Selection**: Choose from available options on a unified screen:
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
    - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
-5. **Identity Verification** (US users only): First-time US-based Stripe users must verify their identity by providing first name, last name, and phone number. Non-US users and verified users skip directly to payment. User location is determined via IP geolocation.
-6. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
-7. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
-8. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
-9. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
+5. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
+6. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
+7. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
+8. **Confirmation**: Receive purchase confirmation and assets in your Cartridge account
 
 ## Cross-Chain Bridging with Layerswap
 
