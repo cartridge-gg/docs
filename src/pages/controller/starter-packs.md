@@ -177,7 +177,7 @@ These typically include premium game assets, larger credit bundles, and exclusiv
 Cross-chain crypto payments are powered by Layerswap.
 
 :::note
-Credit card payments via Stripe are currently disabled for starter packs and will be re-enabled in a future update.
+Credit card payments via Coinflow are available in sandbox mode. Production credit card payments will be enabled in a future update.
 :::
 
 ### Claimed Starter Packs
