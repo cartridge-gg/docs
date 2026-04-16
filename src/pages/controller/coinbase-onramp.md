@@ -72,10 +72,11 @@ When users select Coinbase onramp as their payment method:
 2. **Compliance Check**: Automatic verification of regional availability and user eligibility
 3. **Cost Breakdown**: Comprehensive cost breakdown display showing detailed fee structure including Coinbase fees and bridge fees with real-time pricing from Coinbase Onramp API
 4. **Apple Pay Integration**: Streamlined starter pack Apple Pay checkout functionality for mobile payments (iOS)
-5. **Order Creation**: Enhanced Coinbase order creation with `createCoinbaseLayerswapOrder` for improved processing
-6. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
-7. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery with order fetching by IDs
-8. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
+5. **Limit Verification** (if needed): Users exceeding spending limits can verify their identity in-place to upgrade limits
+6. **Order Creation**: Enhanced Coinbase order creation with `createCoinbaseLayerswapOrder` for improved processing
+7. **Payment Processing**: User completes fiat payment through Coinbase's secure interface
+8. **Transaction Monitoring**: Real-time tracking of crypto purchase and delivery with order fetching by IDs
+9. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
 
 ## Regional Availability
 
