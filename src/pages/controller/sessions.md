@@ -485,7 +485,7 @@ const policies: SessionPolicies = {
           name: "approve",
           entrypoint: "approve",
           spender: "0xabcdef1234567890abcdef1234567890abcdef12", // Address authorized to spend
-          amount: "0xffffffffffffffffffffffffffffffff", // Unlimited (max uint128)
+          amount: "*", // Unlimited (shorthand for max uint128)
           description: "Approve unlimited STRK spending"
         }
       ]
@@ -513,7 +513,8 @@ This organization separates general contract permissions from token spending app
 - Both fields are required to create proper ApprovalPolicy objects and avoid deprecation warnings
 
 **Amount Format**
-- Use hexadecimal format (e.g., `"0x3"` for 3, `"0xffffffffffffffffffffffffffffffff"` for unlimited)
+- Use hexadecimal format (e.g., `"0x3"` for 3)
+- For unlimited spending, use `"*"` as a shorthand or the full hex value `"0xffffffffffffffffffffffffffffffff"`
 - For ERC20 tokens, amounts should account for token decimals
 - Maximum value for unlimited spending is `2^128 - 1` (`0xffffffffffffffffffffffffffffffff`)
 
