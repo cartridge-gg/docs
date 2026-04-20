@@ -127,7 +127,7 @@ connections:
 import { useEffect, useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from '@starknet-react/core'
 import { ControllerConnector } from '@cartridge/connector'
-import { Button } from '@cartridge/ui'
+import { Button } from '@cartridge/controller-ui'
 
 export function ConnectWallet() {
   const { connect, connectors } = useConnect()
