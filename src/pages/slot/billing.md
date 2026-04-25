@@ -47,11 +47,17 @@ This will:
 1. Open your browser to the funding interface
 2. Display a list of your teams
 3. Allow you to select the team you want to fund
-4. Provide payment options (credit card or crypto)
+4. Provide payment options:
+   - **Credit card**: Direct card payment for credits
+   - **Crypto**: Fund with USDC via StarkNet wallets (Argent or Braavos)
 5. Complete the purchase and add credits to the selected team
 
 **Web Interface:**
 You can also navigate directly to `https://x.cartridge.gg/slot/fund` to fund teams through the web interface.
+
+:::info
+For crypto funding, you'll need a StarkNet wallet (Argent or Braavos) with USDC. Connect your wallet, specify the amount, and approve the transfer. The credits will be added to your team after the transaction is confirmed on StarkNet.
+:::
 
 ## Managing Teams
 
