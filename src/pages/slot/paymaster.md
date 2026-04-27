@@ -6,7 +6,7 @@ title: Paymaster Management
 
 # Paymaster Management
 
-Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold ETH / STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
+Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
 
 ## Availability
 
@@ -34,20 +34,43 @@ slot auth login
 
 ## Team Setup
 
-Before creating a paymaster, you need a team with sufficient credits. See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
+Before creating a paymaster, you need a team with sufficient balance in the unit you plan to fund (USD or STRK). See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
+
+## Checking Team Balance
+
+Before creating or topping up a paymaster, check that the team has enough USD or STRK to cover the budget:
+
+```bash
+slot teams <team-name> balance
+```
+
+**Output:**
+```
+┌────────────────────────────┬───────────┐
+│ Balance for team `my-team` ┆           │
+╞════════════════════════════╪═══════════╡
+│ USD                        ┆ $25.000000│
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌╌╌╌╌┤
+│ STRK                       ┆ 100.000000│
+└────────────────────────────┴───────────┘
+```
+
+USD funds USD-denominated paymaster budgets; STRK funds STRK-denominated paymaster budgets. The two pools are tracked separately.
 
 ## Creating a Paymaster
 
 Create a new paymaster with an initial budget:
 
 ```bash
-slot paymaster <paymaster-name> create --team <team-name> --budget <amount> --unit CREDIT
+slot paymaster <paymaster-name> create --team <team-name> --budget <amount> --unit USD
 ```
+
+The `--unit` flag accepts `USD` or `STRK`. STRK budgets are funded from the team's STRK pool; USD budgets are funded from the team's USD pool.
 
 ### Example
 
 ```bash
-slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
+slot paymaster my-game-pm create --team my-team --budget 10 --unit USD
 ```
 
 **Output:**
@@ -60,11 +83,11 @@ slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
   • Team: my-team
 
 💰 Initial Budget:
-  • Amount: 1000 CREDIT ($10.00 USD)
+  • Amount: $10.00 USD
 ```
 
 :::info
-The initial budget amount will be automatically deducted from your team's account balance. Make sure your team has sufficient credits before creating a paymaster.
+The initial budget is deducted from the team's pool that matches the selected unit. Run `slot teams <team-name> balance` first to confirm the team has sufficient USD (or STRK) before creating a paymaster.
 :::
 
 ## Managing Budget
@@ -74,7 +97,7 @@ The initial budget amount will be automatically deducted from your team's accoun
 Add funds to your paymaster:
 
 ```bash
-slot paymaster <paymaster-name> budget increase --amount <amount> --unit CREDIT
+slot paymaster <paymaster-name> budget increase --amount <amount> --unit USD
 ```
 
 **Output:**
@@ -86,10 +109,10 @@ slot paymaster <paymaster-name> budget increase --amount <amount> --unit CREDIT
 
 📈 Operation:
   • Action: Increased
-  • Amount: 500 CREDIT
+  • Amount: 5 USD
 
 💰 New Budget:
-  • Amount: 1500 CREDIT ($15.00 USD)
+  • Amount: $15.00 USD
 ```
 
 ### Decrease Budget
@@ -97,7 +120,7 @@ slot paymaster <paymaster-name> budget increase --amount <amount> --unit CREDIT
 Remove funds from your paymaster:
 
 ```bash
-slot paymaster <paymaster-name> budget decrease --amount <amount> --unit CREDIT
+slot paymaster <paymaster-name> budget decrease --amount <amount> --unit USD
 ```
 
 **Output:**
@@ -109,10 +132,10 @@ slot paymaster <paymaster-name> budget decrease --amount <amount> --unit CREDIT
 
 📉 Operation:
   • Action: Decreased
-  • Amount: 200 CREDIT
+  • Amount: 2 USD
 
 💰 New Budget:
-  • Amount: 1300 CREDIT ($13.00 USD)
+  • Amount: $13.00 USD
 ```
 
 ## Policy Management
@@ -242,8 +265,8 @@ slot paymaster <paymaster-name> info
   • Active: ✅ Yes
 
 💰 Budget:
-  • Total: 9000 CREDIT ($90.00 USD)
-  • Spent: 1759.56 CREDIT ($17.60 USD)
+  • Total: $90.00 USD
+  • Spent: $17.60 USD
   • Usage: [█████░░░░░░░░░░░░░░░░░░░░░░░░░] 19.7%
 
 📋 Policies:
@@ -542,7 +565,7 @@ slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 ```bash
 # Set up billing first (see /slot/billing for details)
 # Then create paymaster
-slot paymaster my-game-pm create --team my-team --budget 1000 --unit CREDIT
+slot paymaster my-game-pm create --team my-team --budget 10 --unit USD
 
 # Add game contract policies
 slot paymaster my-game-pm policy add --contract 0x123...abc --entrypoint move_player
@@ -561,9 +584,9 @@ slot paymaster my-game-pm stats --last 24hr
 # Check current status
 slot paymaster my-game-pm info
 
-# Add more budget if needed (ensure team has credits)
-slot paymaster my-game-pm budget increase --amount 500 --unit CREDIT
+# Add more budget if needed (ensure team has balance)
+slot paymaster my-game-pm budget increase --amount 5 --unit USD
 ```
 
-### Insufficient Credits Error
-If you encounter insufficient credits when creating or funding a paymaster, see the [Billing](/slot/billing) documentation for information on funding your team.
+### Insufficient Balance Error
+If you encounter an insufficient balance error when creating or funding a paymaster, run `slot teams <team-name> balance` to see the team's USD and STRK pools, then top up via the [Billing](/slot/billing) flow as needed.
