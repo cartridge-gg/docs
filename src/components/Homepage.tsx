@@ -1,7 +1,7 @@
 import Arcade from "../public/arcade.svg?react";
 import Controller from "../public/controller.svg?react";
 import Sensei from "../public/sensei.png";
-import Slot from "../public/slot.svg?react";
+import Services from "../public/services.svg?react";
 
 const cardContent = [
   {
@@ -12,11 +12,11 @@ const cardContent = [
       "Providing seamless player onboarding with self-custodial embedded wallets with Passkeys, Session Tokens, Paymaster and more. Start playing games in seconds!",
   },
   {
-    title: "Scale with",
-    icon: <Slot alt="Slot" height={34} />,
-    link: "/slot/getting-started",
+    title: "Build with",
+    icon: <Services alt="Services" height={34} />,
+    link: "/services/overview",
     description:
-      "Horizontally scalable execution sharding for ephemeral and persistent rollups. Providing low latency execution contexts with fixed costs.",
+      "Platform services for onchain games: paymaster sponsorship for gasless transactions, dedicated Starknet RPC endpoints, and verifiable randomness via vRNG.",
   },
   {
     title: "Discover with",

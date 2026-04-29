@@ -1,9 +1,9 @@
 ---
-name: slot-rpc
+name: cartridge-rpc
 description: Configure Cartridge RPC endpoints with API token authentication and CORS whitelisting.
 ---
 
-# Slot RPC
+# Cartridge RPC
 
 Cartridge provides dedicated RPC endpoints for Starknet with authentication and CORS support.
 

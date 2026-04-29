@@ -10,7 +10,7 @@ Cartridge provides dedicated RPC endpoints for Starknet networks with built-in a
 
 ## Pricing
 
-Cartridge RPC is free for up to 1m requests per month. Additional requests are charged at $5/1m requests to the related slot team.
+Cartridge RPC is free for up to 1M requests per month. Additional requests are charged at $5 per 1M requests, billed to the team that owns the API token.
 
 ## Endpoints
 
@@ -67,11 +67,15 @@ const response = await fetch('https://api.cartridge.gg/x/starknet/mainnet', {
 Requests from whitelisted domains without an API token are rate limited per IP address.
 :::
 
-## Setup with Slot CLI
+## Setup via CLI
 
 ### Prerequisites
 
-For authentication setup and team management, see [Getting Started](./getting-started).
+Authenticate with the CLI:
+
+```bash
+slot auth login
+```
 
 ### Managing API Tokens
 
