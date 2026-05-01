@@ -10,11 +10,11 @@ The Controller SDK can be integrated into React Native applications using TurboM
 This enables session-based authentication and transaction execution in cross-platform mobile apps.
 
 :::info
-This guide uses the native Controller.c bindings to implement the [session flow](/controller/native/session-flow) directly.
+This guide uses the native Controller.c bindings to implement the [session flow](./session-flow) directly.
 This is the native equivalent of [SessionProvider](/controller/getting-started#sessionprovider-redirect-based) --- it generates a local session keypair, authenticates via browser, and executes transactions with the session key.
-It is **not** the [headless controller](/controller/native/headless) pattern, which uses application-managed owner keys without any browser authentication.
+It is **not** the [headless controller](./headless) pattern, which uses application-managed owner keys without any browser authentication.
 
-If you are wrapping an existing web app for mobile distribution, consider [Capacitor](/controller/native/capacitor) instead, which uses the JS `SessionProvider` directly.
+If you are wrapping an existing web app for mobile distribution, consider [Capacitor](./capacitor) instead, which uses the JS `SessionProvider` directly.
 :::
 
 ## Prerequisites
@@ -69,6 +69,7 @@ const publicKey = Controller.controller.getPublicKey(privateKey);
 ## Session Management
 
 The `useSessionManager` hook handles the complete session lifecycle: key generation, browser-based authentication, and transaction execution.
+For detailed information on session policy structure and usage, see [Sessions](/controller/sessions).
 
 ### Key Generation and Storage
 

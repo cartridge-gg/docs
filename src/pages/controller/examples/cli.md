@@ -139,7 +139,7 @@ controller marketplace buy --order-id 42 --collection 0x123... --token-id 1 --ch
 
 ### Calldata formats
 
-Calldata values support multiple formats:
+`calldata` values support multiple formats:
 
 | Format | Example | Description |
 |--------|---------|-------------|
@@ -187,14 +187,14 @@ controller session auth --file <policy_file> --chain-id SN_MAIN --expires 1day
 | `--overwrite` | Overwrite existing session without confirmation | off |
 | `--expires` | Session expiration duration (e.g., `1min`, `1hr`, `1day`, `7days`, `1week`, `1year`) | `7days` |
 
-**Presets:** Popular games/apps have pre-defined policies:
+**Presets:** Popular games/apps have pre-defined session policies:
 - `loot-survivor` --- Loot Survivor game
 - `influence` --- Influence space strategy
 - `realms` --- Realms world
 - `pistols` --- Pistols at Dawn
 - `dope-wars` --- Dope Wars
 
-See all presets at [github.com/cartridge-gg/presets](https://github.com/cartridge-gg/presets/tree/main/configs).
+See [Sessions](/controller/sessions) for more information on policy structure and the complete list of available presets.
 
 ### `session status`
 
@@ -294,7 +294,7 @@ controller username
 
 ### `lookup`
 
-Resolves Cartridge controller usernames to addresses or vice versa.
+Resolves Cartridge Controller usernames to addresses or vice versa.
 
 ```bash
 # Look up addresses for usernames
@@ -498,10 +498,10 @@ Common errors and how to fix them:
 | `NoSession` | No keypair found | Run `session auth` |
 | `SessionExpired` | Session has expired | Run `session auth` again |
 | `InvalidSessionData` | Corrupted session data | Run `session clear` and start over |
-| `TransactionFailed` | Execution failed | Check policies and calldata |
+| `TransactionFailed` | Execution failed | Check policies and `calldata` |
 | `CallbackTimeout` | Authorization timed out | Run `session auth` again |
 | `ManualExecutionRequired` | No authorized session for this transaction | Register session with appropriate policies |
-| `InvalidInput` | Invalid input parameters | Check command syntax and calldata |
+| `InvalidInput` | Invalid input parameters | Check command syntax and `calldata` |
 
 When using `--json`, errors return structured responses with machine-readable codes and recovery hints:
 

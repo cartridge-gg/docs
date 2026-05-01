@@ -169,7 +169,7 @@ Asset eligibility is typically determined by:
 
 ## Differences from Starter Packs
 
-While both use Merkle Drop technology, booster packs differ from starter packs in key ways:
+While both use Merkle Drop technology, booster packs differ from [starter packs](./starter-packs) in key ways:
 
 | Feature | Booster Packs | Starter Packs |
 |---------|---------------|---------------|
