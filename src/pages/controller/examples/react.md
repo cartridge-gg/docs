@@ -355,7 +355,7 @@ export function HeadlessLogin() {
 Headless mode requires that the user already has the specified `signer` (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
 :::
 
-For more details on session policies and authentication options, see the [Sessions documentation](./sessions).
+For more details on session policies and authentication options, see the [Sessions documentation](/controller/sessions).
 
 ### 5. Performing Transactions
 
