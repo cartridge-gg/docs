@@ -155,7 +155,7 @@ Without policies, transactions will fail because Katana does not support the pay
 :::
 
 Common issues to check:
-- **Missing policies**: Controller requires session policies when used with Katana. See [session configuration](/controller/sessions) for details.
+- **Missing policies**: Controller requires session policies when used with Katana. See the [Sessions](/controller/sessions) guide for details.
 - **RPC URL**: Katana defaults to `http://localhost:5050`. If you've configured a different port, update accordingly.
 - **Native currency address**: The STRK token address must match the token deployed on your Katana instance.
 
@@ -189,7 +189,7 @@ await controller.connect(); // Iframe is created and mounted now
 
 ### Propagate Session Errors
 
-The `propagateSessionErrors` option controls how contract execution errors are handled when using session-based transactions. When enabled, errors are returned directly to your application instead of showing the manual approval modal in the keychain.
+The `propagateSessionErrors` option controls how contract execution errors are handled when using session-based transactions. When enabled, errors are returned directly to your application instead of showing the manual approval modal in the keychain. For detailed information about session configuration, see the [Sessions](/controller/sessions) guide.
 
 **Example:**
 ```typescript
@@ -308,7 +308,7 @@ The configuration options are organized into several categories:
 
 ## Error Display Modes
 
-Controller provides configurable error handling through the `errorDisplayMode` option, allowing you to control how transaction and execution errors are presented to users. This gives you fine-grained control over the user experience during error scenarios.
+Controller provides configurable error handling through the `errorDisplayMode` option, allowing you to control how transaction and execution errors are presented to users. This gives you fine-grained control over the user experience during error scenarios. For more information about configuring error notifications, see the [Toast Notifications](/controller/toast-notifications) guide.
 
 ### Available Modes
 
@@ -456,31 +456,33 @@ try {
 
 ## When to Use Policies
 
-**Policies are optional** in Cartridge Controller. Choose based on your application's needs:
+**Session policies are optional** in Cartridge Controller. Choose based on your application's needs:
 
-### Use Policies When:
+### Use Session Policies When:
 - Building games that need frequent, seamless transactions
 - You want gasless transactions via Cartridge Paymaster
 - Users should not be interrupted with approval prompts during gameplay
 - You need session-based authorization for better UX
 
-### Skip Policies When:
+### Skip Session Policies When:
 - Building simple applications with occasional transactions
 - Manual approval for each transaction is acceptable
 - You don't need gasless transaction capabilities
 - You want minimal setup complexity
 
 ```typescript
-// Without policies - simple setup, manual approvals
+// Without session policies - simple setup, manual approvals
 const simpleController = new Controller();
 
-// With policies - session-based, gasless transactions
+// With session policies - session-based, gasless transactions
 const sessionController = new Controller({
   policies: {
     // ... policy definitions
   }
 });
 ```
+
+For detailed information about configuring session policies, see the [Sessions](/controller/sessions) guide.
 
 ## Dynamic Authentication Options
 
@@ -590,7 +592,7 @@ controller.openPurchaseCredits();
 
 ### openStarterPack(starterpackId: string)
 
-Opens the starterpack purchase interface for a specific bundle.
+Opens the starter pack purchase interface for a specific bundle.
 
 ```typescript
 controller.openStarterPack("starterpack-id-123");

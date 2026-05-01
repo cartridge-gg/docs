@@ -54,7 +54,7 @@ Response Format
 
 The Controller SDK provides dedicated methods for username lookup with enhanced functionality:
 
-```
+```bash
 npm install @cartridge/controller
 ```
 

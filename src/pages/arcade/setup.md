@@ -8,7 +8,7 @@ description: Learn how to register, configure, and index your game with Arcade, 
 
 ## Torii Configuration
 
-To provide a rich user experience in Arcade, we recommend enhancing your Torii configuration to enable live activity feeds, asset indexing, and leaderboards. This configuration also supports marketplace functionality for asset display.
+To provide a rich user experience in Arcade, we recommend enhancing your Torii configuration to enable live activity feeds, asset indexing, and leaderboards. This configuration also supports [marketplace](/arcade/marketplace) functionality for asset display.
 
 ### ⚡️ Activity Feed
 

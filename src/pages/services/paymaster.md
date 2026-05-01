@@ -163,7 +163,7 @@ Predicates are optional. Policies without predicates will always sponsor matchin
 
 ### vRNG Integration
 
-Paymasters can sponsor vRNG operations, providing gasless random number generation for your games. When configuring policies for vRNG-enabled contracts, the paymaster will automatically handle both the initial request and callback transactions. For detailed vRNG setup and usage, see [vRNG](/services/vrng).
+Paymasters can sponsor vRNG operations, providing gasless random number generation for your games. When configuring policies for vRNG-enabled contracts, the paymaster will automatically handle both the initial request and callback transactions. For detailed vRNG setup and usage, see [TODO: link to vRNG overview].
 
 ### Add Policies from Preset (Recommended)
 

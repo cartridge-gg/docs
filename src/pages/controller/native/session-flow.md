@@ -47,7 +47,7 @@ Each policy object defines which contract methods the session key is authorized 
 
 The `policies` parameter should be a JSON array of these objects.
 
-For more details on session policies configuration, see [Sessions](/controller/sessions).
+For detailed information on session policy configuration, see [Sessions](/controller/sessions).
 
 ## Session Metadata
 

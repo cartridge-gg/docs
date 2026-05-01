@@ -85,6 +85,8 @@ main().catch(console.error);
 
 ### Using Manual Policies
 
+For detailed information about session policy structure and configuration options, see [Sessions](../sessions).
+
 ```typescript
 import SessionProvider, {
   ControllerError,

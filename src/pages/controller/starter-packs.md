@@ -6,13 +6,14 @@ title: Starter Packs
 
 # Starter Packs
 
-Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players. Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
+Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players.
+Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
 
 ## Overview
 
 Starter packs enable you to:
 
-- **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and on-chain items with automatic contract execution
+- **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and onchain items with automatic contract execution
 - **Offer Paid Packs**: Accept payments via cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
 - **Enable Free Claims**: Distribute free packs using Merkle Drop technology with cross-chain eligibility verification
 - **Flexible Configuration**: Build packs programmatically or reference pre-configured packs by ID
@@ -43,7 +44,8 @@ await controller.openBundle(0, "0x1c53584fdbebd996c163fa2d5d5ad37f4b2f06643ea2bb
 
 ### openBundle(bundleId: number, registryAddress: string, options?: BundleOptions)
 
-Opens the bundle interface for a specific starter pack bundle with advanced features including conditional claiming. Bundles support social claim flows where users can claim packs by completing social actions (e.g., following and sharing on X/Twitter).
+Opens the bundle interface for a specific starter pack bundle with advanced features including conditional claiming.
+Bundles support social claim flows where users can claim packs by completing social actions (e.g., following and sharing on X/Twitter).
 
 ```typescript
 controller.openBundle(bundleId: number, registryAddress: string, options?: BundleOptions);
@@ -97,7 +99,8 @@ const handleBundle = async () => {
 
 ### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
-Opens the starter pack interface for a specific starter pack bundle. This method works for both paid starter packs (requiring purchase) and claimed starter packs (that can be claimed based on eligibility).
+Opens the starter pack interface for a specific starter pack bundle.
+This method works for both paid starter packs (requiring purchase) and claimed starter packs (that can be claimed based on eligibility).
 
 ```typescript
 controller.openStarterPack(starterpackId: string | number, options?: StarterpackOptions);
@@ -177,11 +180,13 @@ These typically include premium game assets, larger credit bundles, and exclusiv
 Cross-chain crypto payments are powered by Layerswap.
 
 :::note
-Credit card payments via Coinflow are available in sandbox mode. Production credit card payments will be enabled in a future update.
+Credit card payments via Coinflow are available in sandbox mode.
+Production credit card payments will be enabled in a future update.
 :::
 
 ### Claimed Starter Packs
-Free starter packs that users can claim based on eligibility criteria. These starter packs:
+Free starter packs that users can claim based on eligibility criteria.
+These starter packs:
 - **No payment required**: Users can claim them for free
 - **Eligibility checking**: System verifies if user meets claim requirements
 - **Collection showcase**: Display supported game collections with platform indicators
@@ -191,20 +196,23 @@ Free starter packs that users can claim based on eligibility criteria. These sta
 The claiming flow automatically determines eligibility and guides users through the appropriate network selection for receiving their assets.
 
 ### Social Claim Bundles
-Bundles can include conditional claiming flows that require users to complete social actions before claiming. The social claim flow:
+Bundles can include conditional claiming flows that require users to complete social actions before claiming.
+The social claim flow:
 - **Social Connection**: Users connect their social media account (e.g., X/Twitter)
 - **Follow Action**: Users follow a specified account
 - **Share Action**: Users share a custom message with their network
 - **Automatic Verification**: System verifies completion of all steps before allowing claim
 
-Use `controller.openBundle()` with `socialClaimOptions` to enable social claim flows. See the API Reference section for usage examples.
+Use `controller.openBundle()` with `socialClaimOptions` to enable social claim flows.
+See the API Reference section for usage examples.
 
 #### Merkle Drop Claims
 
 Claimable starter packs use **Merkle Drop** technology to enable secure, verifiable claims across multiple blockchain networks.
 This system allows users to claim assets that were originally distributed on other networks and receive them in their Cartridge account on Starknet.
 
-**DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses. This enables seamless cross-chain reward distribution for DevConnect participants.
+**DevConnect Integration**: Cartridge supports DevConnect booster pack claims through the Merkle claim system, allowing users to claim DevConnect rewards using preimage-derived EVM addresses.
+This enables seamless cross-chain reward distribution for DevConnect participants.
 
 **How Merkle Drop Claims Work:**
 
@@ -244,7 +252,8 @@ The purchase process follows these steps:
 
 ## Cross-Chain Bridging with Layerswap
 
-Cartridge uses Layerswap to enable seamless cross-chain payments. When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
+Cartridge uses Layerswap to enable seamless cross-chain payments.
+When users pay with cryptocurrency from supported networks (Ethereum, Base, Arbitrum, or Optimism), Layerswap automatically bridges the tokens to your Cartridge account on Starknet.
 
 ### Wallet Chain Switching Behavior
 

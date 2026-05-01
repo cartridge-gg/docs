@@ -10,19 +10,19 @@ description: Learn how to integrate the Cartridge Controller into your Svelte ap
 
 :::code-group
 
-```bash \[npm]
+```bash [npm]
 npm install @cartridge/controller starknet
 ```
 
-```bash \[pnpm]
+```bash [pnpm]
 pnpm install @cartridge/controller starknet
 ```
 
-```bash \[yarn]
+```bash [yarn]
 yarn add @cartridge/controller starknet
 ```
 
-```bash \[bun]
+```bash [bun]
 bun add @cartridge/controller starknet
 ```
 
@@ -62,6 +62,8 @@ let controller = new Controller({
     },
 });
 ```
+
+For detailed information about session policy configuration and syntax, see [Sessions](../sessions).
 
 ### Connecting a Wallet
 

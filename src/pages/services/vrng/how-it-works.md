@@ -18,7 +18,7 @@ Common workarounds and their weaknesses:
 | Block hash / timestamp | Miners/sequencers can influence or predict these values |
 | Commit-reveal schemes | Require multiple transactions across multiple blocks, adding latency and cost |
 | Hash of onchain state | Anyone can compute the same hash and predict the outcome before submitting |
-| External oracles (e.g. Chainlink VRF) | Randomness arrives in a *separate* transaction, breaking atomicity --- your game action resolves in one tx, but the random outcome arrives later |
+| External oracles (e.g. Chainlink vRNG) | Randomness arrives in a *separate* transaction, breaking atomicity --- your game action resolves in one tx, but the random outcome arrives later |
 
 For onchain games, these tradeoffs are unacceptable.
 A dice roll that takes two transactions and 30 seconds breaks the gameplay loop.
@@ -40,17 +40,17 @@ The vRNG is not a separate oracle service; it's a natural extension of the execu
 A hash function like `hash(seed)` is deterministic and publicly computable --- anyone with the seed can compute the output.
 Since seeds are derived from onchain state, a player could predict the outcome before submitting their transaction.
 
-A **Verifiable Random Function (VRF)** adds a secret key to the computation: `VRF(secret_key, seed) → (output, proof)`.
+A **Verifiable Random Number Generator (vRNG)** adds a secret key to the computation: `vRNG(secret_key, seed) → (output, proof)`.
 Only the key holder can compute the output, but anyone can *verify* it was computed correctly using the public key.
 
-| | Hash | VRF |
+| | Hash | vRNG |
 | --- | --- | --- |
 | **Who can compute** | Anyone with the input | Only the secret key holder |
 | **Predictable?** | Yes --- inputs are public | No --- requires the secret key |
 | **Verifiable?** | Trivially (recompute it) | Yes --- via cryptographic proof |
 | **Manipulable?** | No (but predictable = exploitable) | No --- deterministic for a given seed and key |
 
-The "verifiable" part is what distinguishes a VRF from simple encryption --- the proof ensures the key holder can't lie about what the output should be for a given input.
+The "verifiable" part is what distinguishes a vRNG from simple encryption --- the proof ensures the key holder can't lie about what the output should be for a given input.
 
 ## Cryptographic Details
 
@@ -58,9 +58,9 @@ Cartridge's vRNG uses an **Elliptic Curve VRF (EC-VRF)** built on the Stark curv
 
 ### Proof Structure
 
-The VRF provider generates a proof consisting of:
+The vRNG Provider generates a proof consisting of:
 
-- **gamma** --- a point on the Stark curve (the core VRF output)
+- **gamma** --- a point on the Stark curve (the core vRNG output)
 - **c** --- a scalar challenge value
 - **s** --- a scalar response value
 - **sqrt_ratio_hint** --- an optimization hint for efficient onchain verification
@@ -81,15 +81,15 @@ The `Nonce` source auto-increments, guaranteeing a unique seed per request witho
 ## Transaction Flow
 
 The player signs their game action as normal.
-The paymaster intercepts it, generates the VRF proof, and wraps everything into a nested SNIP-9 `execute_from_outside_v2` structure:
+The paymaster intercepts it, generates the vRNG proof, and wraps everything into a nested SNIP-9 `execute_from_outside_v2` structure:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  Paymaster                                                  │
-│  calls execute_from_outside_v2 on VRF Account               │
+│  calls execute_from_outside_v2 on vRNG Account              │
 │                                                             │
 │  ┌────────────────────────────────────────────────────────┐ │
-│  │  VRF Account (outer execution, signed by provider key) │ │
+│  │  vRNG Account (outer execution, signed by provider key)│ │
 │  │                                                        │ │
 │  │  1. submit_random(seed, proof)                         │ │
 │  │     → verifies proof against stored public key         │ │
@@ -101,7 +101,7 @@ The paymaster intercepts it, generates the VRF proof, and wraps everything into 
 │  │     │  signed by player's passkey)                  │  │ │
 │  │     │                                               │  │ │
 │  │     │  1. request_random(caller, source)            │  │ │
-│  │     │     → signals VRF intent                      │  │ │
+│  │     │     → signals vRNG intent                     │  │ │
 │  │     │                                               │  │ │
 │  │     │  2. game_action() on Game Contract            │  │ │
 │  │     │     → calls consume_random(source)            │  │ │
@@ -121,14 +121,14 @@ The paymaster intercepts it, generates the VRF proof, and wraps everything into 
 1. **Player signs their game action** --- the player's wallet signs a multicall containing `request_random` + the game call (e.g. `roll_dice`).
 This is the inner SNIP-9 outside execution.
 
-2. **Paymaster intercepts** --- the paymaster sees the `request_random` call, computes the seed from the source parameters, and generates the VRF proof using its secret key.
+2. **Paymaster intercepts** --- the paymaster sees the `request_random` call, computes the seed from the source parameters, and generates the vRNG proof using its secret key.
 
-3. **Paymaster wraps with proof injection** --- the paymaster constructs an outer SNIP-9 execution signed by the VRF Account that prepends `submit_random(seed, proof)` before executing the player's calls.
+3. **Paymaster wraps with proof injection** --- the paymaster constructs an outer SNIP-9 execution signed by the vRNG Account that prepends `submit_random(seed, proof)` before executing the player's calls.
 
-4. **Onchain verification** --- `submit_random` verifies the EC-VRF proof against the VRF Account's stored public key.
+4. **Onchain verification** --- `submit_random` verifies the EC-vRNG proof against the vRNG Account's stored public key.
 If valid, the derived random value is stored for this transaction.
 
-5. **Game consumes randomness** --- when the game contract calls `consume_random(source)`, it reads the verified value from the VRF provider's storage.
+5. **Game consumes randomness** --- when the game contract calls `consume_random(source)`, it reads the verified value from the vRNG Provider's storage.
 
 6. **Cleanup** --- `assert_consumed` ensures the random value was actually used and clears storage, preventing stale values from persisting.
 
@@ -137,7 +137,7 @@ If valid, the derived random value is stored for this transaction.
 The nesting serves two purposes:
 
 - **Proof injection without player awareness** --- the player only signs their game action.
-The VRF proof is added by the paymaster in the outer layer, invisible to the player.
+The vRNG proof is added by the paymaster in the outer layer, invisible to the player.
 - **Atomic execution** --- proof verification and consumption happen in the same transaction.
 There is no window where the random value exists but hasn't been used, and no second transaction to wait for.
 
@@ -145,10 +145,10 @@ There is no window where the random value exists but hasn't been used, and no se
 
 ### Current (Phase 0)
 
-The security assumption is that the **paymaster has not revealed its VRF secret key** and does not collude with players.
+The security assumption is that the **paymaster has not revealed its vRNG secret key** and does not collude with players.
 
 Given this assumption:
-- The provider cannot choose a favorable random value --- the VRF is deterministic for a given seed, and the seed is derived from onchain state the provider doesn't control.
+- The provider cannot choose a favorable random value --- the vRNG is deterministic for a given seed, and the seed is derived from onchain state the provider doesn't control.
 - Players cannot predict the random value --- they don't have the provider's secret key.
 - Anyone can verify after the fact --- the proof and public key are onchain.
 

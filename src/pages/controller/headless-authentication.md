@@ -81,7 +81,7 @@ try {
 
 ### Password Authentication
 
-For scenarios where WebAuthn isn't available:
+For scenarios where WebAuthn is not available:
 
 ```typescript
 const account = await controller.connect({
@@ -181,7 +181,7 @@ For complete details on available authentication methods, see [Signer Management
 
 ## Session Approval Flow
 
-If your application uses [session policies](./sessions) that haven't been verified or include spending limits that require approval, the keychain will automatically open the approval UI after successful authentication:
+If your application uses [session policies](./sessions) that have not been verified or include spending limits that require approval, the keychain will automatically open the approval UI after successful authentication:
 
 ```typescript
 const controller = new Controller({
@@ -223,7 +223,7 @@ try {
     console.error("Auth failed:", error.message);
     
     // Common reasons:
-    // - Username doesn't exist
+    // - Username does not exist
     // - Signer not associated with username
     // - Invalid credentials
     // - Network connectivity issues
@@ -258,12 +258,12 @@ interface UsernameLookupResult {
 This method is particularly useful for:
 - Validating usernames before attempting authentication
 - Displaying appropriate login options to users
-- Implementing auto-signup flows when accounts don't exist
+- Implementing auto-signup flows when accounts do not exist
 - Preventing unnecessary authentication attempts
 
 ### Auto-Signup Support
 
-Version 0.13.7 adds auto-signup functionality for headless flows. When a username doesn't exist, you can automatically create an account:
+Version 0.13.7 adds auto-signup functionality for headless flows. When a username does not exist, you can automatically create an account:
 
 ```typescript
 try {
@@ -391,7 +391,7 @@ import { SessionProvider } from "@cartridge/connector";
 const sessionProvider = new SessionProvider({
   rpc: "https://api.cartridge.gg/x/starknet/mainnet",
   chainId: "SN_MAIN",
-  // Note: SessionProvider doesn't support headless mode directly
+  // Note: SessionProvider does not support headless mode directly
   // Use regular browser-based headless authentication for programmatic flows
 });
 ```
@@ -445,10 +445,10 @@ This web-based headless authentication is different from the [native headless Co
 
 ### Common Issues
 
-1. **"User not found"**: Username doesn't exist in the system
+1. **"User not found"**: Username does not exist in the system
    - *Solution*: Use `lookupUsername()` to check existence before attempting to connect
    - *Auto-signup*: Consider enabling auto-signup for new users
-2. **"Signer not found"**: The specified `signer` isn't associated with the username
+2. **"Signer not found"**: The specified `signer` is not associated with the username
    - *Solution*: Use `lookupUsername()` to get available signers for the username
    - *Fallback*: Implement signer selection UI based on available options
 3. **"Not ready to connect"**: Controller initialization is still in progress

@@ -34,6 +34,8 @@ The session signer can then execute transactions without further user interactio
 
 **Reference:** [Session URL Reference](/controller/native/session-flow) for URL parameters, policy format, and callback metadata.
 
+For detailed information about session-based authentication and policy configuration, see [Sessions](/controller/sessions).
+
 ### Headless (App-Managed Keys)
 
 Your app supplies its own signing keys rather than using the Cartridge keychain.

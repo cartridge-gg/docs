@@ -352,8 +352,10 @@ export function HeadlessLogin() {
 ```
 
 :::warning
-Headless mode requires that the user already has the specified signer (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
+Headless mode requires that the user already has the specified `signer` (passkey, OAuth account, EVM wallet) associated with their Cartridge username. For new user registration, use the regular `connect()` flow which opens the UI.
 :::
+
+For more details on session policies and authentication options, see the [Sessions documentation](./sessions).
 
 ### 5. Performing Transactions
 
@@ -425,7 +427,7 @@ export const TransferEth = () => {
 }
 ```
 
-### 4. Username Lookup
+### 6. Username Lookup
 
 The Controller provides a `lookupUsername` method that allows you to check if a username exists and see what authentication options are available for existing accounts. This is particularly useful for headless flows where you want to determine login vs signup flows:
 
@@ -548,7 +550,7 @@ Available `AuthOption` values include:
 - `"rabby"` - Rabby wallet
 - `"phantom-evm"` - Phantom wallet (EVM)
 
-### 5. Add Components to Your App
+### 7. Add Components to Your App
 
 ```typescript
 import { StarknetProvider } from './context/StarknetProvider'
