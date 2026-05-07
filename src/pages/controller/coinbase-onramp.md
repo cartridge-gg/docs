@@ -13,7 +13,7 @@ This streamlines the user experience by eliminating the need to exit your applic
 
 The Coinbase onramp integration provides:
 
-- **Direct Fiat-to-Crypto**: Users can buy cryptocurrency using bank transfers, debit cards, and other supported payment methods
+- **Direct Fiat-to-Crypto**: Users can buy cryptocurrency using Apple Pay (for eligible US users) and other Coinbase-supported fiat payment methods
 - **Automatic IP Detection**: Client IP detection for compliance with regional restrictions and optimal user experience
 - **Order Management**: Complete order lifecycle tracking from creation to completion
 - **Transaction Queries**: Real-time status updates and transaction monitoring
@@ -41,7 +41,7 @@ The `useCoinbase` hook includes functionality for:
 
 The Coinbase onramp is integrated into the existing purchase flows:
 
-1. **Starter Pack Purchases**: Available as a payment option in the wallet selection drawer
+1. **Starter Pack Purchases**: Available as a payment option in the wallet selection drawer; Apple Pay is shown by default for eligible US users
 2. **Credit Purchases**: Integrated into the credit purchase interface
 3. **Automatic Flow Management**: Seamlessly handles the transition from fiat payment to crypto receipt
 
@@ -79,6 +79,8 @@ When users select Coinbase onramp as their payment method:
 9. **Completion**: Cryptocurrency is delivered to user's wallet for use in game purchases
 
 ## Regional Availability
+
+Apple Pay uses the same regional eligibility checks as Coinbase onramp and is shown by default in the onchain wallet selection drawer for eligible US users. Users outside supported regions will not see fiat payment options.
 
 Coinbase onramp availability varies by region based on:
 

@@ -236,7 +236,7 @@ The purchase process follows these steps:
 3. **Wallet Selection Drawer**: Enhanced onchain checkout with inline slide-up drawer for wallet selection, replacing navigation-based flow for more seamless UX
 4. **Payment Method & Network Selection**: Choose from available options on a unified screen:
    - **Cryptocurrency**: Pay with Crypto from Ethereum, Base, Arbitrum, or Optimism
-   - **Coinbase Onramp**: Integrated fiat-to-crypto onramp with automatic client IP detection for order creation and transaction queries
+   - **Coinbase Onramp**: Integrated fiat-to-crypto onramp, including Apple Pay for eligible US users, with automatic client IP detection for order creation and transaction queries
 5. **Wallet Connection**: Connect external wallet with automatic chain switching (supported on MetaMask, Rabby, Base, and WalletConnect)
 6. **Cross-Chain Bridging**: Layerswap automatically handles token bridging to Starknet if needed
 7. **Transaction Processing**: Complete payment through selected method with automatic bridging fees calculation
@@ -299,7 +299,7 @@ In addition to starter packs, Controller provides direct credit purchase functio
 
 ### openPurchaseCredits()
 
-Opens the credit purchase interface where users can buy credits using the same payment methods available for starter packs (credit card or cryptocurrency).
+Opens the credit purchase interface where users can buy credits using the same payment methods available for starter packs, including cryptocurrency and eligible Coinbase fiat options such as Apple Pay.
 
 ```typescript
 controller.openPurchaseCredits();
@@ -317,7 +317,7 @@ const handleBuyCredits = () => {
 };
 ```
 
-Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and both fiat and crypto payment options.
+Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and available fiat and crypto payment options. See [Coinbase Onramp](/controller/coinbase-onramp) for Apple Pay and regional fiat availability.
 
 ## Getting Help
 
