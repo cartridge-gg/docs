@@ -24,7 +24,7 @@ Ask:
 
 Explain:
 - Sepolia is paymastered by default — no paymaster setup needed for testnet.
-- Mainnet requires a Cartridge paymaster (see `cartridge-paymaster` skill) to sponsor transactions.
+- Mainnet requires a Slot paymaster (see `slot-paymaster` skill) to sponsor transactions.
 
 ### Phase 2: Origin Configuration
 
@@ -254,7 +254,7 @@ Teams often include both chains in a single preset — use separate contract add
 → Policies are selected by chain ID at runtime. Verify the chain ID in your config matches what your RPC returns. Use `SN_MAIN`/`SN_SEPOLIA`, not hex chain IDs.
 
 **"Paymaster not sponsoring on mainnet"**
-→ Sepolia is auto-sponsored. Mainnet requires creating a Cartridge paymaster, funding it, and adding matching policies. See `cartridge-paymaster` skill.
+→ Sepolia is auto-sponsored. Mainnet requires creating a Slot paymaster, funding it with credits, and adding matching policies. See `slot-paymaster` skill.
 
 **"AASA validation failing"**
 → Team ID must be exactly 10 uppercase alphanumeric chars. Bundle ID must be reverse DNS. Pattern: `ABCDE12345.com.example.app`.

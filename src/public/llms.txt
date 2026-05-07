@@ -64,10 +64,12 @@ For example, the Controller overview at `/controller/overview` has its source at
 - [Setup](https://docs.cartridge.gg/arcade/setup): Register, configure, and index your game with Arcade.
 - [Marketplace](https://docs.cartridge.gg/arcade/marketplace): Set up your game's Marketplace for onchain assets.
 
-## Services
+## Slot
 
-- [Overview](https://docs.cartridge.gg/services/overview): Cartridge platform services - Paymaster, RPC, and vRNG.
-- [Paymaster](https://docs.cartridge.gg/services/paymaster): Manage Cartridge paymasters to sponsor transaction fees for your applications.
-- [RPC](https://docs.cartridge.gg/services/rpc): Cartridge RPC endpoints for Starknet mainnet and Sepolia testnet.
-- [vRNG](https://docs.cartridge.gg/services/vrng): Verifiable Random Number Generator for cheap, atomic, and verifiable onchain randomness.
-- [vRNG: How It Works](https://docs.cartridge.gg/services/vrng/how-it-works): Technical deep-dive into EC-VRF on the Stark curve.
+- [Getting Started](https://docs.cartridge.gg/slot/getting-started): Get started with Slot, providing low latency, dedicated, provable execution contexts.
+- [Billing](https://docs.cartridge.gg/slot/billing): Manage billing for Slot services through team-based credit management.
+- [Scale](https://docs.cartridge.gg/slot/scale): Scale your Slot deployments by upgrading to paid instances.
+- [Paymaster](https://docs.cartridge.gg/slot/paymaster): Manage Slot paymasters to sponsor transaction fees for your applications.
+- [vRNG](https://docs.cartridge.gg/slot/vrng): Verifiable Random Number Generator for cheap, atomic, and verifiable onchain randomness.
+- [RPC](https://docs.cartridge.gg/slot/rpc): Cartridge RPC endpoints for Starknet mainnet and Sepolia testnet.
+- [Observability](https://docs.cartridge.gg/slot/observability): Monitor deployments with integrated Prometheus metrics and Grafana dashboards.

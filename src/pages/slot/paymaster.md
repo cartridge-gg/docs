@@ -1,12 +1,12 @@
 ---
 showOutline: 1
-description: Manage Cartridge paymasters to sponsor transaction fees for your applications.
-title: Paymaster
+description: Manage Slot paymasters to sponsor transaction fees for your applications.
+title: Paymaster Management
 ---
 
-# Paymaster
+# Paymaster Management
 
-The Cartridge Paymaster sponsors transaction fees on behalf of your users, eliminating the need for them to hold STRK for gas. Manage budgets, policies, and monitor usage through the CLI.
+Paymasters in Slot allow you to sponsor transaction fees for your applications, enabling gasless experiences for your users. The Cartridge Paymaster is a powerful feature that enables gasless transactions for your users, creating a more seamless Web3 experience. When enabled, the paymaster automatically covers transaction fees on behalf of your users, eliminating the need for them to hold STRK for gas fees. You can manage budgets, policies, and monitor usage through the Slot CLI.
 
 ## Availability
 
@@ -16,7 +16,8 @@ The paymaster service is available across all networks with different activation
   - Automatically enabled, no additional setup required
 
 - **Mainnet**
-  - Available and fully self-served via the CLI
+  - Available and fully self-served
+  - Manage everything through the Slot CLI
   - Define your own usage scopes and spending limits
 
 ## Integration
@@ -25,7 +26,7 @@ One of the key benefits of the Cartridge Paymaster is that it requires zero addi
 
 ## Prerequisites
 
-Authenticate with the CLI:
+Make sure you are authenticated with Slot. For complete authentication setup, see [Getting Started](/slot/getting-started):
 
 ```bash
 slot auth login
@@ -33,7 +34,7 @@ slot auth login
 
 ## Team Setup
 
-Before creating a paymaster, you need a team with sufficient balance in the unit you plan to fund (USD or STRK).
+Before creating a paymaster, you need a team with sufficient balance in the unit you plan to fund (USD or STRK). See the [Billing](/slot/billing) documentation for detailed information on setting up teams and funding.
 
 ## Checking Team Balance
 
@@ -163,7 +164,7 @@ Predicates are optional. Policies without predicates will always sponsor matchin
 
 ### vRNG Integration
 
-Paymasters can sponsor vRNG operations, providing gasless random number generation for your games. When configuring policies for vRNG-enabled contracts, the paymaster will automatically handle both the initial request and callback transactions. For detailed vRNG setup and usage, see [vRNG](/services/vrng).
+Paymasters can sponsor vRNG operations, providing gasless random number generation for your games. When configuring policies for vRNG-enabled contracts, the paymaster will automatically handle both the initial request and callback transactions. For detailed vRNG setup and usage, see [vRNG](/slot/vrng).
 
 ### Add Policies from Preset (Recommended)
 
@@ -562,7 +563,8 @@ slot paymaster my-game-pm transactions --filter REVERTED --last 24hr
 
 ### Setting up a new game paymaster
 ```bash
-# Create the paymaster (the team must already have a USD or STRK balance)
+# Set up billing first (see /slot/billing for details)
+# Then create paymaster
 slot paymaster my-game-pm create --team my-team --budget 10 --unit USD
 
 # Add game contract policies
@@ -587,4 +589,4 @@ slot paymaster my-game-pm budget increase --amount 5 --unit USD
 ```
 
 ### Insufficient Balance Error
-If you encounter an insufficient balance error when creating or funding a paymaster, run `slot teams <team-name> balance` to see the team's USD and STRK pools, then top up the relevant pool as needed.
+If you encounter an insufficient balance error when creating or funding a paymaster, run `slot teams <team-name> balance` to see the team's USD and STRK pools, then top up via the [Billing](/slot/billing) flow as needed.

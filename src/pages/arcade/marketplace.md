@@ -51,7 +51,7 @@ controller = new Controller({
 ```
 
 :::info
-See the [Torii documentation](https://book.dojoengine.org/toolchain/torii) for more information about running your own Torii instance.
+See the [Slot docs](/slot/getting-started) for more information about creating Torii instances with Slot.
 :::
 
 :::warning

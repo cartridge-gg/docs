@@ -332,4 +332,4 @@ If you encounter issues with purchase integration:
 - Learn about [Sessions](/controller/sessions) for gasless gaming experiences
 - Explore [Controller Configuration](/controller/configuration) options
 - Set up [External Wallet Integration](/controller/signer-management)
-- Review [Paymaster Configuration](/services/paymaster) for gasless transactions
+- Review [Paymaster Configuration](/slot/paymaster) for gasless transactions

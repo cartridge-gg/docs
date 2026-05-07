@@ -230,22 +230,26 @@ export default defineConfig({
       },
     ],
 
-    // Services sidebar
-    "/services": [
+    // Slot sidebar
+    "/slot": [
       {
-        text: "Services",
+        text: "Slot",
         items: [
           {
-            text: "Overview",
-            link: "/services/overview",
+            text: "Getting Started",
+            link: "/slot/getting-started",
+          },
+          {
+            text: "Billing",
+            link: "/slot/billing",
+          },
+          {
+            text: "Scale",
+            link: "/slot/scale",
           },
           {
             text: "Paymaster",
-            link: "/services/paymaster",
-          },
-          {
-            text: "RPC",
-            link: "/services/rpc",
+            link: "/slot/paymaster",
           },
           {
             text: "vRNG",
@@ -253,13 +257,21 @@ export default defineConfig({
             items: [
               {
                 text: "Overview",
-                link: "/services/vrng",
+                link: "/slot/vrng",
               },
               {
                 text: "How It Works",
-                link: "/services/vrng/how-it-works",
+                link: "/slot/vrng/how-it-works",
               },
             ],
+          },
+          {
+            text: "RPC",
+            link: "/slot/rpc",
+          },
+          {
+            text: "Observability",
+            link: "/slot/observability",
           },
         ],
       },

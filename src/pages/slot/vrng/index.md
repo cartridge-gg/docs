@@ -27,7 +27,7 @@ The vRNG was previously referred to as the Verifiable Random Function, and most 
 1.  A game calls `request_random(caller, source)` as the first call in their multicall.
 2.  A game contract calls `consume_random(source)` on the vRNG contract.
 3.  The vRNG server generates a random value using the vRNG algorithm for the provided entropy source.
-4.  The [Cartridge Paymaster](/services/paymaster) wraps the players multicall with a `submit_random` and `assert_consumed` call.
+4.  The [Cartridge Paymaster](/slot/paymaster) wraps the players multicall with a `submit_random` and `assert_consumed` call.
 5.  The `submit_random` call submit a vRNG Proof for the request, the vRNG Proof is verified onchain, ensuring the integrity of the random value which is immediately available and must be used within the same transaction.
 6.  The `assert_consumed` call ensures that `consume_random(source)` has been called, it also reset the storage used to store the random value during the transaction to 0.
 
