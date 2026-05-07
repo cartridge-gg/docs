@@ -172,6 +172,7 @@ type AuthOptions = (
   | "walletconnect" // WalletConnect
   | "metamask"      // MetaMask
   | "password"      // Email/Password
+  | "sms"           // SMS one-time passcode
   | "rabby"         // Rabby Wallet
 )[];
 ```
@@ -500,10 +501,9 @@ When users connect with spending limits configured, the session creation interfa
 
 1. **Contract Authorization**: Non-approve contract methods are grouped into an expandable "Authorize [game]" card at the top
 2. **Token Consent**: A consent notice explains the spending permissions
-3. **Spending Limit Card**: Contracts with approve methods are displayed separately in a dedicated spending limit section showing:
-   - Each token and its approved amount
-   - USD values alongside token amounts when price data is available
-   - Unlimited spending limits clearly labeled as "Unlimited"
+3. **Spending Limit Card**: Contracts with approve methods are displayed separately in a dedicated spending limit section:
+   - Unverified policies show each token, its approved amount, USD value when price data is available, and clearly labeled unlimited limits
+   - Verified policies show a compact summary with token count, token icons, and the total USD spending limit; if any token has an unlimited limit, the summary is labeled "Unlimited"
 
 This organization separates general contract permissions from token spending approvals, making it easier for users to understand what they're authorizing.
 

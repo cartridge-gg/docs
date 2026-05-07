@@ -830,6 +830,7 @@ The following authentication methods support branded styling:
 - **phantom**: Phantom icon with purple background
 - **phantom-evm**: Phantom icon with purple background
 - **password**: Lock icon with gray background
+- **sms**: Mobile icon with SMS label
 - **walletconnect**: WalletConnect icon with blue background
 - **rabby**: Rabby icon with themed background
 

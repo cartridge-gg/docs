@@ -17,7 +17,7 @@ Multi-signer support provides several benefits:
 
 ## Supported Signer Types
 
-Controller supports four types of signers:
+Controller supports five categories of signers:
 
 ### 1. Passkey (WebAuthn)
 
@@ -55,7 +55,13 @@ Passkey backup is handled differently depending on your platform or password man
 
 > **⚠️ Important**: Password authentication is currently marked as "Testing Only" and should not be used for production applications. Password loss results in permanent account access loss as there are no recovery mechanisms.
 
-### 3. Social Login
+### 3. SMS Authentication
+
+- **One-time passcodes** delivered by SMS
+- **Phone-based onboarding** for users who prefer using a phone number
+- **OTP verification** during signup and login
+
+### 4. Social Login
 
 Controller offers native social login options through Google, Discord, and Twitter/X:
 
@@ -74,7 +80,7 @@ All social login providers use an intelligent authentication flow that adapts to
 3. **Error Handling**: Gracefully handles iframe restrictions and Content Security Policy (CSP) issues
 4. **Nonce Security**: Implements proper OIDC token validation with nonce verification
 
-### 4. External Wallets
+### 5. External Wallets
 
 Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, Phantom, and WalletConnect.
 
@@ -114,6 +120,13 @@ Controller offers integration with popular external web3 wallets, including Braa
    - Password must match exactly (case-sensitive)
 
 > **Security Warning**: Password accounts cannot be recovered if you lose your password. This authentication method does not provide any recovery mechanisms, making it unsuitable for production use.
+
+### Adding SMS Authentication
+
+1. In the signup or login interface, select **SMS** from the authentication options
+2. Enter your phone number when prompted
+3. Enter the one-time passcode sent by SMS to complete verification
+4. For future logins, use the same phone number and OTP flow
 
 ### Adding Social Login
 
@@ -194,7 +207,7 @@ The Signer(s) section displays all authentication methods associated with your a
 ### Signer Information Display
 
 Each signer card shows:
-- **Type**: Passkey, Password, Google, Discord, Twitter, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
+- **Type**: Passkey, Password, SMS, Google, Discord, Twitter, Argent, Braavos, MetaMask, Phantom, Rabby, or WalletConnect
 - **Status**: "(current)" label for the active authentication method
 - **Identifier**: Shortened wallet address for external wallets, or authentication type for others
 
@@ -361,7 +374,7 @@ For developers integrating Controller's social login, the implementation include
 // Controller automatically handles social login based on environment
 const controller = new Controller({
   // Supports various AuthOptions including social login and external wallets
-  signupOptions: ["webauthn", "google", "discord", "twitter", "phantom-evm", "password"]
+  signupOptions: ["webauthn", "google", "discord", "twitter", "phantom-evm", "password", "sms"]
 });
 
 // Social providers are automatically available in connection flow

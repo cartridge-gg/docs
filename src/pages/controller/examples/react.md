@@ -541,6 +541,7 @@ interface HeadlessUsernameLookupResult {
 Available `AuthOption` values include:
 - `"webauthn"` - Passkey/WebAuthn authentication
 - `"password"` - Password-based authentication
+- `"sms"` - SMS one-time passcode authentication
 - `"google"` - Google OAuth
 - `"discord"` - Discord OAuth
 - `"walletconnect"` - WalletConnect
