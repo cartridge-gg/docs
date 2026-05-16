@@ -26,7 +26,7 @@ A sequencer that can predict outcomes breaks the game's integrity.
 
 ## The Core Idea
 
-The [Cartridge Paymaster](/services/paymaster) already acts as an offchain executor — it wraps player transactions for gas sponsorship and submits them onchain via Starknet's [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) `execute_from_outside` protocol.
+The [Cartridge Paymaster](/slot/paymaster) already acts as an offchain executor — it wraps player transactions for gas sponsorship and submits them onchain via Starknet's [SNIP-9](https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-9.md) `execute_from_outside` protocol.
 
 The vRNG extends this existing role.
 In addition to sponsoring gas, the paymaster holds a **secret key** and uses it to generate a verifiable random number as part of the same execution flow.

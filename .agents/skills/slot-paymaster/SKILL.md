@@ -1,9 +1,9 @@
 ---
-name: cartridge-paymaster
-description: Set up and manage Cartridge paymasters to sponsor transaction fees for gasless user experiences.
+name: slot-paymaster
+description: Set up and manage Slot paymasters to sponsor transaction fees for gasless user experiences.
 ---
 
-# Cartridge Paymaster
+# Slot Paymaster
 
 Manage paymasters that sponsor transaction fees, enabling gasless experiences for users.
 Zero integration required — when enabled, eligible transactions are automatically sponsored.
@@ -11,7 +11,7 @@ Zero integration required — when enabled, eligible transactions are automatica
 ## Availability
 
 - **Testnet**: Automatically enabled, no setup required
-- **Mainnet**: Self-served via the CLI
+- **Mainnet**: Self-served via Slot CLI
 
 ## Creating a Paymaster
 

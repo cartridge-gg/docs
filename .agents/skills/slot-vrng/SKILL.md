@@ -1,9 +1,9 @@
 ---
-name: cartridge-vrng
+name: slot-vrng
 description: Integrate Cartridge's verifiable random number generator (vRNG) into onchain games.
 ---
 
-# Cartridge vRNG
+# Slot vRNG
 
 Cartridge's Verifiable Random Number Generator provides cheap, atomic, verifiable randomness for onchain games.
 Randomness is generated and verified within a single transaction.

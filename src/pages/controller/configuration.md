@@ -40,7 +40,7 @@ export type ControllerOptions = {
 
     // Customization options
     preset?: string;  // Preset name for custom themes and verified policies
-    slot?: string;  // Torii instance URL for custom asset indexing
+    slot?: string;  // Slot project name for custom indexing
 };
 ```
 
@@ -63,7 +63,7 @@ Controller provides default Cartridge RPC endpoints for Starknet mainnet and sep
 
 When you provide custom chains via the `chains` option, they take precedence over the default Cartridge chains if they specify the same network. This allows you to:
 - Use custom RPC endpoints for mainnet or sepolia
-- Add support for additional networks (like local Katana instances)
+- Add support for additional networks (like Slot katana instances)
 - Override default chain configurations
 - Programmatically switch chains for connected external wallets (MetaMask, Rabby, WalletConnect)
 
@@ -304,7 +304,7 @@ The configuration options are organized into several categories:
 -   [**Session Options**](/controller/sessions): Session policies, transaction-related settings, and error handling
 -   **Performance Options**: Lazy loading and other performance optimizations
 -   **Keychain Options**: Authentication, signup flow, and keychain-specific settings
--   **Customization Options**: [Presets](/controller/presets) for themes and verified policies, [Torii indexing](/controller/inventory) for custom assets
+-   **Customization Options**: [Presets](/controller/presets) for themes and verified policies, [Slot](/controller/inventory) for custom indexing
 
 ## Error Display Modes
 

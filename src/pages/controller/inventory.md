@@ -10,7 +10,7 @@ Controller provides Inventory modal to manage account assets (`ERC-20`, `ERC-721
 
 ## Configure tokens
 
-By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.toml`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by running your own Torii instance with a custom indexing config.
+By default, commonly used tokens are indexed and automatically shown. Full list of default tokens are listed in [`torii-config/public-tokens/mainnet.toml`](https://github.com/cartridge-gg/controller/blob/main/packages/torii-config/public-tokens/mainnet.toml). This list can be extended by configuring Torii hosted on Slot.
 
 ### Configure additional token to index
 
@@ -24,13 +24,15 @@ contracts = [
 ]
 ```
 
-### Run a Torii instance
+### Create or update Torii instance on Slot
 
-Self-host Torii against your indexing config. See the [Torii documentation](https://book.dojoengine.org/toolchain/torii/configuration#indexing-configuration) for setup and configuration options.
+```bash
+slot d create <project> torii --config <path/to/torii-config.toml>
+```
 
 ### Configure Controller
 
-Provide your Torii instance URL to `ControllerOptions`. For detailed configuration options, see [configuration](./configuration).
+Provide Slot project name to `ControllerOptions`. For detailed configuration options, see [configuration](./configuration).
 
 ```typescript
 const controller = new Controller({
