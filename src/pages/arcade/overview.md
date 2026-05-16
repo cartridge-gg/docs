@@ -31,7 +31,7 @@ When you register a game or an edition, an NFT representing its ownership is min
 This NFT grants you admin rights over the game or edition.
 You can update the metadata of your game or any edition at any time --- including name, description, icon, image gallery, video, and more.
 
-For technical setup and configuration details, see [Arcade Setup](./setup).
+For technical setup and configuration details, see [Arcade Setup](./setup). For information on marketplace features and asset ownership, see [Arcade Marketplace](./marketplace).
 
 ![Register Game](/arcade-register-game.png)
 
@@ -57,10 +57,10 @@ No permission is required to register an edition in an existin game, meaning any
 ### 🚀 Publish and whitelist an Edition
 
 As the edition owner you have the ability to publish your edition once created.
-Once published, the game owner has the ability to whitelist you Edition to make it public.
+Once published, the game owner has the ability to whitelist you edition to make it public.
 
 :::info
-Any update within the Edition will turn off both the publish and the whitelist, the process should be repeat to make it public again
+Any update within the edition will turn off both the publish and the whitelist, the process should be repeat to make it public again
 :::
 
 ![Publish Edition](/arcade-publish-edition.png)

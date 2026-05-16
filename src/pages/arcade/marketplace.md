@@ -7,6 +7,7 @@ description: Learn how to set up your game's Marketplace
 # Marketplace
 
 The Cartridge Marketplace brings onchain assets directly to your players, enabling richer and more complex game experiences.
+The marketplace works closely with [starter packs](./starter-packs) to distribute assets to players.
 
 ## Adding Assets
 

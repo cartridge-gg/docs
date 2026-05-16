@@ -49,7 +49,7 @@ For detailed implementation and usage, refer to the [GitHub repository](https://
 
 ## Using the vRNG Provider
 
-To integrate the Verifiable Random Function (vRNG) into your Starknet contract, follow these steps:
+To integrate the Verifiable Random Number Generator (vRNG) into your Starknet contract, follow these steps:
 
 1.  Define the vRNG Provider interface:
 
@@ -142,7 +142,7 @@ const policies: Policy[] = [
   {
     target: VRF_PROVIDER_ADDRESS,
     method: "request_random",
-    description: "Allows requesting random numbers from the VRF provider",
+    description: "Allows requesting random numbers from the vRNG Provider",
   },
 ];
 ```

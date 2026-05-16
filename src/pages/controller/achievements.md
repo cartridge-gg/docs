@@ -243,7 +243,7 @@ AchievableComponent.progress(
 
 ### Controller Configuration
 
-For policy configuration details, see [Sessions](./sessions).
+For configuration details including `slot` parameter, see [Configuration](./configuration).
 
 ```typescript
 new ControllerConnector({

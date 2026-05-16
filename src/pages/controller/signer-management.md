@@ -84,6 +84,7 @@ All social login providers use an intelligent authentication flow that adapts to
 
 Controller offers integration with popular external web3 wallets, including Braavos, MetaMask, Rabby, Base, Phantom, and WalletConnect.
 
+For information about programmatic authentication with external wallets, see [Headless Authentication](./headless-authentication).
 
 ## Adding Signers
 
@@ -191,8 +192,6 @@ Controller offers integration with popular external web3 wallets, including Braa
 4. Sign the verification message to link the wallet to your account
 
 > **Mobile Limitation**: Ethereum-based wallets (MetaMask, Phantom, Rabby, Base, WalletConnect) will not appear as options on mobile browsers and are automatically filtered out for better mobile user experience.
-
-For information about programmatic authentication with external wallets, see [Headless Authentication](./headless-authentication).
 
 ## Managing Existing Signers
 
@@ -564,6 +563,6 @@ const DISCONNECT_OAUTH = gql`
 
 ## Next Steps
 
-- Learn about [Session Keys](./sessions) for gasless gaming transactions
+- Learn about [Sessions](./sessions) for session-based authentication and gasless gaming transactions
 - Explore [Controller Configuration](./configuration) options
 - Set up [Usernames](./usernames) for your account

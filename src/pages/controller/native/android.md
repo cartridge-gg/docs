@@ -54,7 +54,8 @@ data class Call(
 
 ### Session Policies
 
-Define permissions for session accounts:
+Define permissions for session accounts.
+For detailed policy configuration, see [Sessions](/controller/sessions):
 
 ```kotlin
 data class SessionPolicy(
@@ -132,7 +133,7 @@ controller.disconnect()
 
 ## Creating a SessionAccount
 
-Create a session account for executing transactions without repeated signatures:
+Create a session account for executing gasless transactions:
 
 ```kotlin
 val sessionAccount = SessionAccount(

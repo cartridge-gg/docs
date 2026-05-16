@@ -142,6 +142,7 @@ if (Capacitor.isNativePlatform()) {
 ## Deep Link Handling
 
 The authentication flow opens an in-app browser, then redirects back via your custom URL scheme.
+For detailed information about session policies and authentication flows, see [sessions](../sessions).
 
 ### iOS Configuration
 

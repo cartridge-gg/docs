@@ -193,7 +193,7 @@ There are two providers, each with a different security and signing model.
 > ControllerProvider is the recommended provider for web applications.
 
 The default `ControllerProvider` (often exported as `Controller`) embeds the Cartridge keychain in a sandboxed iframe.
-Both the owner signer and a **session key** live inside the iframe, employing a trust model similar to any injected wallet (e.g. MetaMask, Argent).
+Both the owner `signer` and a **session key** live inside the iframe, employing a trust model similar to any injected wallet (e.g. MetaMask, Argent).
 
 When your app calls `execute()`, the request is forwarded to the iframe via `postMessage`.
 The keychain first tries to sign with the session key.
@@ -211,12 +211,12 @@ The `SessionProvider` is designed for environments where an iframe cannot be use
 Instead of embedding the owner key in an iframe, it:
 1. Opens a browser to the Cartridge keychain for one-time user authentication
 2. Generates an ephemeral session keypair locally
-3. **Registers the session key onchain** with the approved policies compiled into a merkle root
+3. **Registers the session key onchain** with the approved `policies` compiled into a merkle root
 4. Stores the session private key locally (in `localStorage` or on the filesystem)
 
 After registration, transactions are signed with the session key and executed via `executeFromOutside()` --- no further UI is needed.
-Because the session key is not the owner key, **policies are enforced onchain** --- every transaction must include a merkle proof showing the call matches the registered policies.
-The owner key is never exposed through this provider, so there is no fallback for calls outside the approved policies.
+Because the session key is not the owner key, **`policies` are enforced onchain** --- every transaction must include a merkle proof showing the call matches the registered `policies`.
+The owner key is never exposed through this provider, so there is no fallback for calls outside the approved `policies`.
 
 > For a visual comparison of how each provider authenticates and signs, see the [Architecture](/controller/architecture#auth-flows) page.
 

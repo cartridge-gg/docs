@@ -60,7 +60,8 @@ struct Call {
 
 ### Session Policies
 
-Define permissions for session accounts:
+Define permissions for session accounts.
+For detailed policy structure and usage, see [Sessions](../sessions).
 
 ```swift
 struct SessionPolicy {
