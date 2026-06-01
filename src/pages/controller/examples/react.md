@@ -118,7 +118,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-For more detailed configuration options, see the [Controller configuration guide](./configuration).
+For more detailed configuration options, see the [Controller configuration guide](/controller/configuration).
 
 ### 2. Create a Wallet Connection Component
 
@@ -262,7 +262,7 @@ export function MultiAuthConnectWallet() {
 
 ### 4. Headless Authentication
 
-For programmatic authentication without opening any UI, you can use headless mode in your React components. For detailed information on headless authentication, see the [headless authentication guide](./headless-authentication).
+For programmatic authentication without opening any UI, you can use headless mode in your React components. For detailed information on headless authentication, see the [headless authentication guide](/controller/headless-authentication).
 
 ```tsx
 import { useCallback, useState } from 'react'

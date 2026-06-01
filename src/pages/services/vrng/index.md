@@ -132,7 +132,7 @@ const call = await account.execute([
 
 ### Important: Adding vRNG to Session Policies
 
-When using Cartridge Controller with vRNG, make sure to add the vRNG contract address and the `request_random` method to your [TODO: link to Controller sessions]. This allows the Controller to pre-approve vRNG-related transactions, ensuring a seamless experience for your users.
+When using Cartridge Controller with vRNG, make sure to add the vRNG contract address and the `request_random` method to your [Controller sessions](/controller/sessions). This allows the Controller to pre-approve vRNG-related transactions, ensuring a seamless experience for your users.
 
 Add the following policy to your existing session policies:
 
