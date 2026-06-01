@@ -7,7 +7,7 @@ description: Wrap your web app for native iOS and Android distribution using Cap
 # Capacitor
 
 [Capacitor](https://capacitorjs.com/) allows you to wrap an existing web application for native iOS and Android distribution.
-This approach uses Controller's SessionProvider for session-based authentication via deep links and custom URL schemes.
+This approach uses Controller's `SessionProvider` for session-based authentication via deep links and custom URL schemes.
 
 ## When to Use Capacitor
 
@@ -16,6 +16,8 @@ Capacitor is ideal when:
 - You want to distribute through the App Store and Play Store
 - You need access to native features (push notifications, in-app purchases, haptics)
 - Your team is more comfortable with web technologies than native development
+
+For guidance on choosing between different native approaches, see the [native integration overview](./overview).
 
 ## Prerequisites
 
@@ -115,6 +117,8 @@ const provider = new SessionProvider({
   keychainUrl: "https://x.cartridge.gg", // Optional: customize keychain URL
 });
 ```
+
+For detailed policy configuration, see the [sessions guide](../sessions).
 
 ## Browser Interception
 
@@ -319,3 +323,5 @@ The example includes complete setup for both iOS and Android platforms with prop
 
 - **Complete Reference**: See the [Capacitor session example](https://github.com/cartridge-gg/controller/tree/main/examples/capacitor) in the repository
 - **Production Example**: [Jokers of Neon](https://github.com/caravana-studio/jokers-of-neon-app) repository
+
+For guidance on choosing between Capacitor, React Native, or native implementations, see the [native integration overview](./overview).

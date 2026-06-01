@@ -72,12 +72,12 @@ For detailed information about session policies, see [Sessions](./sessions).
 :::warning
 **Policy Precedence Rules:**
 
-1. When `shouldOverridePresetPolicies: true` and policies are provided → uses URL policies
-2. When preset is configured and has policies for the current chain → uses preset policies (ignores URL policies)
-3. When preset is configured but has no policies for the current chain → falls back to URL policies
+1. When `shouldOverridePresetPolicies: true` and `policies` are provided → uses URL policies
+2. When preset is configured and has `policies` for the current chain → uses preset policies (ignores URL policies)
+3. When preset is configured but has no `policies` for the current chain → falls back to URL policies
 4. When no preset is configured → uses URL policies
 
-To force manually provided policies over preset policies, set `shouldOverridePresetPolicies: true`.
+To force manually provided `policies` over preset policies, set `shouldOverridePresetPolicies: true`.
 :::
 
 For an example, see [dope-wars](https://github.com/cartridge-gg/presets/blob/main/configs/dope-wars/config.json):
@@ -168,7 +168,7 @@ This allows for sophisticated gas sponsorship policies based on game state, user
 
 ## Apple App Site Association
 
-The [Apple App Site Association (AASA)](https://developer.apple.com/documentation/xcode/supporting-associated-domains) configuration enables iOS app integration with Cartridge Controller, allowing for usage of Web Credentials (Passkeys) in native applications.
+The [Apple App Site Association (AASA)](https://developer.apple.com/documentation/xcode/supporting-associated-domains) configuration enables iOS app integration with Cartridge Controller, allowing for usage of Web Credentials (passkeys) in native applications.
 
 ### Configuration
 

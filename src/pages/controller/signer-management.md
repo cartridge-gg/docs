@@ -19,7 +19,7 @@ Multi-signer support provides several benefits:
 
 Controller supports five categories of signers:
 
-### 1. Passkey (WebAuthn)
+### 1. Passkey
 
 - **Biometric authentication** using Face ID, Touch ID, or hardware security keys
 - **Platform-native** security with device-based credential storage
@@ -201,7 +201,7 @@ For information about programmatic authentication with external wallets, see [He
 The Signer(s) section displays all authentication methods associated with your account:
 
 - **Signer type** with recognizable icons (fingerprint for passkey, Discord logo, wallet icons)
-- **Current status** indicating which signer you're currently using
+- **Current status** indicating which `signer` you're currently using
 - **Identifying information** such as wallet addresses (partially masked for privacy)
 
 ### Signer Information Display
@@ -216,7 +216,7 @@ Each signer card shows:
 When connecting to your Controller:
 - The connection interface will show all available authentication methods
 - Select any of your registered signers to authenticate
-- Your account and assets remain the same regardless of which signer you use
+- Your account and assets remain the same regardless of which `signer` you use
 
 ### Account Synchronization for Starknet Wallets
 
@@ -318,26 +318,26 @@ interface ExternalWalletResponse {
 
 ### Best Practices
 
-- **Multiple Backups**: Add at least 2-3 different signer types to ensure account recovery
+- **Multiple Backups**: Add at least 2-3 different `signer` types to ensure account recovery
 - **Secure Storage**: For passkeys, ensure your device backup (iCloud, Google) is secure
 - **Regular Access**: Periodically test each authentication method to ensure they work
 
 ### Account Recovery
 
 If you lose access to your primary authentication method:
-1. Use any other registered signer to access your account
+1. Use any other registered `signer` to access your account
 2. Consider adding additional backup authentication methods
-3. Remove compromised signers using the remove signer functionality
+3. Remove compromised signers using the remove `signer` functionality
 
 ### Removing Signers
 
 You can now remove signers from your account for security or convenience:
 
 1. Navigate to the **Signer(s)** section in Controller Settings
-2. Find the signer you want to remove
-3. Click the **Remove** option for that signer
+2. Find the `signer` you want to remove
+3. Click the **Remove** option for that `signer`
 
-> **Important**: Ensure you have at least one other working authentication method before removing a signer to avoid losing access to your account.
+> **Important**: Ensure you have at least one other working authentication method before removing a `signer` to avoid losing access to your account.
 
 ### Deleting Your Account
 
@@ -359,7 +359,7 @@ You can permanently delete your Controller account from the Settings panel:
 ### Getting Help
 
 If you encounter issues with signer management:
-- Review the passkey section above for WebAuthn-specific help
+- Review the passkey section above for passkey-specific help
 - Verify your wallet setup in the respective wallet's documentation
 - Ensure you're using a supported browser and have the latest wallet extensions installed
 
@@ -564,6 +564,6 @@ const DISCONNECT_OAUTH = gql`
 
 ## Next Steps
 
-- Learn about [Session Keys](./sessions) for gasless gaming transactions
+- Learn about [Sessions](./sessions) for gasless gaming transactions
 - Explore [Controller Configuration](./configuration) options
 - Set up [Usernames](./usernames) for your account

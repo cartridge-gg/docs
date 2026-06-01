@@ -6,7 +6,7 @@ description: Choose the right connection flow for integrating Cartridge Controll
 
 # Native Integration
 
-Controller was initially developed as a web wallet for browser-based applications.
+Cartridge Controller was initially developed as a web wallet for browser-based applications.
 As the ecosystem has grown, native integration is now supported across mobile and server-side platforms.
 
 The most important decision when integrating Controller natively is **which connection flow** to use.
@@ -24,15 +24,15 @@ The session signer can then execute transactions without further user interactio
 
 1. Generate a new keypair locally and store the private key securely
 2. Open a browser to the Controller session URL, passing the public key and session policies
-3. The user authenticates via WebAuthn in the browser
+3. The user authenticates via passkey in the browser
 4. The app receives the user's Controller address via callback
 5. The app signs transactions using the local private key, validated against the registered session
 
 **Best for:** Mobile apps, games, any app where end users authenticate interactively.
 
-**Platform guides:** [React Native](/controller/native/react-native) | [Android](/controller/native/android) | [iOS](/controller/native/ios) | [Capacitor](/controller/native/capacitor)
+**Platform guides:** [React Native](./react-native) | [Android](./android) | [iOS](./ios) | [Capacitor](./capacitor)
 
-**Reference:** [Session URL Reference](/controller/native/session-flow) for URL parameters, policy format, and callback metadata.
+**Reference:** [Session URL Reference](./session-flow) for URL parameters, policy format, and callback metadata.
 
 ### Headless (App-Managed Keys)
 
@@ -46,7 +46,7 @@ No browser authentication is involved --- the app directly controls a Controller
 - Bots, NPCs, or game systems that interact with the blockchain
 - Applications with specific key management or compliance requirements
 
-**Implementation:** [Headless Controller](/controller/native/headless) (C++ UniFFI bindings)
+**Implementation:** [Headless Controller](./headless) (C++ UniFFI bindings)
 
 ### Web Wrapper (Capacitor)
 
@@ -58,16 +58,16 @@ The difference is in the integration approach: you're packaging a web app rather
 
 **Best for:** Existing web apps, faster time-to-market, teams stronger in web than native development.
 
-**Platform guide:** [Capacitor](/controller/native/capacitor)
+**Platform guide:** [Capacitor](./capacitor)
 
 ## Choosing a Flow
 
 | Use Case | Flow | Platform Guides |
 |----------|------|-----------------|
-| Mobile game with player login | Browser-based sessions | [React Native](/controller/native/react-native), [Android](/controller/native/android), [iOS](/controller/native/ios) |
-| Existing web app → app store | Web wrapper | [Capacitor](/controller/native/capacitor) |
-| Game backend / server-side bots | Headless | [Headless Controller](/controller/native/headless) |
-| Custom key management | Headless | [Headless Controller](/controller/native/headless) |
+| Mobile game with player login | Browser-based sessions | [React Native](./react-native), [Android](./android), [iOS](./ios) |
+| Existing web app → app store | Web wrapper | [Capacitor](./capacitor) |
+| Game backend / server-side bots | Headless | [Headless Controller](./headless) |
+| Custom key management | Headless | [Headless Controller](./headless) |
 
 ## Passkey Authentication on Native
 

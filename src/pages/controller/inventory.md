@@ -30,7 +30,7 @@ Self-host Torii against your indexing config. See the [Torii documentation](http
 
 ### Configure Controller
 
-Provide your Torii instance URL to `ControllerOptions`. For detailed configuration options, see [configuration](./configuration).
+Provide your Torii instance URL to `ControllerOptions`. For detailed Controller configuration options, see [configuration](./configuration).
 
 ```typescript
 const controller = new Controller({

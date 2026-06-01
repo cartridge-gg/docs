@@ -132,7 +132,8 @@ controller.disconnect()
 
 ## Creating a SessionAccount
 
-Create a session account for executing transactions without repeated signatures:
+Create a session account for executing transactions without repeated signatures.
+For detailed session policy configuration, see [Sessions](../sessions).
 
 ```kotlin
 val sessionAccount = SessionAccount(
@@ -284,3 +285,9 @@ companion object {
     }
 }
 ```
+
+## Next Steps
+
+- For React Native integration: [React Native Guide](./react-native)
+- For iOS integration: [iOS Guide](./ios)
+- For Capacitor integration: [Capacitor Guide](./capacitor)

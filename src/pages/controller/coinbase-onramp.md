@@ -122,6 +122,8 @@ The integration includes comprehensive error handling for:
 - **Network Issues**: Retry logic and fallback options for connectivity problems
 - **Compliance Blocks**: Appropriate messaging when regulatory restrictions apply
 
+For detailed error handling patterns, see [Configuration](./configuration) for comprehensive error management documentation.
+
 ## Development Testing
 
 When testing Coinbase onramp integration:
@@ -139,7 +141,7 @@ Coinbase onramp integration is automatically included in Controller v0.12.0+ and
 
 ## Next Steps
 
-- Learn about [Starter Pack Integration](/controller/starter-packs) for complete purchase flows
-- Review [Configuration Options](/controller/configuration) for customization
-- Explore [Credit Purchases](/controller/starter-packs#credit-purchases) for account top-ups
-- See [Cross-Chain Payments](/controller/starter-packs#cross-chain-bridging-with-layerswap) for alternative payment methods
+- Learn about [Starter Pack Integration](./starter-packs) for complete purchase flows
+- Review [Configuration Options](./configuration) for customization
+- Explore [Credit Purchases](./starter-packs#credit-purchases) for account top-ups
+- See [Cross-Chain Payments](./starter-packs#cross-chain-bridging-with-layerswap) for alternative payment methods

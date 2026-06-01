@@ -49,7 +49,7 @@ As the game owner, you control which editions are visible or hidden.
 As the edition owner, you can choose to publish or hide your edition from public view.
 
 :::info
-No permission is required to register an edition in an existin game, meaning anyone can register a new edition to your game such as registering a Game onto Arcade, however you get the control on their visibility.
+No permission is required to register an edition in an existing game, meaning anyone can register a new edition to your game such as registering a Game onto Arcade, however you get the control on their visibility.
 :::
 
 ![Update Edition](/arcade-update-edition.png)
@@ -57,10 +57,10 @@ No permission is required to register an edition in an existin game, meaning any
 ### 🚀 Publish and whitelist an Edition
 
 As the edition owner you have the ability to publish your edition once created.
-Once published, the game owner has the ability to whitelist you Edition to make it public.
+Once published, the game owner has the ability to whitelist your edition to make it public.
 
 :::info
-Any update within the Edition will turn off both the publish and the whitelist, the process should be repeat to make it public again
+Any update within the edition will turn off both the publish and the whitelist, the process should be repeat to make it public again
 :::
 
 ![Publish Edition](/arcade-publish-edition.png)

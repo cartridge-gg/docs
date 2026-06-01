@@ -325,7 +325,7 @@ function runToastDemo() {
 
 ### Error Notification Integration
 
-The toast API integrates with the Controller's error display system. See [Configuration](/controller/configuration) for details on `errorDisplayMode` settings.
+The toast API integrates with the Controller's error display system. See [Configuration](/controller/configuration) for detailed error handling options and `errorDisplayMode` configuration.
 
 ```typescript
 import { Controller } from "@cartridge/controller";

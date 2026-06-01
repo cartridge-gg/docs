@@ -40,7 +40,7 @@ The vRNG is not a separate oracle service; it's a natural extension of the execu
 A hash function like `hash(seed)` is deterministic and publicly computable --- anyone with the seed can compute the output.
 Since seeds are derived from onchain state, a player could predict the outcome before submitting their transaction.
 
-A **Verifiable Random Function (VRF)** adds a secret key to the computation: `VRF(secret_key, seed) → (output, proof)`.
+A **Verifiable Random Function** adds a secret key to the computation: `VRF(secret_key, seed) → (output, proof)`.
 Only the key holder can compute the output, but anyone can *verify* it was computed correctly using the public key.
 
 | | Hash | VRF |
@@ -58,7 +58,7 @@ Cartridge's vRNG uses an **Elliptic Curve VRF (EC-VRF)** built on the Stark curv
 
 ### Proof Structure
 
-The VRF provider generates a proof consisting of:
+The vRNG provider generates a proof consisting of:
 
 - **gamma** --- a point on the Stark curve (the core VRF output)
 - **c** --- a scalar challenge value
@@ -101,7 +101,7 @@ The paymaster intercepts it, generates the VRF proof, and wraps everything into 
 │  │     │  signed by player's passkey)                  │  │ │
 │  │     │                                               │  │ │
 │  │     │  1. request_random(caller, source)            │  │ │
-│  │     │     → signals VRF intent                      │  │ │
+│  │     │     → signals vRNG intent                     │  │ │
 │  │     │                                               │  │ │
 │  │     │  2. game_action() on Game Contract            │  │ │
 │  │     │     → calls consume_random(source)            │  │ │
@@ -128,7 +128,7 @@ This is the inner SNIP-9 outside execution.
 4. **Onchain verification** --- `submit_random` verifies the EC-VRF proof against the VRF Account's stored public key.
 If valid, the derived random value is stored for this transaction.
 
-5. **Game consumes randomness** --- when the game contract calls `consume_random(source)`, it reads the verified value from the VRF provider's storage.
+5. **Game consumes randomness** --- when the game contract calls `consume_random(source)`, it reads the verified value from the vRNG provider's storage.
 
 6. **Cleanup** --- `assert_consumed` ensures the random value was actually used and clears storage, preventing stale values from persisting.
 
@@ -143,9 +143,9 @@ There is no window where the random value exists but hasn't been used, and no se
 
 ## Security Model
 
-### Current (Phase 0)
+### Current Deployment
 
-The security assumption is that the **paymaster has not revealed its VRF secret key** and does not collude with players.
+The security assumption is that the **paymaster has not revealed its vRNG secret key** and does not collude with players.
 
 Given this assumption:
 - The provider cannot choose a favorable random value --- the VRF is deterministic for a given seed, and the seed is derived from onchain state the provider doesn't control.
