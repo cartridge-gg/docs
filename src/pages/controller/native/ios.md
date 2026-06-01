@@ -60,7 +60,8 @@ struct Call {
 
 ### Session Policies
 
-Define permissions for session accounts:
+Define permissions for session accounts.
+For detailed policy configuration, see the [Sessions guide](../sessions).
 
 ```swift
 struct SessionPolicy {
@@ -110,7 +111,7 @@ SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
 let privateKey = "0x" + bytes.map { String(format: "%02x", $0) }.joined()
 let publicKey = try getPublicKey(privateKey: privateKey)
 
-// Define policies
+// Define session policies
 let policies = SessionPolicies(
     policies: [
         SessionPolicy(
@@ -205,3 +206,10 @@ let hasStorage = try controllerHasStorage(appId: "my_app")
 Complete working examples are available in the Controller.c repository:
 - [Swift examples](https://github.com/cartridge-gg/controller.c/tree/main/examples/swift)
 - [iOS app examples](https://github.com/cartridge-gg/controller.c/tree/main/examples/ios-app)
+
+## Related Guides
+
+- [Native Overview](./overview) - Choose the right integration approach
+- [React Native](./react-native) - Alternative for cross-platform development
+- [Android](./android) - Android-specific integration
+- [Capacitor](./capacitor) - Hybrid app development

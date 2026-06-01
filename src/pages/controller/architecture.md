@@ -7,7 +7,7 @@ description: Technical overview of the Controller smart contract architecture, s
 # Architecture
 
 This page provides a technical overview of the Controller smart contract for developers who need to understand the on-chain mechanisms.
-For user-facing documentation, see [Sessions](/controller/sessions) and [Signer Management](/controller/signer-management).
+For user-facing documentation, see [Sessions](./sessions) and [Signer Management](./signer-management).
 
 ## Account Model
 
@@ -55,6 +55,7 @@ When a signer is added, a `SignerLinked` event is emitted with the GUID and full
 ## Sessions (On-Chain)
 
 Sessions allow dapps to submit transactions on behalf of users without per-transaction approval.
+For detailed session configuration examples, see [Sessions](./sessions).
 
 ### Session Structure
 

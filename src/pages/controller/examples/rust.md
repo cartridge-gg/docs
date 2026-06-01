@@ -57,10 +57,10 @@ async fn main() {
         chain_id,
     );
 
-    // Deploy the controller
+    // Deploy the Controller
     controller.deploy().await.unwrap();
 
-    // Interact with the controller
+    // Interact with the Controller
     // For example, execute a transaction
     let call = your_function_call(); // Define your function call
     controller.execute(vec![call], None).await.unwrap();

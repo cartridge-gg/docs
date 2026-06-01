@@ -37,14 +37,14 @@ const phantomAccount = await controller.connect(["phantom-evm"]);
 
 ### Headless Authentication
 
-For programmatic authentication without opening any UI, you can use [headless mode](/controller/headless-authentication) by providing a `username` and `signer`:
+For programmatic authentication without opening any UI, you can use [headless mode](/controller/headless-authentication):
 
 ```typescript
 import Controller from "@cartridge/controller";
 
 const controller = new Controller({});
 
-// Headless authentication with WebAuthn/Passkey
+// Headless authentication with passkey
 const account = await controller.connect({
   username: "alice",
   signer: "webauthn",
@@ -130,7 +130,7 @@ const controller = new Controller({ policies });
 
 ### With custom configuration
 
-The Controller ships with sensible defaults for chain RPCs, but you can override them if needed.
+The Controller ships with sensible defaults for chain RPCs, but you can override them if needed. For more detailed configuration options, see [Configuration](/controller/configuration).
 
 ```typescript
 import { constants } from "starknet";

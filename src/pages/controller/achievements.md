@@ -243,7 +243,7 @@ AchievableComponent.progress(
 
 ### Controller Configuration
 
-For policy configuration details, see [Sessions](./sessions).
+For session policies configuration details, see [Sessions](./sessions).
 
 ```typescript
 new ControllerConnector({

@@ -29,7 +29,7 @@ When no policies are provided:
 :::warning
 Running without policies **does not work on local Katana**.
 The paymaster requires policies to deploy the controller before the first transaction.
-See [Using Katana for Local Development](/controller/configuration#using-katana-for-local-development) for setup details.
+See [Configuration](/controller/configuration#using-katana-for-local-development) for setup details.
 :::
 
 ```typescript

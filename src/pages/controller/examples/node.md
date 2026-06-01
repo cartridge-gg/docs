@@ -83,7 +83,7 @@ async function main() {
 main().catch(console.error);
 ```
 
-### Using Manual Policies
+### Using Manual Session Policies
 
 ```typescript
 import SessionProvider, {
@@ -100,7 +100,7 @@ async function main() {
     process.env.CARTRIDGE_STORAGE_PATH ||
     path.join(process.cwd(), ".cartridge");
 
-  // Create a session provider with manual policies
+  // Create a session provider with manual session policies
   const provider = new SessionProvider({
     rpc: "https://api.cartridge.gg/x/starknet/sepolia",
     chainId: constants.StarknetChainId.SN_SEPOLIA,

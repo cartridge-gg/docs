@@ -82,7 +82,7 @@ interface UsernameLookupResult {
 ```
 
 **Use Cases:**
-- **Headless authentication flows**: Check account existence before attempting to connect
+- **Headless authentication flows**: Check account existence before attempting to connect. For comprehensive headless authentication patterns, see [headless authentication](./headless-authentication).
 - **Form validation**: Validate usernames in real-time
 - **Authentication method selection**: Show users only the authentication methods they have configured
 - **Auto-signup flows**: Determine whether to create a new account or authenticate existing one

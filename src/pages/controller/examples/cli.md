@@ -294,7 +294,7 @@ controller username
 
 ### `lookup`
 
-Resolves Cartridge controller usernames to addresses or vice versa.
+Resolves Cartridge Controller usernames to addresses or vice versa.
 
 ```bash
 # Look up addresses for usernames
@@ -354,7 +354,7 @@ controller starterpack purchase <ID> --chain-id SN_MAIN
 controller starterpack purchase <ID> --ui --chain-id SN_MAIN
 ```
 
-**Direct mode:** Executes the purchase on-chain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starter pack contract.
+**Direct mode:** Executes the purchase onchain using the active session. Requires session policies that include `approve` on the payment token and `issue` on the starter pack contract.
 
 ```bash
 controller starterpack purchase <ID> --direct --chain-id SN_MAIN
@@ -491,6 +491,7 @@ Precedence: CLI flags > environment variables > config file.
 
 ## Error Handling
 
+For detailed error handling guidance, see [Configuration](/controller/configuration).
 Common errors and how to fix them:
 
 | Error | Meaning | Fix |
@@ -498,10 +499,10 @@ Common errors and how to fix them:
 | `NoSession` | No keypair found | Run `session auth` |
 | `SessionExpired` | Session has expired | Run `session auth` again |
 | `InvalidSessionData` | Corrupted session data | Run `session clear` and start over |
-| `TransactionFailed` | Execution failed | Check policies and calldata |
+| `TransactionFailed` | Execution failed | Check policies and `calldata` |
 | `CallbackTimeout` | Authorization timed out | Run `session auth` again |
 | `ManualExecutionRequired` | No authorized session for this transaction | Register session with appropriate policies |
-| `InvalidInput` | Invalid input parameters | Check command syntax and calldata |
+| `InvalidInput` | Invalid input parameters | Check command syntax and `calldata` |
 
 When using `--json`, errors return structured responses with machine-readable codes and recovery hints:
 

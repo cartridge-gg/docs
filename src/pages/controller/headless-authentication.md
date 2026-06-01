@@ -58,9 +58,9 @@ try {
 }
 ```
 
-### WebAuthn/Passkey Authentication
+### Passkey Authentication
 
-The most secure option for headless authentication uses WebAuthn (passkeys):
+The most secure option for headless authentication uses passkeys:
 
 ```typescript
 import Controller from "@cartridge/controller";
@@ -81,7 +81,7 @@ try {
 
 ### Password Authentication
 
-For scenarios where WebAuthn isn't available:
+For scenarios where passkeys aren't available:
 
 ```typescript
 const account = await controller.connect({
@@ -160,14 +160,14 @@ await controller.connect({
 ```
 
 :::note
-SMS authentication requires a phone number and uses one-time passcode (OTP) verification. The SMS signer is registered as EIP-191 with provider `"sms"`.
+SMS authentication requires a phone number and uses one-time passcode (OTP) verification. The SMS `signer` is registered as EIP-191 with provider `"sms"`.
 :::
 
 ## Supported Signer Options
 
 Headless mode supports all implemented authentication methods:
 
-- `webauthn` - WebAuthn/Passkey (most secure)
+- `webauthn` - Passkey (most secure)
 - `password` - Username/password authentication
 - `google` - Google OAuth
 - `discord` - Discord OAuth
@@ -177,7 +177,7 @@ Headless mode supports all implemented authentication methods:
 - `walletconnect` - WalletConnect protocol
 - `sms` - SMS one-time passcode authentication
 
-For complete details on available authentication methods, see [Signer Management](./signer-management).
+For complete details on available authentication methods and UI integration patterns, see [Signer Management](./signer-management).
 
 ## Session Approval Flow
 
@@ -207,7 +207,7 @@ await account.execute(/* your transaction */);
 
 ## Error Handling
 
-Headless authentication provides specific error handling:
+Headless authentication provides specific error handling. For comprehensive error handling patterns, see [Configuration](./configuration).
 
 ```typescript
 import { HeadlessAuthenticationError } from "@cartridge/controller";
@@ -292,7 +292,7 @@ try {
 ```
 
 :::note
-Auto-signup maintains strict signer matching for existing accounts. If an account exists but the specified `signer` is not associated with it, authentication will fail rather than creating a duplicate account.
+Auto-signup maintains strict `signer` matching for existing accounts. If an account exists but the specified `signer` is not associated with it, authentication will fail rather than creating a duplicate account.
 :::
 
 ## Integration Patterns
@@ -411,7 +411,7 @@ Server-side headless authentication is currently only available through the brow
 
 ### Authentication Method Selection
 
-- **WebAuthn (recommended)**: Most secure, hardware-backed when available
+- **Passkey (recommended)**: Most secure, hardware-backed when available
 - **OAuth**: Good for user convenience, relies on third-party security
 - **Password**: Least secure, but widely compatible
 - **EVM Wallets**: Security depends on wallet implementation and user practices
@@ -450,7 +450,7 @@ This web-based headless authentication is different from the [native headless Co
    - *Auto-signup*: Consider enabling auto-signup for new users
 2. **"Signer not found"**: The specified `signer` isn't associated with the username
    - *Solution*: Use `lookupUsername()` to get available signers for the username
-   - *Fallback*: Implement signer selection UI based on available options
+   - *Fallback*: Implement `signer` selection UI based on available options
 3. **"Not ready to connect"**: Controller initialization is still in progress
 4. **Network timeouts**: Check network connectivity and RPC endpoint availability
 

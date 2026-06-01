@@ -6,13 +6,14 @@ title: Starter Packs
 
 # Starter Packs
 
-Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players. Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
+Starter packs are pre-configured bundles of game assets, NFTs, and in-game currency that provide a seamless onboarding and monetization experience for your players.
+Cartridge Controller makes it easy to offer both paid starter packs and free claimable packs with support for multiple payment methods across different blockchain networks.
 
 ## Overview
 
 Starter packs enable you to:
 
-- **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and on-chain items with automatic contract execution
+- **Create Custom Bundles**: Configure packs with fungible tokens, NFTs, and onchain items with automatic contract execution
 - **Offer Paid Packs**: Accept payments via cryptocurrency across Ethereum, Base, Arbitrum, and Optimism
 - **Enable Free Claims**: Distribute free packs using Merkle Drop technology with cross-chain eligibility verification
 - **Flexible Configuration**: Build packs programmatically or reference pre-configured packs by ID
@@ -43,7 +44,8 @@ await controller.openBundle(0, "0x1c53584fdbebd996c163fa2d5d5ad37f4b2f06643ea2bb
 
 ### openBundle(bundleId: number, registryAddress: string, options?: BundleOptions)
 
-Opens the bundle interface for a specific starter pack bundle with advanced features including conditional claiming. Bundles support social claim flows where users can claim packs by completing social actions (e.g., following and sharing on X/Twitter).
+Opens the bundle interface for a specific starter pack bundle with advanced features including conditional claiming.
+Bundles support social claim flows where users can claim packs by completing social actions (e.g., following and sharing on X/Twitter).
 
 ```typescript
 controller.openBundle(bundleId: number, registryAddress: string, options?: BundleOptions);
@@ -97,7 +99,8 @@ const handleBundle = async () => {
 
 ### openStarterPack(starterpackId: string | number, options?: StarterpackOptions)
 
-Opens the starter pack interface for a specific starter pack bundle. This method works for both paid starter packs (requiring purchase) and claimed starter packs (that can be claimed based on eligibility).
+Opens the starter pack interface for a specific starter pack bundle.
+This method works for both paid starter packs (requiring purchase) and claimed starter packs (that can be claimed based on eligibility).
 
 ```typescript
 controller.openStarterPack(starterpackId: string | number, options?: StarterpackOptions);
@@ -290,7 +293,7 @@ The claiming process follows these steps:
 
 ## Gasless Transactions
 
-Starter packs enable gasless gaming experiences through integration with [session policies](/controller/sessions).
+Starter packs enable gasless gaming experiences through integration with [session policies](./sessions).
 When properly configured, users can receive and interact with their starter pack assets without paying gas fees for each transaction.
 
 ## Credit Purchases
@@ -317,19 +320,19 @@ const handleBuyCredits = () => {
 };
 ```
 
-Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and available fiat and crypto payment options. See [Coinbase Onramp](/controller/coinbase-onramp) for Apple Pay and regional fiat availability.
+Credits purchased through this interface use the same unified payment flow as starter packs, including support for multiple blockchains, automatic token bridging, and available fiat and crypto payment options. See [Coinbase Onramp](./coinbase-onramp) for Apple Pay and regional fiat availability.
 
 ## Getting Help
 
 If you encounter issues with purchase integration:
 - Check the browser console for detailed error messages
-- Verify your Controller setup matches the [getting started guide](/controller/getting-started)
+- Verify your Controller setup matches the [getting started guide](./getting-started)
 - Ensure you're using the latest version of the Controller SDK
-- Review [external wallet setup](/controller/signer-management) for wallet-related issues
+- Review [external wallet setup](./signer-management) for wallet-related issues
 
 ## Next Steps
 
-- Learn about [Sessions](/controller/sessions) for gasless gaming experiences
-- Explore [Controller Configuration](/controller/configuration) options
-- Set up [External Wallet Integration](/controller/signer-management)
+- Learn about [Sessions](./sessions) for gasless gaming experiences
+- Explore [Controller Configuration](./configuration) options
+- Set up [External Wallet Integration](./signer-management)
 - Review [Paymaster Configuration](/services/paymaster) for gasless transactions

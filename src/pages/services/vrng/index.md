@@ -35,7 +35,7 @@ The vRNG was previously referred to as the Verifiable Random Function, and most 
 
 -   **Simplicity**: Easy integration with existing Starknet smart contracts and Dojo.
 -   **Performance**: Synchronous randomness generation without waiting for multiple transactions.
--   **Cost-effectiveness**: Potential cost savings through Paymaster integration.
+-   **Cost-effectiveness**: Potential cost savings through paymaster integration.
 -   **Security**: Cryptographically secure randomness that's fully verifiable onchain.
 
 ### Deployments
@@ -49,7 +49,7 @@ For detailed implementation and usage, refer to the [GitHub repository](https://
 
 ## Using the vRNG Provider
 
-To integrate the Verifiable Random Function (vRNG) into your Starknet contract, follow these steps:
+To integrate the vRNG into your Starknet contract, follow these steps:
 
 1.  Define the vRNG Provider interface:
 
@@ -130,9 +130,9 @@ const call = await account.execute([
 
 **Ensure that you call `consume_random` with the same `Source` as used in `request_random`.**
 
-### Important: Adding vRNG to Policies
+### Important: Adding vRNG to Session Policies
 
-When using the Cartridge Controller with vRNG, make sure to add the vRNG contract address and the `request_random` method to your session policies. This allows the controller to pre-approve vRNG-related transactions, ensuring a seamless experience for your users.
+When using Cartridge Controller with vRNG, make sure to add the vRNG contract address and the `request_random` method to your [Controller sessions](/controller/sessions). This allows the Controller to pre-approve vRNG-related transactions, ensuring a seamless experience for your users.
 
 Add the following policy to your existing session policies:
 
@@ -154,6 +154,6 @@ numbers for your onchain game or application.
 
 ## Security Assumptions
 
-During the Phase 0 deployment, the construction assumes the Provider has not revealed the private key and does not collude with players.
+During the current deployment, the construction assumes the paymaster has not revealed the private key and does not collude with players.
 
-In the future, we plan to move the Provider to a Trusted Execution Environment (TEE) in order to provide a more robust security model without compromising on performance.
+In the future, we plan to move the paymaster to a Trusted Execution Environment (TEE) in order to provide a more robust security model without compromising on performance.
