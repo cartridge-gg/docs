@@ -7,15 +7,15 @@ description: Create and register starter packs on the Arcade registry to distrib
 # Starter Packs
 
 Starter packs let you bundle game assets and distribute them to players through a purchase flow integrated with [Cartridge Controller](/controller/starter-packs).
-The Arcade starter pack registry is a permissionless onchain system — anyone can register a starter pack by deploying an implementation contract and calling `register`.
+The Arcade starter pack registry is a permissionless onchain system --- anyone can register a starter pack by deploying an implementation contract and calling `register`.
 
 ## How It Works
 
 The registry follows a two-contract pattern:
 
-1. **Implementation contract** — a contract you deploy that implements the `IStarterpackImplementation` interface.
+1. **Implementation contract** --- a contract you deploy that implements the `IStarterpackImplementation` interface.
 When a player purchases your starter pack, the registry calls your contract's `on_issue` function to distribute assets.
-2. **Registry contract** — the Arcade registry where you register your implementation, set pricing, and configure options.
+2. **Registry contract** --- the Arcade registry where you register your implementation, set pricing, and configure options.
 
 ```
 Player purchases → Registry collects payment → Registry calls on_issue → Your contract distributes assets
@@ -100,8 +100,8 @@ The returned ID is what players use to purchase the starter pack via [`controlle
 
 Controls whether the same player can purchase the starter pack more than once.
 
-- `false` — each player can only purchase once, and `quantity` is forced to 1
-- `true` — players can purchase multiple times with any quantity
+- `false` --- each player can only purchase once, and `quantity` is forced to 1
+- `true` --- players can purchase multiple times with any quantity
 
 ### `referral_percentage`
 
@@ -113,7 +113,7 @@ Self-referrals (referrer == payer) are ignored.
 
 Where the base price (minus any referral fee) is sent.
 If `None`, payment goes to the starter pack owner (the address that called `register`).
-If `Some(address)`, payment goes to that address instead — useful for treasury contracts or revenue sharing.
+If `Some(address)`, payment goes to that address instead --- useful for treasury contracts or revenue sharing.
 
 ### `conditional`
 
@@ -146,17 +146,17 @@ let metadata = MetadataTrait::new(
 
 After registration, the owner can manage the starter pack:
 
-- **`update`** — change implementation, pricing, referral percentage, or other parameters
-- **`update_metadata`** — update the display metadata
-- **`pause`** / **`resume`** — temporarily disable or re-enable purchases
+- **`update`** --- change implementation, pricing, referral percentage, or other parameters
+- **`update_metadata`** --- update the display metadata
+- **`pause`** / **`resume`** --- temporarily disable or re-enable purchases
 
 ## Payment Flow
 
 When a player purchases a starter pack, the registry handles payment distribution:
 
-1. **Referral fee** — if a referrer is provided, their percentage is deducted from the base price and sent to them
-2. **Protocol fee** — a fee is added on top of the base price and sent to the Arcade fee receiver
-3. **Owner payment** — the remaining base price (after referral fee) is sent to the `payment_receiver` or owner
-4. **Asset distribution** — the registry calls `on_issue` on the implementation contract
+1. **Referral fee** --- if a referrer is provided, their percentage is deducted from the base price and sent to them
+2. **Protocol fee** --- a fee is added on top of the base price and sent to the Arcade fee receiver
+3. **Owner payment** --- the remaining base price (after referral fee) is sent to the `payment_receiver` or owner
+4. **Asset distribution** --- the registry calls `on_issue` on the implementation contract
 
 If `price` is zero, all payment steps are skipped and `on_issue` is called directly.
